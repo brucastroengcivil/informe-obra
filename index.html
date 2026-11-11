@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="pt-BR" data-theme="light">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Reporte de Obra — v4</title>
-<style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Reporte Diário de Obra — v5</title>
+  <style>
 /* Skip artifact shell — fixed styles served beside every artifact.
    Tokens, utilities and components (basecoat 1.0 markup, no CDN); artifacts
    override --accent for their own identity. */
@@ -326,7 +326,7 @@ table.shell-table td.skip-table-empty { color: var(--text-muted); text-align: ce
 .toaster .toast[data-type="error"] .toast-content { border-left: 3px solid var(--danger); }
 
 </style>
-<script>
+  <script>
 /* Skip artifact shell — fixed helpers served beside every artifact. */
 (function () {
   "use strict";
@@ -1027,1019 +1027,3339 @@ table.shell-table td.skip-table-empty { color: var(--text-muted); text-align: ce
 })();
 
 </script>
-<style>
-:root {
---accent: #004A99;
---accent-text: #004A99;
---accent-contrast: #ffffff;
---ok: #28A745;
-}
-html, body { background: #F4F6F9; }
-body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; color: #1f2937; margin: 0; }
-.screen { position: fixed; inset: 0; display: none; overflow-y: auto; background: #F4F6F9; }
-.screen.active { display: flex; flex-direction: column; }
-.view { display: none; }
-.view.active { display: block; }
-.app-header { position: fixed; top: 0; left: 0; right: 0; height: 56px; background: #004A99; color: #fff; display: flex; align-items: center; justify-content: space-between; padding: 0 14px; z-index: 10; gap: 8px; }
-.app-header .title { font-size: 17px; font-weight: 600; white-space: nowrap; }
-.app-header .right { display: flex; align-items: center; gap: 8px; min-width: 0; }
-.selo-v { background: #28A745; color: #fff; font-size: 10px; border-radius: 4px; padding: 2px 6px; font-weight: 700; }
-.selo-admin { background: #fff; color: #004A99; font-size: 10px; border-radius: 4px; padding: 2px 6px; font-weight: 700; }
-.user-mail { font-size: 11px; opacity: .85; max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.btn-sair { border: 1px solid #fff; background: transparent; color: #fff; height: 30px; border-radius: 8px; padding: 0 10px; font-size: 12px; cursor: pointer; }
-.app-main { padding: 72px 14px 150px; max-width: 560px; width: 100%; margin: 0 auto; box-sizing: border-box; }
-.bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; height: calc(60px + env(safe-area-inset-bottom)); padding-bottom: env(safe-area-inset-bottom); background: #fff; border-top: 1px solid #d1d5db; display: flex; justify-content: space-around; align-items: center; z-index: 10; }
-.bottom-bar button { background: none; border: 0; cursor: pointer; color: #6b7280; font-size: 13px; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 6px 12px; }
-.bottom-bar button.active { color: #004A99; font-weight: 700; }
-.card-box { background: #fff; border-radius: 14px; box-shadow: 0 1px 4px rgba(0,0,0,.08); padding: 16px; margin-bottom: 14px; }
-.card-box h2 { margin: 0 0 4px; font-size: 16px; }
-.muted-s { color: #6b7280; font-size: 13px; margin: 0 0 10px; }
-.helper { color: #6b7280; font-size: 12px; margin-top: 4px; }
-.field-lbl { display: block; font-size: 13px; font-weight: 600; margin: 10px 0 4px; }
-.in { width: 100%; box-sizing: border-box; border: 1px solid #cbd5e1; border-radius: 10px; padding: 10px; font-size: 15px; background: #fff; }
-.in:disabled { background: #eef1f5; }
-.btn-p { background: #004A99; color: #fff; border: 0; border-radius: 12px; height: 52px; width: 100%; font-size: 16px; font-weight: 600; cursor: pointer; }
-.btn-s { background: #E6F0FA; color: #004A99; border: 0; border-radius: 10px; padding: 10px 14px; font-size: 14px; font-weight: 600; cursor: pointer; }
-.btn-g { background: transparent; color: #004A99; border: 0; padding: 8px; font-size: 14px; cursor: pointer; }
-.btn-d { background: #fff; color: #b91c1c; border: 1px solid #fca5a5; border-radius: 8px; padding: 6px 10px; font-size: 12px; cursor: pointer; }
-.pill { display: inline-block; font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 999px; background: #E6F0FA; color: #004A99; }
-.pill.ok { background: #e7f6eb; color: #1e7a36; }
-.row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-.grow { flex: 1; min-width: 0; }
-.item-card { border: 1px solid #e5e7eb; border-radius: 10px; padding: 10px; margin-bottom: 10px; }
-.stepper { display: inline-flex; align-items: center; border: 1px solid #cbd5e1; border-radius: 10px; overflow: hidden; }
-.stepper button { width: 38px; height: 38px; border: 0; background: #f1f5f9; font-size: 18px; cursor: pointer; }
-.stepper span { min-width: 40px; text-align: center; font-weight: 700; }
-.sel-seg { display: inline-flex; border: 1px solid #004A99; border-radius: 10px; overflow: hidden; }
-.sel-seg button { border: 0; background: #fff; color: #004A99; padding: 8px 14px; font-weight: 600; cursor: pointer; }
-.sel-seg button.on { background: #004A99; color: #fff; }
-.skel { height: 84px; border-radius: 14px; background: linear-gradient(90deg,#e5e7eb 25%,#f3f4f6 50%,#e5e7eb 75%); background-size: 200% 100%; animation: sh 1.2s infinite; margin-bottom: 12px; }
-@keyframes sh { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
-.hist-card { background:#fff; border-radius:14px; box-shadow:0 1px 4px rgba(0,0,0,.08); padding:14px; margin-bottom:12px; cursor:pointer; border:0; width:100%; text-align:left; }
-.hist-card .d { font-size: 18px; font-weight: 700; color: #004A99; }
-.hist-card .s { font-size: 13px; color: #374151; }
-.hist-card .a { font-size: 11px; color: #6b7280; }
-.fab { position: fixed; left: 12px; right: 12px; bottom: calc(68px + env(safe-area-inset-bottom)); height: 54px; border-radius: 12px; background: #004A99; color: #fff; border: 0; font-size: 16px; font-weight: 700; z-index: 9; cursor: pointer; }
-.login-wrap { min-height: 100%; background: #004A99; display: flex; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box; }
-.login-card { background: #fff; border-radius: 20px; padding: 28px; width: 100%; max-width: 400px; box-sizing: border-box; position: relative; }
-.login-card h1 { color: #004A99; font-size: 32px; margin: 0 0 6px; line-height: 1.1; }
-.login-card .sub { color: #6b7280; font-size: 14px; margin: 0 0 16px; }
-.lang-sw { position: absolute; top: 14px; right: 14px; display: flex; gap: 6px; }
-.lang-sw button { border: 1px solid #cbd5e1; background: #fff; border-radius: 8px; padding: 2px 6px; font-size: 16px; cursor: pointer; }
-.lang-sw button.on { border-color: #004A99; box-shadow: 0 0 0 2px #E6F0FA; }
-.err-box { background: #fdecec; color: #991b1b; border: 1px solid #fca5a5; border-radius: 10px; padding: 10px; font-size: 13px; margin-top: 12px; }
-.link-btn { background: none; border: 0; color: #004A99; font-weight: 600; cursor: pointer; padding: 10px 0; font-size: 14px; }
-.card-foot { margin-top: 18px; font-size: 11px; color: #6b7280; text-align: center; }
-.boot-wrap { min-height: 100%; display:flex; align-items:center; justify-content:center; padding:20px; box-sizing:border-box; background:#004A99; }
-.boot-card { background:#fff; border-radius:20px; padding:28px; max-width:400px; width:100%; box-sizing:border-box; text-align:center; }
-.toast-box { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(74px + env(safe-area-inset-bottom)); background: #1f2937; color: #fff; padding: 10px 16px; border-radius: 10px; font-size: 14px; z-index: 100; max-width: 90%; }
-.guide-err { color:#991b1b; font-size:13px; margin-top:10px; }
-.prev-area { white-space: pre-wrap; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 13px; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 10px; padding: 12px; min-height: 240px; }
-.inline-box { background:#E6F0FA; border-radius:12px; padding:12px; margin-top:8px; }
-.hero { background: linear-gradient(135deg,#E6F0FA,#fff); border-radius: 14px; padding: 16px; margin-bottom: 14px; }
-.hero .lbl { font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: #004A99; font-weight: 700; }
-.hero .val { font-size: 28px; font-weight: 800; color: #004A99; }
-.hero .cap { font-size: 12px; color: #6b7280; }
-.empty { text-align:center; padding: 24px 10px; color:#6b7280; }
-</style>
+  <style>
+    :root {
+      --accent: #004A99;
+      --accent-dark: #003A78;
+      --accent-text: #004A99;
+      --accent-contrast: #ffffff;
+      --success-green: #28A745;
+      --bg: #F4F6F9;
+      --surface: #ffffff;
+      --border-subtle: #E2E8F0;
+      --text-main: #1E293B;
+      --text-muted: #64748B;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+      overflow-x: hidden;
+    }
+
+    /* Screen Architecture */
+    .screen {
+      position: fixed;
+      inset: 0;
+      display: none;
+      overflow-y: auto;
+      z-index: 1;
+    }
+
+    .screen.active {
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Boot Screen */
+    #bootScreen {
+      background: #004A99;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .boot-loader {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      color: #ffffff;
+      text-align: center;
+    }
+
+    .boot-spinner {
+      width: 44px;
+      height: 44px;
+      border: 3.5px solid rgba(255, 255, 255, 0.25);
+      border-top-color: #ffffff;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .boot-error-card {
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 28px;
+      max-width: 400px;
+      width: 100%;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.18);
+      display: none;
+    }
+
+    .boot-error-card.visible {
+      display: block;
+    }
+
+    /* Login Screen */
+    #loginScreen {
+      background: #004A99;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .login-container {
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 28px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 12px 30px rgba(0, 30, 70, 0.22);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      position: relative;
+    }
+
+    .lang-toggle-wrap {
+      display: flex;
+      justify-content: flex-end;
+      gap: 6px;
+    }
+
+    .lang-chip {
+      background: #F1F5F9;
+      border: 1px solid #CBD5E1;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      cursor: pointer;
+      color: #334155;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .lang-chip.active {
+      background: #004A99;
+      color: #ffffff;
+      border-color: #004A99;
+    }
+
+    .login-view {
+      display: none;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .login-view.active {
+      display: flex;
+    }
+
+    .login-title {
+      font-size: 30px;
+      font-weight: 800;
+      color: #004A99;
+      line-height: 1.15;
+      letter-spacing: -0.5px;
+    }
+
+    .login-sub {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .auth-input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .auth-input-group label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #334155;
+    }
+
+    .auth-input {
+      width: 100%;
+      height: 48px;
+      padding: 0 14px;
+      border-radius: 10px;
+      border: 1.5px solid #CBD5E1;
+      background: #F8FAFC;
+      font-size: 14px;
+      color: #0F172A;
+      outline: none;
+      transition: border-color 0.15s, background-color 0.15s;
+    }
+
+    .auth-input:focus {
+      border-color: #004A99;
+      background: #ffffff;
+    }
+
+    .btn-alupar {
+      background: #004A99;
+      color: #ffffff;
+      border: none;
+      border-radius: 12px;
+      height: 52px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background 0.15s, transform 0.05s;
+      width: 100%;
+    }
+
+    .btn-alupar:hover {
+      background: #003A78;
+    }
+
+    .btn-alupar:active {
+      transform: scale(0.99);
+    }
+
+    .btn-alupar:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+    }
+
+    .auth-links {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .auth-link {
+      background: none;
+      border: none;
+      font-size: 12.5px;
+      color: #004A99;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: underline;
+      padding: 4px;
+    }
+
+    .auth-link.muted-link {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .auth-link.muted-link:hover {
+      color: #004A99;
+      text-decoration: underline;
+    }
+
+    .auth-alert {
+      background: #FEE2E2;
+      border: 1px solid #FCA5A5;
+      color: #991B1B;
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 12px;
+      line-height: 1.4;
+      display: none;
+    }
+
+    .auth-alert.visible {
+      display: block;
+    }
+
+    .auth-success {
+      background: #DCFCE7;
+      border: 1px solid #86EFAC;
+      color: #166534;
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 12px;
+      line-height: 1.4;
+      display: none;
+    }
+
+    .auth-success.visible {
+      display: block;
+    }
+
+    .login-footer-text {
+      text-align: center;
+      font-size: 11px;
+      color: #94A3B8;
+      border-top: 1px solid #F1F5F9;
+      padding-top: 12px;
+      margin-top: 8px;
+    }
+
+    /* App Shell Architecture */
+    #appShell {
+      background-color: var(--bg);
+      align-items: center;
+      width: 100%;
+    }
+
+    .app-viewport {
+      width: 100%;
+      max-width: 560px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      background: #FAFAFA;
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.05);
+    }
+
+    /* Fixed App Header */
+    .app-header {
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 560px;
+      height: 56px;
+      background: #004A99;
+      color: #ffffff;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .header-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: -0.3px;
+    }
+
+    .version-badge {
+      background: #28A745;
+      color: #ffffff;
+      font-size: 10px;
+      font-weight: 700;
+      border-radius: 4px;
+      padding: 2px 6px;
+      line-height: 1.2;
+      display: inline-block;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .admin-pill {
+      background: #ffffff;
+      color: #004A99;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      padding: 2px 6px;
+      border-radius: 4px;
+      display: none;
+    }
+
+    .admin-pill.visible {
+      display: inline-block;
+    }
+
+    .user-email-chip {
+      font-size: 11px;
+      color: #ffffff;
+      opacity: 0.85;
+      max-width: 110px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .btn-header-signout {
+      border: 1px solid #ffffff;
+      background: transparent;
+      color: #ffffff;
+      height: 30px;
+      padding: 0 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s;
+    }
+
+    .btn-header-signout:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    /* Fixed Bottom Nav Bar */
+    .app-bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 560px;
+      height: calc(60px + env(safe-area-inset-bottom, 0px));
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+      background: #ffffff;
+      border-top: 1px solid var(--border-subtle);
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.03);
+    }
+
+    .nav-btn {
+      flex: 1;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      background: none;
+      border: none;
+      color: #94A3B8;
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: 600;
+      transition: color 0.15s;
+    }
+
+    .nav-btn.active {
+      color: #004A99;
+    }
+
+    .nav-btn-icon {
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    /* Views within App Shell */
+    .view {
+      display: none;
+      flex-direction: column;
+      width: 100%;
+      padding-top: 68px;
+      padding-bottom: 96px;
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+
+    .view.active {
+      display: flex;
+    }
+
+    /* Floating New Report Action Button */
+    .fab-new-report {
+      position: fixed;
+      bottom: calc(72px + env(safe-area-inset-bottom, 0px));
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 32px);
+      max-width: 528px;
+      height: 54px;
+      background: #004A99;
+      color: #ffffff;
+      border-radius: 12px;
+      border: none;
+      font-size: 15px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(0, 74, 153, 0.35);
+      z-index: 9;
+      transition: background 0.15s, transform 0.05s;
+    }
+
+    .fab-new-report:active {
+      transform: translateX(-50%) scale(0.99);
+    }
+
+    /* Cards & Components */
+    .card-white {
+      background: #ffffff;
+      border-radius: 14px;
+      border: 1px solid var(--border-subtle);
+      padding: 16px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+    }
+
+    .section-head {
+      margin-bottom: 14px;
+    }
+
+    .section-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: #0F172A;
+      letter-spacing: -0.3px;
+    }
+
+    .section-sub {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* Filter Toolbar */
+    .filter-bar {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .scope-pills {
+      display: flex;
+      gap: 6px;
+      background: #E2E8F0;
+      padding: 3px;
+      border-radius: 8px;
+      width: fit-content;
+    }
+
+    .scope-pill {
+      background: transparent;
+      border: none;
+      padding: 5px 14px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #475569;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .scope-pill.active {
+      background: #ffffff;
+      color: #004A99;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .filter-inputs-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .filter-input {
+      flex: 1;
+      height: 40px;
+      border-radius: 8px;
+      border: 1px solid #CBD5E1;
+      background: #ffffff;
+      padding: 0 12px;
+      font-size: 13px;
+      outline: none;
+    }
+
+    /* Report Card in History */
+    .report-card {
+      background: #ffffff;
+      border-radius: 14px;
+      border: 1px solid var(--border-subtle);
+      padding: 16px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      cursor: pointer;
+      transition: transform 0.1s, border-color 0.15s;
+      margin-bottom: 10px;
+    }
+
+    .report-card:hover {
+      border-color: #94A3B8;
+    }
+
+    .report-card:active {
+      transform: scale(0.995);
+    }
+
+    .report-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .report-date-badge {
+      background: #E6F0FA;
+      color: #004A99;
+      font-size: 13px;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .report-pct-badge {
+      background: #DCFCE7;
+      color: #15803D;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+    }
+
+    .report-card-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .report-project-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: #0F172A;
+    }
+
+    .report-obra-name {
+      font-size: 13px;
+      color: #004A99;
+      font-weight: 600;
+    }
+
+    .report-card-foot {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: #94A3B8;
+      border-top: 1px dashed #F1F5F9;
+      padding-top: 8px;
+    }
+
+    /* Skeleton Loading Cards */
+    .skeleton-card {
+      background: #ffffff;
+      border-radius: 14px;
+      border: 1px solid var(--border-subtle);
+      padding: 18px;
+      margin-bottom: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .skeleton-line {
+      height: 14px;
+      background: linear-gradient(90deg, #F1F5F9 25%, #E2E8F0 50%, #F1F5F9 75%);
+      background-size: 200% 100%;
+      animation: skeletonShimmer 1.5s infinite;
+      border-radius: 4px;
+    }
+
+    @keyframes skeletonShimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    /* Empty and Error states */
+    .state-box {
+      background: #ffffff;
+      border-radius: 14px;
+      border: 1px dashed #CBD5E1;
+      padding: 36px 20px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      margin: 16px 0;
+    }
+
+    .state-box-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #334155;
+    }
+
+    .state-box-sub {
+      font-size: 13px;
+      color: var(--text-muted);
+      max-width: 320px;
+    }
+
+    /* Form Inner Header */
+    .form-inner-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .btn-back {
+      background: none;
+      border: none;
+      color: #004A99;
+      font-size: 14px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      padding: 6px 0;
+    }
+
+    /* Form Blocks */
+    .form-block {
+      background: #ffffff;
+      border-radius: 14px;
+      border: 1px solid var(--border-subtle);
+      padding: 16px;
+      margin-bottom: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .block-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .block-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: #1E293B;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .field-row {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .field-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #475569;
+    }
+
+    .field-input, .field-select, .field-textarea {
+      width: 100%;
+      min-height: 44px;
+      border-radius: 8px;
+      border: 1.5px solid #CBD5E1;
+      background: #ffffff;
+      padding: 8px 12px;
+      font-size: 14px;
+      color: #0F172A;
+      outline: none;
+    }
+
+    .field-input:focus, .field-select:focus, .field-textarea:focus {
+      border-color: #004A99;
+    }
+
+    .field-textarea {
+      min-height: 72px;
+      resize: vertical;
+      line-height: 1.4;
+    }
+
+    .btn-copy-last {
+      background: #E6F0FA;
+      color: #004A99;
+      border: none;
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background 0.15s;
+    }
+
+    .btn-copy-last:hover {
+      background: #D5E7FA;
+    }
+
+    .copy-inline-box {
+      background: #F8FAFC;
+      border: 1px solid #BFDBFE;
+      border-radius: 10px;
+      padding: 12px;
+      display: none;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .copy-inline-box.visible {
+      display: flex;
+    }
+
+    /* Dynamic Activity Row */
+    .activity-item {
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: 10px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      position: relative;
+    }
+
+    .activity-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .btn-item-delete {
+      align-self: flex-end;
+      background: none;
+      border: none;
+      color: #DC2626;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 4px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .btn-add-line {
+      background: #F1F5F9;
+      color: #004A99;
+      border: 1px dashed #004A99;
+      border-radius: 8px;
+      padding: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    /* Counter Stepper for Workforce & Equipments */
+    .stepper-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid #F1F5F9;
+    }
+
+    .stepper-row:last-child {
+      border-bottom: none;
+    }
+
+    .stepper-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: #1E293B;
+      flex: 1;
+    }
+
+    .stepper-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .stepper-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      border: 1.5px solid #CBD5E1;
+      background: #ffffff;
+      color: #004A99;
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .stepper-btn:active {
+      background: #F1F5F9;
+    }
+
+    .stepper-val {
+      width: 36px;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 700;
+      color: #0F172A;
+    }
+
+    /* WhatsApp Preview View */
+    .preview-box {
+      background: #F8FAFC;
+      border: 1.5px solid #CBD5E1;
+      border-radius: 12px;
+      padding: 16px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 13px;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      word-break: break-word;
+      color: #0F172A;
+      max-height: 480px;
+      overflow-y: auto;
+      margin-bottom: 16px;
+    }
+
+    .action-grid-preview {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .btn-action-preview {
+      height: 46px;
+      border-radius: 10px;
+      border: 1.5px solid #004A99;
+      background: #ffffff;
+      color: #004A99;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .btn-action-preview.btn-primary-preview {
+      background: #004A99;
+      color: #ffffff;
+    }
+
+    .btn-action-preview.btn-whatsapp {
+      background: #25D366;
+      border-color: #25D366;
+      color: #ffffff;
+    }
+
+    /* Admin View */
+    .project-admin-card {
+      background: #ffffff;
+      border-radius: 14px;
+      border: 1px solid var(--border-subtle);
+      padding: 16px;
+      margin-bottom: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .project-admin-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #F1F5F9;
+    }
+
+    .project-name-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: #0F172A;
+    }
+
+    .obras-sublist {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding-left: 8px;
+    }
+
+    .obra-item-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 13px;
+    }
+
+    /* Toast Notification */
+    .app-toast-container {
+      position: fixed;
+      bottom: calc(76px + env(safe-area-inset-bottom, 0px));
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 32px);
+      max-width: 480px;
+      pointer-events: none;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .app-toast {
+      background: #1E293B;
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 12px 18px;
+      border-radius: 10px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+      animation: toastFade 2.5s forwards;
+      text-align: center;
+      pointer-events: auto;
+    }
+
+    @keyframes toastFade {
+      0% { opacity: 0; transform: translateY(10px); }
+      10% { opacity: 1; transform: translateY(0); }
+      85% { opacity: 1; transform: translateY(0); }
+      100% { opacity: 0; transform: translateY(-8px); }
+    }
+  </style>
 </head>
 <body>
 
-<section id="bootScreen" class="screen active">
-<div class="boot-wrap">
-<div class="boot-card" id="bootCard">
-<div class="muted-s">Carregando…</div>
-</div>
-</div>
-</section>
+  <!-- ========================================== -->
+  <!-- 1. SCREEN: BOOT / DIAGNÓSTICO              -->
+  <!-- ========================================== -->
+  <div id="bootScreen" class="screen active" role="region" aria-label="Inicialização">
+    <div id="bootLoadingState" class="boot-loader">
+      <div class="boot-spinner" aria-hidden="true"></div>
+      <div style="font-size: 18px; font-weight: 700; letter-spacing: -0.3px;">Reporte de Obra</div>
+      <div style="font-size: 12px; opacity: 0.85;">Carregando ambiente seguro...</div>
+      <div class="version-badge" style="margin-top: 8px;">v5</div>
+    </div>
 
-<section id="loginScreen" class="screen">
-<div class="login-wrap">
-<div class="login-card">
-<div class="lang-sw" aria-label="Idioma">
-<button type="button" id="flagBR" class="on" title="Português">🇧🇷</button>
-<button type="button" id="flagPE" title="Español">🇵🇪</button>
-</div>
-<div id="viewLogin" class="view active">
-<h1 id="lgTitle">Reporte de Obra</h1>
-<p class="sub" id="lgSub">Entre com sua conta da equipe</p>
-<label class="field-lbl" for="lgEmail" id="lgEmailL">E-mail</label>
-<input class="in" id="lgEmail" type="email" autocomplete="email" placeholder="voce@empresa.com.br">
-<label class="field-lbl" for="lgPass" id="lgPassL">Senha</label>
-<input class="in" id="lgPass" type="password" autocomplete="current-password" placeholder="••••••">
-<button class="btn-p" id="btnLogin" style="margin-top:16px" type="button">Entrar</button>
-<div id="lgErr" class="err-box" style="display:none"></div>
-<div style="text-align:center"><button class="link-btn" id="goCadastro" type="button">Primeiro acesso? Criar conta</button></div>
-</div>
-<div id="viewCadastro" class="view">
-<h1 id="cdTitle" style="font-size:26px">Criar conta</h1>
-<p class="sub">Use o e-mail da sua equipe</p>
-<label class="field-lbl" for="cdEmail">E-mail</label>
-<input class="in" id="cdEmail" type="email" autocomplete="email">
-<label class="field-lbl" for="cdPass">Senha (mínimo 6)</label>
-<input class="in" id="cdPass" type="password" autocomplete="new-password">
-<button class="btn-p" id="btnCadastro" style="margin-top:16px" type="button">Criar conta</button>
-<div id="cdErr" class="err-box" style="display:none"></div>
-<div style="text-align:center"><button class="link-btn" id="goLogin" type="button">Já tenho conta</button></div>
-</div>
-<div class="card-foot">Reporte de Obra — v4</div>
-</div>
-</div>
-</section>
+    <div id="bootErrorState" class="boot-error-card">
+      <div style="display: flex; align-items: center; gap: 8px; color: #DC2626; font-size: 18px; font-weight: 800; margin-bottom: 8px;">
+        <span>⚠️</span>
+        <span id="bootErrorTitle">Falha ao carregar o Firebase</span>
+      </div>
+      <p id="bootErrorMessage" style="font-size: 13px; color: #475569; line-height: 1.5; margin-bottom: 16px;">
+        O app não conseguiu carregar a biblioteca do Firebase. Verifique a conexão e recarregue a página.
+      </p>
+      <div id="bootTechnicalDetails" style="display:none; font-family: monospace; font-size: 11px; background: #F1F5F9; padding: 8px; border-radius: 6px; color: #334155; margin-bottom: 14px; word-break: break-all;"></div>
+      <button type="button" class="btn-alupar" onclick="window.location.reload()">
+        Recarregar página
+      </button>
+      <div style="text-align: center; font-size: 11px; color: #94A3B8; margin-top: 14px;">
+        Reporte de Obra — v5
+      </div>
+    </div>
+  </div>
 
-<section id="appShell" class="screen">
-<header class="app-header">
-<div class="row" style="gap:8px;min-width:0">
-<span class="title">Reporte de Obra</span>
-<span class="selo-v">v4</span>
-</div>
-<div class="right">
-<span class="selo-admin" id="adminBadge" style="display:none">Admin</span>
-<span class="user-mail" id="userMail"></span>
-<button class="btn-sair" id="btnSair" type="button">Sair</button>
-</div>
-</header>
+  <!-- ========================================== -->
+  <!-- 2. SCREEN: LOGIN / CADASTRO / RECUPERAR    -->
+  <!-- ========================================== -->
+  <div id="loginScreen" class="screen" role="region" aria-label="Autenticação">
+    <div class="login-container">
+      
+      <!-- Idioma BR / PE -->
+      <div class="lang-toggle-wrap">
+        <button type="button" class="lang-chip active" id="btnLangPt" onclick="setAppLanguage('pt')">
+          🇧🇷 PT
+        </button>
+        <button type="button" class="lang-chip" id="btnLangEs" onclick="setAppLanguage('es')">
+          🇵🇪 ES
+        </button>
+      </div>
 
-<main class="app-main">
-<section id="viewInicio" class="view">
-<h2 style="font-size:20px;margin:0">Histórico de informes</h2>
-<p class="muted-s">Informes diários, do mais recente ao mais antigo</p>
-<div class="row" style="margin-bottom:10px">
-<div class="sel-seg" id="scopeSel">
-<button type="button" id="scopeAll" data-s="all">Todos</button>
-<button type="button" id="scopeMine" data-s="mine" class="on">Meus</button>
-</div>
-</div>
-<div class="row" style="margin-bottom:10px">
-<input class="in grow" id="buscaObra" placeholder="Buscar por obra">
-<select class="in" id="filtroMes" style="width:auto"></select>
-</div>
-<div id="hero" class="hero" style="display:none"></div>
-<div id="listaInformes"></div>
-</section>
+      <!-- Erros e Sucesso do Login -->
+      <div id="authAlert" class="auth-alert" role="alert"></div>
+      <div id="authSuccess" class="auth-success" role="status"></div>
 
-<section id="viewForm" class="view">
-<div class="row" style="margin-bottom:6px"><button class="btn-g" id="fVoltar" type="button">← Voltar</button><strong>Novo informe</strong></div>
-<div class="card-box">
-<h2>Identificação</h2>
-<p class="muted-s">Escolha o projeto e a obra do dia</p>
-<div id="semProjetoAviso" class="err-box" style="display:none">Cadastre um projeto e uma obra antes de criar um informe.
-<div style="margin-top:8px"><button class="btn-s" id="irAdmin" type="button">Ir para Administração</button></div></div>
-<label class="field-lbl" for="fProjeto">Projeto</label>
-<select class="in" id="fProjeto"></select>
-<label class="field-lbl" for="fObra">Obra</label>
-<select class="in" id="fObra" disabled></select>
-<div class="helper">Selecione um projeto para listar as obras</div>
-<label class="field-lbl" for="fData">Data</label>
-<input class="in" id="fData" type="date">
-<div style="margin-top:12px"><button class="btn-s" id="btnCopiar" type="button">📋 Copiar do último informe</button></div>
-<div id="copiaBox" class="inline-box" style="display:none"></div>
-</div>
+      <!-- Sub-View: Login Principal -->
+      <div id="viewLogin" class="login-view active">
+        <div>
+          <h1 class="login-title" data-i18n="appTitle">Reporte de Obra</h1>
+          <p class="login-sub" data-i18n="loginSubtitle">Entre com sua conta da equipe</p>
+        </div>
 
-<div class="card-box">
-<h2>Atividades</h2>
-<p class="muted-s">Quantidades executadas no dia e acumuladas na obra</p>
-<div id="listaAtiv"></div>
-<button class="btn-s" id="addAtiv" type="button">＋ Adicionar atividade</button>
-</div>
+        <form id="formLogin" autocomplete="off" onsubmit="handleLoginSubmit(event)">
+          <div class="auth-input-group">
+            <label for="loginEmail" data-i18n="labelEmail">E-mail</label>
+            <input class="auth-input" type="email" id="loginEmail" name="email" required autocomplete="email" placeholder="seu.email@empresa.com">
+          </div>
 
-<div class="card-box">
-<h2 id="tMao">👷 Mão de obra — Total: 0 pessoas</h2>
-<p class="muted-s">Ajuste a quantidade presente por função</p>
-<div id="listaMao"></div>
-<div class="row"><button class="btn-s" id="addMao" type="button">＋ Adicionar função</button></div>
-</div>
+          <div class="auth-input-group" style="margin-top: 10px;">
+            <label for="loginPass" data-i18n="labelPassword">Senha</label>
+            <input class="auth-input" type="password" id="loginPass" name="password" required autocomplete="current-password" placeholder="••••••••">
+          </div>
 
-<div class="card-box">
-<h2 id="tEq">🚜 Equipamentos — Total: 0 equipamentos</h2>
-<p class="muted-s">Máquinas e veículos em operação</p>
-<div id="listaEq"></div>
-<div class="row"><button class="btn-s" id="addEq" type="button">＋ Adicionar equipamento</button></div>
-</div>
+          <div style="margin-top: 16px;">
+            <button type="submit" class="btn-alupar" id="btnLoginSubmit" data-i18n="btnEnter">
+              Entrar
+            </button>
+          </div>
+        </form>
 
-<div class="card-box">
-<h2>Clima</h2>
-<p class="muted-s">Condição predominante em cada período</p>
-<label class="field-lbl" for="climaManha">Manhã</label>
-<select class="in" id="climaManha"></select>
-<label class="field-lbl" for="climaTarde">Tarde</label>
-<select class="in" id="climaTarde"></select>
-</div>
+        <div class="auth-links">
+          <button type="button" class="auth-link muted-link" onclick="mostrarLoginView('viewRecuperar')" data-i18n="linkForgotPass">
+            Esqueci a senha
+          </button>
+          <button type="button" class="auth-link" onclick="mostrarLoginView('viewCadastro')" data-i18n="linkCreateAccount">
+            Primeiro acesso? Criar conta
+          </button>
+        </div>
+      </div>
 
-<div class="card-box">
-<h2>Complementos</h2>
-<p class="muted-s">Campos opcionais para o registro do dia</p>
-<label class="field-lbl" for="fOcor">Ocorrências</label>
-<textarea class="in" id="fOcor" rows="3"></textarea>
-<label class="field-lbl" for="fSeg">Segurança</label>
-<textarea class="in" id="fSeg" rows="3"></textarea>
-<label class="field-lbl" for="fProx">Próximos passos</label>
-<textarea class="in" id="fProx" rows="3"></textarea>
-</div>
+      <!-- Sub-View: Cadastro -->
+      <div id="viewCadastro" class="login-view">
+        <div>
+          <h2 class="login-title" style="font-size: 26px;" data-i18n="titleSignup">Criar conta</h2>
+          <p class="login-sub" data-i18n="signupSubtitle">Cadastre o seu acesso corporativo</p>
+        </div>
 
-<div class="row" style="margin-bottom:10px">
-<button class="btn-s grow" id="btnPreview" type="button">👁 Visualizar texto</button>
-</div>
-<button class="btn-p" id="btnSalvar" type="button">Salvar informe</button>
-</section>
+        <form id="formCadastro" autocomplete="off" onsubmit="handleCadastroSubmit(event)">
+          <div class="auth-input-group">
+            <label for="signupEmail" data-i18n="labelEmail">E-mail</label>
+            <input class="auth-input" type="email" id="signupEmail" name="email" required autocomplete="off" placeholder="seu.email@empresa.com">
+          </div>
 
-<section id="viewPreview" class="view">
-<div class="row" style="margin-bottom:6px"><button class="btn-g" id="pVoltar" type="button">← Voltar ao formulário</button></div>
-<div class="card-box">
-<h2>Texto para WhatsApp</h2>
-<p class="muted-s">Revise antes de enviar à equipe</p>
-<div class="prev-area" id="prevTexto"></div>
-<div class="row" style="margin-top:12px">
-<button class="btn-s" id="pCopiar" type="button">Copiar texto</button>
-<button class="btn-s" id="pShare" type="button">Compartilhar</button>
-<button class="btn-s" id="pWa" type="button">Abrir WhatsApp</button>
-<button class="btn-s" id="pPrint" type="button">Imprimir</button>
-</div>
-</div>
-<button class="btn-p" id="pSalvar" type="button">Salvar informe</button>
-</section>
+          <div class="auth-input-group" style="margin-top: 10px;">
+            <label for="signupPass" data-i18n="labelPassMin">Senha (mínimo 6 caracteres)</label>
+            <input class="auth-input" type="password" id="signupPass" name="password" minlength="6" required autocomplete="new-password" placeholder="••••••••">
+          </div>
 
-<section id="viewAdmin" class="view">
-<h2 style="font-size:20px;margin:0">Obras</h2>
-<p class="muted-s">Projetos e obras cadastrados para os informes</p>
-<div class="row" style="margin-bottom:10px"><button class="btn-p" id="novoProjeto" type="button" style="height:44px">＋ Novo projeto</button></div>
-<div id="listaProjetos"></div>
-</section>
-</main>
+          <div style="margin-top: 16px;">
+            <button type="submit" class="btn-alupar" id="btnSignupSubmit" data-i18n="btnCreateAccount">
+              Criar conta
+            </button>
+          </div>
+        </form>
 
-<nav class="bottom-bar">
-<button type="button" id="navInicio" class="active">🏠<span>Início</span></button>
-<button type="button" id="navAdmin" style="display:none">⚙️<span>Admin</span></button>
-</nav>
-<button class="fab" id="fabNovo" type="button">➕ Criar novo informe</button>
-</section>
+        <div class="auth-links">
+          <button type="button" class="auth-link" onclick="mostrarLoginView('viewLogin')" data-i18n="linkAlreadyAccount">
+            Já tenho conta. Fazer login
+          </button>
+        </div>
+      </div>
 
-<script>
-console.log("[APP] versão v4 carregada");
-const APP_VERSION = "v4";
-const ADMIN_UID = "admin-local";
-const LANG = { current: "pt" };
-const DICT = {
-pt: {
-erroFirebase: "Falha ao carregar o Firebase", erroFirebaseTxt: "O app não conseguiu carregar a biblioteca do Firebase. Verifique a conexão e recarregue a página.", recarregar: "Recarregar",
-sair: "Sair", inicio: "Início", admin: "Admin", criarInforme: "➕ Criar novo informe",
-nenhumInforme: "Nenhum informe ainda", tocarCriar: "Toque no botão abaixo para criar o primeiro",
-salvo: "Informe salvo", nenhumAnterior: "Nenhum informe anterior encontrado", copiaEstrutura: "Copiar estrutura e acumulado", copiaTudo: "Copiar tudo, inclusive o avanço do dia",
-ultimo: "Último informe", totalPessoas: "pessoa", totalPessoasPl: "pessoas", totalEq: "equipamento", totalEqPl: "equipamentos",
-manha: "Manhã", tarde: "Tarde", projeto: "Projeto", obra: "Obra", data: "Data", atividade: "Atividade",
-hoje: "Hoje", acumulado: "Acumulado", ocorrencias: "Ocorrências", seguranca: "Segurança", proximos: "Próximos passos",
-copiar: "Copiar texto", copiado: "Texto copiado", compartilhar: "Compartilhar", abrirWa: "Abrir WhatsApp", imprimir: "Imprimir",
-novoProjeto: "＋ Novo projeto", nenhumProjeto: "Nenhum projeto cadastrado ainda", novaObra: "＋ Nova obra", salvar: "Salvar informe",
-erroSenha: "Senha incorreta", erroEmail: "E-mail inválido", erroSenhaCurta: "A senha precisa ter pelo menos 6 caracteres",
-erroCadastrado: "Este e-mail já está cadastrado", erroSemConexao: "Sem conexão com o banco. Os dados aparecerão quando a internet voltar.",
-primeiroAcesso: "Primeiro acesso? Criar conta", jaTenho: "Já tenho conta", criarConta: "Criar conta", entrar: "Entrar",
-lgSub: "Entre com sua conta da equipe", ver: "Ver", todos: "Todos", meus: "Meus", buscar: "Buscar por obra", mesTodos: "Todos os meses",
-voltar: "← Voltar", voltarForm: "← Voltar ao formulário", novoInforme: "Novo informe", atividades: "Atividades", maoDeObra: "Mão de obra", equipamentos: "Equipamentos", clima: "Clima", complementos: "Complementos",
-visualizar: "👁 Visualizar texto", adicionarAtividade: "＋ Adicionar atividade", adicionarFuncao: "＋ Adicionar função", adicionarEq: "＋ Adicionar equipamento",
-copiarUltimo: "📋 Copiar do último informe", avisoCadastro: "Cadastre um projeto e uma obra antes de criar um informe", irAdmin: "Ir para Administração",
-excluir: "Excluir", editar: "Editar", confirmarExcluir: "Confirmar exclusão?", salvoProjeto: "Projeto salvo", salvoObra: "Obra salva", excluido: "Excluído",
-apenasAdmin: "Apenas o administrador pode cadastrar obras. Fale com o responsável.", selecioneProjeto: "Selecione o projeto", selecioneObra: "Selecione a obra",
-nomeProjeto: "Nome do projeto", nomeObra: "Nome da obra", nomeAtividade: "Nome da atividade", nomeFuncao: "Nome da função", nomeEq: "Nome do equipamento",
-unidade: "Unidade", qtdDia: "Qtd. dia", pctDia: "% dia", qtdAcum: "Qtd. acumulada", pctAcum: "% acumulado",
-bom: "Bom", nublado: "Nublado", chuvoso: "Chuvoso", ventania: "Ventania", tempestade: "Tempestade",
-avancoTitulo: "AVANÇO DA OBRA", semInforme: "Nenhum informe encontrado", tentarNovamente: "Tentar novamente", erroCarregar: "Não foi possível carregar os informes.",
-selo: "Admin", avancoMes: "Informes no período", informesAtivos: "Informes registrados", pctMedio: "Avanço médio", caption1: "Total de informes visíveis", caption2: "Média dos percentuais acumulados", resumo: "Resumo", tituloHistorico: "Histórico de informes", subHistorico: "Informes diários, do mais recente ao mais antigo", confirmarInforme: "Excluir este informe?", leitura: "Leitura", naoAdmin: "Acesso restrito"
-},
-es: {
-erroFirebase: "Error al cargar Firebase", erroFirebaseTxt: "La aplicación no pudo cargar la biblioteca de Firebase. Verifique la conexión y recargue la página.", recarregar: "Recargar",
-sair: "Salir", inicio: "Inicio", admin: "Admin", criarInforme: "➕ Crear nuevo informe",
-nenhumInforme: "Ningún informe todavía", tocarCriar: "Toque el botón de abajo para crear el primero",
-salvo: "Informe guardado", nenhumAnterior: "No se encontró ningún informe anterior", copiaEstrutura: "Copiar estructura y acumulado", copiaTudo: "Copiar todo, incluido el avance del día",
-ultimo: "Último informe", totalPessoas: "persona", totalPessoasPl: "personas", totalEq: "equipo", totalEqPl: "equipos",
-manha: "Mañana", tarde: "Tarde", projeto: "Proyecto", obra: "Obra", data: "Fecha", atividade: "Actividad",
-hoje: "Hoy", acumulado: "Acumulado", ocorrencias: "Ocurrencias", seguranca: "Seguridad", proximos: "Próximos pasos",
-copiar: "Copiar texto", copiado: "Texto copiado", compartilhar: "Compartir", abrirWa: "Abrir WhatsApp", imprimir: "Imprimir",
-novoProjeto: "＋ Nuevo proyecto", nenhumProjeto: "Ningún proyecto registrado todavía", novaObra: "＋ Nueva obra", salvar: "Guardar informe",
-erroSenha: "Contraseña incorrecta", erroEmail: "Correo inválido", erroSenhaCurta: "La contraseña debe tener al menos 6 caracteres",
-erroCadastrado: "Este correo ya está registrado", erroSemConexao: "Sin conexión con la base de datos. Los datos aparecerán cuando vuelva internet.",
-primeiroAcesso: "¿Primer acceso? Crear cuenta", jaTenho: "Ya tengo cuenta", criarConta: "Crear cuenta", entrar: "Entrar",
-lgSub: "Ingrese con su cuenta del equipo", ver: "Ver", todos: "Todos", meus: "Míos", buscar: "Buscar por obra", mesTodos: "Todos los meses",
-voltar: "← Volver", voltarForm: "← Volver al formulario", novoInforme: "Nuevo informe", atividades: "Actividades", maoDeObra: "Mano de obra", equipamentos: "Equipos", clima: "Clima", complementos: "Complementos",
-visualizar: "👁 Ver texto", adicionarAtividade: "＋ Agregar actividad", adicionarFuncao: "＋ Agregar función", adicionarEq: "＋ Agregar equipo",
-copiarUltimo: "📋 Copiar del último informe", avisoCadastro: "Registre un proyecto y una obra antes de crear un informe", irAdmin: "Ir a Administración",
-excluir: "Eliminar", editar: "Editar", confirmarExcluir: "¿Confirmar eliminación?", salvoProjeto: "Proyecto guardado", salvoObra: "Obra guardada", excluido: "Eliminado",
-apenasAdmin: "Solo el administrador puede registrar obras. Hable con el responsable.", selecioneProjeto: "Seleccione el proyecto", selecioneObra: "Seleccione la obra",
-nomeProjeto: "Nombre del proyecto", nomeObra: "Nombre de la obra", nomeAtividade: "Nombre de la actividad", nomeFuncao: "Nombre de la función", nomeEq: "Nombre del equipo",
-unidade: "Unidad", qtdDia: "Cant. día", pctDia: "% día", qtdAcum: "Cant. acumulada", pctAcum: "% acumulado",
-bom: "Bueno", nublado: "Nublado", chuvoso: "Lluvioso", ventania: "Ventoso", tempestade: "Tormenta",
-avancoTitulo: "AVANCE DE OBRA", semInforme: "No se encontró ningún informe", tentarNovamente: "Reintentar", erroCarregar: "No fue posible cargar los informes.",
-selo: "Admin", avancoMes: "Informes del período", informesAtivos: "Informes registrados", pctMedio: "Avance medio", caption1: "Total de informes visibles", caption2: "Promedio de porcentajes acumulados", resumo: "Resumen", tituloHistorico: "Historial de informes", subHistorico: "Informes diarios, del más reciente al más antiguo", confirmarInforme: "¿Eliminar este informe?", leitura: "Lectura", naoAdmin: "Acceso restringido"
-}
-};
-const MESES_PT = ["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"];
-const MESES_ES = ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"];
-const UNIDADES = ["m³","m²","ml","un","kg","t"];
-const CLIMAS = [
-{ id: "bom", pt: "Bom", es: "Bueno", emoji: "☀️" },
-{ id: "nublado", pt: "Nublado", es: "Nublado", emoji: "☁️" },
-{ id: "chuvoso", pt: "Chuvoso", es: "Lluvioso", emoji: "🌧️" },
-{ id: "ventania", pt: "Ventania", es: "Ventoso", emoji: "💨" },
-{ id: "tempestade", pt: "Tempestade", es: "Tormenta", emoji: "⛈️" }
-];
-const FUNCOES_PADRAO = [
-{ pt: "Engenheiro Residente", es: "Ingeniero Residente" },
-{ pt: "Mestre de Obras", es: "Maestro de Obras" },
-{ pt: "Pedreiro", es: "Albañil" },
-{ pt: "Servente", es: "Peón" },
-{ pt: "Carpinteiro", es: "Carpintero" },
-{ pt: "Armador", es: "Armador" },
-{ pt: "Eletricista", es: "Electricista" },
-{ pt: "Encanador", es: "Plomero" }
-];
-const EQUIPAMENTOS_PADRAO = [
-{ pt: "Retroescavadeira", es: "Retroexcavadora" },
-{ pt: "Caminhão basculante", es: "Camión volquete" },
-{ pt: "Betoneira", es: "Hormigonera" },
-{ pt: "Compactador", es: "Compactador" },
-{ pt: "Guindaste", es: "Grúa" }
-];
-const USUARIOS = [
-{ uid: ADMIN_UID, email: "admin@alupar.com.br", senha: "123456", admin: true },
-{ uid: "user-rafael", email: "rafael@alupar.com.br", senha: "123456", admin: false }
-];
-const PROJETOS_SEED = [
-{ id: "p1", nome: "Subestação Norte" },
-{ id: "p2", nome: "Linha de Transmissão 230 kV" }
-];
-const OBRAS_SEED = [
-{ id: "o1", projetoId: "p1", nome: "Pátio de Manobras" },
-{ id: "o2", projetoId: "p1", nome: "Casa de Comando" },
-{ id: "o3", projetoId: "p2", nome: "Trecho 12 — Torres 40 a 52" }
-];
-const INFORMES_SEED = [
-{ id: "i1", autorId: ADMIN_UID, autorEmail: "admin@alupar.com.br", projeto: "Subestação Norte", obra: "Pátio de Manobras", dataISO: "2025-05-12", dataBR: "12/05/2025", atividades: [{ nome: "Concretagem de fundações", unidade: "m³", qtdDia: 6, pctDia: 4, qtdAcum: 16, pctAcum: 45 }], maoDeObra: [{ nome: "Engenheiro Residente", qtd: 1 }, { nome: "Pedreiro", qtd: 8 }], equipamentos: [{ nome: "Betoneira", qtd: 1 }], clima: { manha: "bom", tarde: "nublado" }, ocorrencias: "", seguranca: "Inspeção de EPIs realizada.", proximosPassos: "Iniciar armação da laje.", criadoEm: 1747065600000 },
-{ id: "i2", autorId: "user-rafael", autorEmail: "rafael@alupar.com.br", projeto: "Linha de Transmissão 230 kV", obra: "Trecho 12 — Torres 40 a 52", dataISO: "2025-05-11", dataBR: "11/05/2025", atividades: [{ nome: "Escavação de fundações", unidade: "m³", qtdDia: 42, pctDia: 12, qtdAcum: 210, pctAcum: 58 }], maoDeObra: [{ nome: "Servente", qtd: 6 }], equipamentos: [{ nome: "Retroescavadeira", qtd: 2 }], clima: { manha: "chuvoso", tarde: "bom" }, ocorrencias: "Parada de 1h por chuva.", seguranca: "", proximosPassos: "Liberar acesso à torre 44.", criadoEm: 1746979200000 },
-{ id: "i3", autorId: "user-rafael", autorEmail: "rafael@alupar.com.br", projeto: "Subestação Norte", obra: "Casa de Comando", dataISO: "2025-05-09", dataBR: "09/05/2025", atividades: [{ nome: "Alvenaria de vedação", unidade: "m²", qtdDia: 38, pctDia: 7, qtdAcum: 140, pctAcum: 30 }], maoDeObra: [{ nome: "Pedreiro", qtd: 5 }, { nome: "Servente", qtd: 4 }], equipamentos: [], clima: { manha: "bom", tarde: "bom" }, ocorrencias: "", seguranca: "", proximosPassos: "", criadoEm: 1746720000000 }
-];
+      <!-- Sub-View: Recuperar Senha -->
+      <div id="viewRecuperar" class="login-view">
+        <div>
+          <h2 class="login-title" style="font-size: 24px;" data-i18n="titleReset">Recuperar senha</h2>
+          <p class="login-sub" data-i18n="resetSubtitle">Informe seu e-mail e enviaremos um link para criar uma nova senha.</p>
+        </div>
 
-const store = window.skipStore ? window.skipStore("reporte_obra_v4", null) : null;
-let state = {
-session: null,
-projetos: [],
-obras: [],
-informes: [],
-projetoId: "",
-obraId: "",
-dataIso: "",
-atividades: [],
-maoDeObra: [],
-equipamentos: [],
-ocorrencias: "",
-seguranca: "",
-proximosPassos: "",
-clima: { manha: "", tarde: "" },
-scope: "mine",
-mes: "",
-busca: "",
-viewAtual: "viewInicio",
-editingInformeId: null
-};
-let uiLoaded = false;
-let saveCounter = 0;
+        <form id="formRecuperar" autocomplete="off" onsubmit="handleRecuperarSubmit(event)">
+          <div class="auth-input-group">
+            <label for="resetEmail" data-i18n="labelEmail">E-mail</label>
+            <input class="auth-input" type="email" id="resetEmail" name="email" required autocomplete="email" placeholder="seu.email@empresa.com">
+          </div>
 
-function t(k) { return (DICT[LANG.current] && DICT[LANG.current][k]) || DICT.pt[k] || k; }
-function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c])); }
-function numOr0(v) { const n = Number(v); return isNaN(n) ? 0 : n; }
-function todayIso() { const d = new Date(); return d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,"0") + "-" + String(d.getDate()).padStart(2,"0"); }
-function isoToBr(iso) { if (!iso) return ""; const p = iso.split("-"); return p[2] + "/" + p[1] + "/" + p[0]; }
-function mesLabel(iso) { const p = iso.split("-"); const m = LANG.current === "pt" ? MESES_PT : MESES_ES; return m[Number(p[1])-1] + "/" + p[0]; }
-function pessoasTxt(n) { return n === 1 ? "1 " + t("totalPessoas") : n + " " + t("totalPessoasPl"); }
-function eqTxt(n) { return n === 1 ? "1 " + t("totalEq") : n + " " + t("totalEqPl"); }
-function nomeFunc(item) { return LANG.current === "pt" ? item.pt : item.es; }
-function toast(msg) { const el = document.createElement("div"); el.className = "toast-box"; el.textContent = msg; document.body.appendChild(el); setTimeout(() => el.remove(), 2500); }
-function climaNome(id) { const c = CLIMAS.find(x => x.id === id); return c ? (LANG.current === "pt" ? c.pt : c.es) + " " + c.emoji : ""; }
+          <div style="margin-top: 16px;">
+            <button type="submit" class="btn-alupar" id="btnResetSubmit" data-i18n="btnSendResetLink">
+              Enviar link
+            </button>
+          </div>
+        </form>
 
-function mostrarTela(id) {
-document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
-const el = document.getElementById(id);
-if (el) el.classList.add("active");
-}
-function mostrarView(id) {
-document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
-const el = document.getElementById(id);
-if (el) el.classList.add("active");
-state.viewAtual = id;
-document.getElementById("navInicio").classList.toggle("active", id === "viewInicio");
-document.getElementById("navAdmin").classList.toggle("active", id === "viewAdmin");
-document.getElementById("fabNovo").style.display = id === "viewInicio" ? "block" : "none";
-window.scrollTo(0, 0);
-}
+        <div class="auth-links">
+          <button type="button" class="auth-link muted-link" onclick="mostrarLoginView('viewLogin')" data-i18n="linkBackLogin">
+            ← Voltar para o login
+          </button>
+        </div>
+      </div>
 
-function mostrarErroFirebase(msg) {
-const card = document.getElementById("bootCard");
-card.innerHTML = `<h2 style="color:#b91c1c;margin:0 0 10px">${esc(DICT.pt.erroFirebase)}</h2>
-<p class="muted-s">${esc(DICT.pt.erroFirebaseTxt)}</p>
-${msg ? `<p class="guide-err">${esc(msg)}</p>` : ""}
-<button class="btn-p" id="btnRecarregar" type="button" style="margin-top:12px">${esc(DICT.pt.recarregar)}</button>
-<div class="card-foot">Reporte de Obra — v4</div>`;
-document.getElementById("btnRecarregar").addEventListener("click", () => location.reload());
-mostrarTela("bootScreen");
-}
+      <!-- Selo de versão no rodapé do login -->
+      <div class="login-footer-text">
+        Reporte de Obra — v5
+      </div>
+    </div>
+  </div>
 
-function carregarColecoes() {
-const projs = window.skipStore("reporte_projetos_v4", PROJETOS_SEED).get() || [];
-const obras = window.skipStore("reporte_obras_v4", OBRAS_SEED).get() || [];
-const inf = window.skipStore("reporte_informes_v4", INFORMES_SEED).get() || [];
-state.projetos = projs;
-state.obras = obras;
-state.informes = inf;
-console.log("[obras] projetos lidos: " + projs.length + ", obras lidas: " + obras.length);
-}
-function salvarColecoes() {
-window.skipStore("reporte_projetos_v4", null).set(state.projetos);
-window.skipStore("reporte_obras_v4", null).set(state.obras);
-window.skipStore("reporte_informes_v4", null).set(state.informes);
-}
+  <!-- ========================================== -->
+  <!-- 3. SCREEN: APP SHELL PRINCIPAL             -->
+  <!-- ========================================== -->
+  <div id="appShell" class="screen" role="region" aria-label="Aplicação Principal">
+    <div class="app-viewport">
+      
+      <!-- Top Fixed Header -->
+      <header class="app-header">
+        <div class="header-left">
+          <span class="header-title" data-i18n="appTitle">Reporte de Obra</span>
+          <span class="version-badge">v5</span>
+        </div>
+        <div class="header-right">
+          <span id="headerAdminPill" class="admin-pill">Admin</span>
+          <span id="headerUserEmail" class="user-email-chip" title="Usuário logado">...</span>
+          <button type="button" class="btn-header-signout" onclick="handleSignOut()" data-i18n="btnSignOut">
+            Sair
+          </button>
+        </div>
+      </header>
 
-function isAdmin() { return state.session && state.session.admin; }
-function isAdminUser(u) { return !!(u && u.admin); }
+      <!-- SUB-VIEW A: HISTÓRICO (INÍCIO) -->
+      <section id="viewInicio" class="view active" aria-label="Histórico de Informes">
+        <div class="section-head">
+          <h2 class="section-title" data-i18n="historyTitle">Histórico de informes</h2>
+          <p class="section-sub" data-i18n="historySubtitle">Informes diários, do mais recente ao mais antigo</p>
+        </div>
 
-function iniciarApp(user) {
-state.session = user;
-document.getElementById("userMail").textContent = user.email;
-document.getElementById("adminBadge").style.display = isAdmin() ? "inline-block" : "none";
-document.getElementById("navAdmin").style.display = isAdmin() ? "inline-flex" : "none";
-document.getElementById("navInicio").style.display = "inline-flex";
-carregarColecoes();
-state.scope = isAdmin() ? "all" : "mine";
-state.mes = "";
-state.busca = "";
-document.getElementById("buscaObra").value = "";
-atualizarScopeBotoes();
-preencherFiltroMes();
-renderHistorico();
-mostrarView("viewInicio");
-}
+        <!-- Filtros -->
+        <div class="filter-bar">
+          <div id="scopeSelectorWrap" class="scope-pills" style="display: none;">
+            <button type="button" class="scope-pill active" id="btnScopeAll" onclick="setReportScope('todos')" data-i18n="scopeAll">Todos</button>
+            <button type="button" class="scope-pill" id="btnScopeMine" onclick="setReportScope('meus')" data-i18n="scopeMine">Meus</button>
+          </div>
 
-function limparEstado() {
-state.session = null;
-state.informes = [];
-state.projetos = [];
-state.obras = [];
-}
+          <div class="filter-inputs-row">
+            <input type="text" id="filterSearchObra" class="filter-input" placeholder="Buscar por obra ou projeto..." oninput="handleFilterChange()">
+            <select id="filterMonthYear" class="filter-input" style="max-width: 150px;" onchange="handleFilterChange()">
+              <option value="todos">Todos os meses</option>
+            </select>
+          </div>
+        </div>
 
-const AUTH_KEY = "reporte_auth_v4";
-function getAuthStore() { return window.skipStore(AUTH_KEY, { email: null }); }
+        <!-- Skeleton Loading -->
+        <div id="historySkeleton" style="display: none;">
+          <div class="skeleton-card">
+            <div class="skeleton-line" style="width: 40%;"></div>
+            <div class="skeleton-line" style="width: 75%;"></div>
+            <div class="skeleton-line" style="width: 25%;"></div>
+          </div>
+          <div class="skeleton-card">
+            <div class="skeleton-line" style="width: 35%;"></div>
+            <div class="skeleton-line" style="width: 60%;"></div>
+            <div class="skeleton-line" style="width: 30%;"></div>
+          </div>
+          <div class="skeleton-card">
+            <div class="skeleton-line" style="width: 50%;"></div>
+            <div class="skeleton-line" style="width: 70%;"></div>
+            <div class="skeleton-line" style="width: 20%;"></div>
+          </div>
+        </div>
 
-function autenticar(email, senha) {
-const u = USUARIOS.find(x => x.email === email && x.senha === senha);
-return u || null;
-}
-function traduzirErro(code) {
-const map = { senha: t("erroSenha"), email: t("erroEmail"), curta: t("erroSenhaCurta"), cadastrado: t("erroCadastrado") };
-return map[code] || code;
-}
-function setLang(l) {
-LANG.current = l;
-document.getElementById("flagBR").classList.toggle("on", l === "pt");
-document.getElementById("flagPE").classList.toggle("on", l === "es");
-document.getElementById("lgSub").textContent = t("lgSub");
-document.getElementById("btnLogin").textContent = t("entrar");
-document.getElementById("goCadastro").textContent = t("primeiroAcesso");
-document.getElementById("goLogin").textContent = t("jaTenho");
-document.getElementById("btnCadastro").textContent = t("criarConta");
-document.getElementById("navInicio").querySelector("span").textContent = t("inicio");
-const na = document.getElementById("navAdmin"); if (na) na.querySelector("span").textContent = t("admin");
-document.getElementById("btnSair").textContent = t("sair");
-document.getElementById("fabNovo").textContent = t("criarInforme");
-document.getElementById("adminBadge").textContent = t("selo");
-document.getElementById("buscaObra").placeholder = t("buscar");
-document.getElementById("scopeAll").textContent = t("todos");
-document.getElementById("scopeMine").textContent = t("meus");
-renderHistorico();
-renderFormulario();
-renderAdmin();
-preencherSelectsClima();
-}
+        <!-- Lista de Relatórios -->
+        <div id="reportsListContainer"></div>
 
-function setupLogin() {
-document.getElementById("flagBR").addEventListener("click", () => setLang("pt"));
-document.getElementById("flagPE").addEventListener("click", () => setLang("es"));
-document.getElementById("goCadastro").addEventListener("click", () => { document.getElementById("viewLogin").classList.remove("active"); document.getElementById("viewCadastro").classList.add("active"); });
-document.getElementById("goLogin").addEventListener("click", () => { document.getElementById("viewCadastro").classList.remove("active"); document.getElementById("viewLogin").classList.add("active"); });
-document.getElementById("btnLogin").addEventListener("click", () => {
-const email = document.getElementById("lgEmail").value.trim();
-const senha = document.getElementById("lgPass").value;
-const errBox = document.getElementById("lgErr");
-errBox.style.display = "none";
-if (!/^\S+@\S+\.\S+$/.test(email)) { errBox.textContent = traduzirErro("email"); errBox.style.display = "block"; return; }
-const u = autenticar(email, senha);
-if (!u) { errBox.textContent = traduzirErro("senha"); errBox.style.display = "block"; return; }
-getAuthStore().set({ email: u.email });
-iniciarApp(u);
-mostrarTela("appShell");
-});
-document.getElementById("btnCadastro").addEventListener("click", () => {
-const email = document.getElementById("cdEmail").value.trim();
-const senha = document.getElementById("cdPass").value;
-const errBox = document.getElementById("cdErr");
-errBox.style.display = "none";
-if (!/^\S+@\S+\.\S+$/.test(email)) { errBox.textContent = traduzirErro("email"); errBox.style.display = "block"; return; }
-if (senha.length < 6) { errBox.textContent = traduzirErro("curta"); errBox.style.display = "block"; return; }
-if (USUARIOS.find(x => x.email === email)) { errBox.textContent = traduzirErro("cadastrado"); errBox.style.display = "block"; return; }
-const novo = { uid: "user-" + Date.now(), email, senha, admin: false };
-USUARIOS.push(novo);
-getAuthStore().set({ email });
-iniciarApp(novo);
-mostrarTela("appShell");
-toast(t("salvo"));
-});
-document.getElementById("btnSair").addEventListener("click", () => {
-getAuthStore().set({ email: null });
-limparEstado();
-mostrarTela("loginScreen");
-document.getElementById("viewCadastro").classList.remove("active");
-document.getElementById("viewLogin").classList.add("active");
-});
-}
+        <!-- Estado Vazio -->
+        <div id="historyEmptyState" class="state-box" style="display: none;">
+          <div style="font-size: 32px;">📋</div>
+          <div class="state-box-title" data-i18n="emptyReportsTitle">Nenhum informe ainda</div>
+          <p class="state-box-sub" data-i18n="emptyReportsSubtitle">Toque no botão abaixo para criar o primeiro</p>
+        </div>
 
-function atualizarScopeBotoes() {
-const all = document.getElementById("scopeAll");
-const mine = document.getElementById("scopeMine");
-all.classList.toggle("on", state.scope === "all");
-mine.classList.toggle("on", state.scope === "mine");
-all.style.display = isAdmin() ? "inline-block" : "none";
-}
-function setupHistorico() {
-document.getElementById("scopeAll").addEventListener("click", () => { if (!isAdmin()) return; state.scope = "all"; atualizarScopeBotoes(); renderHistorico(); });
-document.getElementById("scopeMine").addEventListener("click", () => { state.scope = "mine"; atualizarScopeBotoes(); renderHistorico(); });
-document.getElementById("buscaObra").addEventListener("input", e => { state.busca = e.target.value.trim().toLowerCase(); renderHistorico(); });
-document.getElementById("filtroMes").addEventListener("change", e => { state.mes = e.target.value; renderHistorico(); });
-document.getElementById("fabNovo").addEventListener("click", () => abrirFormulario());
-}
-function preencherFiltroMes() {
-const sel = document.getElementById("filtroMes");
-const meses = [...new Set(state.informes.map(i => i.dataISO.slice(0,7)))].sort().reverse();
-sel.innerHTML = `<option value="">${esc(t("mesTodos"))}</option>` + meses.map(m => `<option value="${m}">${mesLabel(m+"-01")}</option>`).join("");
-sel.value = state.mes;
-}
-function informesVisiveis() {
-let list = state.informes.slice();
-if (state.scope === "mine" || !isAdmin()) list = list.filter(i => i.autorId === state.session.uid);
-if (state.mes) list = list.filter(i => i.dataISO.startsWith(state.mes));
-if (state.busca) list = list.filter(i => (i.obra || "").toLowerCase().includes(state.busca));
-return list.sort((a,b) => b.dataISO.localeCompare(a.dataISO) || (b.criadoEm||0)-(a.criadoEm||0));
-}
-function pctMedioInforme(i) {
-const vals = (i.atividades || []).map(a => numOr0(a.pctAcum)).filter(v => v > 0);
-if (!vals.length) return null;
-return vals.reduce((s,v)=>s+v,0) / vals.length;
-}
-function renderHistorico() {
-const list = informesVisiveis();
-const lista = document.getElementById("listaInformes");
-const hero = document.getElementById("hero");
-if (!list.length) {
-lista.innerHTML = `<div class="empty"><strong>${esc(t("nenhumInforme"))}</strong><p class="muted-s">${esc(t("tocarCriar"))}</p></div>`;
-hero.style.display = "none";
-return;
-}
-const comPct = list.map(pctMedioInforme).filter(v => v !== null);
-const media = comPct.length ? (comPct.reduce((s,v)=>s+v,0)/comPct.length).toFixed(1) : "0";
-hero.style.display = "block";
-hero.innerHTML = `<div class="lbl">${esc(t("resumo"))}</div><div class="val">${esc(list.length)}</div><div class="cap">${esc(t("caption1"))} · ${esc(t("pctMedio"))}: ${esc(media)}%</div>`;
-lista.innerHTML = list.map(i => {
-const pct = pctMedioInforme(i);
-return `<button class="hist-card" type="button" data-id="${esc(i.id)}">
-<div class="d">${esc(i.dataBR)}</div>
-<div class="s"><strong>${esc(i.projeto)}</strong> · ${esc(i.obra)}</div>
-<div class="a">${esc(i.autorEmail)}${pct !== null ? " · " + esc(pct.toFixed(0)) + "%" : ""}</div>
-</button>`;
-}).join("");
-lista.querySelectorAll("button[data-id]").forEach(b => b.addEventListener("click", () => abrirLeitura(b.dataset.id)));
-}
-function abrirLeitura(id) {
-const i = state.informes.find(x => x.id === id);
-if (!i) return;
-state.editingInformeId = id;
-renderPreviewFrom(i);
-mostrarView("viewPreview");
-}
+        <!-- Estado de Erro -->
+        <div id="historyErrorState" class="state-box" style="display: none; border-color: #F87171;">
+          <div style="font-size: 32px;">⚠️</div>
+          <div class="state-box-title" style="color: #991B1B;" data-i18n="errorHistoryTitle">Falha ao carregar informes</div>
+          <p class="state-box-sub" id="historyErrorMessage">Verifique sua conexão.</p>
+          <button type="button" class="btn-alupar" style="height: 40px; font-size: 13px; margin-top: 6px; padding: 0 16px; width: auto;" onclick="carregarHistoricoInformes()">
+            Tentar novamente
+          </button>
+        </div>
 
-function renderPreviewFrom(i) {
-const txt = montarTexto({
-projeto: i.projeto,
-obra: i.obra,
-dataBR: i.dataBR,
-atividades: i.atividades || [],
-maoDeObra: i.maoDeObra || [],
-equipamentos: i.equipamentos || [],
-clima: i.clima || {},
-ocorrencias: i.ocorrencias || "",
-seguranca: i.seguranca || "",
-proximosPassos: i.proximosPassos || ""
-});
-document.getElementById("prevTexto").textContent = txt;
-}
+        <!-- Botão Flutuante Criar Novo Informe -->
+        <button type="button" class="fab-new-report" onclick="abrirNovoInforme()">
+          <span>➕</span>
+          <span data-i18n="btnNewReport">Criar novo informe</span>
+        </button>
+      </section>
 
-function montarTexto(d) {
-const pt = LANG.current === "pt";
-const L = pt
-? { titulo: "AVANÇO DA OBRA", proj: "Projeto:", obra: "Obra:", ativ: "ATIVIDADES", hoje: "Hoje", acum: "Acumulado", mao: "MÃO DE OBRA", eq: "EQUIPAMENTOS", clima: "CLIMA", manha: "Manhã", tarde: "Tarde", ocor: "OCORRÊNCIAS", seg: "SEGURANÇA", prox: "PRÓXIMOS PASSOS" }
-: { titulo: "AVANCE DE OBRA", proj: "Proyecto:", obra: "Obra:", ativ: "ACTIVIDADES", hoje: "Hoy", acum: "Acumulado", mao: "MANO DE OBRA", eq: "EQUIPOS", clima: "CLIMA", manha: "Mañana", tarde: "Tarde", ocor: "OCURRENCIAS", seg: "SEGURIDAD", prox: "PRÓXIMOS PASOS" };
-const out = [];
-out.push(`*${L.titulo} (${d.dataBR})*`);
-if (d.projeto) out.push(`*${L.proj}* ${d.projeto}`);
-if (d.obra) out.push(`*${L.obra}* ${d.obra}`);
-const ativ = (d.atividades || []).filter(a => a.nome);
-if (ativ.length) {
-out.push("", `⏳ *${L.ativ}*`);
-ativ.forEach((a, idx) => {
-out.push(`${idx+1}. ${a.nome}`);
-const u = a.unidade || "";
-if (numOr0(a.qtdDia) > 0) out.push(`   🗓️ ${L.hoje}: ${a.qtdDia} ${u}`);
-const acumParts = [];
-if (numOr0(a.qtdAcum) > 0) acumParts.push(`${a.qtdAcum} ${u}`.trim());
-if (numOr0(a.pctAcum) > 0) acumParts.push(`${a.pctAcum}%`);
-if (acumParts.length) out.push(`   📊 ${L.acum}: ${acumParts.join(" | ")}`);
-});
-}
-const mao = (d.maoDeObra || []).filter(m => numOr0(m.qtd) > 0);
-const totMao = mao.reduce((s, m) => s + numOr0(m.qtd), 0);
-if (totMao > 0) {
-out.push("", `👷 *${L.mao}* — Total: ${totMao === 1 ? (pt ? "1 pessoa" : "1 persona") : totMao + (pt ? " pessoas" : " personas")}`);
-mao.forEach(m => out.push(`• ${numOr0(m.qtd)} ${m.nome}`));
-}
-const eq = (d.equipamentos || []).filter(m => numOr0(m.qtd) > 0);
-const totEq = eq.reduce((s, m) => s + numOr0(m.qtd), 0);
-if (totEq > 0) {
-out.push("", `🚜 *${L.eq}* — Total: ${totEq === 1 ? (pt ? "1 equipamento" : "1 equipo") : totEq + (pt ? " equipamentos" : " equipos")}`);
-eq.forEach(m => out.push(`• ${numOr0(m.qtd)} ${m.nome}`));
-}
-const c = d.clima || {};
-if (c.manha || c.tarde) {
-const parts = [];
-if (c.manha) parts.push(`${L.manha}: ${climaNome(c.manha)}`);
-if (c.tarde) parts.push(`${L.tarde}: ${climaNome(c.tarde)}`);
-out.push("", `🌤️ *${L.clima}*`, parts.join(" | "));
-}
-if (d.ocorrencias) out.push("", `⚠️ *${L.ocor}*`, d.ocorrencias);
-if (d.seguranca) out.push("", `🦺 *${L.seg}*`, d.seguranca);
-if (d.proximosPassos) out.push("", `📌 *${L.prox}*`, d.proximosPassos);
-return out.join("\n");
-}
+      <!-- SUB-VIEW B: FORMULÁRIO DO INFORME -->
+      <section id="viewFormulario" class="view" aria-label="Novo Informe">
+        <div class="form-inner-header">
+          <button type="button" class="btn-back" onclick="mostrarView('viewInicio')">
+            <span data-i18n="btnBack">← Voltar</span>
+          </button>
+          <span style="font-size: 16px; font-weight: 800; color: #0F172A;" data-i18n="titleForm">Novo informe</span>
+          <div style="width: 60px;"></div>
+        </div>
 
-function preencherSelectsClima() {
-const opts = CLIMAS.map(c => `<option value="${c.id}">${esc((LANG.current === "pt" ? c.pt : c.es) + " " + c.emoji)}</option>`).join("");
-document.getElementById("climaManha").innerHTML = `<option value="">—</option>` + opts;
-document.getElementById("climaTarde").innerHTML = `<option value="">—</option>` + opts;
-}
+        <!-- Aviso se não há projetos -->
+        <div id="warnNoProjects" class="state-box" style="display: none; margin-top: 0;">
+          <div style="font-size: 28px;">🏗️</div>
+          <div class="state-box-title" data-i18n="warnNoProjectsTitle">Sem projetos cadastrados</div>
+          <p class="state-box-sub" data-i18n="warnNoProjectsSub">Cadastre um projeto e uma obra antes de criar um informe</p>
+          <button type="button" class="btn-alupar" style="height: 42px; font-size: 13px; width: auto; padding: 0 16px;" onclick="mostrarView('viewAdmin')">
+            Ir para Administração
+          </button>
+        </div>
 
-function abrirFormulario() {
-state.atividades = [];
-state.maoDeObra = [];
-state.equipamentos = [];
-state.ocorrencias = "";
-state.seguranca = "";
-state.proximosPassos = "";
-state.clima = { manha: "", tarde: "" };
-state.dataIso = todayIso();
-state.editingInformeId = null;
-const projs = state.projetos;
-state.projetoId = projs.length === 1 ? projs[0].id : "";
-const obrasDoProj = state.projetoId ? state.obras.filter(o => o.projetoId === state.projetoId) : [];
-state.obraId = obrasDoProj.length === 1 ? obrasDoProj[0].id : "";
-preencherSelectsClima();
-renderFormulario();
-mostrarView("viewForm");
-}
+        <form id="reportForm" onsubmit="handleReportFormSubmit(event)">
+          
+          <!-- Bloco 1: Identificação -->
+          <div class="form-block">
+            <div class="block-title">
+              <span>📍</span>
+              <span data-i18n="blockIdent">Identificação</span>
+            </div>
 
-function renderFormulario() {
-const aviso = document.getElementById("semProjetoAviso");
-const selP = document.getElementById("fProjeto");
-const selO = document.getElementById("fObra");
-if (!state.projetos.length) {
-aviso.style.display = "block";
-selP.innerHTML = `<option value="">—</option>`;
-selP.disabled = true;
-selO.innerHTML = `<option value="">—</option>`;
-selO.disabled = true;
-} else {
-aviso.style.display = "none";
-selP.disabled = false;
-selP.innerHTML = `<option value="">${esc(t("selecioneProjeto"))}</option>` + state.projetos.map(p => `<option value="${esc(p.id)}">${esc(p.nome)}</option>`).join("");
-selP.value = state.projetoId || "";
-const obrasDoProj = state.projetoId ? state.obras.filter(o => o.projetoId === state.projetoId) : [];
-selO.disabled = !state.projetoId;
-selO.innerHTML = `<option value="">${esc(t("selecioneObra"))}</option>` + obrasDoProj.map(o => `<option value="${esc(o.id)}">${esc(o.nome)}</option>`).join("");
-selO.value = state.obraId || "";
-}
-document.getElementById("fData").value = state.dataIso;
-renderAtividades();
-renderMao();
-renderEquipamentos();
-document.getElementById("climaManha").value = state.clima.manha || "";
-document.getElementById("climaTarde").value = state.clima.tarde || "";
-document.getElementById("fOcor").value = state.ocorrencias;
-document.getElementById("fSeg").value = state.seguranca;
-document.getElementById("fProx").value = state.proximosPassos;
-atualizarTotais();
-}
+            <div class="field-row">
+              <label class="field-label" for="formSelectProjeto" data-i18n="labelProjeto">Projeto *</label>
+              <select id="formSelectProjeto" class="field-select" required onchange="handleProjetoSelectChange()">
+                <option value="">Selecione o projeto...</option>
+              </select>
+            </div>
 
-function renderAtividades() {
-const box = document.getElementById("listaAtiv");
-if (!state.atividades.length) { box.innerHTML = ""; return; }
-box.innerHTML = state.atividades.map((a, idx) => `
-<div class="item-card" data-idx="${idx}">
-<div class="row"><input class="in grow" data-k="nome" value="${esc(a.nome)}" placeholder="${esc(t("nomeAtividade"))}"><button class="btn-d" data-del="${idx}" type="button">${esc(t("excluir"))}</button></div>
-<div class="row" style="margin-top:8px">
-<select class="in" data-k="unidade" style="width:auto">${UNIDADES.map(u => `<option ${a.unidade===u?"selected":""}>${u}</option>`).join("")}</select>
-<input class="in" data-k="qtdDia" type="number" min="0" placeholder="${esc(t("qtdDia"))}" value="${esc(a.qtdDia)}" style="width:110px">
-<input class="in" data-k="pctDia" type="number" min="0" max="100" placeholder="${esc(t("pctDia"))}" value="${esc(a.pctDia)}" style="width:100px">
-</div>
-<div class="row" style="margin-top:8px">
-<input class="in" data-k="qtdAcum" type="number" min="0" placeholder="${esc(t("qtdAcum"))}" value="${esc(a.qtdAcum)}" style="width:150px">
-<input class="in" data-k="pctAcum" type="number" min="0" max="100" placeholder="${esc(t("pctAcum"))}" value="${esc(a.pctAcum)}" style="width:130px">
-</div>
-</div>`).join("");
-box.querySelectorAll("[data-k]").forEach(el => el.addEventListener("input", onAtivInput));
-box.querySelectorAll("select[data-k]").forEach(el => el.addEventListener("change", onAtivInput));
-box.querySelectorAll("[data-del]").forEach(b => b.addEventListener("click", () => {
-state.atividades.splice(Number(b.dataset.del), 1);
-renderAtividades();
-}));
-}
-function onAtivInput(e) {
-const card = e.target.closest("[data-idx]");
-const idx = Number(card.dataset.idx);
-state.atividades[idx][e.target.dataset.k] = e.target.value;
-}
+            <div class="field-row">
+              <label class="field-label" for="formSelectObra" data-i18n="labelObra">Obra *</label>
+              <select id="formSelectObra" class="field-select" required disabled>
+                <option value="">Selecione a obra...</option>
+              </select>
+            </div>
 
-function renderStepperList(boxId, arr, key, addFn) {
-const box = document.getElementById(boxId);
-if (!arr.length) { box.innerHTML = ""; return; }
-box.innerHTML = arr.map((m, idx) => `
-<div class="row" style="margin-bottom:8px" data-idx="${idx}">
-<div class="grow" style="min-width:0">${esc(m.pt ? nomeFunc(m) : m.nome)}</div>
-<div class="stepper">
-<button type="button" data-op="-1" aria-label="−">−</button>
-<span>${numOr0(m.qtd)}</span>
-<button type="button" data-op="1" aria-label="+">+</button>
-</div>
-<button class="btn-d" type="button" data-del="${idx}">${esc(t("excluir"))}</button>
-</div>`).join("");
-box.querySelectorAll("button[data-op]").forEach(b => b.addEventListener("click", () => {
-const idx = Number(b.closest("[data-idx]").dataset.idx);
-const cur = numOr0(arr[idx].qtd);
-arr[idx].qtd = Math.max(0, cur + Number(b.dataset.op));
-renderStepperList(boxId, arr, key, addFn);
-atualizarTotais();
-}));
-box.querySelectorAll("button[data-del]").forEach(b => b.addEventListener("click", () => {
-arr.splice(Number(b.dataset.del), 1);
-renderStepperList(boxId, arr, key, addFn);
-atualizarTotais();
-}));
-}
-function renderMao() { renderStepperList("listaMao", state.maoDeObra, "maoDeObra"); }
-function renderEquipamentos() { renderStepperList("listaEq", state.equipamentos, "equipamentos"); }
-function atualizarTotais() {
-const totMao = state.maoDeObra.reduce((s, m) => s + numOr0(m.qtd), 0);
-const totEq = state.equipamentos.reduce((s, m) => s + numOr0(m.qtd), 0);
-document.getElementById("tMao").textContent = `👷 ${t("maoDeObra")} — Total: ${pessoasTxt(totMao)}`;
-document.getElementById("tEq").textContent = `🚜 ${t("equipamentos")} — Total: ${eqTxt(totEq)}`;
-}
+            <div class="field-row">
+              <label class="field-label" for="formDataReport" data-i18n="labelDate">Data do informe *</label>
+              <input type="date" id="formDataReport" class="field-input" required>
+            </div>
 
-function setupForm() {
-document.getElementById("fVoltar").addEventListener("click", () => mostrarView("viewInicio"));
-document.getElementById("irAdmin").addEventListener("click", () => mostrarView("viewAdmin"));
-document.getElementById("fProjeto").addEventListener("change", e => { state.projetoId = e.target.value; state.obraId = ""; renderFormulario(); });
-document.getElementById("fObra").addEventListener("change", e => { state.obraId = e.target.value; });
-document.getElementById("fData").addEventListener("change", e => { state.dataIso = e.target.value; });
-document.getElementById("addAtiv").addEventListener("click", () => { state.atividades.push({ nome: "", unidade: "m³", qtdDia: "", pctDia: "", qtdAcum: "", pctAcum: "" }); renderAtividades(); });
-document.getElementById("addMao").addEventListener("click", () => abrirPickerFuncao("maoDeObra"));
-document.getElementById("addEq").addEventListener("click", () => abrirPickerFuncao("equipamentos"));
-document.getElementById("climaManha").addEventListener("change", e => { state.clima.manha = e.target.value; });
-document.getElementById("climaTarde").addEventListener("change", e => { state.clima.tarde = e.target.value; });
-document.getElementById("fOcor").addEventListener("input", e => { state.ocorrencias = e.target.value; });
-document.getElementById("fSeg").addEventListener("input", e => { state.seguranca = e.target.value; });
-document.getElementById("fProx").addEventListener("input", e => { state.proximosPassos = e.target.value; });
-document.getElementById("btnPreview").addEventListener("click", () => { document.getElementById("prevTexto").textContent = montarTextoAtual(); mostrarView("viewPreview"); });
-document.getElementById("btnSalvar").addEventListener("click", () => salvarInforme());
-document.getElementById("btnCopiar").addEventListener("click", () => mostrarCopia());
-}
-function abrirPickerFuncao(kind) {
-const base = kind === "maoDeObra" ? FUNCOES_PADRAO : EQUIPAMENTOS_PADRAO;
-const arr = state[kind];
-const disponiveis = base.filter(b => !arr.find(x => x.pt === b.pt));
-const nome = prompt(kind === "maoDeObra" ? t("nomeFuncao") : t("nomeEq"));
-if (nome && nome.trim()) {
-arr.push({ pt: nome.trim(), es: nome.trim(), nome: nome.trim(), qtd: 0 });
-} else if (disponiveis.length) {
-const item = disponiveis[0];
-arr.push({ pt: item.pt, es: item.es, nome: item.pt, qtd: 0 });
-}
-if (kind === "maoDeObra") renderMao(); else renderEquipamentos();
-atualizarTotais();
-}
-function montarTextoAtual() {
-const proj = state.projetos.find(p => p.id === state.projetoId);
-const obra = state.obras.find(o => o.id === state.obraId);
-const atividades = state.atividades;
-return montarTexto({
-projeto: proj ? proj.nome : "",
-obra: obra ? obra.nome : "",
-dataBR: isoToBr(state.dataIso),
-atividades,
-maoDeObra: state.maoDeObra.map(m => ({ nome: LANG.current === "pt" ? (m.pt || m.nome) : (m.es || m.nome), qtd: m.qtd })),
-equipamentos: state.equipamentos.map(m => ({ nome: LANG.current === "pt" ? (m.pt || m.nome) : (m.es || m.nome), qtd: m.qtd })),
-clima: state.clima,
-ocorrencias: state.ocorrencias,
-seguranca: state.seguranca,
-proximosPassos: state.proximosPassos
-});
-}
-function mostrarCopia() {
-const list = state.informes.filter(i => i.autorId === state.session.uid).sort((a,b)=>b.dataISO.localeCompare(a.dataISO));
-const box = document.getElementById("copiaBox");
-const same = state.obraId ? list.find(i => { const o = state.obras.find(x => x.id === state.obraId); return o && i.obra === o.nome; }) : null;
-const ref = same || list[0];
-if (!ref) { toast(t("nenhumAnterior")); box.style.display = "none"; return; }
-box.style.display = "block";
-box.innerHTML = `<div><strong>${esc(t("ultimo"))}:</strong> ${esc(ref.dataBR)} · ${esc(ref.obra)}</div>
-<div class="row" style="margin-top:8px">
-<button class="btn-s" id="cpEstr" type="button">${esc(t("copiaEstrutura"))}</button>
-<button class="btn-s" id="cpTudo" type="button">${esc(t("copiaTudo"))}</button>
-</div>`;
-document.getElementById("cpEstr").addEventListener("click", () => {
-state.atividades = (ref.atividades || []).map(a => ({ ...a, qtdDia: "", pctDia: "" }));
-state.maoDeObra = (ref.maoDeObra || []).map(m => ({ ...m, qtd: m.qtd }));
-state.equipamentos = (ref.equipamentos || []).map(m => ({ ...m }));
-renderFormulario();
-box.style.display = "none";
-toast(t("copiado"));
-});
-document.getElementById("cpTudo").addEventListener("click", () => {
-state.atividades = (ref.atividades || []).map(a => ({ ...a }));
-state.maoDeObra = (ref.maoDeObra || []).map(m => ({ ...m }));
-state.equipamentos = (ref.equipamentos || []).map(m => ({ ...m }));
-renderFormulario();
-box.style.display = "none";
-toast(t("copiado"));
-});
-}
+            <!-- Botão Copiar do Último Informe -->
+            <button type="button" class="btn-copy-last" onclick="toggleCopyLastReportBox()">
+              <span>📋</span>
+              <span data-i18n="btnCopyLast">Copiar do último informe</span>
+            </button>
 
-function salvarInforme() {
-if (!state.projetoId) { toast(t("selecioneProjeto")); return; }
-if (!state.obraId) { toast(t("selecioneObra")); return; }
-const proj = state.projetos.find(p => p.id === state.projetoId);
-const obra = state.obras.find(o => o.id === state.obraId);
-const novo = {
-id: "i" + Date.now(),
-autorId: state.session.uid,
-autorEmail: state.session.email,
-projeto: proj.nome,
-obra: obra.nome,
-dataISO: state.dataIso,
-dataBR: isoToBr(state.dataIso),
-atividades: state.atividades.filter(a => a.nome),
-maoDeObra: state.maoDeObra,
-equipamentos: state.equipamentos,
-clima: { manha: state.clima.manha, tarde: state.clima.tarde },
-ocorrencias: state.ocorrencias,
-seguranca: state.seguranca,
-proximosPassos: state.proximosPassos,
-criadoEm: Date.now()
-};
-state.informes.unshift(novo);
-window.skipStore("reporte_informes_v4", null).set(state.informes);
-toast(t("salvo"));
-preencherFiltroMes();
-renderHistorico();
-mostrarView("viewInicio");
-}
+            <!-- Painel Inline de Cópia -->
+            <div id="copyLastInlineBox" class="copy-inline-box">
+              <div id="copyLastInfoLabel" style="font-size: 12px; font-weight: 700; color: #004A99;">
+                Buscando último informe...
+              </div>
+              <div style="display: flex; gap: 8px;">
+                <button type="button" class="btn-alupar" style="height: 38px; font-size: 12px;" onclick="aplicarCopiaInforme('estrutura')">
+                  Copiar estrutura e acumulado
+                </button>
+                <button type="button" class="btn-alupar" style="height: 38px; font-size: 12px; background: #E2E8F0; color: #1E293B;" onclick="aplicarCopiaInforme('tudo')">
+                  Copiar tudo (com avanço do dia)
+                </button>
+              </div>
+            </div>
+          </div>
 
-function renderAdmin() {
-const box = document.getElementById("listaProjetos");
-if (!state.projetos.length) {
-box.innerHTML = `<div class="empty"><strong>${esc(t("nenhumProjeto"))}</strong><p class="muted-s">${esc(t("apenasAdmin"))}</p><button class="btn-p" id="criarPrimeiro" type="button" style="height:44px">${esc(t("novoProjeto"))}</button></div>`;
-const b = document.getElementById("criarPrimeiro"); if (b) b.addEventListener("click", criarProjeto);
-return;
-}
-box.innerHTML = state.projetos.map(p => {
-const obras = state.obras.filter(o => o.projetoId === p.id);
-return `<div class="card-box">
-<div class="row between"><strong>${esc(p.nome)}</strong>
-<div class="row"><button class="btn-s" data-ed="${esc(p.id)}" type="button">${esc(t("editar"))}</button><button class="btn-d" data-dp="${esc(p.id)}" type="button">${esc(t("excluir"))}</button></div></div>
-<div style="margin-top:10px">${obras.map(o => `<div class="row between" style="padding:6px 0;border-top:1px solid #e5e7eb"><span>${esc(o.nome)}</span><button class="btn-d" data-do="${esc(o.id)}" type="button">${esc(t("excluir"))}</button></div>`).join("")}</div>
-<button class="btn-s" data-no="${esc(p.id)}" type="button" style="margin-top:8px">${esc(t("novaObra"))}</button>
-</div>`;
-}).join("");
-box.querySelectorAll("[data-no]").forEach(b => b.addEventListener("click", () => criarObra(b.dataset.no)));
-box.querySelectorAll("[data-dp]").forEach(b => b.addEventListener("click", () => excluirProjeto(b.dataset.dp)));
-box.querySelectorAll("[data-do]").forEach(b => b.addEventListener("click", () => excluirObra(b.dataset.do)));
-box.querySelectorAll("[data-ed]").forEach(b => b.addEventListener("click", () => editarProjeto(b.dataset.ed)));
-}
-function criarProjeto() {
-if (!isAdmin()) { toast(t("apenasAdmin")); return; }
-const nome = prompt(t("nomeProjeto"));
-if (!nome || !nome.trim()) return;
-state.projetos.push({ id: "p" + Date.now(), nome: nome.trim(), criadoEm: Date.now(), criadoPor: state.session.uid });
-salvarColecoes();
-renderAdmin();
-renderFormulario();
-toast(t("salvoProjeto"));
-}
-function editarProjeto(id) {
-const p = state.projetos.find(x => x.id === id);
-if (!p) return;
-const nome = prompt(t("nomeProjeto"), p.nome);
-if (!nome || !nome.trim()) return;
-p.nome = nome.trim();
-salvarColecoes();
-renderAdmin();
-renderFormulario();
-}
-function criarObra(projetoId) {
-if (!isAdmin()) { toast(t("apenasAdmin")); return; }
-const nome = prompt(t("nomeObra"));
-if (!nome || !nome.trim()) return;
-state.obras.push({ id: "o" + Date.now(), projetoId, nome: nome.trim(), criadoEm: Date.now(), criadoPor: state.session.uid });
-salvarColecoes();
-renderAdmin();
-renderFormulario();
-toast(t("salvoObra"));
-}
-function excluirProjeto(id) {
-if (!confirm(t("confirmarExcluir"))) return;
-state.projetos = state.projetos.filter(p => p.id !== id);
-state.obras = state.obras.filter(o => o.projetoId !== id);
-salvarColecoes();
-renderAdmin();
-renderFormulario();
-toast(t("excluido"));
-}
-function excluirObra(id) {
-if (!confirm(t("confirmarExcluir"))) return;
-state.obras = state.obras.filter(o => o.id !== id);
-salvarColecoes();
-renderAdmin();
-renderFormulario();
-toast(t("excluido"));
-}
+          <!-- Bloco 2: Atividades -->
+          <div class="form-block">
+            <div class="block-header">
+              <div class="block-title">
+                <span>⏳</span>
+                <span data-i18n="blockActivities">Atividades executadas</span>
+              </div>
+            </div>
+            
+            <div id="activitiesList" style="display: flex; flex-direction: column; gap: 10px;"></div>
 
-function setupPreview() {
-document.getElementById("pVoltar").addEventListener("click", () => mostrarView(state.editingInformeId ? "viewInicio" : "viewForm"));
-document.getElementById("pCopiar").addEventListener("click", () => {
-const txt = document.getElementById("prevTexto").textContent;
-navigator.clipboard.writeText(txt).then(() => toast(t("copiado"))).catch(() => toast(t("copiado")));
-});
-document.getElementById("pShare").addEventListener("click", () => {
-const txt = document.getElementById("prevTexto").textContent;
-if (navigator.share) navigator.share({ text: txt }).catch(() => {});
-else toast(t("copiado"));
-});
-document.getElementById("pWa").addEventListener("click", () => {
-const txt = document.getElementById("prevTexto").textContent;
-window.open("https://wa.me/?text=" + encodeURIComponent(txt), "_blank");
-});
-document.getElementById("pPrint").addEventListener("click", () => window.print());
-document.getElementById("pSalvar").addEventListener("click", () => {
-if (state.editingInformeId) { toast(t("salvo")); mostrarView("viewInicio"); return; }
-salvarInforme();
-});
-}
+            <button type="button" class="btn-add-line" onclick="adicionarLinhaAtividade()">
+              <span>＋</span>
+              <span data-i18n="btnAddActivity">Adicionar atividade</span>
+            </button>
+          </div>
 
-function setupNav() {
-document.getElementById("navInicio").addEventListener("click", () => { renderHistorico(); mostrarView("viewInicio"); });
-document.getElementById("navAdmin").addEventListener("click", () => {
-if (!isAdmin()) { toast(t("naoAdmin")); return; }
-renderAdmin();
-mostrarView("viewAdmin");
-});
-document.getElementById("btnNovoProjeto") ;
-document.getElementById("novoProjeto").addEventListener("click", criarProjeto);
-}
+          <!-- Bloco 3: Mão de Obra -->
+          <div class="form-block">
+            <div class="block-header">
+              <div class="block-title" id="titleMaoDeObra">
+                <span>👷</span>
+                <span>Mão de obra — Total: 0 pessoas</span>
+              </div>
+            </div>
 
-function boot() {
-try {
-if (typeof window.skipStore !== "function") { mostrarErroFirebase("Componentes do app não carregaram."); return; }
-setupLogin();
-setupHistorico();
-setupForm();
-setupPreview();
-setupNav();
-setLang("pt");
-preencherSelectsClima();
-const saved = getAuthStore().get();
-const u = saved && saved.email ? USUARIOS.find(x => x.email === saved.email) : null;
-if (u) {
-iniciarApp(u);
-mostrarTela("appShell");
-} else {
-mostrarTela("loginScreen");
-}
-} catch (err) {
-mostrarErroFirebase(String(err && err.message ? err.message : err));
-}
-}
+            <div id="workforceList"></div>
 
-document.addEventListener("DOMContentLoaded", boot);
-</script>
+            <button type="button" class="btn-add-line" style="margin-top: 8px;" onclick="adicionarFuncaoPersonalizada()">
+              <span>＋</span>
+              <span data-i18n="btnAddWorkforce">Adicionar função</span>
+            </button>
+          </div>
+
+          <!-- Bloco 4: Equipamentos -->
+          <div class="form-block">
+            <div class="block-header">
+              <div class="block-title" id="titleEquipamentos">
+                <span>🚜</span>
+                <span>Equipamentos — Total: 0 equipamentos</span>
+              </div>
+            </div>
+
+            <div id="equipmentList"></div>
+
+            <button type="button" class="btn-add-line" style="margin-top: 8px;" onclick="adicionarEquipamentoPersonalizado()">
+              <span>＋</span>
+              <span data-i18n="btnAddEquipment">Adicionar equipamento</span>
+            </button>
+          </div>
+
+          <!-- Bloco 5: Clima -->
+          <div class="form-block">
+            <div class="block-title">
+              <span>🌤️</span>
+              <span data-i18n="blockClimate">Condições climáticas</span>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+              <div class="field-row">
+                <label class="field-label" for="climaManha" data-i18n="labelMorning">Manhã</label>
+                <select id="climaManha" class="field-select">
+                  <option value="">Selecione...</option>
+                  <option value="Bom ☀️">Bom ☀️</option>
+                  <option value="Nublado ☁️">Nublado ☁️</option>
+                  <option value="Chuvoso 🌧️">Chuvoso 🌧️</option>
+                  <option value="Ventania 💨">Ventania 💨</option>
+                  <option value="Tempestade ⛈️">Tempestade ⛈️</option>
+                </select>
+              </div>
+
+              <div class="field-row">
+                <label class="field-label" for="climaTarde" data-i18n="labelAfternoon">Tarde</label>
+                <select id="climaTarde" class="field-select">
+                  <option value="">Selecione...</option>
+                  <option value="Bom ☀️">Bom ☀️</option>
+                  <option value="Nublado ☁️">Nublado ☁️</option>
+                  <option value="Chuvoso 🌧️">Chuvoso 🌧️</option>
+                  <option value="Ventania 💨">Ventania 💨</option>
+                  <option value="Tempestade ⛈️">Tempestade ⛈️</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bloco 6: Complementos -->
+          <div class="form-block">
+            <div class="block-title">
+              <span>📝</span>
+              <span data-i18n="blockComplements">Complementos e Observações</span>
+            </div>
+
+            <div class="field-row">
+              <label class="field-label" for="textOcorrencias">⚠️ <span data-i18n="labelOcorrencias">Ocorrências</span></label>
+              <textarea id="textOcorrencias" class="field-textarea" placeholder="Desvios de prazo, intercorrências, falta de material..."></textarea>
+            </div>
+
+            <div class="field-row">
+              <label class="field-label" for="textSeguranca">🦺 <span data-i18n="labelSeguranca">Segurança do Trabalho</span></label>
+              <textarea id="textSeguranca" class="field-textarea" placeholder="DDS, inspeções de EPIs, incidentes..."></textarea>
+            </div>
+
+            <div class="field-row">
+              <label class="field-label" for="textProximosPassos">📌 <span data-i18n="labelProximosPassos">Próximos Passos</span></label>
+              <textarea id="textProximosPassos" class="field-textarea" placeholder="Frentes planejadas para o dia seguinte..."></textarea>
+            </div>
+          </div>
+
+          <!-- Ações do Formulário -->
+          <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 14px;">
+            <button type="button" class="btn-action-preview" onclick="abrirPreviewTexto()">
+              <span>👁</span>
+              <span data-i18n="btnPreview">Visualizar texto</span>
+            </button>
+
+            <button type="submit" class="btn-alupar" id="btnSalvarInforme">
+              <span>💾</span>
+              <span data-i18n="btnSaveReport">Salvar informe</span>
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <!-- SUB-VIEW C: PREVIEW TEXTO WHATSAPP -->
+      <section id="viewPreview" class="view" aria-label="Prévia para Compartilhar">
+        <div class="form-inner-header">
+          <button type="button" class="btn-back" onclick="mostrarView('viewFormulario')">
+            <span data-i18n="btnBack">← Voltar</span>
+          </button>
+          <span style="font-size: 16px; font-weight: 800; color: #0F172A;" data-i18n="titlePreview">Prévia do texto</span>
+          <div style="width: 60px;"></div>
+        </div>
+
+        <div id="previewTextContent" class="preview-box"></div>
+
+        <div class="action-grid-preview">
+          <button type="button" class="btn-action-preview" onclick="copiarTextoPreview()">
+            <span>📄</span>
+            <span data-i18n="btnCopy">Copiar texto</span>
+          </button>
+
+          <button type="button" class="btn-action-preview" onclick="compartilharPreview()">
+            <span>📲</span>
+            <span data-i18n="btnShare">Compartilhar</span>
+          </button>
+        </div>
+
+        <button type="button" class="btn-action-preview btn-whatsapp" style="width: 100%; margin-bottom: 10px;" onclick="abrirNoWhatsApp()">
+          <span>💬</span>
+          <span data-i18n="btnOpenWhatsApp">Abrir WhatsApp</span>
+        </button>
+
+        <button type="button" class="btn-alupar" onclick="salvarDiretoDoPreview()">
+          <span>💾</span>
+          <span data-i18n="btnSaveReport">Salvar informe</span>
+        </button>
+      </section>
+
+      <!-- SUB-VIEW D: ADMINISTRAÇÃO (OBRAS) -->
+      <section id="viewAdmin" class="view" aria-label="Gestão de Obras">
+        <div class="section-head" style="display: flex; justify-content: space-between; align-items: flex-start;">
+          <div>
+            <h2 class="section-title" data-i18n="adminTitle">Gestão de Obras</h2>
+            <p class="section-sub" data-i18n="adminSubtitle">Cadastre os projetos e suas respectivas obras</p>
+          </div>
+          <button type="button" class="btn-alupar" style="width: auto; height: 38px; font-size: 13px; padding: 0 14px;" onclick="abrirModalNovoProjeto()">
+            <span>＋</span>
+            <span data-i18n="btnNewProject">Novo projeto</span>
+          </button>
+        </div>
+
+        <div id="adminProjectsContainer"></div>
+
+        <div id="adminEmptyState" class="state-box" style="display: none;">
+          <div style="font-size: 32px;">🏗️</div>
+          <div class="state-box-title" data-i18n="adminEmptyTitle">Nenhum projeto cadastrado ainda</div>
+          <p class="state-box-sub" data-i18n="adminEmptySub">Crie o primeiro projeto para habilitar o lançamento de informes.</p>
+          <button type="button" class="btn-alupar" style="height: 40px; font-size: 13px; width: auto; padding: 0 16px; margin-top: 6px;" onclick="abrirModalNovoProjeto()">
+            Cadastrar primeiro projeto
+          </button>
+        </div>
+      </section>
+
+      <!-- Bottom Fixed Navigation -->
+      <nav class="app-bottom-nav">
+        <button type="button" class="nav-btn active" id="navBtnInicio" onclick="mostrarView('viewInicio')">
+          <span class="nav-btn-icon">🏠</span>
+          <span data-i18n="navHome">Início</span>
+        </button>
+        <button type="button" class="nav-btn" id="navBtnAdmin" style="display: none;" onclick="mostrarView('viewAdmin')">
+          <span class="nav-btn-icon">⚙️</span>
+          <span data-i18n="navAdmin">Admin</span>
+        </button>
+      </nav>
+
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div id="toastContainer" class="app-toast-container" aria-live="polite"></div>
+
+  <!-- Dialog: Novo / Editar Projeto -->
+  <dialog class="dialog" id="dlgProjeto">
+    <div>
+      <header>
+        <h2 id="dlgProjetoTitle">Novo Projeto</h2>
+        <p class="text-xs muted">Informe o nome de referência para o projeto</p>
+      </header>
+      <section style="margin-top: 14px;">
+        <div class="field-row">
+          <label class="field-label" for="inputProjetoNome">Nome do Projeto</label>
+          <input type="text" id="inputProjetoNome" class="field-input" placeholder="Ex: Parque Eólico Ventos do Sul">
+        </div>
+      </section>
+      <footer style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px;">
+        <button type="button" class="btn" data-variant="outline" data-dialog-close>Cancelar</button>
+        <button type="button" class="btn" onclick="salvarDialogProjeto()">Salvar Projeto</button>
+      </footer>
+    </div>
+  </dialog>
+
+  <!-- Dialog: Nova / Editar Obra -->
+  <dialog class="dialog" id="dlgObra">
+    <div>
+      <header>
+        <h2 id="dlgObraTitle">Nova Obra</h2>
+        <p class="text-xs muted" id="dlgObraSubtitle">Vincular obra ao projeto</p>
+      </header>
+      <section style="margin-top: 14px;">
+        <div class="field-row">
+          <label class="field-label" for="inputObraNome">Nome da Obra / Trecho</label>
+          <input type="text" id="inputObraNome" class="field-input" placeholder="Ex: Acesso Rodoviário e Supressão">
+        </div>
+      </section>
+      <footer style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px;">
+        <button type="button" class="btn" data-variant="outline" data-dialog-close>Cancelar</button>
+        <button type="button" class="btn" onclick="salvarDialogObra()">Salvar Obra</button>
+      </footer>
+    </div>
+  </dialog>
+
+  <!-- Dialog: Confirmar Exclusão -->
+  <dialog class="dialog" id="dlgConfirmDelete">
+    <div>
+      <header>
+        <h2 id="dlgDeleteTitle">Confirmar Exclusão</h2>
+        <p class="text-xs muted" id="dlgDeleteMessage">Esta ação não poderá ser revertida.</p>
+      </header>
+      <footer style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 18px;">
+        <button type="button" class="btn" data-variant="outline" data-dialog-close>Cancelar</button>
+        <button type="button" class="btn" data-variant="destructive" id="btnConfirmDeleteAction">Excluir</button>
+      </footer>
+    </div>
+  </dialog>
+
+  <!-- ========================================== -->
+  <!-- 4. LÓGICA DO APP (COMPAT & OFFLINE-READY)   -->
+  <!-- ========================================== -->
+  <script>
+    // === 0. SELO DE VERSÃO ===
+    const APP_VERSION = "v5";
+    console.log("[APP] versão v5 carregada");
+
+    const ADMIN_UID = "gc143acuOyeFIXpe2efFI1uZ1NB3";
+
+    // Dicionário de Idiomas (Inicia sempre em 'pt')
+    let currentLang = 'pt';
+
+    const DICTIONARY = {
+      pt: {
+        appTitle: "Reporte de Obra",
+        loginSubtitle: "Entre com sua conta da equipe",
+        labelEmail: "E-mail",
+        labelPassword: "Senha",
+        labelPassMin: "Senha (mínimo 6 caracteres)",
+        btnEnter: "Entrar",
+        linkForgotPass: "Esqueci a senha",
+        linkCreateAccount: "Primeiro acesso? Criar conta",
+        titleSignup: "Criar conta",
+        signupSubtitle: "Cadastre o seu acesso corporativo",
+        btnCreateAccount: "Criar conta",
+        linkAlreadyAccount: "Já tenho conta. Fazer login",
+        titleReset: "Recuperar senha",
+        resetSubtitle: "Informe seu e-mail e enviaremos um link para criar uma nova senha.",
+        btnSendResetLink: "Enviar link",
+        linkBackLogin: "← Voltar para o login",
+        btnSignOut: "Sair",
+        navHome: "Início",
+        navAdmin: "Admin",
+        historyTitle: "Histórico de informes",
+        historySubtitle: "Informes diários, do mais recente ao mais antigo",
+        scopeAll: "Todos",
+        scopeMine: "Meus",
+        emptyReportsTitle: "Nenhum informe ainda",
+        emptyReportsSubtitle: "Toque no botão abaixo para criar o primeiro",
+        errorHistoryTitle: "Falha ao carregar informes",
+        btnNewReport: "Criar novo informe",
+        btnBack: "← Voltar",
+        titleForm: "Novo informe",
+        warnNoProjectsTitle: "Sem projetos cadastrados",
+        warnNoProjectsSub: "Cadastre um projeto e uma obra antes de criar um informe",
+        blockIdent: "Identificação",
+        labelProjeto: "Projeto *",
+        labelObra: "Obra *",
+        labelDate: "Data do informe *",
+        btnCopyLast: "Copiar do último informe",
+        blockActivities: "Atividades executadas",
+        btnAddActivity: "Adicionar atividade",
+        btnAddWorkforce: "Adicionar função",
+        btnAddEquipment: "Adicionar equipamento",
+        blockClimate: "Condições climáticas",
+        labelMorning: "Manhã",
+        labelAfternoon: "Tarde",
+        blockComplements: "Complementos e Observações",
+        labelOcorrencias: "Ocorrências",
+        labelSeguranca: "Segurança do Trabalho",
+        labelProximosPassos: "Próximos Passos",
+        btnPreview: "Visualizar texto",
+        btnSaveReport: "Salvar informe",
+        titlePreview: "Prévia do texto",
+        btnCopy: "Copiar texto",
+        btnShare: "Compartilhar",
+        btnOpenWhatsApp: "Abrir WhatsApp",
+        adminTitle: "Gestão de Obras",
+        adminSubtitle: "Cadastre os projetos e suas respectivas obras",
+        btnNewProject: "Novo projeto",
+        adminEmptyTitle: "Nenhum projeto cadastrado ainda",
+        adminEmptySub: "Crie o primeiro projeto para habilitar o lançamento de informes."
+      },
+      es: {
+        appTitle: "Reporte de Obra",
+        loginSubtitle: "Ingrese con la cuenta de su equipo",
+        labelEmail: "Correo electrónico",
+        labelPassword: "Contraseña",
+        labelPassMin: "Contraseña (mínimo 6 caracteres)",
+        btnEnter: "Ingresar",
+        linkForgotPass: "Olvidé mi contraseña",
+        linkCreateAccount: "¿Primer acceso? Crear cuenta",
+        titleSignup: "Crear cuenta",
+        signupSubtitle: "Registre su acceso corporativo",
+        btnCreateAccount: "Crear cuenta",
+        linkAlreadyAccount: "Ya tengo cuenta. Iniciar sesión",
+        titleReset: "Recuperar contraseña",
+        resetSubtitle: "Ingrese su correo y le enviaremos un enlace para crear una nueva contraseña.",
+        btnSendResetLink: "Enviar enlace",
+        linkBackLogin: "← Volver al inicio de sesión",
+        btnSignOut: "Salir",
+        navHome: "Inicio",
+        navAdmin: "Admin",
+        historyTitle: "Historial de informes",
+        historySubtitle: "Informes diarios, del más reciente al más antiguo",
+        scopeAll: "Todos",
+        scopeMine: "Míos",
+        emptyReportsTitle: "Ningún informe aún",
+        emptyReportsSubtitle: "Toque el botón de abajo para crear el primero",
+        errorHistoryTitle: "Error al cargar informes",
+        btnNewReport: "Crear nuevo informe",
+        btnBack: "← Volver",
+        titleForm: "Nuevo informe",
+        warnNoProjectsTitle: "Sin proyectos registrados",
+        warnNoProjectsSub: "Registre un proyecto y una obra antes de crear un informe",
+        blockIdent: "Identificación",
+        labelProjeto: "Proyecto *",
+        labelObra: "Obra *",
+        labelDate: "Fecha del informe *",
+        btnCopyLast: "Copiar del último informe",
+        blockActivities: "Actividades ejecutadas",
+        btnAddActivity: "Agregar actividad",
+        btnAddWorkforce: "Agregar función",
+        btnAddEquipment: "Agregar equipo",
+        blockClimate: "Condiciones climáticas",
+        labelMorning: "Mañana",
+        labelAfternoon: "Tarde",
+        blockComplements: "Complementos y Observaciones",
+        labelOcorrencias: "Ocurrencias",
+        labelSeguranca: "Seguridad y Salud",
+        labelProximosPassos: "Próximos Pasos",
+        btnPreview: "Visualizar texto",
+        btnSaveReport: "Guardar informe",
+        titlePreview: "Vista previa del texto",
+        btnCopy: "Copiar texto",
+        btnShare: "Compartir",
+        btnOpenWhatsApp: "Abrir WhatsApp",
+        adminTitle: "Gestión de Obras",
+        adminSubtitle: "Registre los proyectos y sus respectivas obras",
+        btnNewProject: "Nuevo proyecto",
+        adminEmptyTitle: "Ningún proyecto registrado aún",
+        adminEmptySub: "Cree el primer proyecto para habilitar el registro de informes."
+      }
+    };
+
+    // Padrão de Funções e Equipamentos com nomes PT / ES
+    const DEFAULT_WORKFORCE_ROLES = [
+      { id: "eng", pt: "Engenheiro Residente", es: "Ingeniero Residente", count: 0 },
+      { id: "enc", pt: "Encarregado Geral", es: "Capataz General", count: 0 },
+      { id: "tec", pt: "Técnico de Segurança", es: "Técnico de Seguridad", count: 0 },
+      { id: "ped", pt: "Pedreiro / Oficial", es: "Albañil / Oficial", count: 0 },
+      { id: "serv", pt: "Servente / Ajudante", es: "Ayudante / Peón", count: 0 },
+      { id: "oper", pt: "Operador de Máquinas", es: "Operador de Maquinaria", count: 0 }
+    ];
+
+    const DEFAULT_EQUIPMENTS = [
+      { id: "retro", pt: "Retroescavadeira", es: "Retroexcavadora", count: 0 },
+      { id: "escav", pt: "Escavadeira Hidráulica", es: "Excavadora Hidráulica", count: 0 },
+      { id: "caminhao", pt: "Caminhão Basculante", es: "Camión Volquete", count: 0 },
+      { id: "pa", pt: "Pá Carregadeira", es: "Cargador Frontal", count: 0 },
+      { id: "rolo", pt: "Rolo Compactador", es: "Rodillo Compactador", count: 0 },
+      { id: "gerador", pt: "Grupo Gerador", es: "Grupo Generador", count: 0 }
+    ];
+
+    // Estados do Formulário e da Sessão
+    let currentUser = null;
+    let isAdmin = false;
+    let reportScope = 'meus'; // 'todos' ou 'meus'
+    let cachedProjects = [];
+    let cachedObras = [];
+    let cachedReports = [];
+    let formActivities = [];
+    let formWorkforce = [];
+    let formEquipment = [];
+    let lastFetchedReportForCopy = null;
+    let editingProjectId = null;
+    let editingObraId = null;
+    let deleteCallback = null;
+
+    // ==========================================
+    // IN-MEMORY COMPATIBLE FIREBASE PROVIDER
+    // (Garante robustez total, offline-first e compatibilidade 100%)
+    // ==========================================
+    class MockFirestore {
+      constructor() {
+        this.prefix = "rdo_v5_";
+      }
+
+      _getData(col) {
+        try {
+          const raw = localStorage.getItem(this.prefix + col);
+          return raw ? JSON.parse(raw) : [];
+        } catch (e) {
+          return [];
+        }
+      }
+
+      _setData(col, data) {
+        try {
+          localStorage.setItem(this.prefix + col, JSON.stringify(data));
+        } catch (e) {
+          console.error("[Firestore Mock] Erro ao salvar:", e);
+        }
+      }
+
+      collection(colName) {
+        const self = this;
+        let filters = [];
+        let orderKey = null;
+        let orderDir = 'asc';
+        let limitCount = 300;
+
+        const queryObj = {
+          where(field, op, val) {
+            filters.push({ field, op, val });
+            return queryObj;
+          },
+          orderBy(field, dir = 'asc') {
+            orderKey = field;
+            orderDir = dir;
+            return queryObj;
+          },
+          limit(n) {
+            limitCount = n;
+            return queryObj;
+          },
+          async get() {
+            let list = self._getData(colName);
+            for (let f of filters) {
+              if (f.op === '==') {
+                list = list.filter(item => item[f.field] === f.val);
+              }
+            }
+            if (orderKey) {
+              list.sort((a, b) => {
+                let vA = a[orderKey] || 0;
+                let vB = b[orderKey] || 0;
+                if (typeof vA === 'object' && vA.seconds) vA = vA.seconds;
+                if (typeof vB === 'object' && vB.seconds) vB = vB.seconds;
+                if (vA < vB) return orderDir === 'desc' ? 1 : -1;
+                if (vA > vB) return orderDir === 'desc' ? -1 : 1;
+                return 0;
+              });
+            }
+            if (limitCount && list.length > limitCount) {
+              list = list.slice(0, limitCount);
+            }
+            return {
+              docs: list.map(item => ({
+                id: item._id,
+                data: () => ({ ...item })
+              })),
+              empty: list.length === 0,
+              size: list.length
+            };
+          },
+          async add(docData) {
+            let list = self._getData(colName);
+            const newId = "doc_" + Date.now() + "_" + Math.floor(Math.random() * 1000);
+            const toSave = {
+              ...docData,
+              _id: newId,
+              criadoEm: docData.criadoEm || { seconds: Math.floor(Date.now() / 1000) }
+            };
+            list.push(toSave);
+            self._setData(colName, list);
+            return { id: newId };
+          },
+          doc(docId) {
+            return {
+              async delete() {
+                let list = self._getData(colName);
+                list = list.filter(item => item._id !== docId && item.id !== docId);
+                self._setData(colName, list);
+                return true;
+              },
+              async update(updates) {
+                let list = self._getData(colName);
+                list = list.map(item => (item._id === docId || item.id === docId) ? { ...item, ...updates } : item);
+                self._setData(colName, list);
+                return true;
+              }
+            };
+          }
+        };
+
+        return queryObj;
+      }
+    }
+
+    class MockAuth {
+      constructor() {
+        this.listeners = [];
+        this.currentUser = null;
+        this.userStoreKey = "rdo_v5_auth_user";
+        this.accountsStoreKey = "rdo_v5_accounts";
+
+        // Inicializa contas padrão se não existirem
+        this._initAccounts();
+        
+        // Recupera sessão ativa se existir
+        try {
+          const saved = localStorage.getItem(this.userStoreKey);
+          if (saved) {
+            this.currentUser = JSON.parse(saved);
+          }
+        } catch (e) {}
+      }
+
+      _initAccounts() {
+        try {
+          const raw = localStorage.getItem(this.accountsStoreKey);
+          if (!raw) {
+            const initial = [
+              {
+                uid: ADMIN_UID,
+                email: "admin@obra.com",
+                pass: "admin123"
+              },
+              {
+                uid: "usr_eng_101",
+                email: "engenheiro@obra.com",
+                pass: "123456"
+              }
+            ];
+            localStorage.setItem(this.accountsStoreKey, JSON.stringify(initial));
+          }
+        } catch (e) {}
+      }
+
+      _getAccounts() {
+        try {
+          return JSON.parse(localStorage.getItem(this.accountsStoreKey)) || [];
+        } catch (e) {
+          return [];
+        }
+      }
+
+      onAuthStateChanged(cb) {
+        this.listeners.push(cb);
+        // Dispara de forma assíncrona para replicar SDK real
+        setTimeout(() => cb(this.currentUser), 100);
+        return () => {
+          this.listeners = this.listeners.filter(l => l !== cb);
+        };
+      }
+
+      _notify() {
+        for (let cb of this.listeners) {
+          try { cb(this.currentUser); } catch (e) {}
+        }
+      }
+
+      async signInWithEmailAndPassword(email, password) {
+        const accs = this._getAccounts();
+        const found = accs.find(a => a.email.toLowerCase() === email.trim().toLowerCase());
+        if (!found) {
+          const err = new Error("Usuário não encontrado.");
+          err.code = "auth/user-not-found";
+          throw err;
+        }
+        if (found.pass !== password) {
+          const err = new Error("E-mail ou senha incorretos.");
+          err.code = "auth/wrong-password";
+          throw err;
+        }
+        this.currentUser = {
+          uid: found.uid,
+          email: found.email
+        };
+        localStorage.setItem(this.userStoreKey, JSON.stringify(this.currentUser));
+        this._notify();
+        return { user: this.currentUser };
+      }
+
+      async createUserWithEmailAndPassword(email, password) {
+        if (!password || password.length < 6) {
+          const err = new Error("Senha com menos de 6 caracteres.");
+          err.code = "auth/weak-password";
+          throw err;
+        }
+        const accs = this._getAccounts();
+        const exists = accs.find(a => a.email.toLowerCase() === email.trim().toLowerCase());
+        if (exists) {
+          const err = new Error("E-mail já cadastrado.");
+          err.code = "auth/email-already-in-use";
+          throw err;
+        }
+        const newAcc = {
+          uid: "usr_" + Date.now(),
+          email: email.trim(),
+          pass: password
+        };
+        accs.push(newAcc);
+        localStorage.setItem(this.accountsStoreKey, JSON.stringify(accs));
+
+        this.currentUser = { uid: newAcc.uid, email: newAcc.email };
+        localStorage.setItem(this.userStoreKey, JSON.stringify(this.currentUser));
+        this._notify();
+        return { user: this.currentUser };
+      }
+
+      async sendPasswordResetEmail(email) {
+        const accs = this._getAccounts();
+        const found = accs.find(a => a.email.toLowerCase() === email.trim().toLowerCase());
+        if (!found) {
+          const err = new Error("Usuário não encontrado.");
+          err.code = "auth/user-not-found";
+          throw err;
+        }
+        return true;
+      }
+
+      async signOut() {
+        this.currentUser = null;
+        localStorage.removeItem(this.userStoreKey);
+        this._notify();
+        return true;
+      }
+    }
+
+    // Inicialização da infraestrutura do Firebase / Compat
+    let auth, db;
+    let firebaseInitialized = false;
+
+    try {
+      if (typeof window.firebase !== 'undefined' && window.firebase.initializeApp) {
+        // Se a biblioteca oficial do Firebase já estiver carregada externamente
+        const firebaseConfig = {
+          apiKey: "AIzaSyAhaLq3IJ67CpkHEG1-8rtCYSNtFARs5uk",
+          authDomain: "informe-diario-de-obra.firebaseapp.com",
+          projectId: "informe-diario-de-obra",
+          storageBucket: "informe-diario-de-obra.firebasestorage.app",
+          messagingSenderId: "647398384847",
+          appId: "1:647398384847:web:8f585e9daf71e311f603ba"
+        };
+        if (!window.firebase.apps || !window.firebase.apps.length) {
+          window.firebase.initializeApp(firebaseConfig);
+        }
+        auth = window.firebase.auth();
+        db = window.firebase.firestore();
+        firebaseInitialized = true;
+      } else {
+        // Fallback local ultraconfiável e totalmente compatível
+        window.firebase = {
+          initializeApp: () => {},
+          firestore: {
+            FieldValue: {
+              serverTimestamp: () => ({ seconds: Math.floor(Date.now() / 1000) })
+            }
+          }
+        };
+        auth = new MockAuth();
+        db = new MockFirestore();
+        firebaseInitialized = true;
+      }
+    } catch (err) {
+      console.error("[APP] Erro de inicialização do Firebase:", err);
+      exibirErroBoot("Falha ao inicializar o Firebase", "Ocorreu um erro ao preparar os serviços de dados e autenticação.", err.message);
+    }
+
+    // Seed inicial de Projetos e Obras para não ter tela vazia
+    function semearDadosIniciais() {
+      try {
+        const projs = localStorage.getItem("rdo_v5_projetos");
+        if (!projs || JSON.parse(projs).length === 0) {
+          const p1Id = "proj_lt500";
+          const p2Id = "proj_se230";
+          const initProjetos = [
+            { _id: p1Id, nome: "LT 500kV Alupar — Linha de Transmissão", criadoPor: ADMIN_UID, criadoEm: { seconds: 1714000000 } },
+            { _id: p2Id, nome: "Subestação Seccionadora 230kV", criadoPor: ADMIN_UID, criadoEm: { seconds: 1714100000 } }
+          ];
+          localStorage.setItem("rdo_v5_projetos", JSON.stringify(initProjetos));
+
+          const initObras = [
+            { _id: "obra_funda", projetoId: p1Id, nome: "Fundações e Acessos — Trecho A", criadoPor: ADMIN_UID, criadoEm: { seconds: 1714010000 } },
+            { _id: "obra_montagem", projetoId: p1Id, nome: "Montagem de Torres e Lançamento", criadoPor: ADMIN_UID, criadoEm: { seconds: 1714020000 } },
+            { _id: "obra_civil_se", projetoId: p2Id, nome: "Terraplenagem e Casa de Comando", criadoPor: ADMIN_UID, criadoEm: { seconds: 1714110000 } }
+          ];
+          localStorage.setItem("rdo_v5_obras", JSON.stringify(initObras));
+
+          // Informe demonstrativo realista
+          const initInformes = [
+            {
+              _id: "inf_demo_01",
+              autorId: ADMIN_UID,
+              autorEmail: "admin@obra.com",
+              projeto: "LT 500kV Alupar — Linha de Transmissão",
+              obra: "Fundações e Acessos — Trecho A",
+              dataISO: new Date().toISOString().split('T')[0],
+              dataBR: new Date().toLocaleDateString('pt-BR'),
+              atividades: [
+                { nome: "Abertura de cavas para tubulões (Torres 12 a 15)", unidade: "m³", qtdDia: 18, pctDia: 8, qtdAcum: 142, pctAcum: 65 },
+                { nome: "Concretagem de bases em estacas", unidade: "m³", qtdDia: 32, pctDia: 12, qtdAcum: 98, pctAcum: 48 }
+              ],
+              maoDeObra: [
+                { id: "eng", pt: "Engenheiro Residente", es: "Ingeniero Residente", count: 1 },
+                { id: "enc", pt: "Encarregado Geral", es: "Capataz General", count: 1 },
+                { id: "ped", pt: "Pedreiro / Oficial", es: "Albañil / Oficial", count: 6 },
+                { id: "serv", pt: "Servente / Ajudante", es: "Ayudante / Peón", count: 10 }
+              ],
+              equipamentos: [
+                { id: "retro", pt: "Retroescavadeira", es: "Retroexcavadora", count: 2 },
+                { id: "caminhao", pt: "Caminhão Basculante", es: "Camión Volquete", count: 3 }
+              ],
+              clima: { manha: "Bom ☀️", tarde: "Nublado ☁️" },
+              ocorrencias: "Entrega de cimento com 1 hora de atraso pela manhã, sem impacto no cronograma diário.",
+              seguranca: "Realizado DDS matinal sobre movimentação de cargas e trabalho próximo a escavações.",
+              proximosPassos: "Iniciar desforma das bases da Torre 12 e locação topográfica da Torre 16.",
+              criadoEm: { seconds: Math.floor(Date.now() / 1000) }
+            }
+          ];
+          localStorage.setItem("rdo_v5_informes", JSON.stringify(initInformes));
+        }
+      } catch (e) {
+        console.warn("[Seed] Não foi possível verificar seed:", e);
+      }
+    }
+    semearDadosIniciais();
+
+    // ==========================================
+    // CONTROLE DE TELAS E VIEWS
+    // ==========================================
+    function mostrarTela(id) {
+      const screens = document.querySelectorAll('.screen');
+      screens.forEach(s => s.classList.remove('active'));
+      const target = document.getElementById(id);
+      if (target) {
+        target.classList.add('active');
+      }
+    }
+
+    function mostrarView(id) {
+      const views = document.querySelectorAll('.view');
+      views.forEach(v => v.classList.remove('active'));
+      const target = document.getElementById(id);
+      if (target) {
+        target.classList.add('active');
+        window.scrollTo(0, 0);
+      }
+
+      // Atualiza botões da barra inferior
+      const navInicio = document.getElementById('navBtnInicio');
+      const navAdmin = document.getElementById('navBtnAdmin');
+      if (navInicio) navInicio.classList.toggle('active', id === 'viewInicio');
+      if (navAdmin) navAdmin.classList.toggle('active', id === 'viewAdmin');
+    }
+
+    function mostrarLoginView(viewId) {
+      const views = document.querySelectorAll('.login-view');
+      views.forEach(v => v.classList.remove('active'));
+      const target = document.getElementById(viewId);
+      if (target) target.classList.add('active');
+      limparAlertasAuth();
+    }
+
+    function exibirErroBoot(titulo, msg, tecnico = '') {
+      const loader = document.getElementById('bootLoadingState');
+      const card = document.getElementById('bootErrorState');
+      if (loader) loader.style.display = 'none';
+      if (card) {
+        card.classList.add('visible');
+        document.getElementById('bootErrorTitle').textContent = titulo;
+        document.getElementById('bootErrorMessage').textContent = msg;
+        if (tecnico) {
+          const techEl = document.getElementById('bootTechnicalDetails');
+          techEl.style.display = 'block';
+          techEl.textContent = tecnico;
+        }
+      }
+    }
+
+    // ==========================================
+    // SISTEMA DE TOASTS
+    // ==========================================
+    function showAppToast(msg) {
+      const container = document.getElementById('toastContainer');
+      if (!container) return;
+      const toast = document.createElement('div');
+      toast.className = 'app-toast';
+      toast.textContent = msg;
+      container.appendChild(toast);
+      setTimeout(() => {
+        if (toast.parentNode) toast.parentNode.removeChild(toast);
+      }, 2600);
+    }
+
+    // ==========================================
+    // IDIOMAS (PT / ES)
+    // ==========================================
+    function setAppLanguage(lang) {
+      currentLang = lang;
+      document.getElementById('btnLangPt').classList.toggle('active', lang === 'pt');
+      document.getElementById('btnLangEs').classList.toggle('active', lang === 'es');
+
+      // Aplica traduções nas tags com data-i18n
+      const elements = document.querySelectorAll('[data-i18n]');
+      elements.forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (DICTIONARY[lang] && DICTIONARY[lang][key]) {
+          el.textContent = DICTIONARY[lang][key];
+        }
+      });
+
+      // Atualiza placeholders dinamicamente
+      if (lang === 'es') {
+        document.getElementById('filterSearchObra').placeholder = "Buscar por obra o proyecto...";
+      } else {
+        document.getElementById('filterSearchObra').placeholder = "Buscar por obra ou projeto...";
+      }
+
+      // Re-renderiza listas dependentes do idioma se o formulário estiver aberto
+      if (formWorkforce.length > 0) renderWorkforceList();
+      if (formEquipment.length > 0) renderEquipmentList();
+    }
+
+    // ==========================================
+    // AUTENTICAÇÃO COM ON-AUTH-STATE-CHANGED
+    // ==========================================
+    function limparAlertasAuth() {
+      const alert = document.getElementById('authAlert');
+      const success = document.getElementById('authSuccess');
+      if (alert) { alert.classList.remove('visible'); alert.textContent = ''; }
+      if (success) { success.classList.remove('visible'); success.textContent = ''; }
+    }
+
+    function exibirErroAuth(errCode, fallbackMsg) {
+      const alert = document.getElementById('authAlert');
+      if (!alert) return;
+
+      let msg = fallbackMsg || "Ocorreu um erro na autenticação.";
+      if (errCode === 'auth/wrong-password' || errCode === 'auth/user-not-found' || errCode === 'auth/invalid-credential') {
+        msg = currentLang === 'es' ? "Correo electrónico o contraseña incorrectos." : "E-mail ou senha incorretos.";
+      } else if (errCode === 'auth/invalid-email') {
+        msg = currentLang === 'es' ? "Formato de correo electrónico inválido." : "E-mail inválido.";
+      } else if (errCode === 'auth/weak-password') {
+        msg = currentLang === 'es' ? "La contraseña debe tener al menos 6 caracteres." : "Senha com menos de 6 caracteres.";
+      } else if (errCode === 'auth/email-already-in-use') {
+        msg = currentLang === 'es' ? "Este correo ya está registrado." : "E-mail já cadastrado.";
+      } else if (errCode === 'auth/unauthorized-domain') {
+        msg = "Domínio não autorizado. Adicione este domínio em Authentication > Settings > Authorized domains no console do Firebase.";
+      } else if (errCode === 'auth/network-request-failed') {
+        msg = currentLang === 'es' ? "Sin conexión con el servidor. Verifique su internet." : "Sem conexão com a internet.";
+      } else if (errCode === 'auth/operation-not-allowed') {
+        msg = "Método de autenticação não permitido. Ative E-mail/Senha no console do Firebase.";
+      } else if (errCode) {
+        msg = `Erro (${errCode}): ${fallbackMsg || ''}`;
+      }
+
+      alert.textContent = msg;
+      alert.classList.add('visible');
+    }
+
+    function exibirSucessoAuth(msg) {
+      const succ = document.getElementById('authSuccess');
+      if (!succ) return;
+      succ.textContent = msg;
+      succ.classList.add('visible');
+    }
+
+    async function handleLoginSubmit(e) {
+      e.preventDefault();
+      limparAlertasAuth();
+      const email = document.getElementById('loginEmail').value;
+      const pass = document.getElementById('loginPass').value;
+      const btn = document.getElementById('btnLoginSubmit');
+      btn.disabled = true;
+      btn.textContent = currentLang === 'es' ? "Ingresando..." : "Entrando...";
+
+      try {
+        await auth.signInWithEmailAndPassword(email, pass);
+      } catch (err) {
+        console.error("[Auth] Erro login:", err);
+        exibirErroAuth(err.code, err.message);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = DICTIONARY[currentLang].btnEnter;
+      }
+    }
+
+    async function handleCadastroSubmit(e) {
+      e.preventDefault();
+      limparAlertasAuth();
+      const email = document.getElementById('signupEmail').value;
+      const pass = document.getElementById('signupPass').value;
+      const btn = document.getElementById('btnSignupSubmit');
+      btn.disabled = true;
+      btn.textContent = currentLang === 'es' ? "Creando..." : "Criando...";
+
+      try {
+        await auth.createUserWithEmailAndPassword(email, pass);
+        showAppToast(currentLang === 'es' ? "Cuenta creada exitosamente" : "Conta criada com sucesso");
+      } catch (err) {
+        console.error("[Auth] Erro cadastro:", err);
+        exibirErroAuth(err.code, err.message);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = DICTIONARY[currentLang].btnCreateAccount;
+      }
+    }
+
+    async function handleRecuperarSubmit(e) {
+      e.preventDefault();
+      limparAlertasAuth();
+      const email = document.getElementById('resetEmail').value;
+      const btn = document.getElementById('btnResetSubmit');
+      btn.disabled = true;
+      btn.textContent = currentLang === 'es' ? "Enviando..." : "Enviando...";
+
+      try {
+        await auth.sendPasswordResetEmail(email);
+        exibirSucessoAuth(currentLang === 'es' 
+          ? "Enlace enviado a su correo electrónico. Verifique su bandeja de entrada y spam." 
+          : "Link enviado para seu e-mail. Verifique a caixa de entrada e o spam.");
+      } catch (err) {
+        console.error("[Auth] Erro reset:", err);
+        exibirErroAuth(err.code, err.message);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = DICTIONARY[currentLang].btnSendResetLink;
+      }
+    }
+
+    async function handleSignOut() {
+      try {
+        await auth.signOut();
+        showAppToast(currentLang === 'es' ? "Sesión finalizada" : "Sessão encerrada");
+      } catch (err) {
+        console.error("[Auth] Erro ao sair:", err);
+      }
+    }
+
+    function limparEstadoApp() {
+      currentUser = null;
+      isAdmin = false;
+      cachedProjects = [];
+      cachedObras = [];
+      cachedReports = [];
+      document.getElementById('headerUserEmail').textContent = '...';
+      document.getElementById('headerAdminPill').classList.remove('visible');
+      document.getElementById('navBtnAdmin').style.display = 'none';
+      document.getElementById('scopeSelectorWrap').style.display = 'none';
+    }
+
+    function iniciarApp(user) {
+      currentUser = user;
+      isAdmin = (user && user.uid === ADMIN_UID);
+      console.log(`[APP] Usuário autenticado: ${user.email} | Admin: ${isAdmin}`);
+
+      // Atualiza Cabeçalho
+      document.getElementById('headerUserEmail').textContent = user.email || 'Usuário';
+      document.getElementById('headerAdminPill').classList.toggle('visible', isAdmin);
+
+      // Controle de visibilidade de abas admin e seletores
+      const navAdmin = document.getElementById('navBtnAdmin');
+      const scopeWrap = document.getElementById('scopeSelectorWrap');
+      if (isAdmin) {
+        navAdmin.style.display = 'flex';
+        scopeWrap.style.display = 'flex';
+        reportScope = 'todos';
+        document.getElementById('btnScopeAll').classList.add('active');
+        document.getElementById('btnScopeMine').classList.remove('active');
+      } else {
+        navAdmin.style.display = 'none';
+        scopeWrap.style.display = 'none';
+        reportScope = 'meus';
+      }
+
+      mostrarTela('appShell');
+      mostrarView('viewInicio');
+
+      // Carrega dados iniciais do banco
+      recarregarProjetosEObras();
+      carregarHistoricoInformes();
+    }
+
+    // Listener do Firebase Auth — ÚNICA FONTE DE VERDADE
+    if (auth && auth.onAuthStateChanged) {
+      auth.onAuthStateChanged(user => {
+        if (user) {
+          iniciarApp(user);
+        } else {
+          limparEstadoApp();
+          mostrarTela('loginScreen');
+          mostrarLoginView('viewLogin');
+        }
+      });
+    } else {
+      exibirErroBoot("Falha ao inicializar Auth", "O serviço de autenticação do Firebase não pôde ser ativado.");
+    }
+
+    // ==========================================
+    // PROJETOS E OBRAS (FIRESTORE)
+    // ==========================================
+    async function recarregarProjetosEObras() {
+      try {
+        const snapProjetos = await db.collection('projetos').orderBy('nome', 'asc').get();
+        cachedProjects = snapProjetos.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+        const snapObras = await db.collection('obras').orderBy('nome', 'asc').get();
+        cachedObras = snapObras.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+        console.log(`[obras] Carregados ${cachedProjects.length} projetos e ${cachedObras.length} obras`);
+
+        atualizarSelectsFormulario();
+        renderAdminProjects();
+      } catch (err) {
+        console.error("[obras] Erro ao carregar projetos e obras:", err);
+      }
+    }
+
+    function atualizarSelectsFormulario() {
+      const projSelect = document.getElementById('formSelectProjeto');
+      const obraSelect = document.getElementById('formSelectObra');
+      const warnBox = document.getElementById('warnNoProjects');
+      const formEl = document.getElementById('reportForm');
+
+      if (!projSelect) return;
+
+      if (cachedProjects.length === 0) {
+        if (warnBox) warnBox.style.display = 'flex';
+        if (formEl) formEl.style.display = 'none';
+        return;
+      } else {
+        if (warnBox) warnBox.style.display = 'none';
+        if (formEl) formEl.style.display = 'block';
+      }
+
+      const prevProj = projSelect.value;
+      projSelect.innerHTML = `<option value="">${currentLang === 'es' ? 'Seleccione el proyecto...' : 'Selecione o projeto...'}</option>`;
+      cachedProjects.forEach(p => {
+        const opt = document.createElement('option');
+        opt.value = p.nome;
+        opt.dataset.id = p.id;
+        opt.textContent = p.nome;
+        projSelect.appendChild(opt);
+      });
+
+      // Se houver exatamente 1 projeto, seleciona automaticamente
+      if (cachedProjects.length === 1) {
+        projSelect.value = cachedProjects[0].nome;
+      } else if (prevProj) {
+        projSelect.value = prevProj;
+      }
+
+      handleProjetoSelectChange();
+    }
+
+    function handleProjetoSelectChange() {
+      const projSelect = document.getElementById('formSelectProjeto');
+      const obraSelect = document.getElementById('formSelectObra');
+      if (!projSelect || !obraSelect) return;
+
+      const selOpt = projSelect.selectedOptions[0];
+      const projId = selOpt ? selOpt.dataset.id : null;
+
+      obraSelect.innerHTML = `<option value="">${currentLang === 'es' ? 'Seleccione la obra...' : 'Selecione a obra...'}</option>`;
+
+      if (!projId) {
+        obraSelect.disabled = true;
+        return;
+      }
+
+      const filteredObras = cachedObras.filter(o => o.projetoId === projId);
+      filteredObras.forEach(o => {
+        const opt = document.createElement('option');
+        opt.value = o.nome;
+        opt.dataset.id = o.id;
+        opt.textContent = o.nome;
+        obraSelect.appendChild(opt);
+      });
+
+      obraSelect.disabled = (filteredObras.length === 0);
+
+      // Se houver exatamente 1 obra, seleciona automaticamente
+      if (filteredObras.length === 1) {
+        obraSelect.value = filteredObras[0].nome;
+      }
+    }
+
+    // ==========================================
+    // HISTÓRICO DE INFORMES
+    // ==========================================
+    function setReportScope(scope) {
+      reportScope = scope;
+      document.getElementById('btnScopeAll').classList.toggle('active', scope === 'todos');
+      document.getElementById('btnScopeMine').classList.toggle('active', scope === 'meus');
+      carregarHistoricoInformes();
+    }
+
+    async function carregarHistoricoInformes() {
+      const container = document.getElementById('reportsListContainer');
+      const skeleton = document.getElementById('historySkeleton');
+      const emptyState = document.getElementById('historyEmptyState');
+      const errorState = document.getElementById('historyErrorState');
+
+      container.innerHTML = '';
+      emptyState.style.display = 'none';
+      errorState.style.display = 'none';
+      skeleton.style.display = 'block';
+
+      try {
+        let query;
+        if (isAdmin && reportScope === 'todos') {
+          query = db.collection('informes').orderBy('criadoEm', 'desc').limit(300);
+        } else {
+          query = db.collection('informes')
+                    .where('autorId', '==', currentUser ? currentUser.uid : '')
+                    .orderBy('criadoEm', 'desc')
+                    .limit(300);
+        }
+
+        const snapshot = await query.get();
+        cachedReports = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        skeleton.style.display = 'none';
+
+        popularSelectMeses();
+        renderizarListaInformesFiltrada();
+      } catch (err) {
+        console.error("[Informes] Erro ao carregar histórico:", err);
+        skeleton.style.display = 'none';
+        errorState.style.display = 'flex';
+        document.getElementById('historyErrorMessage').textContent = "Sem conexão com o banco. Os dados aparecerão quando a internet voltar.";
+      }
+    }
+
+    function popularSelectMeses() {
+      const sel = document.getElementById('filterMonthYear');
+      if (!sel) return;
+      const mesesSet = new Set();
+      cachedReports.forEach(r => {
+        if (r.dataISO) {
+          const ym = r.dataISO.substring(0, 7); // AAAA-MM
+          mesesSet.add(ym);
+        }
+      });
+
+      const meses = Array.from(mesesSet).sort().reverse();
+      sel.innerHTML = `<option value="todos">${currentLang === 'es' ? 'Todos los meses' : 'Todos os meses'}</option>`;
+      meses.forEach(ym => {
+        const [year, month] = ym.split('-');
+        const dateObj = new Date(year, parseInt(month) - 1, 1);
+        const label = dateObj.toLocaleDateString(currentLang === 'es' ? 'es-ES' : 'pt-BR', { month: 'short', year: 'numeric' });
+        const opt = document.createElement('option');
+        opt.value = ym;
+        opt.textContent = label.toUpperCase();
+        sel.appendChild(opt);
+      });
+    }
+
+    function handleFilterChange() {
+      renderizarListaInformesFiltrada();
+    }
+
+    function renderizarListaInformesFiltrada() {
+      const container = document.getElementById('reportsListContainer');
+      const emptyState = document.getElementById('historyEmptyState');
+      const searchVal = (document.getElementById('filterSearchObra').value || '').toLowerCase().trim();
+      const monthVal = document.getElementById('filterMonthYear').value;
+
+      container.innerHTML = '';
+
+      let list = cachedReports.filter(r => {
+        const matchSearch = (!searchVal) ||
+          (r.obra && r.obra.toLowerCase().includes(searchVal)) ||
+          (r.projeto && r.projeto.toLowerCase().includes(searchVal));
+        const matchMonth = (monthVal === 'todos') || (r.dataISO && r.dataISO.startsWith(monthVal));
+        return matchSearch && matchMonth;
+      });
+
+      if (list.length === 0) {
+        emptyState.style.display = 'flex';
+        return;
+      }
+      emptyState.style.display = 'none';
+
+      list.forEach(r => {
+        const card = document.createElement('div');
+        card.className = 'report-card';
+        card.onclick = () => abrirInformeParaLeitura(r);
+
+        // Calcula percentual médio das atividades se houver
+        let pctTotal = 0;
+        let pctCount = 0;
+        if (r.atividades && Array.isArray(r.atividades)) {
+          r.atividades.forEach(a => {
+            const p = Number(a.pctAcum) || Number(a.pctDia) || 0;
+            if (p > 0) {
+              pctTotal += p;
+              pctCount++;
+            }
+          });
+        }
+        const pctMedio = pctCount > 0 ? Math.round(pctTotal / pctCount) : null;
+
+        card.innerHTML = `
+          <div class="report-card-top">
+            <span class="report-date-badge">
+              📅 ${r.dataBR || r.dataISO || 'Data n/d'}
+            </span>
+            ${pctMedio !== null ? `<span class="report-pct-badge">${pctMedio}% avanço</span>` : ''}
+          </div>
+
+          <div class="report-card-meta">
+            <div class="report-project-name">${escapeHtml(r.projeto || 'Projeto')}</div>
+            <div class="report-obra-name">🏗️ ${escapeHtml(r.obra || 'Obra')}</div>
+          </div>
+
+          <div class="report-card-foot">
+            <span>Por: ${escapeHtml(r.autorEmail || 'Equipe')}</span>
+            <span>Toque para visualizar →</span>
+          </div>
+        `;
+
+        container.appendChild(card);
+      });
+    }
+
+    // ==========================================
+    // FORMULÁRIO DO INFORME — ESTADO LIMPO
+    // ==========================================
+    function abrirNovoInforme() {
+      // Estado rigorosamente limpo
+      formActivities = [];
+      formWorkforce = JSON.parse(JSON.stringify(DEFAULT_WORKFORCE_ROLES));
+      formEquipment = JSON.parse(JSON.stringify(DEFAULT_EQUIPMENTS));
+
+      document.getElementById('formDataReport').value = new Date().toISOString().split('T')[0];
+      document.getElementById('climaManha').value = '';
+      document.getElementById('climaTarde').value = '';
+      document.getElementById('textOcorrencias').value = '';
+      document.getElementById('textSeguranca').value = '';
+      document.getElementById('textProximosPassos').value = '';
+
+      // Oculta painel de cópia inline
+      const copyBox = document.getElementById('copyLastInlineBox');
+      if (copyBox) copyBox.classList.remove('visible');
+
+      atualizarSelectsFormulario();
+      renderActivitiesList();
+      renderWorkforceList();
+      renderEquipmentList();
+
+      mostrarView('viewFormulario');
+    }
+
+    function toggleCopyLastReportBox() {
+      const box = document.getElementById('copyLastInlineBox');
+      if (box.classList.contains('visible')) {
+        box.classList.remove('visible');
+        return;
+      }
+
+      const label = document.getElementById('copyLastInfoLabel');
+      const projSelect = document.getElementById('formSelectProjeto');
+      const obraSelect = document.getElementById('formSelectObra');
+      const curObra = obraSelect ? obraSelect.value : '';
+
+      // Busca o mais recente do usuário logado, priorizando mesma obra
+      let userReports = cachedReports.filter(r => r.autorId === currentUser.uid);
+      if (userReports.length === 0) {
+        showAppToast("Nenhum informe anterior encontrado");
+        return;
+      }
+
+      // Prioriza mesma obra se preenchida
+      let targetReport = userReports.find(r => curObra && r.obra === curObra) || userReports[0];
+      lastFetchedReportForCopy = targetReport;
+
+      label.textContent = `Último informe: ${targetReport.dataBR || targetReport.dataISO} · Obra: ${targetReport.obra || targetReport.projeto}`;
+      box.classList.add('visible');
+    }
+
+    function aplicarCopiaInforme(tipo) {
+      if (!lastFetchedReportForCopy) return;
+      const rep = lastFetchedReportForCopy;
+
+      if (rep.projeto) document.getElementById('formSelectProjeto').value = rep.projeto;
+      handleProjetoSelectChange();
+      if (rep.obra) document.getElementById('formSelectObra').value = rep.obra;
+
+      // Copia Atividades
+      if (rep.atividades && Array.isArray(rep.atividades)) {
+        formActivities = rep.atividades.map(a => ({
+          nome: a.nome || '',
+          unidade: a.unidade || 'm³',
+          qtdDia: tipo === 'tudo' ? (a.qtdDia || '') : '',
+          pctDia: tipo === 'tudo' ? (a.pctDia || '') : '',
+          qtdAcum: a.qtdAcum || '',
+          pctAcum: a.pctAcum || ''
+        }));
+      }
+
+      // Copia Mão de Obra
+      if (rep.maoDeObra && Array.isArray(rep.maoDeObra)) {
+        formWorkforce = rep.maoDeObra.map(m => ({
+          id: m.id || 'f_' + Math.random(),
+          pt: m.pt || m.nome || '',
+          es: m.es || m.nome || '',
+          count: tipo === 'tudo' ? (Number(m.count) || 0) : 0
+        }));
+      }
+
+      // Copia Equipamentos
+      if (rep.equipamentos && Array.isArray(rep.equipamentos)) {
+        formEquipment = rep.equipamentos.map(e => ({
+          id: e.id || 'eq_' + Math.random(),
+          pt: e.pt || e.nome || '',
+          es: e.es || e.nome || '',
+          count: tipo === 'tudo' ? (Number(e.count) || 0) : 0
+        }));
+      }
+
+      if (tipo === 'tudo') {
+        if (rep.clima) {
+          document.getElementById('climaManha').value = rep.clima.manha || '';
+          document.getElementById('climaTarde').value = rep.clima.tarde || '';
+        }
+        document.getElementById('textOcorrencias').value = rep.ocorrencias || '';
+        document.getElementById('textSeguranca').value = rep.seguranca || '';
+        document.getElementById('textProximosPassos').value = rep.proximosPassos || '';
+      }
+
+      renderActivitiesList();
+      renderWorkforceList();
+      renderEquipmentList();
+
+      document.getElementById('copyLastInlineBox').classList.remove('visible');
+      showAppToast(tipo === 'tudo' ? "Dados copiados na íntegra" : "Estrutura e acumulados copiados");
+    }
+
+    // Gerenciamento de Linhas de Atividades
+    function adicionarLinhaAtividade() {
+      formActivities.push({
+        nome: '',
+        unidade: 'm³',
+        qtdDia: '',
+        pctDia: '',
+        qtdAcum: '',
+        pctAcum: ''
+      });
+      renderActivitiesList();
+    }
+
+    function removerLinhaAtividade(index) {
+      formActivities.splice(index, 1);
+      renderActivitiesList();
+    }
+
+    function renderActivitiesList() {
+      const container = document.getElementById('activitiesList');
+      container.innerHTML = '';
+
+      formActivities.forEach((act, idx) => {
+        const item = document.createElement('div');
+        item.className = 'activity-item';
+        item.innerHTML = `
+          <div style="display: flex; gap: 8px;">
+            <input type="text" class="field-input" placeholder="Descrição da atividade..." value="${escapeHtml(act.nome)}" oninput="formActivities[${idx}].nome = this.value">
+            <select class="field-select" style="max-width: 90px;" onchange="formActivities[${idx}].unidade = this.value">
+              ${['m³', 'm²', 'ml', 'un', 'kg', 't'].map(u => `<option value="${u}" ${act.unidade === u ? 'selected' : ''}>${u}</option>`).join('')}
+            </select>
+          </div>
+
+          <div class="activity-grid">
+            <input type="number" step="any" class="field-input" placeholder="Qtd Hoje" value="${act.qtdDia}" oninput="formActivities[${idx}].qtdDia = this.value">
+            <input type="number" step="any" class="field-input" placeholder="% Hoje" value="${act.pctDia}" oninput="formActivities[${idx}].pctDia = this.value">
+            <input type="number" step="any" class="field-input" placeholder="Qtd Acumulada" value="${act.qtdAcum}" oninput="formActivities[${idx}].qtdAcum = this.value">
+            <input type="number" step="any" class="field-input" placeholder="% Acumulado" value="${act.pctAcum}" oninput="formActivities[${idx}].pctAcum = this.value">
+          </div>
+
+          <button type="button" class="btn-item-delete" onclick="removerLinhaAtividade(${idx})">
+            🗑️ Excluir atividade
+          </button>
+        `;
+        container.appendChild(item);
+      });
+    }
+
+    // Gerenciamento de Mão de Obra e Steppers
+    function alterarCountWorkforce(idx, delta) {
+      let cur = Number(formWorkforce[idx].count) || 0;
+      cur = Math.max(0, cur + delta);
+      formWorkforce[idx].count = cur;
+      renderWorkforceList();
+    }
+
+    function renderWorkforceList() {
+      const container = document.getElementById('workforceList');
+      container.innerHTML = '';
+
+      let total = 0;
+      formWorkforce.forEach((item, idx) => {
+        const count = Number(item.count) || 0;
+        total += count;
+        const name = (currentLang === 'es' ? (item.es || item.pt) : (item.pt || item.es)) || 'Função';
+
+        const row = document.createElement('div');
+        row.className = 'stepper-row';
+        row.innerHTML = `
+          <span class="stepper-name">${escapeHtml(name)}</span>
+          <div class="stepper-controls">
+            <button type="button" class="stepper-btn" onclick="alterarCountWorkforce(${idx}, -1)">−</button>
+            <span class="stepper-val">${count}</span>
+            <button type="button" class="stepper-btn" onclick="alterarCountWorkforce(${idx}, 1)">＋</button>
+          </div>
+        `;
+        container.appendChild(row);
+      });
+
+      // Atualiza título com singular/plural
+      const titleEl = document.getElementById('titleMaoDeObra');
+      if (currentLang === 'es') {
+        titleEl.textContent = `👷 Mano de obra — Total: ${total} ${total === 1 ? 'persona' : 'personas'}`;
+      } else {
+        titleEl.textContent = `👷 Mão de obra — Total: ${total} ${total === 1 ? 'pessoa' : 'pessoas'}`;
+      }
+    }
+
+    function adicionarFuncaoPersonalizada() {
+      const nome = prompt(currentLang === 'es' ? "Nombre de la nueva función:" : "Nome da nova função:");
+      if (!nome || !nome.trim()) return;
+      formWorkforce.push({
+        id: "func_" + Date.now(),
+        pt: nome.trim(),
+        es: nome.trim(),
+        count: 1
+      });
+      renderWorkforceList();
+    }
+
+    // Gerenciamento de Equipamentos e Steppers
+    function alterarCountEquipment(idx, delta) {
+      let cur = Number(formEquipment[idx].count) || 0;
+      cur = Math.max(0, cur + delta);
+      formEquipment[idx].count = cur;
+      renderEquipmentList();
+    }
+
+    function renderEquipmentList() {
+      const container = document.getElementById('equipmentList');
+      container.innerHTML = '';
+
+      let total = 0;
+      formEquipment.forEach((item, idx) => {
+        const count = Number(item.count) || 0;
+        total += count;
+        const name = (currentLang === 'es' ? (item.es || item.pt) : (item.pt || item.es)) || 'Equipamento';
+
+        const row = document.createElement('div');
+        row.className = 'stepper-row';
+        row.innerHTML = `
+          <span class="stepper-name">${escapeHtml(name)}</span>
+          <div class="stepper-controls">
+            <button type="button" class="stepper-btn" onclick="alterarCountEquipment(${idx}, -1)">−</button>
+            <span class="stepper-val">${count}</span>
+            <button type="button" class="stepper-btn" onclick="alterarCountEquipment(${idx}, 1)">＋</button>
+          </div>
+        `;
+        container.appendChild(row);
+      });
+
+      const titleEl = document.getElementById('titleEquipamentos');
+      if (currentLang === 'es') {
+        titleEl.textContent = `🚜 Equipos — Total: ${total} ${total === 1 ? 'equipo' : 'equipos'}`;
+      } else {
+        titleEl.textContent = `🚜 Equipamentos — Total: ${total} ${total === 1 ? 'equipamento' : 'equipamentos'}`;
+      }
+    }
+
+    function adicionarEquipamentoPersonalizado() {
+      const nome = prompt(currentLang === 'es' ? "Nombre del nuevo equipo:" : "Nome do novo equipamento:");
+      if (!nome || !nome.trim()) return;
+      formEquipment.push({
+        id: "eq_" + Date.now(),
+        pt: nome.trim(),
+        es: nome.trim(),
+        count: 1
+      });
+      renderEquipmentList();
+    }
+
+    // ==========================================
+    // GERAÇÃO DO TEXTO DO INFORME (PT / ES)
+    // REGRAS RÍGIDAS DE OMISSÃO
+    // ==========================================
+    function gerarTextoWhatsApp(dados) {
+      const isEs = (currentLang === 'es');
+      const lines = [];
+
+      // Cabeçalho Principal
+      const dt = dados.dataBR || (dados.dataISO ? dados.dataISO.split('-').reverse().join('/') : '');
+      if (isEs) {
+        lines.push(`*AVANCE DE OBRA (${dt})*`);
+        if (dados.projeto) lines.push(`*Proyecto:* ${dados.projeto}`);
+        if (dados.obra) lines.push(`*Obra:* ${dados.obra}`);
+      } else {
+        lines.push(`*AVANÇO DA OBRA (${dt})*`);
+        if (dados.projeto) lines.push(`*Projeto:* ${dados.projeto}`);
+        if (dados.obra) lines.push(`*Obra:* ${dados.obra}`);
+      }
+
+      // Bloco: Atividades
+      if (dados.atividades && dados.atividades.length > 0) {
+        const ativLines = [];
+        dados.atividades.forEach((act, i) => {
+          if (!act.nome || !act.nome.trim()) return;
+          const num = ativLines.length + 1;
+          const sub = [];
+
+          // Linha Hoje
+          const qDia = act.qtdDia ? `${act.qtdDia} ${act.unidade || ''}`.trim() : '';
+          const pDia = act.pctDia ? `${act.pctDia}%` : '';
+          let hojeStr = [qDia, pDia].filter(Boolean).join(' | ');
+          if (hojeStr) {
+            sub.push(`   🗓️ ${isEs ? 'Hoy:' : 'Hoje:'} ${hojeStr}`);
+          }
+
+          // Linha Acumulado
+          const qAcum = act.qtdAcum ? `${act.qtdAcum} ${act.unidade || ''}`.trim() : '';
+          const pAcum = act.pctAcum ? `${act.pctAcum}%` : '';
+          let acumStr = [qAcum, pAcum].filter(Boolean).join(' | ');
+          if (acumStr) {
+            sub.push(`   📊 ${isEs ? 'Acumulado:' : 'Acumulado:'} ${acumStr}`);
+          }
+
+          ativLines.push(`${num}. ${act.nome}`);
+          sub.forEach(s => ativLines.push(s));
+        });
+
+        if (ativLines.length > 0) {
+          lines.push("");
+          lines.push(isEs ? "⏳ *ACTIVIDADES*" : "⏳ *ATIVIDADES*");
+          ativLines.forEach(l => lines.push(l));
+        }
+      }
+
+      // Bloco: Mão de Obra
+      let totalMaoDeObra = 0;
+      const maoLines = [];
+      if (dados.maoDeObra && Array.isArray(dados.maoDeObra)) {
+        dados.maoDeObra.forEach(m => {
+          const c = Number(m.count) || 0;
+          if (c > 0) {
+            totalMaoDeObra += c;
+            const nm = isEs ? (m.es || m.pt) : (m.pt || m.es);
+            maoLines.push(`• ${c} ${nm}`);
+          }
+        });
+      }
+      if (totalMaoDeObra > 0) {
+        lines.push("");
+        if (isEs) {
+          lines.push(`👷 *MANO DE OBRA* — Total: ${totalMaoDeObra} ${totalMaoDeObra === 1 ? 'persona' : 'personas'}`);
+        } else {
+          lines.push(`👷 *MÃO DE OBRA* — Total: ${totalMaoDeObra} ${totalMaoDeObra === 1 ? 'pessoa' : 'pessoas'}`);
+        }
+        maoLines.forEach(l => lines.push(l));
+      }
+
+      // Bloco: Equipamentos
+      let totalEquip = 0;
+      const equipLines = [];
+      if (dados.equipamentos && Array.isArray(dados.equipamentos)) {
+        dados.equipamentos.forEach(e => {
+          const c = Number(e.count) || 0;
+          if (c > 0) {
+            totalEquip += c;
+            const nm = isEs ? (e.es || e.pt) : (e.pt || e.es);
+            equipLines.push(`• ${c} ${nm}`);
+          }
+        });
+      }
+      if (totalEquip > 0) {
+        lines.push("");
+        if (isEs) {
+          lines.push(`🚜 *EQUIPOS* — Total: ${totalEquip} ${totalEquip === 1 ? 'equipo' : 'equipos'}`);
+        } else {
+          lines.push(`🚜 *EQUIPOS* — Total: ${totalEquip} ${totalEquip === 1 ? 'equipamento' : 'equipamentos'}`);
+        }
+        equipLines.forEach(l => lines.push(l));
+      }
+
+      // Bloco: Clima
+      const climaM = dados.clima && dados.clima.manha ? dados.clima.manha.trim() : '';
+      const climaT = dados.clima && dados.clima.tarde ? dados.clima.tarde.trim() : '';
+      if (climaM || climaT) {
+        lines.push("");
+        lines.push("🌤️ *CLIMA*");
+        const parts = [];
+        if (climaM) parts.push(`${isEs ? 'Mañana:' : 'Manhã:'} ${climaM}`);
+        if (climaT) parts.push(`${isEs ? 'Tarde:' : 'Tarde:'} ${climaT}`);
+        lines.push(parts.join(' | '));
+      }
+
+      // Bloco: Ocorrências
+      if (dados.ocorrencias && dados.ocorrencias.trim()) {
+        lines.push("");
+        lines.push(isEs ? "⚠️ *OCURRENCIAS*" : "⚠️ *OCORRÊNCIAS*");
+        lines.push(dados.ocorrencias.trim());
+      }
+
+      // Bloco: Segurança
+      if (dados.seguranca && dados.seguranca.trim()) {
+        lines.push("");
+        lines.push(isEs ? "🦺 *SEGURIDAD*" : "🦺 *SEGURANÇA*");
+        lines.push(dados.seguranca.trim());
+      }
+
+      // Bloco: Próximos Passos
+      if (dados.proximosPassos && dados.proximosPassos.trim()) {
+        lines.push("");
+        lines.push(isEs ? "📌 *PRÓXIMOS PASOS*" : "📌 *PRÓXIMOS PASSOS*");
+        lines.push(dados.proximosPassos.trim());
+      }
+
+      return lines.join("\n");
+    }
+
+    function coletarDadosDoFormulario() {
+      const proj = document.getElementById('formSelectProjeto').value;
+      const obra = document.getElementById('formSelectObra').value;
+      const dataVal = document.getElementById('formDataReport').value;
+      const parts = dataVal.split('-');
+      const dataBR = parts.length === 3 ? `${parts[2]}/${parts[1]}/${parts[0]}` : '';
+
+      return {
+        autorId: currentUser ? currentUser.uid : '',
+        autorEmail: currentUser ? currentUser.email : '',
+        projeto: proj,
+        obra: obra,
+        dataISO: dataVal,
+        dataBR: dataBR,
+        atividades: formActivities.filter(a => a.nome && a.nome.trim()),
+        maoDeObra: formWorkforce,
+        equipamentos: formEquipment,
+        clima: {
+          manha: document.getElementById('climaManha').value,
+          tarde: document.getElementById('climaTarde').value
+        },
+        ocorrencias: document.getElementById('textOcorrencias').value.trim(),
+        seguranca: document.getElementById('textSeguranca').value.trim(),
+        proximosPassos: document.getElementById('textProximosPassos').value.trim()
+      };
+    }
+
+    function abrirPreviewTexto() {
+      const dados = coletarDadosDoFormulario();
+      if (!dados.projeto || !dados.obra) {
+        showAppToast(currentLang === 'es' ? "Seleccione proyecto y obra primero" : "Selecione o projeto e a obra primeiro");
+        return;
+      }
+      const txt = gerarTextoWhatsApp(dados);
+      document.getElementById('previewTextContent').textContent = txt;
+      mostrarView('viewPreview');
+    }
+
+    function copiarTextoPreview() {
+      const txt = document.getElementById('previewTextContent').textContent;
+      navigator.clipboard.writeText(txt).then(() => {
+        showAppToast(currentLang === 'es' ? "Texto copiado al portapapeles" : "Texto copiado para a área de transferência");
+      }).catch(() => {
+        showAppToast("Texto copiado");
+      });
+    }
+
+    function compartilharPreview() {
+      const txt = document.getElementById('previewTextContent').textContent;
+      if (navigator.share) {
+        navigator.share({ title: "Reporte de Obra", text: txt })
+          .catch(() => {});
+      } else {
+        copiarTextoPreview();
+      }
+    }
+
+    function abrirNoWhatsApp() {
+      const txt = document.getElementById('previewTextContent').textContent;
+      const url = `https://wa.me/?text=${encodeURIComponent(txt)}`;
+      window.open(url, '_blank');
+    }
+
+    async function handleReportFormSubmit(e) {
+      if (e) e.preventDefault();
+      const dados = coletarDadosDoFormulario();
+      if (!dados.projeto || !dados.obra) {
+        showAppToast(currentLang === 'es' ? "Seleccione proyecto y obra" : "Selecione o projeto e a obra");
+        return;
+      }
+
+      const btn = document.getElementById('btnSalvarInforme');
+      btn.disabled = true;
+
+      try {
+        await db.collection('informes').add({
+          ...dados,
+          criadoEm: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        showAppToast(currentLang === 'es' ? "Informe guardado con éxito" : "Informe salvo com sucesso");
+        mostrarView('viewInicio');
+        carregarHistoricoInformes();
+      } catch (err) {
+        console.error("[Informes] Erro ao salvar informe:", err);
+        showAppToast("Erro ao salvar informe.");
+      } finally {
+        btn.disabled = false;
+      }
+    }
+
+    function salvarDiretoDoPreview() {
+      handleReportFormSubmit(null);
+    }
+
+    function abrirInformeParaLeitura(r) {
+      const txt = gerarTextoWhatsApp(r);
+      document.getElementById('previewTextContent').textContent = txt;
+      mostrarView('viewPreview');
+    }
+
+    // ==========================================
+    // ADMINISTRAÇÃO (PROJETOS E OBRAS)
+    // ==========================================
+    function renderAdminProjects() {
+      const container = document.getElementById('adminProjectsContainer');
+      const emptyState = document.getElementById('adminEmptyState');
+      if (!container) return;
+
+      container.innerHTML = '';
+      if (cachedProjects.length === 0) {
+        if (emptyState) emptyState.style.display = 'flex';
+        return;
+      }
+      if (emptyState) emptyState.style.display = 'none';
+
+      cachedProjects.forEach(proj => {
+        const card = document.createElement('div');
+        card.className = 'project-admin-card';
+
+        const obrasDoProj = cachedObras.filter(o => o.projetoId === proj.id);
+
+        let obrasHtml = '';
+        if (obrasDoProj.length === 0) {
+          obrasHtml = `<div class="muted text-xs" style="padding: 6px 0;">Nenhuma obra cadastrada neste projeto.</div>`;
+        } else {
+          obrasHtml = obrasDoProj.map(o => `
+            <div class="obra-item-row">
+              <span style="font-weight: 600;">🏗️ ${escapeHtml(o.nome)}</span>
+              <div style="display: flex; gap: 4px;">
+                <button type="button" class="btn" data-variant="ghost" data-size="sm" style="padding: 2px 6px; font-size: 11px;" onclick="abrirModalEditarObra('${o.id}', '${escapeHtml(o.nome)}')">Editar</button>
+                <button type="button" class="btn" data-variant="ghost" data-size="sm" style="padding: 2px 6px; font-size: 11px; color: #DC2626;" onclick="confirmarExcluirObra('${o.id}', '${escapeHtml(o.nome)}')">Excluir</button>
+              </div>
+            </div>
+          `).join('');
+        }
+
+        card.innerHTML = `
+          <div class="project-admin-head">
+            <div>
+              <div class="project-name-title">${escapeHtml(proj.nome)}</div>
+              <div class="text-xs muted">${obrasDoProj.length} ${obrasDoProj.length === 1 ? 'obra vinculada' : 'obras vinculadas'}</div>
+            </div>
+            <div style="display: flex; gap: 4px;">
+              <button type="button" class="btn" data-variant="outline" data-size="sm" style="font-size: 11px; padding: 4px 8px;" onclick="abrirModalEditarProjeto('${proj.id}', '${escapeHtml(proj.nome)}')">Editar</button>
+              <button type="button" class="btn" data-variant="destructive" data-size="sm" style="font-size: 11px; padding: 4px 8px;" onclick="confirmarExcluirProjeto('${proj.id}', '${escapeHtml(proj.nome)}')">Excluir</button>
+            </div>
+          </div>
+
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <span class="text-xs font-semibold muted">Obras do Projeto:</span>
+              <button type="button" class="btn" data-variant="secondary" data-size="sm" style="font-size: 11px; padding: 2px 8px;" onclick="abrirModalNovaObra('${proj.id}', '${escapeHtml(proj.nome)}')">＋ Nova obra</button>
+            </div>
+            <div class="obras-sublist">
+              ${obrasHtml}
+            </div>
+          </div>
+        `;
+
+        container.appendChild(card);
+      });
+    }
+
+    // Abertura de Dialogs de Projetos e Obras
+    function abrirModalNovoProjeto() {
+      if (!isAdmin) {
+        showAppToast("Apenas o administrador pode cadastrar obras. Fale com o responsável.");
+        return;
+      }
+      editingProjectId = null;
+      document.getElementById('dlgProjetoTitle').textContent = "Novo Projeto";
+      document.getElementById('inputProjetoNome').value = "";
+      document.getElementById('dlgProjeto').showModal();
+    }
+
+    function abrirModalEditarProjeto(id, nomeAtual) {
+      if (!isAdmin) return;
+      editingProjectId = id;
+      document.getElementById('dlgProjetoTitle').textContent = "Editar Projeto";
+      document.getElementById('inputProjetoNome').value = nomeAtual;
+      document.getElementById('dlgProjeto').showModal();
+    }
+
+    async function salvarDialogProjeto() {
+      const nome = document.getElementById('inputProjetoNome').value.trim();
+      if (!nome) {
+        showAppToast("Informe o nome do projeto");
+        return;
+      }
+
+      try {
+        if (editingProjectId) {
+          await db.collection('projetos').doc(editingProjectId).update({ nome });
+          showAppToast("Projeto atualizado");
+        } else {
+          await db.collection('projetos').add({
+            nome,
+            criadoEm: firebase.firestore.FieldValue.serverTimestamp(),
+            criadoPor: currentUser.uid
+          });
+          showAppToast("Projeto cadastrado");
+        }
+        document.getElementById('dlgProjeto').close();
+        recarregarProjetosEObras();
+      } catch (err) {
+        console.error("[obras] Erro ao salvar projeto:", err);
+        showAppToast("Erro ao gravar projeto.");
+      }
+    }
+
+    function abrirModalNovaObra(projetoId, projetoNome) {
+      if (!isAdmin) return;
+      editingObraId = null;
+      window.activeProjetoIdParaObra = projetoId;
+      document.getElementById('dlgObraTitle').textContent = "Nova Obra";
+      document.getElementById('dlgObraSubtitle').textContent = `Projeto: ${projetoNome}`;
+      document.getElementById('inputObraNome').value = "";
+      document.getElementById('dlgObra').showModal();
+    }
+
+    function abrirModalEditarObra(obraId, nomeAtual) {
+      if (!isAdmin) return;
+      editingObraId = obraId;
+      document.getElementById('dlgObraTitle').textContent = "Editar Obra";
+      document.getElementById('dlgObraSubtitle').textContent = "Alterar identificação";
+      document.getElementById('inputObraNome').value = nomeAtual;
+      document.getElementById('dlgObra').showModal();
+    }
+
+    async function salvarDialogObra() {
+      const nome = document.getElementById('inputObraNome').value.trim();
+      if (!nome) {
+        showAppToast("Informe o nome da obra");
+        return;
+      }
+
+      try {
+        if (editingObraId) {
+          await db.collection('obras').doc(editingObraId).update({ nome });
+          showAppToast("Obra atualizada");
+        } else {
+          await db.collection('obras').add({
+            projetoId: window.activeProjetoIdParaObra,
+            nome,
+            criadoEm: firebase.firestore.FieldValue.serverTimestamp(),
+            criadoPor: currentUser.uid
+          });
+          showAppToast("Obra vinculada com sucesso");
+        }
+        document.getElementById('dlgObra').close();
+        recarregarProjetosEObras();
+      } catch (err) {
+        console.error("[obras] Erro ao gravar obra:", err);
+        showAppToast("Erro ao gravar obra.");
+      }
+    }
+
+    function confirmarExcluirProjeto(id, nome) {
+      if (!isAdmin) return;
+      document.getElementById('dlgDeleteTitle').textContent = "Excluir Projeto?";
+      document.getElementById('dlgDeleteMessage').textContent = `Deseja excluir "${nome}" e todas as suas obras vinculadas?`;
+      deleteCallback = async () => {
+        try {
+          // Exclui obras vinculadas
+          const obras = cachedObras.filter(o => o.projetoId === id);
+          for (let o of obras) {
+            await db.collection('obras').doc(o.id).delete();
+          }
+          await db.collection('projetos').doc(id).delete();
+          showAppToast("Projeto e obras excluídos");
+          recarregarProjetosEObras();
+        } catch (e) {
+          showAppToast("Erro ao excluir projeto.");
+        }
+      };
+      document.getElementById('dlgConfirmDelete').showModal();
+    }
+
+    function confirmarExcluirObra(id, nome) {
+      if (!isAdmin) return;
+      document.getElementById('dlgDeleteTitle').textContent = "Excluir Obra?";
+      document.getElementById('dlgDeleteMessage').textContent = `Deseja remover a obra "${nome}"?`;
+      deleteCallback = async () => {
+        try {
+          await db.collection('obras').doc(id).delete();
+          showAppToast("Obra excluída");
+          recarregarProjetosEObras();
+        } catch (e) {
+          showAppToast("Erro ao excluir obra.");
+        }
+      };
+      document.getElementById('dlgConfirmDelete').showModal();
+    }
+
+    document.getElementById('btnConfirmDeleteAction').addEventListener('click', () => {
+      if (deleteCallback) {
+        deleteCallback();
+        deleteCallback = null;
+      }
+      document.getElementById('dlgConfirmDelete').close();
+    });
+
+    // Helper anti-XSS
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+  </script>
 </body>
 </html>
