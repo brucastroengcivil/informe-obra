@@ -1,10 +1,17 @@
 <!DOCTYPE html>
-<html lang="pt-BR" data-theme="light">
+<html lang="es-PE" data-theme="light">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Reporte Diário de Obra — v6</title>
-  <style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Reporte de Obra v7</title>
+<meta name="theme-color" content="#004A99">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Reporte de Obra">
+<meta name="mobile-web-app-capable" content="yes">
+<style>
 /* Skip artifact shell — fixed styles served beside every artifact.
    Tokens, utilities and components (basecoat 1.0 markup, no CDN); artifacts
    override --accent for their own identity. */
@@ -326,7 +333,7 @@ table.shell-table td.skip-table-empty { color: var(--text-muted); text-align: ce
 .toaster .toast[data-type="error"] .toast-content { border-left: 3px solid var(--danger); }
 
 </style>
-  <script>
+<script>
 /* Skip artifact shell — fixed helpers served beside every artifact. */
 (function () {
   "use strict";
@@ -1027,2703 +1034,1470 @@ table.shell-table td.skip-table-empty { color: var(--text-muted); text-align: ce
 })();
 
 </script>
-  <style>
-    :root {
-      --accent: #004A99;
-      --accent-text: #003A78;
-      --accent-contrast: #ffffff;
-      --brand-blue: #004A99;
-      --brand-dark: #003A78;
-      --brand-green: #28A745;
-      --bg-page: #F4F6F9;
-      --header-h: 56px;
-      --bottom-h: 60px;
-    }
-
-    * {
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    body {
-      margin: 0;
-      padding: 0;
-      background-color: var(--bg-page);
-      color: #1f2937;
-      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-
-    /* Screen Architecture - strictly no overlapping */
-    .screen {
-      position: fixed;
-      inset: 0;
-      display: none;
-      overflow-y: auto;
-      background-color: var(--bg-page);
-    }
-
-    .screen.active {
-      display: flex;
-      flex-direction: column;
-    }
-
-    /* Views inside App Shell */
-    .view {
-      display: none;
-      width: 100%;
-      max-width: 560px;
-      margin: 0 auto;
-      padding: calc(var(--header-h) + 16px) 16px calc(var(--bottom-h) + 28px + env(safe-area-inset-bottom, 0px));
-    }
-
-    .view.active {
-      display: block;
-    }
-
-    /* Header */
-    .app-header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: var(--header-h);
-      background-color: var(--brand-blue);
-      color: #ffffff;
-      z-index: 10;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 16px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
-    }
-
-    .header-brand {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .header-title {
-      font-size: 17px;
-      font-weight: 700;
-      letter-spacing: -0.2px;
-      color: #ffffff;
-      margin: 0;
-    }
-
-    .version-pill {
-      background-color: var(--brand-green);
-      color: #ffffff;
-      font-size: 10px;
-      font-weight: 700;
-      border-radius: 4px;
-      padding: 2px 6px;
-      line-height: 1;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .header-actions {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .admin-pill {
-      background-color: #ffffff;
-      color: var(--brand-blue);
-      font-size: 11px;
-      font-weight: 700;
-      padding: 2px 8px;
-      border-radius: 9999px;
-      letter-spacing: 0.3px;
-    }
-
-    .user-email-tag {
-      font-size: 11px;
-      color: rgba(255, 255, 255, 0.85);
-      max-width: 130px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .btn-logout {
-      height: 30px;
-      padding: 0 10px;
-      background: transparent;
-      border: 1px solid #ffffff;
-      color: #ffffff;
-      border-radius: 6px;
-      font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      transition: background 0.15s ease;
-    }
-
-    .btn-logout:hover {
-      background: rgba(255, 255, 255, 0.15);
-    }
-
-    /* Bottom Navigation Bar */
-    .app-bottom-bar {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: calc(var(--bottom-h) + env(safe-area-inset-bottom, 0px));
-      padding-bottom: env(safe-area-inset-bottom, 0px);
-      background-color: #ffffff;
-      border-top: 1px solid #e5e7eb;
-      z-index: 10;
-      display: flex;
-      align-items: center;
-      justify-content: space-around;
-    }
-
-    .bottom-nav-item {
-      flex: 1;
-      height: var(--bottom-h);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 3px;
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      color: #6b7280;
-      font-size: 11px;
-      font-weight: 600;
-      transition: color 0.15s;
-    }
-
-    .bottom-nav-item.active {
-      color: var(--brand-blue);
-    }
-
-    .bottom-nav-icon {
-      font-size: 18px;
-      line-height: 1;
-    }
-
-    /* Login Screen */
-    #loginScreen {
-      background: var(--brand-blue);
-      align-items: center;
-      justify-content: center;
-      padding: 24px 16px;
-    }
-
-    .login-card {
-      width: 100%;
-      max-width: 400px;
-      background: #ffffff;
-      border-radius: 20px;
-      padding: 28px 24px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .login-header-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .lang-toggle-btn {
-      background: #f3f4f6;
-      border: 1px solid #e5e7eb;
-      border-radius: 9999px;
-      padding: 4px 10px;
-      font-size: 11px;
-      font-weight: 700;
-      color: #4b5563;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .login-title {
-      font-size: 30px;
-      font-weight: 800;
-      color: var(--brand-blue);
-      margin: 0;
-      line-height: 1.15;
-      letter-spacing: -0.5px;
-    }
-
-    .login-subtitle {
-      font-size: 13px;
-      color: #6b7280;
-      margin: 4px 0 0 0;
-    }
-
-    .login-form-view {
-      display: none;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    .login-form-view.active {
-      display: flex;
-    }
-
-    .btn-brand-primary {
-      height: 52px;
-      background: var(--brand-blue);
-      color: #ffffff;
-      font-size: 15px;
-      font-weight: 700;
-      border: none;
-      border-radius: 12px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: background 0.15s ease;
-      width: 100%;
-    }
-
-    .btn-brand-primary:hover {
-      background: var(--brand-dark);
-    }
-
-    .btn-brand-primary:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
-
-    .login-footer-links {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      align-items: center;
-      margin-top: 6px;
-    }
-
-    .link-subtle {
-      background: none;
-      border: none;
-      color: #6b7280;
-      font-size: 12px;
-      cursor: pointer;
-      text-decoration: underline;
-      padding: 4px;
-    }
-
-    .link-highlight {
-      background: none;
-      border: none;
-      color: var(--brand-blue);
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      padding: 4px;
-    }
-
-    .login-card-footer {
-      text-align: center;
-      font-size: 11px;
-      color: #9ca3af;
-      margin-top: 10px;
-      padding-top: 12px;
-      border-top: 1px solid #f3f4f6;
-    }
-
-    .login-error-box {
-      background-color: #fee2e2;
-      border: 1px solid #fca5a5;
-      color: #991b1b;
-      font-size: 12px;
-      padding: 10px 12px;
-      border-radius: 8px;
-      display: none;
-      line-height: 1.4;
-    }
-
-    .login-success-box {
-      background-color: #dcfce7;
-      border: 1px solid #86efac;
-      color: #166534;
-      font-size: 12px;
-      padding: 10px 12px;
-      border-radius: 8px;
-      display: none;
-      line-height: 1.4;
-    }
-
-    /* Boot & Error Screen */
-    #bootScreen {
-      background: var(--brand-blue);
-      align-items: center;
-      justify-content: center;
-      padding: 24px 16px;
-    }
-
-    .boot-loader-box {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 16px;
-      color: #ffffff;
-      text-align: center;
-    }
-
-    .boot-spinner {
-      width: 44px;
-      height: 44px;
-      border: 4px solid rgba(255, 255, 255, 0.25);
-      border-top-color: #ffffff;
-      border-radius: 50%;
-      animation: spin 0.9s linear infinite;
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    .error-card {
-      width: 100%;
-      max-width: 420px;
-      background: #ffffff;
-      border-radius: 18px;
-      padding: 24px;
-      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.25);
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    .error-title {
-      font-size: 20px;
-      font-weight: 800;
-      color: #dc2626;
-      margin: 0;
-    }
-
-    .error-desc {
-      font-size: 13px;
-      color: #4b5563;
-      margin: 0;
-      line-height: 1.4;
-    }
-
-    .module-status-list {
-      background: #f9fafb;
-      border: 1px solid #e5e7eb;
-      border-radius: 10px;
-      padding: 10px 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      font-size: 13px;
-      font-family: monospace;
-    }
-
-    .status-badge-ok {
-      color: #15803d;
-      font-weight: 700;
-    }
-
-    .status-badge-fail {
-      color: #b91c1c;
-      font-weight: 700;
-    }
-
-    .technical-error-text {
-      background: #fee2e2;
-      border: 1px solid #fecaca;
-      color: #7f1d1d;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-      font-size: 11px;
-      padding: 8px 10px;
-      border-radius: 6px;
-      max-height: 120px;
-      overflow-y: auto;
-      word-break: break-all;
-      white-space: pre-wrap;
-    }
-
-    /* Cards in Views */
-    .app-card {
-      background: #ffffff;
-      border-radius: 14px;
-      padding: 16px;
-      border: 1px solid #e5e7eb;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-      margin-bottom: 14px;
-    }
-
-    .card-header-line {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 12px;
-    }
-
-    .card-section-title {
-      font-size: 15px;
-      font-weight: 700;
-      color: #111827;
-      margin: 0;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .card-section-sub {
-      font-size: 12px;
-      color: #6b7280;
-      margin: 2px 0 0 0;
-    }
-
-    /* Floating New Report Button */
-    .btn-floating-add {
-      position: fixed;
-      bottom: calc(var(--bottom-h) + 12px + env(safe-area-inset-bottom, 0px));
-      left: 16px;
-      right: 16px;
-      max-width: 528px;
-      margin: 0 auto;
-      height: 54px;
-      background: var(--brand-blue);
-      color: #ffffff;
-      border: none;
-      border-radius: 12px;
-      font-size: 16px;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      box-shadow: 0 8px 20px rgba(0, 74, 153, 0.35);
-      cursor: pointer;
-      z-index: 9;
-      transition: transform 0.15s ease, background 0.15s ease;
-    }
-
-    .btn-floating-add:active {
-      transform: scale(0.98);
-    }
-
-    /* Stepper */
-    .stepper-control {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      background: #f3f4f6;
-      border-radius: 8px;
-      padding: 2px;
-    }
-
-    .stepper-btn {
-      width: 32px;
-      height: 32px;
-      border: none;
-      background: #ffffff;
-      color: #1f2937;
-      border-radius: 6px;
-      font-size: 16px;
-      font-weight: 700;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.06);
-    }
-
-    .stepper-btn:active {
-      background: #e5e7eb;
-    }
-
-    .stepper-val {
-      min-width: 34px;
-      text-align: center;
-      font-weight: 700;
-      font-size: 14px;
-      color: #111827;
-    }
-
-    /* Activity row in Form */
-    .activity-card-item {
-      background: #f9fafb;
-      border: 1px solid #e5e7eb;
-      border-radius: 10px;
-      padding: 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-bottom: 10px;
-    }
-
-    .resource-row-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 8px 0;
-      border-bottom: 1px dashed #e5e7eb;
-    }
-
-    .resource-row-item:last-child {
-      border-bottom: none;
-    }
-
-    /* WhatsApp preview area */
-    .whatsapp-preview-box {
-      background-color: #f0fdf4;
-      border: 1px solid #bbf7d0;
-      border-radius: 12px;
-      padding: 16px;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      font-size: 13px;
-      line-height: 1.6;
-      color: #1e3a1e;
-      white-space: pre-wrap;
-      word-break: break-word;
-      max-height: 440px;
-      overflow-y: auto;
-    }
-
-    /* Skeletons */
-    .skeleton-card {
-      background: #ffffff;
-      border-radius: 14px;
-      padding: 16px;
-      border: 1px solid #e5e7eb;
-      margin-bottom: 12px;
-      animation: pulse 1.4s infinite ease-in-out;
-    }
-
-    .skeleton-line {
-      height: 14px;
-      background: #e5e7eb;
-      border-radius: 4px;
-      margin-bottom: 8px;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.45; }
-    }
-
-    /* Nested Admin Accordion */
-    .project-admin-card {
-      background: #ffffff;
-      border: 1px solid #e5e7eb;
-      border-radius: 12px;
-      padding: 14px;
-      margin-bottom: 12px;
-    }
-
-    .obra-pill-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: #f9fafb;
-      border: 1px solid #e5e7eb;
-      border-radius: 8px;
-      padding: 8px 12px;
-      margin-top: 6px;
-      font-size: 13px;
-    }
-  </style>
+<style>
+:root{--alupar:#004A99;--alupar-dark:#003A78;--ok:#28A745;--brand-green:#00A650;--bg-app:#F4F6F9;--card-line:#E3E8EF;}
+html,body{margin:0;height:100%;background:var(--bg-app);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:#1B2430;}
+*{box-sizing:border-box;}
+.screen{position:fixed;inset:0;display:none;overflow-y:auto;background:var(--bg-app);}
+.screen.active{display:flex;flex-direction:column;}
+.view{display:none;}
+.view.active{display:block;}
+#loginScreen{background:var(--alupar);align-items:center;justify-content:center;padding:20px;}
+#bootScreen{align-items:center;justify-content:center;background:var(--alupar);color:#fff;}
+.header{position:fixed;top:0;left:0;right:0;height:56px;background:var(--alupar);z-index:10;display:flex;align-items:center;gap:8px;padding:0 10px;color:#fff;}
+.header-left{display:flex;align-items:center;gap:8px;min-width:0;flex:1;}
+.header-right{display:flex;align-items:center;gap:6px;}
+.logo-alupar-svg{height:22px;width:auto;flex-shrink:0;}
+.sep{width:1px;height:22px;background:#fff;opacity:.4;flex-shrink:0;}
+.title-app{font-size:15px;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.badge-v7{background:var(--ok);color:#fff;font-size:10px;border-radius:4px;padding:2px 6px;flex-shrink:0;}
+.badge-admin{background:#fff;color:var(--alupar);font-size:10px;border-radius:4px;padding:2px 6px;font-weight:700;}
+.user-mail{font-size:10px;color:#fff;opacity:.85;max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.btn-logout{height:28px;border:1px solid #fff;background:transparent;color:#fff;border-radius:6px;padding:0 8px;font-size:12px;cursor:pointer;}
+.flags{display:flex;gap:6px;}
+.flag-btn{width:34px;height:34px;border-radius:50%;background:#fff;border:2px solid #D5DCE6;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;opacity:.55;padding:0;}
+.flag-btn.active{border-color:var(--alupar);background:#E6F0FA;opacity:1;}
+.flag-btn.small{width:28px;height:28px;font-size:16px;}
+.header .flag-btn.small{border-color:#fff;}
+.header .flag-btn.active{background:#E6F0FA;border-color:#fff;}
+.main-wrap{padding-top:56px;padding-bottom:calc(60px + env(safe-area-inset-bottom));flex:1;width:100%;max-width:560px;margin:0 auto;padding-left:14px;padding-right:14px;}
+.bottom-bar{position:fixed;bottom:0;left:0;right:0;height:calc(60px + env(safe-area-inset-bottom));padding-bottom:env(safe-area-inset-bottom);background:#fff;border-top:1px solid #D9DEE6;display:flex;justify-content:space-around;align-items:center;z-index:10;}
+.bottom-bar button{background:none;border:none;color:#8A93A3;font-size:12px;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;padding:6px 12px;}
+.bottom-bar button.active{color:var(--alupar);font-weight:600;}
+.bottom-bar button span.ic{font-size:18px;}
+.fab{position:fixed;left:14px;right:14px;bottom:calc(68px + env(safe-area-inset-bottom));height:54px;border-radius:12px;background:var(--alupar);color:#fff;border:none;font-size:16px;font-weight:600;z-index:9;cursor:pointer;max-width:532px;margin:0 auto;box-shadow:0 4px 12px rgba(0,74,153,.3);}
+.card{background:#fff;border-radius:14px;box-shadow:0 1px 3px rgba(16,24,40,.08);padding:16px;margin-bottom:12px;border:1px solid var(--card-line);}
+.card h2,.card h3{margin:0 0 4px;font-size:16px;color:#1B2430;}
+.muted{color:#5B6676;font-size:13px;}
+.small-muted{color:#6B7485;font-size:12px;}
+.pill{display:inline-block;background:#E6F0FA;color:#003A78;border-radius:999px;padding:3px 10px;font-size:12px;margin-right:4px;}
+.pill.green{background:#E3F4E8;color:#1E6B31;}
+.pill.gray{background:#EEF1F5;color:#4A5466;}
+.field{display:flex;flex-direction:column;gap:4px;margin-bottom:12px;}
+.field label{font-size:13px;font-weight:600;color:#2C3644;}
+.field .hint{font-size:12px;color:#6B7485;}
+.input,.select,.textarea{width:100%;height:44px;border:1px solid #C9D1DD;border-radius:10px;padding:0 12px;font-size:15px;background:#fff;color:#1B2430;}
+.textarea{height:auto;min-height:72px;padding:10px 12px;resize:vertical;}
+.input:focus,.select:focus,.textarea:focus{outline:2px solid var(--alupar);outline-offset:1px;}
+.btn{height:48px;border-radius:12px;border:none;background:var(--alupar);color:#fff;font-size:15px;font-weight:600;padding:0 16px;cursor:pointer;width:100%;}
+.btn.secondary{background:#E6F0FA;color:var(--alupar-dark);}
+.btn.ghost{background:transparent;color:var(--alupar);width:auto;height:auto;padding:4px;font-weight:500;}
+.btn.danger{background:#FDECEC;color:#A11B1B;}
+.btn.small{height:34px;font-size:13px;width:auto;padding:0 12px;}
+.link{background:none;border:none;color:var(--alupar);font-size:14px;cursor:pointer;padding:6px 0;text-align:left;}
+.link.gray{color:#5B6676;}
+.title-view{font-size:20px;font-weight:700;margin:14px 0 2px;}
+.sub-view{font-size:13px;color:#5B6676;margin-bottom:12px;}
+.section-title{font-size:15px;font-weight:700;margin:14px 0 4px;}
+.stepper{display:flex;align-items:center;gap:8px;}
+.stepper button{width:34px;height:34px;border-radius:8px;border:1px solid #C9D1DD;background:#fff;font-size:18px;cursor:pointer;}
+.stepper span{min-width:28px;text-align:center;font-weight:600;}
+.act-card{border:1px solid var(--card-line);border-radius:12px;padding:12px;margin-bottom:10px;background:#FBFCFE;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.act-row-del{display:flex;justify-content:flex-end;}
+.skeleton{background:linear-gradient(90deg,#EEF1F5 25%,#F6F8FB 50%,#EEF1F5 75%);background-size:200% 100%;animation:sk 1.2s infinite;height:90px;border-radius:14px;margin-bottom:12px;}
+@keyframes sk{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.banner-ok{background:#E8F7EC;color:#1E6B31;padding:10px 12px;border-radius:10px;font-size:14px;margin-bottom:10px;}
+.banner-err{background:#FDECEC;color:#8A1C1C;padding:10px 12px;border-radius:10px;font-size:14px;margin-bottom:10px;}
+.banner-warn{background:#FFF6DD;color:#7A5300;padding:10px 12px;border-radius:10px;font-size:14px;margin-bottom:10px;}
+.copy-box{background:#F7F9FC;border:1px solid var(--card-line);border-radius:12px;padding:12px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;white-space:pre-wrap;word-break:break-word;min-height:200px;color:#1B2430;}
+.hero-tint{background:linear-gradient(135deg,#E6F0FA,#F4F9FF);border-radius:14px;padding:14px;margin-bottom:12px;}
+.toast-wrap{position:fixed;left:14px;right:14px;bottom:calc(72px + env(safe-area-inset-bottom));z-index:100;display:flex;flex-direction:column;gap:6px;align-items:center;pointer-events:none;}
+.toast{background:#1B2430;color:#fff;padding:10px 14px;border-radius:10px;font-size:14px;max-width:520px;width:100%;text-align:center;animation:fadeIn .2s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.login-card{background:#fff;border-radius:20px;padding:28px;width:100%;max-width:400px;box-shadow:0 10px 30px rgba(0,0,0,.2);}
+.login-top{display:flex;justify-content:flex-end;margin-bottom:6px;}
+.login-foot{text-align:center;font-size:11px;color:#6B7485;margin-top:14px;}
+.login-logo-svg{height:34px;display:block;margin:0 auto 10px;}
+.login-title{text-align:center;font-size:26px;color:var(--alupar);margin:0;font-weight:700;}
+.login-sub{text-align:center;color:#5B6676;font-size:14px;margin:4px 0 16px;}
+.center{text-align:center;}
+.fab-hint{font-size:12px;color:#6B7485;}
+.badge-admin-hidden{display:none;}
+.skeleton-list{display:flex;flex-direction:column;}
+.hist-card{cursor:pointer;}
+.hist-card:hover{box-shadow:0 4px 10px rgba(16,24,40,.12);}
+.hist-date{font-size:17px;font-weight:700;color:var(--alupar-dark);}
+.search-row{display:grid;grid-template-columns:1fr 130px;gap:8px;margin-bottom:10px;}
+.seg{display:flex;gap:6px;margin-bottom:10px;}
+.seg button{flex:1;height:36px;border-radius:999px;border:1px solid #C9D1DD;background:#fff;color:#2C3644;cursor:pointer;font-size:13px;}
+.seg button.active{background:var(--alupar);color:#fff;border-color:var(--alupar);}
+.proj-row{border:1px solid var(--card-line);border-radius:12px;padding:12px;margin-bottom:10px;background:#fff;}
+.obra-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-top:1px dashed var(--card-line);}
+.bar-track{height:6px;background:#E3E8EF;border-radius:4px;overflow:hidden;margin-top:6px;}
+.bar-fill{height:100%;background:var(--ok);}
+@media (max-width:420px){.user-mail{display:none;}}
+@media (max-width:360px){.title-app{font-size:13px;}.logo-alupar-svg{height:18px;}}
+.dialog-bg{position:fixed;inset:0;background:rgba(0,0,0,.4);display:none;z-index:50;align-items:center;justify-content:center;padding:20px;}
+.dialog-bg.open{display:flex;}
+.dialog-box{background:#fff;border-radius:14px;padding:18px;max-width:380px;width:100%;}
+.foot-line{text-align:center;font-size:11px;color:#6B7485;padding:14px 0;}
+</style>
 </head>
 <body>
 
-  <!-- ==================== 1. BOOT SCREEN (Loading & Error) ==================== -->
-  <div class="screen active" id="bootScreen">
-    <!-- Initial Loading indicator -->
-    <div class="boot-loader-box" id="bootLoadingState">
-      <div class="boot-spinner"></div>
-      <div>
-        <h2 class="text-lg font-bold m-0" style="color: #ffffff;">Iniciando Reporte de Obra</h2>
-        <p class="text-xs m-0 mt-1" style="color: rgba(255,255,255,0.85);" id="bootLoadingStep">Carregando módulos essenciais…</p>
-      </div>
-    </div>
-
-    <!-- Detailed Error Card (shown if both primary and secondary CDNs fail) -->
-    <div class="error-card" id="bootErrorCard" style="display: none;">
-      <h2 class="error-title">Falha ao carregar o Firebase</h2>
-      <p class="error-desc">O app não conseguiu carregar a biblioteca do Firebase nem do servidor primário nem do alternativo.</p>
-
-      <div class="module-status-list">
-        <div id="statusCore">Core: <span class="status-badge-fail">PENDENTE</span></div>
-        <div id="statusAuth">Auth: <span class="status-badge-fail">PENDENTE</span></div>
-        <div id="statusFirestore">Firestore: <span class="status-badge-fail">PENDENTE</span></div>
-      </div>
-
-      <div class="technical-error-text" id="techErrorMsg">Aguardando diagnóstico técnico…</div>
-
-      <button type="button" class="btn-brand-primary" onclick="window.location.reload();">
-        Tentar novamente
-      </button>
-
-      <div class="login-card-footer">
-        Reporte de Obra — v6
-      </div>
-    </div>
+<!-- BOOT SCREEN -->
+<div id="bootScreen" class="screen active">
+  <div class="center" style="padding:24px;">
+    <div style="font-size:18px;font-weight:700;">Reporte de Obra</div>
+    <div class="muted" style="color:#D6E4F5;margin-top:8px;" data-i18n="boot">Cargando...</div>
+    <div class="muted" style="color:#D6E4F5;margin-top:24px;font-size:11px;">v7</div>
   </div>
+</div>
 
-  <!-- ==================== 2. LOGIN SCREEN ==================== -->
-  <div class="screen" id="loginScreen">
-    <div class="login-card">
-      <div class="login-header-row">
-        <span class="badge" data-variant="secondary">Equipe de Campo</span>
-        <button type="button" class="lang-toggle-btn" id="langToggleBtn" title="Alternar idioma">
-          <span id="langFlag">🇧🇷</span> <span id="langCode">PT</span>
-        </button>
-      </div>
+<!-- FIREBASE ERROR (inside boot screen area, rendered by JS) -->
+<div id="fbErrorBox" class="screen" style="background:#F4F6F9;padding:20px;">
+  <div class="card" style="margin-top:40px;">
+    <h2 style="color:#B01E1E;" data-i18n="fbErrTitle">Falha ao carregar o Firebase</h2>
+    <div id="fbStatusList" style="margin:10px 0;"></div>
+    <div id="fbErrDetail" class="copy-box" style="min-height:0;font-size:12px;"></div>
+    <button class="btn" id="btnRetryFb" style="margin-top:12px;" data-i18n="retry">Tentar novamente</button>
+    <div class="foot-line">v7</div>
+  </div>
+</div>
 
-      <!-- View: Entrar -->
-      <div class="login-form-view active" id="viewLogin">
-        <div>
-          <h1 class="login-title" id="txtLoginTitle">Reporte de Obra</h1>
-          <p class="login-subtitle" id="txtLoginSubtitle">Entre com sua conta da equipe</p>
-        </div>
-
-        <form id="formLogin" autocomplete="off" onsubmit="event.preventDefault(); handleLoginSubmit();">
-          <div class="field mb-3">
-            <label for="loginEmail" class="text-xs font-semibold" id="lblLoginEmail">E-mail</label>
-            <input class="input" type="email" id="loginEmail" autocomplete="email" required placeholder="engenheiro@obra.com">
-          </div>
-          <div class="field mb-3">
-            <label for="loginPassword" class="text-xs font-semibold" id="lblLoginPassword">Senha</label>
-            <input class="input" type="password" id="loginPassword" autocomplete="current-password" required placeholder="••••••••">
-          </div>
-
-          <div class="login-error-box mb-3" id="loginErrorBox"></div>
-
-          <button type="submit" class="btn-brand-primary" id="btnLoginSubmit">
-            Entrar
-          </button>
-        </form>
-
-        <div class="login-footer-links">
-          <button type="button" class="link-subtle" onclick="trocarViewLogin('viewRecuperar')" id="btnForgotPass">
-            Esqueci a senha
-          </button>
-          <button type="button" class="link-highlight" onclick="trocarViewLogin('viewCadastro')" id="btnGoRegister">
-            Primeiro acesso? Criar conta
-          </button>
-        </div>
-      </div>
-
-      <!-- View: Criar conta -->
-      <div class="login-form-view" id="viewCadastro">
-        <div>
-          <h1 class="login-title" id="txtRegisterTitle">Criar conta</h1>
-          <p class="login-subtitle" id="txtRegisterSubtitle">Cadastre seu e-mail para registrar informes</p>
-        </div>
-
-        <form id="formCadastro" autocomplete="off" onsubmit="event.preventDefault(); handleCadastroSubmit();">
-          <div class="field mb-3">
-            <label for="cadEmail" class="text-xs font-semibold" id="lblCadEmail">E-mail</label>
-            <input class="input" type="email" id="cadEmail" autocomplete="email" required placeholder="seu@email.com">
-          </div>
-          <div class="field mb-3">
-            <label for="cadPassword" class="text-xs font-semibold" id="lblCadPassword">Senha (mínimo 6 caracteres)</label>
-            <input class="input" type="password" id="cadPassword" autocomplete="new-password" minlength="6" required placeholder="••••••••">
-          </div>
-
-          <div class="login-error-box mb-3" id="cadErrorBox"></div>
-
-          <button type="submit" class="btn-brand-primary" id="btnCadSubmit">
-            Criar conta
-          </button>
-        </form>
-
-        <div class="login-footer-links">
-          <button type="button" class="link-highlight" onclick="trocarViewLogin('viewLogin')" id="btnBackToLoginFromCad">
-            Já tenho conta
-          </button>
-        </div>
-      </div>
-
-      <!-- View: Recuperar senha -->
-      <div class="login-form-view" id="viewRecuperar">
-        <div>
-          <h1 class="login-title" id="txtRecoverTitle">Recuperar senha</h1>
-          <p class="login-subtitle" id="txtRecoverSubtitle">Informe seu e-mail e enviaremos um link para criar uma nova senha.</p>
-        </div>
-
-        <form id="formRecuperar" autocomplete="off" onsubmit="event.preventDefault(); handleRecuperarSubmit();">
-          <div class="field mb-3">
-            <label for="recEmail" class="text-xs font-semibold" id="lblRecEmail">E-mail</label>
-            <input class="input" type="email" id="recEmail" autocomplete="email" required placeholder="seu@email.com">
-          </div>
-
-          <div class="login-error-box mb-3" id="recErrorBox"></div>
-          <div class="login-success-box mb-3" id="recSuccessBox"></div>
-
-          <button type="submit" class="btn-brand-primary" id="btnRecSubmit">
-            Enviar link
-          </button>
-        </form>
-
-        <div class="login-footer-links">
-          <button type="button" class="link-highlight" onclick="trocarViewLogin('viewLogin')" id="btnBackToLoginFromRec">
-            Voltar para o login
-          </button>
-        </div>
-      </div>
-
-      <div class="login-card-footer">
-        Reporte de Obra — v6
+<!-- LOGIN SCREEN -->
+<div id="loginScreen" class="screen">
+  <div class="login-card">
+    <div class="login-top">
+      <div class="flags">
+        <button class="flag-btn" data-lang="pt" aria-label="Português (Brasil)" title="Português (Brasil)">🇧🇷</button>
+        <button class="flag-btn" data-lang="es" aria-label="Español (Perú)" title="Español (Perú)">🇵🇪</button>
       </div>
     </div>
-  </div>
 
-  <!-- ==================== 3. APP SHELL ==================== -->
-  <div class="screen" id="appShell">
-    <!-- Header Fixo 56px -->
-    <header class="app-header">
-      <div class="header-brand">
-        <h1 class="header-title" id="appHeaderTitle">Reporte de Obra</h1>
-        <span class="version-pill">v6</span>
-      </div>
-      <div class="header-actions">
-        <span class="admin-pill" id="badgeAdminPill" style="display: none;">Admin</span>
-        <span class="user-email-tag" id="headerUserEmail">usuario@obra.com</span>
-        <button type="button" class="btn-logout" id="btnLogout" onclick="fazerLogout()">Sair</button>
-      </div>
-    </header>
-
-    <!-- Sub-telas / Views -->
-
-    <!-- VIEW 1: INÍCIO (HISTÓRICO) -->
-    <section class="view active" id="viewInicio">
-      <div class="mb-4">
-        <h2 class="text-xl font-bold m-0" id="txtHistTitle">Histórico de informes</h2>
-        <p class="card-section-sub" id="txtHistSub">Informes diários, do mais recente ao mais antigo</p>
-      </div>
-
-      <!-- Scope filters: Todos vs Meus (Todos only for Admin) -->
-      <div class="row gap-2 mb-3" id="scopeFilterRow" style="display: none;">
-        <button type="button" class="btn" data-size="sm" id="btnScopeTodos" onclick="setScope('todos')">Todos</button>
-        <button type="button" class="btn" data-variant="outline" data-size="sm" id="btnScopeMeus" onclick="setScope('meus')">Meus</button>
-      </div>
-
-      <!-- Client search and month filters -->
-      <div class="app-card mb-4 p-3">
-        <div class="cols-2 gap-2">
-          <div class="field">
-            <label for="filterSearchObra" class="text-xs muted" id="lblFilterSearch">Buscar por obra</label>
-            <input class="input" type="search" id="filterSearchObra" placeholder="Nome da obra…" oninput="aplicarFiltrosInformes()">
-          </div>
-          <div class="field">
-            <label for="filterMonth" class="text-xs muted" id="lblFilterMonth">Mês/Ano</label>
-            <select class="input" id="filterMonth" onchange="aplicarFiltrosInformes()">
-              <option value="all">Todos os meses</option>
-            </select>
-          </div>
-        </div>
-      </div>
-
-      <!-- List Container -->
-      <div id="informesListContainer">
-        <!-- Skeleton cards while loading -->
-        <div class="skeleton-card"><div class="skeleton-line" style="width: 40%;"></div><div class="skeleton-line" style="width: 75%;"></div><div class="skeleton-line" style="width: 50%;"></div></div>
-        <div class="skeleton-card"><div class="skeleton-line" style="width: 35%;"></div><div class="skeleton-line" style="width: 70%;"></div><div class="skeleton-line" style="width: 45%;"></div></div>
-        <div class="skeleton-card"><div class="skeleton-line" style="width: 45%;"></div><div class="skeleton-line" style="width: 80%;"></div><div class="skeleton-line" style="width: 60%;"></div></div>
-      </div>
-
-      <!-- Floating Button: ➕ Criar novo informe -->
-      <button type="button" class="btn-floating-add" onclick="abrirNovoInforme()">
-        <span>➕</span> <span id="btnTxtNovoInforme">Criar novo informe</span>
-      </button>
-    </section>
-
-    <!-- VIEW 2: FORMULÁRIO -->
-    <section class="view" id="viewFormulario">
-      <div class="row between items-center mb-4">
-        <button type="button" class="btn" data-variant="ghost" data-size="sm" onclick="mostrarView('viewInicio')">
-          ← <span id="txtBtnVoltar">Voltar</span>
-        </button>
-        <h2 class="text-lg font-bold m-0" id="txtFormNovoTitle">Novo informe</h2>
-        <span style="width: 54px;"></span>
-      </div>
-
-      <!-- Banner de copiar último informe -->
-      <div class="app-card" style="background-color: #E6F0FA; border-color: #bcd6f3;">
-        <button type="button" class="btn w-full" data-variant="ghost" id="btnCopiarUltimo" onclick="buscarUltimoInformeParaCopiar()" style="color: var(--brand-blue); font-weight: 700;">
-          📋 <span id="txtBtnCopiarUltimo">Copiar do último informe</span>
-        </button>
-        <div id="boxCopiaInline" style="display: none; padding-top: 10px; border-top: 1px dashed #bcd6f3; margin-top: 8px;">
-          <p class="text-xs muted m-0 mb-2" id="txtUltimoInformeMeta">Último informe: --/--/---- · Obra X</p>
-          <div class="row gap-2">
-            <button type="button" class="btn grow" data-size="sm" data-variant="outline" onclick="aplicarCopiaInforme('estrutura')">
-              Copiar estrutura
-            </button>
-            <button type="button" class="btn grow" data-size="sm" onclick="aplicarCopiaInforme('tudo')">
-              Copiar tudo
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- 1. Identificação -->
-      <div class="app-card">
-        <h3 class="card-section-title mb-3">📍 <span id="txtSecIdent">Identificação</span></h3>
-        <div class="field mb-3">
-          <label for="formProjetoSelect" class="text-xs font-semibold" id="lblFormProj">Projeto *</label>
-          <select class="input" id="formProjetoSelect" onchange="aoMudarProjeto()" required>
-            <option value="">Selecione um projeto…</option>
-          </select>
-        </div>
-        <div class="field mb-3">
-          <label for="formObraSelect" class="text-xs font-semibold" id="lblFormObra">Obra *</label>
-          <select class="input" id="formObraSelect" disabled required>
-            <option value="">Selecione primeiro o projeto…</option>
-          </select>
+    <!-- viewLogin -->
+    <section class="view active" id="viewLogin">
+      <svg class="login-logo-svg" viewBox="0 0 120 40" aria-label="Alupar">
+        <rect x="30" y="0" width="46" height="3" fill="#00A650"/>
+        <text x="60" y="30" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="26" fill="#004A99">Alupar</text>
+      </svg>
+      <h1 class="login-title">Reporte de Obra</h1>
+      <p class="login-sub" data-i18n="loginSub">Ingrese con su cuenta del equipo</p>
+      <form id="formLogin" autocomplete="off">
+        <div class="field">
+          <label for="loginEmail" data-i18n="email">Correo electrónico</label>
+          <input class="input" id="loginEmail" type="email" autocomplete="email" data-i18n-ph="emailPh" placeholder="correo@empresa.com">
         </div>
         <div class="field">
-          <label for="formDataInforme" class="text-xs font-semibold" id="lblFormData">Data do Informe *</label>
-          <input class="input" type="date" id="formDataInforme" required>
+          <label for="loginPass" data-i18n="password">Contraseña</label>
+          <input class="input" id="loginPass" type="password" autocomplete="current-password" data-i18n-ph="passPh" placeholder="••••••">
         </div>
-        <div id="semProjetosAviso" style="display: none;" class="mt-3 p-3 text-xs muted" style="background: #fef3c7; border-radius: 8px;">
-          ⚠️ Cadastre um projeto e uma obra antes de criar um informe.
-          <button type="button" class="btn mt-2" data-size="sm" onclick="mostrarView('viewAdmin')">Ir para Cadastro de Obras</button>
-        </div>
+        <div id="loginErr"></div>
+        <button class="btn" type="submit" data-i18n="btnLogin">Ingresar</button>
+      </form>
+      <div class="center" style="margin-top:12px;">
+        <button class="link gray" type="button" id="goRecover" data-i18n="forgot">Olvidé mi contraseña</button>
       </div>
-
-      <!-- 2. Atividades -->
-      <div class="app-card">
-        <div class="card-header-line">
-          <div>
-            <h3 class="card-section-title">⏳ <span id="txtSecAtiv">Atividades</span></h3>
-            <p class="card-section-sub">Avanço físico e quantitativo do dia</p>
-          </div>
-          <button type="button" class="btn" data-variant="secondary" data-size="sm" onclick="adicionarLinhaAtividade()">
-            ＋ Adicionar
-          </button>
-        </div>
-        <div id="listaAtividadesContainer">
-          <p class="text-xs muted text-center p-3 m-0" id="txtSemAtividades">Nenhuma atividade adicionada.</p>
-        </div>
-      </div>
-
-      <!-- 3. Mão de Obra -->
-      <div class="app-card">
-        <div class="card-header-line">
-          <div>
-            <h3 class="card-section-title" id="tituloSecMaoDeObra">👷 Mão de obra — Total: 0 pessoas</h3>
-            <p class="card-section-sub">Efetivo alocado em campo hoje</p>
-          </div>
-          <button type="button" class="btn" data-variant="outline" data-size="sm" onclick="adicionarFuncaoPersonalizada()">
-            ＋ Função
-          </button>
-        </div>
-        <div id="listaMaoDeObraContainer">
-          <!-- Rendered via JS -->
-        </div>
-      </div>
-
-      <!-- 4. Equipamentos -->
-      <div class="app-card">
-        <div class="card-header-line">
-          <div>
-            <h3 class="card-section-title" id="tituloSecEquipamentos">🚜 Equipamentos — Total: 0 equipamentos</h3>
-            <p class="card-section-sub">Maquinário mobilizado em operação</p>
-          </div>
-          <button type="button" class="btn" data-variant="outline" data-size="sm" onclick="adicionarEquipamentoPersonalizado()">
-            ＋ Equipamento
-          </button>
-        </div>
-        <div id="listaEquipamentosContainer">
-          <!-- Rendered via JS -->
-        </div>
-      </div>
-
-      <!-- 5. Clima -->
-      <div class="app-card">
-        <h3 class="card-section-title mb-3">🌤️ <span id="txtSecClima">Condições Climáticas</span></h3>
-        <div class="cols-2 gap-3">
-          <div class="field">
-            <label for="climaManha" class="text-xs font-semibold" id="lblClimaManha">Manhã</label>
-            <select class="input" id="climaManha">
-              <option value="">Não informado</option>
-              <option value="Bom ☀️">Bom ☀️</option>
-              <option value="Nublado ☁️">Nublado ☁️</option>
-              <option value="Chuvoso 🌧️">Chuvoso 🌧️</option>
-              <option value="Ventania 💨">Ventania 💨</option>
-              <option value="Tempestade ⛈️">Tempestade ⛈️</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="climaTarde" class="text-xs font-semibold" id="lblClimaTarde">Tarde</label>
-            <select class="input" id="climaTarde">
-              <option value="">Não informado</option>
-              <option value="Bom ☀️">Bom ☀️</option>
-              <option value="Nublado ☁️">Nublado ☁️</option>
-              <option value="Chuvoso 🌧️">Chuvoso 🌧️</option>
-              <option value="Ventania 💨">Ventania 💨</option>
-              <option value="Tempestade ⛈️">Tempestade ⛈️</option>
-            </select>
-          </div>
-        </div>
-      </div>
-
-      <!-- 6. Complementos -->
-      <div class="app-card">
-        <h3 class="card-section-title mb-3">📝 <span id="txtSecCompl">Complementos e Observações</span></h3>
-        <div class="field mb-3">
-          <label for="txtOcorrencias" class="text-xs font-semibold">⚠️ Ocorrências / Interferências</label>
-          <textarea class="input" id="txtOcorrencias" rows="2" placeholder="Paralisações, chuvas que impediram serviço, atraso de insumos…"></textarea>
-        </div>
-        <div class="field mb-3">
-          <label for="txtSeguranca" class="text-xs font-semibold">🦺 Segurança do Trabalho</label>
-          <textarea class="input" id="txtSeguranca" rows="2" placeholder="DDS, inspeção de EPIs, incidentes ou zero acidentes…"></textarea>
-        </div>
-        <div class="field">
-          <label for="txtProximosPassos" class="text-xs font-semibold">📌 Próximos Passos</label>
-          <textarea class="input" id="txtProximosPassos" rows="2" placeholder="Metas programadas para o próximo dia útil…"></textarea>
-        </div>
-      </div>
-
-      <!-- Form Actions -->
-      <div class="stack gap-2 mt-4">
-        <button type="button" class="btn w-full" data-variant="secondary" style="height: 48px; font-weight: 700;" onclick="abrirPreviewTexto()">
-          👁 <span id="btnTxtVisualizar">Visualizar texto formatado</span>
-        </button>
-        <button type="button" class="btn-brand-primary" id="btnSalvarInforme" onclick="salvarInformeNoFirestore()">
-          💾 <span id="btnTxtSalvarInforme">Salvar informe</span>
-        </button>
+      <div class="center">
+        <button class="link" type="button" id="goSignup" data-i18n="firstAccess">¿Primer acceso? Crear cuenta</button>
       </div>
     </section>
 
-    <!-- VIEW 3: PREVIEW (WhatsApp) -->
+    <!-- viewCadastro -->
+    <section class="view" id="viewCadastro">
+      <h1 class="login-title" style="font-size:22px;" data-i18n="signupTitle">Crear cuenta</h1>
+      <form id="formSignup" autocomplete="off" style="margin-top:14px;">
+        <div class="field">
+          <label for="suEmail" data-i18n="email">Correo electrónico</label>
+          <input class="input" id="suEmail" type="email" autocomplete="off" data-i18n-ph="emailPh" placeholder="correo@empresa.com">
+        </div>
+        <div class="field">
+          <label for="suPass" data-i18n="password">Contraseña</label>
+          <input class="input" id="suPass" type="password" autocomplete="new-password" data-i18n-ph="passMin" placeholder="Mínimo 6 caracteres">
+          <span class="hint" data-i18n="passHint">Mínimo 6 caracteres</span>
+        </div>
+        <div id="signupErr"></div>
+        <button class="btn" type="submit" data-i18n="signupBtn">Crear cuenta</button>
+      </form>
+      <div class="center" style="margin-top:12px;">
+        <button class="link" type="button" id="goLoginFromSignup" data-i18n="haveAccount">Ya tengo cuenta</button>
+      </div>
+    </section>
+
+    <!-- viewRecuperar -->
+    <section class="view" id="viewRecuperar">
+      <h1 class="login-title" style="font-size:22px;" data-i18n="recoverTitle">Recuperar contraseña</h1>
+      <p class="login-sub" data-i18n="recoverText">Ingrese su correo y le enviaremos un enlace para crear una nueva contraseña.</p>
+      <form id="formRecover" autocomplete="off">
+        <div class="field">
+          <label for="reEmail" data-i18n="email">Correo electrónico</label>
+          <input class="input" id="reEmail" type="email" autocomplete="off" data-i18n-ph="emailPh" placeholder="correo@empresa.com">
+        </div>
+        <div id="recoverMsg"></div>
+        <button class="btn" type="submit" data-i18n="sendLink">Enviar enlace</button>
+      </form>
+      <div class="center" style="margin-top:12px;">
+        <button class="link" type="button" id="goLoginFromRecover" data-i18n="backLogin">← Volver al ingreso</button>
+      </div>
+    </section>
+
+    <div class="login-foot">Reporte de Obra — v7</div>
+  </div>
+</div>
+
+<!-- APP SHELL -->
+<div id="appShell" class="screen">
+  <header class="header">
+    <div class="header-left">
+      <svg class="logo-alupar-svg" viewBox="0 0 80 28" aria-label="Alupar">
+        <rect x="26" y="0" width="30" height="3" fill="#00A650"/>
+        <text x="40" y="24" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="20" fill="#FFFFFF">Alupar</text>
+      </svg>
+      <span class="sep"></span>
+      <span class="title-app" data-i18n="appTitle">Reporte de Obra</span>
+      <span class="badge-v7">v7</span>
+    </div>
+    <div class="header-right">
+      <div class="flags">
+        <button class="flag-btn small" data-lang="pt" aria-label="Português (Brasil)" title="Português (Brasil)">🇧🇷</button>
+        <button class="flag-btn small" data-lang="es" aria-label="Español (Perú)" title="Español (Perú)">🇵🇪</button>
+      </div>
+      <span class="badge-admin badge-admin-hidden" id="adminBadge">Admin</span>
+      <span class="user-mail" id="userMail"></span>
+      <button class="btn-logout" id="btnLogout" data-i18n="logout">Salir</button>
+    </div>
+  </header>
+
+  <div class="main-wrap">
+    <!-- VIEW INÍCIO -->
+    <section class="view" id="viewHome">
+      <div class="title-view" data-i18n="histTitle">Historial de informes</div>
+      <div class="sub-view" data-i18n="histSub">Informes diarios, del más reciente al más antiguo</div>
+      <div class="seg" id="scopeSeg">
+        <button type="button" data-scope="all" id="scopeAll" data-i18n="scopeAll">Todos</button>
+        <button type="button" data-scope="mine" data-i18n="scopeMine">Míos</button>
+      </div>
+      <div class="search-row">
+        <input class="input" id="searchObra" data-i18n-ph="searchPh" placeholder="Buscar por obra">
+        <select class="select" id="monthFilter"></select>
+      </div>
+      <div id="histList"></div>
+      <div class="foot-line">v7</div>
+    </section>
+
+    <!-- VIEW FORMULÁRIO -->
+    <section class="view" id="viewForm">
+      <div class="row-between" style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;">
+        <button class="link" type="button" id="backFromForm" data-i18n="back">← Volver</button>
+        <span class="pill" data-i18n="newReport">Nuevo informe</span>
+      </div>
+      <div class="title-view" data-i18n="newReport">Nuevo informe</div>
+      <div class="sub-view" data-i18n="formSub">Complete el avance del día. Los campos vacíos no aparecen en el texto.</div>
+
+      <div id="noProjectWarn" class="banner-warn" style="display:none;">
+        <div data-i18n="needProjectWarn">Registre un proyecto y una obra antes de crear un informe</div>
+        <button class="btn small" type="button" id="goAdminFromWarn" style="margin-top:8px;" data-i18n="goAdmin">Ir a administración</button>
+      </div>
+
+      <div class="card">
+        <h3 data-i18n="identification">Identificación</h3>
+        <div class="muted" data-i18n="identSub">Proyecto, obra y fecha del informe</div>
+        <div class="field" style="margin-top:10px;">
+          <label for="selProjeto" data-i18n="project">Proyecto</label>
+          <select class="select" id="selProjeto"></select>
+        </div>
+        <div class="field">
+          <label for="selObra" data-i18n="work">Obra</label>
+          <select class="select" id="selObra" disabled></select>
+          <span class="hint" data-i18n="obraHint">Seleccione primero el proyecto</span>
+        </div>
+        <div class="field">
+          <label for="dataInforme" data-i18n="date">Fecha</label>
+          <input class="input" type="date" id="dataInforme">
+        </div>
+        <button class="btn secondary" type="button" id="btnCopyLast" data-i18n="copyLast">📋 Copiar del último informe</button>
+        <div id="copyLastBox" style="display:none;margin-top:10px;" class="hero-tint">
+          <div id="copyLastInfo" class="small-muted"></div>
+          <div style="display:flex;flex-direction:column;gap:6px;margin-top:8px;">
+            <button class="btn small secondary" type="button" id="btnCopyStruct" data-i18n="copyStruct">Copiar estructura y acumulado</button>
+            <button class="btn small" type="button" id="btnCopyAll" data-i18n="copyAll">Copiar todo, incluido el avance del día</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 data-i18n="activities">Actividades</h3>
+        <div class="muted" data-i18n="actSub">Cada actividad con su equipo, horas y avances</div>
+        <div id="actList" style="margin-top:10px;"></div>
+        <button class="btn secondary" type="button" id="btnAddAct" data-i18n="addAct">＋ Agregar actividad</button>
+      </div>
+
+      <div class="card">
+        <h3 id="titleMao">👷 Mano de obra</h3>
+        <div class="muted" data-i18n="maoSub">Cantidad de personas por función del catálogo</div>
+        <div id="maoList" style="margin-top:10px;"></div>
+      </div>
+
+      <div class="card">
+        <h3 id="titleEqp">🚜 Equipos</h3>
+        <div class="muted" data-i18n="eqpSub">Cantidad de equipos utilizados en el día</div>
+        <div id="eqpList" style="margin-top:10px;"></div>
+      </div>
+
+      <div class="card">
+        <h3 data-i18n="weather">Clima</h3>
+        <div class="muted" data-i18n="weatherSub">Condición del tiempo en cada turno</div>
+        <div class="grid2" style="margin-top:10px;">
+          <div class="field">
+            <label for="climaManha" data-i18n="morning">Mañana</label>
+            <select class="select" id="climaManha"></select>
+          </div>
+          <div class="field">
+            <label for="climaTarde" data-i18n="afternoon">Tarde</label>
+            <select class="select" id="climaTarde"></select>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 data-i18n="complements">Complementos</h3>
+        <div class="muted" data-i18n="compSub">Información opcional del día</div>
+        <div class="field" style="margin-top:10px;">
+          <label for="txtOcorr" data-i18n="occurrences">Ocurrencias</label>
+          <textarea class="textarea" id="txtOcorr"></textarea>
+        </div>
+        <div class="field">
+          <label for="txtSeg" data-i18n="safety">Seguridad</label>
+          <textarea class="textarea" id="txtSeg"></textarea>
+        </div>
+        <div class="field">
+          <label for="txtProx" data-i18n="nextSteps">Próximos pasos</label>
+          <textarea class="textarea" id="txtProx"></textarea>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:24px;">
+        <button class="btn secondary" type="button" id="btnPreview" data-i18n="viewText">👁 Visualizar texto</button>
+        <button class="btn" type="button" id="btnSaveForm" data-i18n="saveReport">Guardar informe</button>
+      </div>
+      <div class="foot-line">v7</div>
+    </section>
+
+    <!-- VIEW PREVIEW -->
     <section class="view" id="viewPreview">
-      <div class="row between items-center mb-4">
-        <button type="button" class="btn" data-variant="ghost" data-size="sm" onclick="mostrarView('viewFormulario')">
-          ← Editar formulário
-        </button>
-        <h2 class="text-lg font-bold m-0">Prévia para WhatsApp</h2>
-        <span style="width: 50px;"></span>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;">
+        <button class="link" type="button" id="backFromPreview" data-i18n="back">← Volver</button>
+        <span class="pill green" data-i18n="preview">Vista previa</span>
       </div>
-
-      <div class="app-card">
-        <p class="text-xs muted m-0 mb-3">Texto estruturado pronto para envio via WhatsApp ou relatório:</p>
-        <div class="whatsapp-preview-box" id="whatsappOutputText"></div>
+      <div class="title-view" data-i18n="previewTitle">Texto para WhatsApp</div>
+      <div class="sub-view" data-i18n="previewSub">Revise el texto antes de compartir.</div>
+      <div id="previewBox" class="copy-box"></div>
+      <div style="display:flex;flex-direction:column;gap:8px;margin:14px 0 24px;">
+        <button class="btn secondary" type="button" id="btnCopyText" data-i18n="copyText">Copiar texto</button>
+        <button class="btn secondary" type="button" id="btnShare" data-i18n="share">Compartir</button>
+        <button class="btn secondary" type="button" id="btnWa" data-i18n="openWa">Abrir WhatsApp</button>
+        <button class="btn" type="button" id="btnSaveFromPreview" data-i18n="saveReport">Guardar informe</button>
       </div>
-
-      <div class="stack gap-2 mt-4">
-        <div class="cols-2 gap-2">
-          <button type="button" class="btn" data-variant="outline" onclick="copiarTextoPreview()">
-            📋 Copiar texto
-          </button>
-          <button type="button" class="btn" data-variant="outline" onclick="compartilharTextoPreview()">
-            📲 Compartilhar
-          </button>
-        </div>
-        <button type="button" class="btn w-full" style="background: #25D366; color: #fff; font-weight: 700; border: none; height: 48px;" onclick="abrirWhatsAppWeb()">
-          💬 Abrir no WhatsApp
-        </button>
-        <button type="button" class="btn-brand-primary" onclick="salvarInformeNoFirestore()">
-          💾 Salvar informe
-        </button>
-      </div>
+      <div class="foot-line">v7</div>
     </section>
 
-    <!-- VIEW 4: ADMIN (PROJETOS & OBRAS) -->
+    <!-- VIEW LEITURA -->
+    <section class="view" id="viewRead">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;">
+        <button class="link" type="button" id="backFromRead" data-i18n="back">← Volver</button>
+        <button class="btn small danger" type="button" id="btnDeleteInforme" data-i18n="delete">Eliminar</button>
+      </div>
+      <div class="title-view" id="readTitle"></div>
+      <div id="readBody"></div>
+      <div class="foot-line">v7</div>
+    </section>
+
+    <!-- VIEW CATÁLOGO -->
+    <section class="view" id="viewCatalog">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;">
+        <button class="link" type="button" id="backFromCatalog" data-i18n="back">← Volver</button>
+        <span class="pill" data-i18n="catalog">Catálogo</span>
+      </div>
+      <div class="title-view" data-i18n="catalogTitle">Catálogos</div>
+      <div class="sub-view" data-i18n="catalogSub">Funciones y equipos disponibles para sus informes</div>
+      <div class="card">
+        <h3 id="titleCatFunc">Funciones</h3>
+        <div class="muted" data-i18n="catFuncSub">Funciones de mano de obra del catálogo</div>
+        <div id="catFuncList" style="margin-top:10px;"></div>
+      </div>
+      <div class="card">
+        <h3 id="titleCatEqp">Equipos</h3>
+        <div class="muted" data-i18n="catEqpSub">Equipos y máquinas del catálogo</div>
+        <div id="catEqpList" style="margin-top:10px;"></div>
+      </div>
+      <div class="foot-line">v7</div>
+    </section>
+
+    <!-- VIEW ADMIN -->
     <section class="view" id="viewAdmin">
-      <div class="row between items-center mb-4">
-        <div>
-          <h2 class="text-xl font-bold m-0">Gestão de Obras</h2>
-          <p class="card-section-sub">Cadastro de projetos e frentes de trabalho</p>
-        </div>
-        <button type="button" class="btn" data-size="sm" onclick="abrirModalNovoProjeto()">
-          ＋ Novo projeto
-        </button>
-      </div>
-
-      <div id="adminProjectsContainer">
-        <!-- Rendered via JS -->
-      </div>
+      <div class="title-view" data-i18n="adminTitle">Obras</div>
+      <div class="sub-view" data-i18n="adminSub">Proyectos y obras registrados en el sistema</div>
+      <button class="btn" type="button" id="btnNewProj" data-i18n="newProj">＋ Nuevo proyecto</button>
+      <div id="adminBanner" style="margin-top:10px;"></div>
+      <div id="adminList" style="margin-top:12px;"></div>
+      <div class="foot-line">v7</div>
     </section>
-
-    <!-- VIEW 5: DETALHES DE INFORME SALVO (LEITURA) -->
-    <section class="view" id="viewDetalheInforme">
-      <div class="row between items-center mb-4">
-        <button type="button" class="btn" data-variant="ghost" data-size="sm" onclick="mostrarView('viewInicio')">
-          ← Voltar
-        </button>
-        <h2 class="text-lg font-bold m-0">Detalhe do Informe</h2>
-        <div id="detalheActionsWrap"></div>
-      </div>
-
-      <div class="app-card">
-        <div class="row between items-start mb-2">
-          <div>
-            <span class="badge" data-variant="secondary" id="detalheDataBadge">--/--/----</span>
-            <h3 class="text-lg font-bold mt-2 m-0" id="detalheObraTitle">Obra</h3>
-            <p class="card-section-sub" id="detalheProjetoSub">Projeto</p>
-          </div>
-          <span class="text-xs muted" id="detalheAutorEmail">autor@email.com</span>
-        </div>
-      </div>
-
-      <div class="app-card">
-        <div class="whatsapp-preview-box" id="detalheTextoBox"></div>
-      </div>
-
-      <div class="cols-2 gap-2 mt-4">
-        <button type="button" class="btn" data-variant="outline" onclick="copiarTextoDetalhe()">
-          📋 Copiar texto
-        </button>
-        <button type="button" class="btn" style="background: #25D366; color: #fff; font-weight: 700; border: none;" onclick="abrirWhatsAppDetalhe()">
-          💬 WhatsApp
-        </button>
-      </div>
-    </section>
-
-    <!-- Barra Inferior Fixa 60px -->
-    <nav class="app-bottom-bar">
-      <button type="button" class="bottom-nav-item active" id="navItemInicio" onclick="mostrarView('viewInicio')">
-        <span class="bottom-nav-icon">🏠</span>
-        <span id="navTxtInicio">Início</span>
-      </button>
-      <button type="button" class="bottom-nav-item" id="navItemAdmin" onclick="mostrarView('viewAdmin')" style="display: none;">
-        <span class="bottom-nav-icon">⚙️</span>
-        <span id="navTxtAdmin">Admin</span>
-      </button>
-    </nav>
   </div>
 
-  <!-- Dialog: Novo/Editar Projeto -->
-  <dialog class="dialog" id="dlgProjeto">
-    <div>
-      <header>
-        <h3 class="text-base font-bold m-0" id="dlgProjetoTitle">Novo Projeto</h3>
-        <p class="text-xs muted m-0">Informe o nome do empreendimento ou contrato</p>
-      </header>
-      <section class="mt-3">
-        <div class="field">
-          <label for="inputNomeProjeto" class="text-xs font-semibold">Nome do Projeto</label>
-          <input class="input" id="inputNomeProjeto" placeholder="Ex.: Linha de Transmissão 500kV">
-        </div>
-      </section>
-      <footer class="mt-4 row justify-end gap-2">
-        <button type="button" class="btn" data-variant="outline" data-dialog-close>Cancelar</button>
-        <button type="button" class="btn" onclick="salvarProjetoDialog()">Salvar</button>
-      </footer>
+  <!-- FAB -->
+  <button class="fab" id="fabNew" type="button" data-i18n="createNew">➕ Crear nuevo informe</button>
+
+  <!-- BOTTOM BAR -->
+  <nav class="bottom-bar">
+    <button type="button" id="navHome" class="active"><span class="ic">🏠</span><span data-i18n="navHome">Inicio</span></button>
+    <button type="button" id="navCatalog"><span class="ic">📚</span><span data-i18n="navCatalog">Catálogo</span></button>
+    <button type="button" id="navAdmin" class="badge-admin-hidden"><span class="ic">⚙️</span><span>Admin</span></button>
+  </nav>
+</div>
+
+<!-- DIALOG CONFIRM -->
+<div class="dialog-bg" id="dlgBg">
+  <div class="dialog-box">
+    <div id="dlgText" style="font-size:15px;margin-bottom:14px;"></div>
+    <div style="display:flex;gap:8px;">
+      <button class="btn secondary" type="button" id="dlgNo" data-i18n="cancel">Cancelar</button>
+      <button class="btn danger" type="button" id="dlgYes" data-i18n="confirm">Confirmar</button>
     </div>
-  </dialog>
+  </div>
+</div>
 
-  <!-- Dialog: Nova/Editar Obra -->
-  <dialog class="dialog" id="dlgObra">
-    <div>
-      <header>
-        <h3 class="text-base font-bold m-0" id="dlgObraTitle">Nova Obra</h3>
-        <p class="text-xs muted m-0" id="dlgObraSub">Vincular frente de trabalho ao projeto</p>
-      </header>
-      <section class="mt-3">
-        <input type="hidden" id="inputObraProjetoId">
-        <div class="field">
-          <label for="inputNomeObra" class="text-xs font-semibold">Nome da Obra / Frente</label>
-          <input class="input" id="inputNomeObra" placeholder="Ex.: Subestação Seccionadora">
-        </div>
-      </section>
-      <footer class="mt-4 row justify-end gap-2">
-        <button type="button" class="btn" data-variant="outline" data-dialog-close>Cancelar</button>
-        <button type="button" class="btn" onclick="salvarObraDialog()">Salvar</button>
-      </footer>
+<!-- DIALOG PROMPT (name input) -->
+<div class="dialog-bg" id="promptBg">
+  <div class="dialog-box">
+    <div id="promptTitle" style="font-size:15px;font-weight:600;margin-bottom:10px;"></div>
+    <input class="input" id="promptInput" type="text" autocomplete="off">
+    <div style="display:flex;gap:8px;margin-top:12px;">
+      <button class="btn secondary" type="button" id="promptNo" data-i18n="cancel">Cancelar</button>
+      <button class="btn" type="button" id="promptYes" data-i18n="save">Guardar</button>
     </div>
-  </dialog>
+  </div>
+</div>
 
-  <!-- Dialog: Nova Função Personalizada Mão de Obra -->
-  <dialog class="dialog" id="dlgFuncao">
-    <div>
-      <header>
-        <h3 class="text-base font-bold m-0">Nova Função de Mão de Obra</h3>
-        <p class="text-xs muted m-0">Adicionar cargo para este informe</p>
-      </header>
-      <section class="mt-3 stack gap-2">
-        <div class="field">
-          <label for="inputFuncaoNomePT" class="text-xs font-semibold">Nome em Português</label>
-          <input class="input" id="inputFuncaoNomePT" placeholder="Ex.: Topógrafo">
-        </div>
-        <div class="field">
-          <label for="inputFuncaoNomeES" class="text-xs font-semibold">Nome em Espanhol</label>
-          <input class="input" id="inputFuncaoNomeES" placeholder="Ex.: Topógrafo">
-        </div>
-      </section>
-      <footer class="mt-4 row justify-end gap-2">
-        <button type="button" class="btn" data-variant="outline" data-dialog-close>Adicionar</button>
-        <button type="button" class="btn" onclick="confirmarNovaFuncao()">Confirmar</button>
-      </footer>
-    </div>
-  </dialog>
+<div class="toast-wrap" id="toastWrap"></div>
 
-  <!-- Dialog: Novo Equipamento Personalizado -->
-  <dialog class="dialog" id="dlgEquip">
-    <div>
-      <header>
-        <h3 class="text-base font-bold m-0">Novo Equipamento</h3>
-        <p class="text-xs muted m-0">Adicionar tipo de maquinário para este informe</p>
-      </header>
-      <section class="mt-3 stack gap-2">
-        <div class="field">
-          <label for="inputEquipNomePT" class="text-xs font-semibold">Nome em Português</label>
-          <input class="input" id="inputEquipNomePT" placeholder="Ex.: Perfuratriz">
-        </div>
-        <div class="field">
-          <label for="inputEquipNomeES" class="text-xs font-semibold">Nome em Espanhol</label>
-          <input class="input" id="inputEquipNomeES" placeholder="Ex.: Perforadora">
-        </div>
-      </section>
-      <footer class="mt-4 row justify-end gap-2">
-        <button type="button" class="btn" data-variant="outline" data-dialog-close>Adicionar</button>
-        <button type="button" class="btn" onclick="confirmarNovoEquipamento()">Confirmar</button>
-      </footer>
-    </div>
-  </dialog>
+<script>
+const APP_VERSION = "v7";
+console.log("[APP] versão v7 carregada");
 
-  <!-- ==================== LOGIC & SCRIPT ==================== -->
-  <script>
-    const APP_VERSION = "v6";
-    console.log("[APP] versão v6 carregada");
+const firebaseConfig = {
+  apiKey: "AIzaSyAhaLq3IJ67CpkHEG1-8rtCYSNtFARs5uk",
+  authDomain: "informe-diario-de-obra.firebaseapp.com",
+  projectId: "informe-diario-de-obra",
+  storageBucket: "informe-diario-de-obra.firebasestorage.app",
+  messagingSenderId: "647398384847",
+  appId: "1:647398384847:web:8f585e9daf71e311f603ba"
+};
+const ADMIN_UID = "gc143acuOyeFIXpe2efFI1uZ1NB3";
 
-    // Firebase configuration as requested
-    const firebaseConfig = {
-      apiKey: "AIzaSyAhaLq3IJ67CpkHEG1-8rtCYSNtFARs5uk",
-      authDomain: "informe-diario-de-obra.firebaseapp.com",
-      projectId: "informe-diario-de-obra",
-      storageBucket: "informe-diario-de-obra.firebasestorage.app",
-      messagingSenderId: "647398384847",
-      appId: "1:647398384847:web:8f585e9daf71e311f603ba"
-    };
-    const ADMIN_UID = "gc143acuOyeFIXpe2efFI1uZ1NB3";
+let auth = null, db = null;
+let idiomaAtual = 'es';
+let currentUser = null;
+let projetos = [], obras = [];
+let catalogo = { funcoes: [], equipamentos: [] };
+let informesCache = [];
+let form = null;
+let scope = 'all';
+let currentReadId = null;
+let pendingDialogCb = null;
+let promptCb = null;
+let formCounter = 0;
 
-    // Global references
-    let auth = null;
-    let db = null;
-    let currentUser = null;
-    let isAdmin = false;
+const DICT = {
+  es: {
+    boot:"Cargando...", fbErrTitle:"Falha ao carregar o Firebase", retry:"Tentar novamente",
+    loginSub:"Ingrese con su cuenta del equipo", email:"Correo electrónico", password:"Contraseña",
+    emailPh:"correo@empresa.com", passPh:"••••••", btnLogin:"Ingresar", forgot:"Olvidé mi contraseña",
+    firstAccess:"¿Primer acceso? Crear cuenta", signupTitle:"Crear cuenta", passHint:"Mínimo 6 caracteres",
+    passMin:"Mínimo 6 caracteres", signupBtn:"Crear cuenta", haveAccount:"Ya tengo cuenta",
+    recoverTitle:"Recuperar contraseña", recoverText:"Ingrese su correo y le enviaremos un enlace para crear una nueva contraseña.",
+    sendLink:"Enviar enlace", backLogin:"← Volver al ingreso",
+    recoverOk:"Enlace enviado a su correo. Revise la bandeja de entrada y el spam.",
+    appTitle:"Reporte de Obra", logout:"Salir", histTitle:"Historial de informes",
+    histSub:"Informes diarios, del más reciente al más antiguo", scopeAll:"Todos", scopeMine:"Míos",
+    searchPh:"Buscar por obra", allMonths:"Todos los meses", emptyTitle:"Aún no hay informes",
+    emptySub:"Toque el botón de abajo para crear el primero", retryList:"Reintentar",
+    loadErr:"No se pudieron cargar los informes.", createNew:"➕ Crear nuevo informe",
+    back:"← Volver", newReport:"Nuevo informe", formSub:"Complete el avance del día. Los campos vacíos no aparecen en el texto.",
+    needProjectWarn:"Registre un proyecto y una obra antes de crear un informe", goAdmin:"Ir a administración",
+    identification:"Identificación", identSub:"Proyecto, obra y fecha del informe", project:"Proyecto",
+    work:"Obra", obraHint:"Seleccione primero el proyecto", date:"Fecha",
+    copyLast:"📋 Copiar del último informe", copyStruct:"Copiar estructura y acumulado",
+    copyAll:"Copiar todo, incluido el avance del día", noPrev:"No se encontró ningún informe anterior",
+    lastReport:"Último informe", activities:"Actividades", actSub:"Cada actividad con su equipo, horas y avances",
+    addAct:"＋ Agregar actividad", actNamePh:"Nombre de la actividad", sinEquipo:"Sin equipo",
+    addEquipoLink:"Agregar equipo", horas:"Horas trabajadas", unit:"Unidad", qtyDay:"Cantidad del día",
+    pctDay:"Porcentaje del día", qtyAcum:"Cantidad acumulada", pctAcum:"Porcentaje acumulado",
+    maoSub:"Cantidad de personas por función del catálogo", maoTitle:"👷 Mano de obra — Total:",
+    eqpSub:"Cantidad de equipos utilizados en el día", eqpTitle:"🚜 Equipos — Total:",
+    persona1:"1 persona", personaN:"personas", equipo1:"1 equipo", equipoN:"equipos",
+    weather:"Clima", weatherSub:"Condición del tiempo en cada turno", morning:"Mañana", afternoon:"Tarde",
+    complements:"Complementos", compSub:"Información opcional del día", occurrences:"Ocurrencias",
+    safety:"Seguridad", nextSteps:"Próximos pasos", viewText:"👁 Visualizar texto",
+    saveReport:"Guardar informe", preview:"Vista previa", previewTitle:"Texto para WhatsApp",
+    previewSub:"Revise el texto antes de compartir.", copyText:"Copiar texto", share:"Compartir",
+    openWa:"Abrir WhatsApp", copied:"Texto copiado", savedOk:"Informe guardado", deleted:"Informe eliminado",
+    catalog:"Catálogo", navHome:"Inicio", navCatalog:"Catálogo", catalogTitle:"Catálogos",
+    catalogSub:"Funciones y equipos disponibles para sus informes", catFuncSub:"Funciones de mano de obra del catálogo",
+    catEqpSub:"Equipos y máquinas del catálogo", titleCatFunc:"Funciones", titleCatEqp:"Equipos",
+    emptyFunc:"Aún no hay funciones registradas", emptyEqp:"Aún no hay equipos registrados",
+    addFunc:"＋ Agregar función", addEqp:"＋ Agregar equipo", newFuncPh:"Nombre de la función",
+    newEqpPh:"Nombre del equipo", confirmDelFunc:"¿Eliminar esta función del catálogo?",
+    confirmDelEqp:"¿Eliminar este equipo del catálogo?", catAdded:"Agregado al catálogo", catRemoved:"Eliminado del catálogo",
+    adminTitle:"Obras", adminSub:"Proyectos y obras registrados en el sistema", newProj:"＋ Nuevo proyecto",
+    newObra:"＋ Nueva obra", emptyProj:"Aún no hay proyectos registrados", editBtn:"Editar", delBtn:"Excluir",
+    permErr:"Solo el administrador puede registrar obras. Hable con el responsable.",
+    projNamePh:"Nombre del proyecto", obraNamePh:"Nombre de la obra", confirmDelProj:"¿Excluir el proyecto y sus obras?",
+    confirmDelObra:"¿Excluir esta obra?", saved:"Guardado", cancel:"Cancelar", confirm:"Confirmar",
+    save:"Guardar", delete:"Eliminar", confirmDelInforme:"¿Eliminar este informe?", offline:"Sin conexión con la base. Los datos aparecerán cuando vuelva la internet.",
+    copyBtn:"Copiar", noPrevCopy:"Nenhum informe anterior encontrado", selectProject:"Seleccione un proyecto",
+    selectObra:"Seleccione una obra", needDate:"Seleccione la fecha", selectWork:"Seleccione obra",
+    noCatalog:"Sin equipo", moreBtn:"Agregar equipo", delete2:"✕", proyecto:"Proyecto:", obraLbl:"Obra:",
+    atividades:"ACTIVIDADES", avance:"AVANCE DE OBRA", eqpLbl:"Equipo:", horasLbl:"Horas:", hoyLbl:"Hoy:", acumLbl:"Acumulado:",
+    maoLbl:"MANO DE OBRA", eqpLblUp:"EQUIPOS", climaLbl:"CLIMA", manhaLbl:"Mañana:", tardeLbl:"Tarde:",
+    ocorrLbl:"OCURRENCIAS", segLbl:"SEGURIDAD", proxLbl:"PRÓXIMOS PASOS", pctLbl:"%",
+    authErr:"Error de autenticación", domainErr:"Dominio no autorizado: agregue el dominio en Authentication > Settings > Authorized domains.",
+    methodErr:"Método no permitido: active Correo/contraseña en Authentication > Sign-in method.",
+    notFound:"Usuario no encontrado", wrongPass:"Correo o contraseña incorrectos", invalidEmail:"Correo inválido",
+    weakPass:"Contraseña con menos de 6 caracteres", emailUsed:"Correo ya registrado", netErr:"Sin conexión con la base.",
+    clima:{bueno:"Bueno",nublado:"Nublado",lluvioso:"Lluvioso",ventarron:"Ventarrón",tormenta:"Tormenta"},
+    months:["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"]
+  },
+  pt: {
+    boot:"Carregando...", fbErrTitle:"Falha ao carregar o Firebase", retry:"Tentar novamente",
+    loginSub:"Entre com sua conta da equipe", email:"E-mail", password:"Senha",
+    emailPh:"email@empresa.com", passPh:"••••••", btnLogin:"Entrar", forgot:"Esqueci a senha",
+    firstAccess:"Primeiro acesso? Criar conta", signupTitle:"Criar conta", passHint:"Mínimo 6 caracteres",
+    passMin:"Mínimo 6 caracteres", signupBtn:"Criar conta", haveAccount:"Já tenho conta",
+    recoverTitle:"Recuperar senha", recoverText:"Informe seu e-mail e enviaremos um link para criar uma nova senha.",
+    sendLink:"Enviar link", backLogin:"← Voltar para o login",
+    recoverOk:"Link enviado para seu e-mail. Verifique a caixa de entrada e o spam.",
+    appTitle:"Reporte de Obra", logout:"Sair", histTitle:"Histórico de informes",
+    histSub:"Informes diários, do mais recente ao mais antigo", scopeAll:"Todos", scopeMine:"Meus",
+    searchPh:"Buscar por obra", allMonths:"Todos os meses", emptyTitle:"Nenhum informe ainda",
+    emptySub:"Toque no botão abaixo para criar o primeiro", retryList:"Tentar novamente",
+    loadErr:"Não foi possível carregar os informes.", createNew:"➕ Criar novo informe",
+    back:"← Voltar", newReport:"Novo informe", formSub:"Preencha o avanço do dia. Campos vazios não aparecem no texto.",
+    needProjectWarn:"Cadastre um projeto e uma obra antes de criar um informe", goAdmin:"Ir para administração",
+    identification:"Identificação", identSub:"Projeto, obra e data do informe", project:"Projeto",
+    work:"Obra", obraHint:"Selecione primeiro o projeto", date:"Data",
+    copyLast:"📋 Copiar do último informe", copyStruct:"Copiar estrutura e acumulado",
+    copyAll:"Copiar tudo, inclusive o avanço do dia", noPrev:"Nenhum informe anterior encontrado",
+    lastReport:"Último informe", activities:"Atividades", actSub:"Cada atividade com seu equipamento, horas e avanços",
+    addAct:"＋ Adicionar atividade", actNamePh:"Nome da atividade", sinEquipo:"Sem equipamento",
+    addEquipoLink:"Adicionar equipamento", horas:"Horas trabalhadas", unit:"Unidade", qtyDay:"Quantidade do dia",
+    pctDay:"Percentual do dia", qtyAcum:"Quantidade acumulada", pctAcum:"Percentual acumulado",
+    maoSub:"Quantidade de pessoas por função do catálogo", maoTitle:"👷 Mão de obra — Total:",
+    eqpSub:"Quantidade de equipamentos usados no dia", eqpTitle:"🚜 Equipamentos — Total:",
+    persona1:"1 pessoa", personaN:"pessoas", equipo1:"1 equipamento", equipoN:"equipamentos",
+    weather:"Clima", weatherSub:"Condição do tempo em cada turno", morning:"Manhã", afternoon:"Tarde",
+    complements:"Complementos", compSub:"Informação opcional do dia", occurrences:"Ocorrências",
+    safety:"Segurança", nextSteps:"Próximos passos", viewText:"👁 Visualizar texto",
+    saveReport:"Salvar informe", preview:"Pré-visualização", previewTitle:"Texto para WhatsApp",
+    previewSub:"Revise o texto antes de compartilhar.", copyText:"Copiar texto", share:"Compartilhar",
+    openWa:"Abrir WhatsApp", copied:"Texto copiado", savedOk:"Informe salvo", deleted:"Informe excluído",
+    catalog:"Catálogo", navHome:"Início", navCatalog:"Catálogo", catalogTitle:"Catálogos",
+    catalogSub:"Funções e equipamentos disponíveis para seus informes", catFuncSub:"Funções de mão de obra do catálogo",
+    catEqpSub:"Equipamentos e máquinas do catálogo", titleCatFunc:"Funções", titleCatEqp:"Equipamentos",
+    emptyFunc:"Nenhuma função cadastrada ainda", emptyEqp:"Nenhum equipamento cadastrado ainda",
+    addFunc:"＋ Adicionar função", addEqp:"＋ Adicionar equipamento", newFuncPh:"Nome da função",
+    newEqpPh:"Nome do equipamento", confirmDelFunc:"Excluir esta função do catálogo?",
+    confirmDelEqp:"Excluir este equipamento do catálogo?", catAdded:"Adicionado ao catálogo", catRemoved:"Removido do catálogo",
+    adminTitle:"Obras", adminSub:"Projetos e obras cadastrados no sistema", newProj:"＋ Novo projeto",
+    newObra:"＋ Nova obra", emptyProj:"Nenhum projeto cadastrado ainda", editBtn:"Editar", delBtn:"Excluir",
+    permErr:"Apenas o administrador pode cadastrar obras. Fale com o responsável.",
+    projNamePh:"Nome do projeto", obraNamePh:"Nome da obra", confirmDelProj:"Excluir o projeto e suas obras?",
+    confirmDelObra:"Excluir esta obra?", saved:"Salvo", cancel:"Cancelar", confirm:"Confirmar",
+    save:"Salvar", delete:"Excluir", confirmDelInforme:"Excluir este informe?", offline:"Sem conexão com o banco. Os dados aparecerão quando a internet voltar.",
+    copyBtn:"Copiar", noPrevCopy:"Nenhum informe anterior encontrado", selectProject:"Selecione um projeto",
+    selectObra:"Selecione uma obra", needDate:"Selecione a data", selectWork:"Selecione obra",
+    noCatalog:"Sem equipamento", moreBtn:"Adicionar equipamento", delete2:"✕", proyecto:"Projeto:", obraLbl:"Obra:",
+    atividades:"ATIVIDADES", avance:"AVANÇO DA OBRA", eqpLbl:"Equipamento:", horasLbl:"Horas:", hoyLbl:"Hoje:", acumLbl:"Acumulado:",
+    maoLbl:"MÃO DE OBRA", eqpLblUp:"EQUIPAMENTOS", climaLbl:"CLIMA", manhaLbl:"Manhã:", tardeLbl:"Tarde:",
+    ocorrLbl:"OCORRÊNCIAS", segLbl:"SEGURANÇA", proxLbl:"PRÓXIMOS PASSOS", pctLbl:"%",
+    authErr:"Erro de autenticação", domainErr:"Domínio não autorizado: adicione o domínio em Authentication > Settings > Authorized domains.",
+    methodErr:"Método não permitido: ative E-mail/senha em Authentication > Sign-in method.",
+    notFound:"Usuário não encontrado", wrongPass:"E-mail ou senha incorretos", invalidEmail:"E-mail inválido",
+    weakPass:"Senha com menos de 6 caracteres", emailUsed:"E-mail já cadastrado", netErr:"Sem conexão com o banco.",
+    clima:{bueno:"Bom",nublado:"Nublado",lluvioso:"Chuvoso",ventarron:"Ventania",tormenta:"Tempestade"},
+    months:["janeiro","fevereiro","março","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro"]
+  }
+};
+const CLIMA_KEYS = [
+  {k:"bueno", icon:"☀️"},{k:"nublado", icon:"☁️"},{k:"lluvioso", icon:"🌧️"},{k:"ventarron", icon:"💨"},{k:"tormenta", icon:"⛈️"}
+];
+const UNITS = ["m³","m²","ml","un","kg","t"];
 
-    // In-memory language session state: starts strictly in 'pt'
-    let currentLang = 'pt';
+function t(key){ return (DICT[idiomaAtual] && DICT[idiomaAtual][key]) || DICT.es[key] || key; }
+function esc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function num(v){ const n = Number(v); return isNaN(n) ? 0 : n; }
+function pad2(n){ return String(n).padStart(2,'0'); }
+function fmtBR(iso){ if(!iso) return ''; const [y,m,d]=iso.split('-'); return `${d}/${m}/${y}`; }
+function hojeISO(){ const d=new Date(); return `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`; }
+function mesLabel(iso){ if(!iso) return ''; const [y,m]=iso.split('-'); return `${DICT[idiomaAtual].months[Number(m)-1]} ${y}`; }
 
-    // Application state
-    let projetosCache = [];
-    let obrasCache = [];
-    let informesCache = [];
-    let currentScope = 'meus'; // 'todos' | 'meus'
-    let currentDetailedInforme = null;
+function toast(msg){
+  const w = document.getElementById('toastWrap');
+  const el = document.createElement('div');
+  el.className = 'toast'; el.textContent = msg; w.appendChild(el);
+  setTimeout(()=>el.remove(), 2500);
+}
 
-    // Default catalogs for Mano de Obra and Equipos with dual language
-    const DEFAULT_MAO_DE_OBRA = [
-      { id: 'eng_residente', pt: 'Engenheiro Residente', es: 'Ingeniero Residente', count: 0 },
-      { id: 'tec_seguranca', pt: 'Técnico de Segurança', es: 'Técnico de Seguridad', count: 0 },
-      { id: 'encarregado', pt: 'Encarregado Geral', es: 'Capataz General', count: 0 },
-      { id: 'pedreiro', pt: 'Pedreiro', es: 'Albañil', count: 0 },
-      { id: 'carpinteiro', pt: 'Carpinteiro', es: 'Carpintero', count: 0 },
-      { id: 'armador', pt: 'Armador', es: 'Fierrero', count: 0 },
-      { id: 'eletricista', pt: 'Eletricista', es: 'Electricista', count: 0 },
-      { id: 'operador_maq', pt: 'Operador de Máquinas', es: 'Operador de Maquinaria', count: 0 },
-      { id: 'motorista', pt: 'Motorista', es: 'Conductor', count: 0 },
-      { id: 'servente', pt: 'Servente / Ajudante', es: 'Ayudante', count: 0 }
-    ];
+function mostrarTela(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+function mostrarView(id){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+  const shell = document.getElementById('appShell');
+  if(shell) shell.scrollTop = 0;
+  document.querySelectorAll('.bottom-bar button').forEach(b=>b.classList.remove('active'));
+  if(id==='viewHome') document.getElementById('navHome').classList.add('active');
+  if(id==='viewCatalog') document.getElementById('navCatalog').classList.add('active');
+  if(id==='viewAdmin') document.getElementById('navAdmin').classList.add('active');
+  const fab = document.getElementById('fabNew');
+  fab.style.display = (id==='viewHome') ? 'block' : 'none';
+}
+function mostrarLoginView(id){
+  document.querySelectorAll('#loginScreen .view').forEach(v=>v.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.login-err-box').forEach(e=>e.innerHTML='');
+  document.getElementById('loginErr').innerHTML='';
+  document.getElementById('signupErr').innerHTML='';
+  document.getElementById('recoverMsg').innerHTML='';
+}
 
-    const DEFAULT_EQUIPAMENTOS = [
-      { id: 'retroescavadeira', pt: 'Retroescavadeira', es: 'Retroexcavadora', count: 0 },
-      { id: 'escavadeira_hidr', pt: 'Escavadeira Hidráulica', es: 'Excavadora Hidráulica', count: 0 },
-      { id: 'caminhao_basc', pt: 'Caminhão Basculante', es: 'Camión Volquete', count: 0 },
-      { id: 'pa_carregadeira', pt: 'Pá Carregadeira', es: 'Cargador Frontal', count: 0 },
-      { id: 'rolo_compactador', pt: 'Rolo Compactador', es: 'Rodillo Compactador', count: 0 },
-      { id: 'betoneira', pt: 'Betoneira', es: 'Hormigonera', count: 0 },
-      { id: 'motogerador', pt: 'Grupo Gerador', es: 'Generador', count: 0 },
-      { id: 'caminhao_munck', pt: 'Caminhão Munck / Guindaste', es: 'Camión Grúa', count: 0 }
-    ];
+function aplicarIdioma(){
+  document.documentElement.lang = idiomaAtual === 'pt' ? 'pt-BR' : 'es-PE';
+  document.querySelectorAll('[data-i18n]').forEach(el=>{ el.textContent = t(el.getAttribute('data-i18n')); });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el=>{ el.placeholder = t(el.getAttribute('data-i18n-ph')); });
+  document.querySelectorAll('.flag-btn').forEach(b=>{
+    const active = b.dataset.lang === idiomaAtual;
+    b.classList.toggle('active', active);
+  });
+  document.getElementById('titleMao').textContent = `${t('maoTitle')} ${contaTotalMao()}`.replace(/(\d+)$/, (m)=>m);
+  renderMaoEqp();
+  renderFormSelects();
+  renderClimaSelects();
+  renderHistory();
+  renderCatalog();
+  renderAdmin();
+  renderActivities();
+  if(currentReadId) renderReadView(currentReadId);
+  if(document.getElementById('viewPreview').classList.contains('active')) renderPreview();
+  const chk = document.getElementById('dataInforme'); if(!chk.value) chk.value = hojeISO();
+  document.getElementById('titleMao').textContent = `${t('maoTitle')} ${contaTotalMao()} ${contaTotalMao()===1?t('persona1').replace(/^1\s/,''):t('personaN')}`.replace(/\s+/g,' ').trim();
+  document.getElementById('titleEqp').textContent = `${t('eqpTitle')} ${contaTotalEqp()} ${contaTotalEqp()===1?t('equipo1').replace(/^1\s/,''):t('equipoN')}`.replace(/\s+/g,' ').trim();
+  document.getElementById('titleCatFunc').textContent = t('titleCatFunc');
+  document.getElementById('titleCatEqp').textContent = t('titleCatEqp');
+}
+function setIdioma(lang){
+  idiomaAtual = lang;
+  aplicarIdioma();
+}
 
-    // Current form arrays
-    let formAtividades = [];
-    let formMaoDeObra = [];
-    let formEquipamentos = [];
-    let editingProjectId = null;
-    let editingObraId = null;
+function initFlags(){
+  document.querySelectorAll('.flag-btn').forEach(b=>{
+    b.addEventListener('click', ()=> setIdioma(b.dataset.lang));
+  });
+}
 
-    // ==================== I18N DICTIONARY ====================
-    const I18N = {
-      pt: {
-        loginTitle: "Reporte de Obra",
-        loginSubtitle: "Entre com sua conta da equipe",
-        loginBtn: "Entrar",
-        forgotPass: "Esqueci a senha",
-        firstAccess: "Primeiro acesso? Criar conta",
-        registerTitle: "Criar conta",
-        registerSubtitle: "Cadastre seu e-mail para registrar informes",
-        registerBtn: "Criar conta",
-        alreadyAccount: "Já tenho conta",
-        recoverTitle: "Recuperar senha",
-        recoverSubtitle: "Informe seu e-mail e enviaremos um link para criar uma nova senha.",
-        recoverBtn: "Enviar link",
-        backToLogin: "Voltar para o login",
-        appHeaderTitle: "Reporte de Obra",
-        histTitle: "Histórico de informes",
-        histSub: "Informes diários, do mais recente ao mais antigo",
-        newReportBtn: "Criar novo informe",
-        navInicio: "Início",
-        navAdmin: "Admin",
-        btnVoltar: "Voltar",
-        formNovoTitle: "Novo informe",
-        copiarUltimo: "Copiar do último informe",
-        secIdent: "Identificação",
-        lblProj: "Projeto *",
-        lblObra: "Obra *",
-        lblData: "Data do Informe *",
-        secAtiv: "Atividades",
-        secMaoObra: "Mão de obra",
-        secEquip: "Equipamentos",
-        secClima: "Condições Climáticas",
-        secCompl: "Complementos e Observações",
-        btnVisualizar: "Visualizar texto formatado",
-        btnSalvar: "Salvar informe",
-        personSingular: "pessoa",
-        personPlural: "pessoas",
-        equipSingular: "equipamento",
-        equipPlural: "equipamentos",
-        previewTitle: "*AVANÇO DA OBRA*",
-        previewProject: "*Projeto:*",
-        previewObra: "*Obra:*",
-        previewAtividades: "⏳ *ATIVIDADES*",
-        previewMaoObra: "👷 *MÃO DE OBRA*",
-        previewEquip: "🚜 *EQUIPAMENTOS*",
-        previewClima: "🌤️ *CLIMA*",
-        previewOcorr: "⚠️ *OCORRÊNCIAS*",
-        previewSeg: "🦺 *SEGURANÇA*",
-        previewProx: "📌 *PRÓXIMOS PASSOS*",
-        hoje: "Hoje",
-        acumulado: "Acumulado",
-        manha: "Manhã",
-        tarde: "Tarde"
-      },
-      es: {
-        loginTitle: "Reporte de Obra",
-        loginSubtitle: "Inicie sesión con la cuenta de su equipo",
-        loginBtn: "Ingresar",
-        forgotPass: "¿Olvidó su contraseña?",
-        firstAccess: "¿Primer acceso? Crear cuenta",
-        registerTitle: "Crear cuenta",
-        registerSubtitle: "Registre su correo para generar reportes",
-        registerBtn: "Crear cuenta",
-        alreadyAccount: "Ya tengo una cuenta",
-        recoverTitle: "Recuperar contraseña",
-        recoverSubtitle: "Ingrese su correo y le enviaremos un enlace para crear una nueva contraseña.",
-        recoverBtn: "Enviar enlace",
-        backToLogin: "Volver al inicio de sesión",
-        appHeaderTitle: "Reporte de Obra",
-        histTitle: "Historial de informes",
-        histSub: "Informes diarios, del más reciente al más antiguo",
-        newReportBtn: "Crear nuevo informe",
-        navInicio: "Inicio",
-        navAdmin: "Admin",
-        btnVoltar: "Volver",
-        formNovoTitle: "Nuevo informe",
-        copiarUltimo: "Copiar del último informe",
-        secIdent: "Identificación",
-        lblProj: "Proyecto *",
-        lblObra: "Obra *",
-        lblData: "Fecha del Informe *",
-        secAtiv: "Actividades",
-        secMaoObra: "Mano de obra",
-        secEquip: "Equipos",
-        secClima: "Condiciones Climáticas",
-        secCompl: "Complementos y Observaciones",
-        btnVisualizar: "Visualizar texto formateado",
-        btnSalvar: "Guardar informe",
-        personSingular: "persona",
-        personPlural: "personas",
-        equipSingular: "equipo",
-        equipPlural: "equipos",
-        previewTitle: "*AVANCE DE OBRA*",
-        previewProject: "*Proyecto:*",
-        previewObra: "*Obra:*",
-        previewAtividades: "⏳ *ACTIVIDADES*",
-        previewMaoObra: "👷 *MANO DE OBRA*",
-        previewEquip: "🚜 *EQUIPOS*",
-        previewClima: "🌤️ *CLIMA*",
-        previewOcorr: "⚠️ *OCURRENCIAS*",
-        previewSeg: "🦺 *SEGURIDAD*",
-        previewProx: "📌 *PRÓXIMOS PASOS*",
-        hoje: "Hoy",
-        acumulado: "Acumulado",
-        manha: "Mañana",
-        tarde: "Tarde"
-      }
-    };
+async function carregarScript(url){
+  return new Promise((resolve, reject)=>{
+    const s = document.createElement('script');
+    s.src = url;
+    s.onload = ()=>resolve();
+    s.onerror = ()=>reject(new Error("Falha ao baixar: "+url));
+    document.head.appendChild(s);
+  });
+}
 
-    function t(key) {
-      return (I18N[currentLang] && I18N[currentLang][key]) || (I18N.pt[key] || key);
+const FB_BASE_PRIMARY = "https://www.gstatic.com/firebasejs/10.12.0/";
+const FB_BASE_ALT = "https://cdn.jsdelivr.net/npm/firebase@10.12.0/";
+const FB_MODULES = [
+  {key:'core', file:'firebase-app-compat.js', check:()=> typeof firebase!=='undefined' && typeof firebase.initializeApp==='function', msg:"SDK Core do Firebase não carregou"},
+  {key:'auth', file:'firebase-auth-compat.js', check:()=> typeof firebase!=='undefined' && typeof firebase.auth==='function', msg:"Módulo Auth do Firebase não carregou"},
+  {key:'firestore', file:'firebase-firestore-compat.js', check:()=> typeof firebase!=='undefined' && typeof firebase.firestore==='function', msg:"Módulo Firestore do Firebase não carregou"}
+];
+let fbStatus = {core:'pending', auth:'pending', firestore:'pending'};
+let fbLastError = '';
+
+async function carregarModulosComBase(base){
+  for(const m of FB_MODULES){
+    await carregarScript(base + m.file);
+    if(!m.check()) throw new Error(m.msg);
+    fbStatus[m.key] = 'ok';
+  }
+}
+
+async function iniciarFirebase(){
+  fbStatus = {core:'pending', auth:'pending', firestore:'pending'};
+  fbLastError = '';
+  try{
+    await carregarModulosComBase(FB_BASE_PRIMARY);
+  }catch(e1){
+    console.warn("[APP] primeira tentativa falhou:", e1.message);
+    try{
+      await carregarModulosComBase(FB_BASE_ALT);
+    }catch(e2){
+      fbLastError = e2.message;
+      mostrarErroFirebase();
+      throw e2;
     }
+  }
+  firebase.initializeApp(firebaseConfig);
+  auth = firebase.auth();
+  db = firebase.firestore();
+}
 
-    function atualizarTextosIdioma() {
-      document.getElementById('langFlag').textContent = currentLang === 'pt' ? '🇧🇷' : '🇵🇪';
-      document.getElementById('langCode').textContent = currentLang.toUpperCase();
+function mostrarErroFirebase(){
+  const list = document.getElementById('fbStatusList');
+  list.innerHTML = FB_MODULES.map(m=>{
+    const ok = fbStatus[m.key]==='ok';
+    const label = m.key==='core'?'Core':m.key==='auth'?'Auth':'Firestore';
+    return `<div style="display:flex;justify-content:space-between;padding:4px 0;"><span>${label}</span><span style="color:${ok?'#1E6B31':'#A11B1B'};font-weight:700;">${ok?'OK':'FALHOU'}</span></div>`;
+  }).join('');
+  document.getElementById('fbErrDetail').textContent = fbLastError || 'Erro desconhecido';
+  document.querySelector('#fbErrorBox h2').textContent = idiomaAtual==='pt' ? 'Falha ao carregar o Firebase' : 'Error al cargar Firebase';
+  mostrarTela('fbErrorBox');
+}
 
-      document.getElementById('txtLoginTitle').textContent = t('loginTitle');
-      document.getElementById('txtLoginSubtitle').textContent = t('loginSubtitle');
-      document.getElementById('btnLoginSubmit').textContent = t('loginBtn');
-      document.getElementById('btnForgotPass').textContent = t('forgotPass');
-      document.getElementById('btnGoRegister').textContent = t('firstAccess');
+function traduzirErro(code, raw){
+  const map = {
+    'auth/wrong-password':'wrongPass','auth/invalid-credential':'wrongPass','auth/user-not-found':'notFound',
+    'auth/invalid-email':'invalidEmail','auth/weak-password':'weakPass','auth/email-already-in-use':'emailUsed',
+    'auth/unauthorized-domain':'domainErr','auth/operation-not-allowed':'methodErr','auth/network-request-failed':'netErr'
+  };
+  if(map[code]) return t(map[code]);
+  return `${t('authErr')} (${code || raw || 'unknown'})`;
+}
 
-      document.getElementById('txtRegisterTitle').textContent = t('registerTitle');
-      document.getElementById('txtRegisterSubtitle').textContent = t('registerSubtitle');
-      document.getElementById('btnCadSubmit').textContent = t('registerBtn');
-      document.getElementById('btnBackToLoginFromCad').textContent = t('alreadyAccount');
-
-      document.getElementById('txtRecoverTitle').textContent = t('recoverTitle');
-      document.getElementById('txtRecoverSubtitle').textContent = t('recoverSubtitle');
-      document.getElementById('btnRecSubmit').textContent = t('recoverBtn');
-      document.getElementById('btnBackToLoginFromRec').textContent = t('backToLogin');
-
-      document.getElementById('appHeaderTitle').textContent = t('appHeaderTitle');
-      document.getElementById('txtHistTitle').textContent = t('histTitle');
-      document.getElementById('txtHistSub').textContent = t('histSub');
-      document.getElementById('btnTxtNovoInforme').textContent = t('newReportBtn');
-      document.getElementById('navTxtInicio').textContent = t('navInicio');
-      document.getElementById('navTxtAdmin').textContent = t('navAdmin');
-
-      document.getElementById('txtBtnVoltar').textContent = t('btnVoltar');
-      document.getElementById('txtFormNovoTitle').textContent = t('formNovoTitle');
-      document.getElementById('txtBtnCopiarUltimo').textContent = t('copiarUltimo');
-      document.getElementById('txtSecIdent').textContent = t('secIdent');
-      document.getElementById('lblFormProj').textContent = t('lblProj');
-      document.getElementById('lblFormObra').textContent = t('lblObra');
-      document.getElementById('lblFormData').textContent = t('lblData');
-      document.getElementById('txtSecAtiv').textContent = t('secAtiv');
-      document.getElementById('txtSecClima').textContent = t('secClima');
-      document.getElementById('txtSecCompl').textContent = t('secCompl');
-      document.getElementById('btnTxtVisualizar').textContent = t('btnVisualizar');
-      document.getElementById('btnTxtSalvarInforme').textContent = t('btnSalvar');
-
-      renderMaoDeObraList();
-      renderEquipamentosList();
-    }
-
-    document.getElementById('langToggleBtn').addEventListener('click', () => {
-      currentLang = currentLang === 'pt' ? 'es' : 'pt';
-      atualizarTextosIdioma();
-      window.skipUI.toast(currentLang === 'pt' ? "Idioma alterado para Português" : "Idioma cambiado a Español");
-    });
-
-    // ==================== SCREEN & VIEW NAVIGATION ====================
-    function mostrarTela(id) {
-      document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
-      const target = document.getElementById(id);
-      if (target) target.classList.add('active');
-    }
-
-    function mostrarView(id) {
-      document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
-      const target = document.getElementById(id);
-      if (target) target.classList.add('active');
-
-      // Update bottom bar state
-      document.getElementById('navItemInicio').classList.toggle('active', id === 'viewInicio' || id === 'viewDetalheInforme');
-      document.getElementById('navItemAdmin').classList.toggle('active', id === 'viewAdmin');
-
-      // Scroll to top
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function trocarViewLogin(viewId) {
-      // Clear all error boxes
-      document.getElementById('loginErrorBox').style.display = 'none';
-      document.getElementById('loginErrorBox').textContent = '';
-      document.getElementById('cadErrorBox').style.display = 'none';
-      document.getElementById('cadErrorBox').textContent = '';
-      document.getElementById('recErrorBox').style.display = 'none';
-      document.getElementById('recErrorBox').textContent = '';
-      document.getElementById('recSuccessBox').style.display = 'none';
-      document.getElementById('recSuccessBox').textContent = '';
-
-      document.querySelectorAll('.login-form-view').forEach(v => v.classList.remove('active'));
-      const target = document.getElementById(viewId);
-      if (target) target.classList.add('active');
-    }
-
-    // ==================== SCRIPT LOADER (SEQUENTIAL & VERIFIED) ====================
-    function carregarScript(url) {
-      return new Promise((resolve, reject) => {
-        const script = document.createElement('script');
-        script.src = url;
-        script.async = true;
-        script.onload = () => resolve();
-        script.onerror = (err) => reject(new Error(`Falha ao carregar script: ${url}`));
-        document.head.appendChild(script);
-      });
-    }
-
-    const moduleStatus = {
-      core: false,
-      auth: false,
-      firestore: false
-    };
-
-    function updateErrorCardStatus(err) {
-      document.getElementById('bootLoadingState').style.display = 'none';
-      document.getElementById('bootErrorCard').style.display = 'flex';
-
-      const sCore = document.getElementById('statusCore');
-      const sAuth = document.getElementById('statusAuth');
-      const sFs = document.getElementById('statusFirestore');
-
-      sCore.innerHTML = `Core: <span class="${moduleStatus.core ? 'status-badge-ok' : 'status-badge-fail'}">${moduleStatus.core ? 'OK' : 'FALHOU'}</span>`;
-      sAuth.innerHTML = `Auth: <span class="${moduleStatus.auth ? 'status-badge-ok' : 'status-badge-fail'}">${moduleStatus.auth ? 'OK' : 'FALHOU'}</span>`;
-      sFs.innerHTML = `Firestore: <span class="${moduleStatus.firestore ? 'status-badge-ok' : 'status-badge-fail'}">${moduleStatus.firestore ? 'OK' : 'FALHOU'}</span>`;
-
-      document.getElementById('techErrorMsg').textContent = err ? (err.stack || err.message || String(err)) : "Erro desconhecido durante o bootstrap.";
-    }
-
-    async function tentarCarregarModulos(base) {
-      // 1. Core
-      document.getElementById('bootLoadingStep').textContent = 'Carregando Firebase Core…';
-      await carregarScript(`${base}firebase-app-compat.js`);
-      if (typeof firebase === 'undefined' || typeof firebase.initializeApp !== 'function') {
-        throw new Error("SDK Core do Firebase não carregou");
-      }
-      moduleStatus.core = true;
-
-      // 2. Auth
-      document.getElementById('bootLoadingStep').textContent = 'Carregando Firebase Auth…';
-      await carregarScript(`${base}firebase-auth-compat.js`);
-      if (typeof firebase.auth !== 'function') {
-        throw new Error("Módulo Auth do Firebase não carregou");
-      }
-      moduleStatus.auth = true;
-
-      // 3. Firestore
-      document.getElementById('bootLoadingStep').textContent = 'Carregando Firebase Firestore…';
-      await carregarScript(`${base}firebase-firestore-compat.js`);
-      if (typeof firebase.firestore !== 'function') {
-        throw new Error("Módulo Firestore do Firebase não carregou");
-      }
-      moduleStatus.firestore = true;
-    }
-
-    async function iniciarFirebase() {
-      const primaryBase = "https://www.gstatic.com/firebasejs/10.12.0/";
-      const secondaryBase = "https://cdn.jsdelivr.net/npm/firebase@10.12.0/";
-
-      try {
-        console.log("[FIREBASE] Tentando CDN primário (gstatic)…");
-        await tentarCarregarModulos(primaryBase);
-      } catch (errPrimary) {
-        console.warn("[FIREBASE] Falha no CDN primário, tentando CDN alternativo (jsdelivr)…", errPrimary);
-        try {
-          await tentarCarregarModulos(secondaryBase);
-        } catch (errSecondary) {
-          console.error("[FIREBASE] Falha crítica ao carregar Firebase:", errSecondary);
-          updateErrorCardStatus(errSecondary);
-          return false;
-        }
-      }
-
-      // Initialize App and Services
-      try {
-        firebase.initializeApp(firebaseConfig);
-        auth = firebase.auth();
-        db = firebase.firestore();
-
-        console.log("[FIREBASE] Inicializado com sucesso:", {
-          app: firebase.apps.length > 0 ? "OK" : "Vazio",
-          auth: typeof auth === 'object' ? "OK" : "Falhou",
-          firestore: typeof db === 'object' ? "OK" : "Falhou"
-        });
-
-        configurarAuthListener();
-        return true;
-      } catch (initErr) {
-        console.error("[FIREBASE] Erro na inicialização do serviço:", initErr);
-        updateErrorCardStatus(initErr);
-        return false;
-      }
-    }
-
-    // ==================== AUTHENTICATION ====================
-    function traduzirErroAuth(code) {
-      switch (code) {
-        case 'auth/invalid-credential':
-        case 'auth/wrong-password':
-          return "E-mail ou senha incorretos.";
-        case 'auth/user-not-found':
-          return "Usuário não encontrado.";
-        case 'auth/invalid-email':
-          return "E-mail com formato inválido.";
-        case 'auth/weak-password':
-          return "A senha deve conter no mínimo 6 caracteres.";
-        case 'auth/email-already-in-use':
-          return "Este e-mail já está cadastrado.";
-        case 'auth/unauthorized-domain':
-          return "Domínio não autorizado. Adicione este domínio no Firebase Console (Authentication > Settings > Authorized domains).";
-        case 'auth/operation-not-allowed':
-          return "Método de login por E-mail/Senha não está ativado no Firebase Console.";
-        case 'auth/network-request-failed':
-          return "Sem conexão com a internet. Verifique sua rede e tente novamente.";
-        case 'auth/too-many-requests':
-          return "Muitas tentativas sem sucesso. Aguarde alguns minutos antes de tentar novamente.";
-        default:
-          return `Erro: ${code || "Falha na operação de autenticação"}`;
-      }
-    }
-
-    function configurarAuthListener() {
-      // auth.onAuthStateChanged is the ONLY source of truth
-      auth.onAuthStateChanged(user => {
-        if (user) {
-          currentUser = user;
-          isAdmin = (user.uid === ADMIN_UID);
-          iniciarApp(user);
-        } else {
-          currentUser = null;
-          isAdmin = false;
-          limparEstado();
-          mostrarTela('loginScreen');
-          trocarViewLogin('viewLogin');
-        }
-      }, err => {
-        console.error("[AUTH] Erro no observer:", err);
-        mostrarTela('loginScreen');
-      });
-    }
-
-    function iniciarApp(user) {
-      document.getElementById('headerUserEmail').textContent = user.email || 'Usuário';
-      document.getElementById('headerUserEmail').title = user.email || '';
-
-      const badgeAdmin = document.getElementById('badgeAdminPill');
-      const navAdmin = document.getElementById('navItemAdmin');
-      const scopeRow = document.getElementById('scopeFilterRow');
-
-      if (isAdmin) {
-        badgeAdmin.style.display = 'inline-block';
-        navAdmin.style.display = 'flex';
-        scopeRow.style.display = 'flex';
-        currentScope = 'todos';
-        document.getElementById('btnScopeTodos').setAttribute('data-variant', '');
-        document.getElementById('btnScopeMeus').setAttribute('data-variant', 'outline');
-      } else {
-        badgeAdmin.style.display = 'none';
-        navAdmin.style.display = 'none';
-        scopeRow.style.display = 'none';
-        currentScope = 'meus';
-      }
-
+function setupAuthListener(){
+  auth.onAuthStateChanged(user=>{
+    if(user){
+      currentUser = user;
       mostrarTela('appShell');
-      mostrarView('viewInicio');
-
-      carregarProjetosEObras();
-      carregarInformes();
-    }
-
-    function limparEstado() {
+      iniciarApp(user);
+    } else if(user === null){
       currentUser = null;
-      isAdmin = false;
-      projetosCache = [];
-      obrasCache = [];
-      informesCache = [];
-      formAtividades = [];
-      formMaoDeObra = [];
-      formEquipamentos = [];
-      document.getElementById('loginEmail').value = '';
-      document.getElementById('loginPassword').value = '';
+      limparEstado();
+      mostrarTela('loginScreen');
     }
+  });
+}
 
-    async function handleLoginSubmit() {
-      const email = document.getElementById('loginEmail').value.trim();
-      const pass = document.getElementById('loginPassword').value;
-      const errBox = document.getElementById('loginErrorBox');
-      const btn = document.getElementById('btnLoginSubmit');
+function limparEstado(){
+  projetos=[]; obras=[]; catalogo={funcoes:[],equipamentos:[]}; informesCache=[]; form=null; currentReadId=null;
+}
 
-      errBox.style.display = 'none';
-      errBox.textContent = '';
-      btn.disabled = true;
-      btn.textContent = 'Verificando…';
+async function iniciarApp(user){
+  const isAdmin = user.uid === ADMIN_UID;
+  document.getElementById('userMail').textContent = user.email || '';
+  document.getElementById('adminBadge').classList.toggle('badge-admin-hidden', !isAdmin);
+  document.getElementById('navAdmin').classList.toggle('badge-admin-hidden', !isAdmin);
+  document.getElementById('scopeAll').style.display = isAdmin ? '' : 'none';
+  scope = isAdmin ? 'all' : 'mine';
+  document.querySelectorAll('#scopeSeg button').forEach(b=>b.classList.toggle('active', b.dataset.scope===scope));
+  await carregarProjetosObras();
+  await carregarCatalogo(user.uid);
+  novoFormulario();
+  mostrarView('viewHome');
+  await carregarInformes();
+  aplicarIdioma();
+}
 
-      try {
-        await auth.signInWithEmailAndPassword(email, pass);
-        // onAuthStateChanged will handle transition
-      } catch (err) {
-        console.error("[LOGIN]", err);
-        errBox.textContent = traduzirErroAuth(err.code);
-        errBox.style.display = 'block';
-      } finally {
-        btn.disabled = false;
-        btn.textContent = t('loginBtn');
-      }
+async function carregarProjetosObras(){
+  try{
+    const ps = await db.collection('projetos').orderBy('nome').get();
+    projetos = ps.docs.map(d=>({id:d.id, ...d.data()}));
+    const os = await db.collection('obras').get();
+    obras = os.docs.map(d=>({id:d.id, ...d.data()}));
+    console.log(`[obras] ${projetos.length} projetos e ${obras.length} obras lidos`);
+  }catch(e){
+    console.warn("[obras] erro de leitura:", e.code||e.message);
+    if(!navigator.onLine) toast(t('offline'));
+  }
+  renderFormSelects();
+  renderAdmin();
+}
+
+async function carregarCatalogo(uid){
+  try{
+    const ref = db.collection('catalogos').doc(uid);
+    const snap = await ref.get();
+    if(!snap.exists){
+      await ref.set({funcoes:[], equipamentos:[]});
+      catalogo = {funcoes:[], equipamentos:[]};
+    } else {
+      const d = snap.data() || {};
+      catalogo = {funcoes: d.funcoes||[], equipamentos: d.equipamentos||[]};
     }
+  }catch(e){
+    console.warn("catálogo:", e.code||e.message);
+    catalogo = {funcoes:[], equipamentos:[]};
+    if(!navigator.onLine) toast(t('offline'));
+  }
+  renderCatalog();
+  renderMaoEqp();
+  renderActivities();
+}
 
-    async function handleCadastroSubmit() {
-      const email = document.getElementById('cadEmail').value.trim();
-      const pass = document.getElementById('cadPassword').value;
-      const errBox = document.getElementById('cadErrorBox');
-      const btn = document.getElementById('btnCadSubmit');
+function novoFormulario(){
+  form = {
+    projetoId:'', obraId:'', data: hojeISO(),
+    atividades: [], maoDeObra: {}, equipamentos: {},
+    clima:{manha:'', tarde:''}, ocorrencias:'', seguranca:'', proximosPassos:''
+  };
+  if(projetos.length===1) form.projetoId = projetos[0].id;
+  renderFormSelects();
+  if(form.projetoId){
+    const ob = obras.filter(o=>o.projetoId===form.projetoId);
+    if(ob.length===1) form.obraId = ob[0].id;
+  }
+  renderFormSelects();
+  document.getElementById('txtOcorr').value='';
+  document.getElementById('txtSeg').value='';
+  document.getElementById('txtProx').value='';
+  document.getElementById('dataInforme').value = form.data;
+  document.getElementById('copyLastBox').style.display='none';
+  renderClimaSelects();
+  renderActivities();
+  renderMaoEqp();
+  renderNoProjectWarn();
+}
 
-      errBox.style.display = 'none';
-      errBox.textContent = '';
+function renderNoProjectWarn(){
+  const show = projetos.length===0 || obras.length===0;
+  document.getElementById('noProjectWarn').style.display = show ? 'block' : 'none';
+}
 
-      if (pass.length < 6) {
-        errBox.textContent = "A senha deve ter no mínimo 6 caracteres.";
-        errBox.style.display = 'block';
-        return;
-      }
+function renderFormSelects(){
+  const sp = document.getElementById('selProjeto');
+  sp.innerHTML = `<option value="">${esc(t('selectProject'))}</option>` + projetos.map(p=>`<option value="${esc(p.id)}" ${p.id===form?.projetoId?'selected':''}>${esc(p.nome)}</option>`).join('');
+  const so = document.getElementById('selObra');
+  const obrasDoProj = form && form.projetoId ? obras.filter(o=>o.projetoId===form.projetoId) : [];
+  so.disabled = !form || !form.projetoId;
+  so.innerHTML = `<option value="">${esc(t('selectObra'))}</option>` + obrasDoProj.map(o=>`<option value="${esc(o.id)}" ${o.id===form?.obraId?'selected':''}>${esc(o.nome)}</option>`).join('');
+  renderNoProjectWarn();
+}
 
-      btn.disabled = true;
-      btn.textContent = 'Criando conta…';
+function renderClimaSelects(){
+  const mk = (sel)=>{
+    const opts = CLIMA_KEYS.map(c=>`<option value="${c.k}" ${sel===c.k?'selected':''}>${esc(t('clima')[c.k])} ${c.icon}</option>`).join('');
+    return `<option value="">—</option>` + opts;
+  };
+  document.getElementById('climaManha').innerHTML = mk(form?.clima?.manha||'');
+  document.getElementById('climaTarde').innerHTML = mk(form?.clima?.tarde||'');
+}
 
-      try {
-        await auth.createUserWithEmailAndPassword(email, pass);
-        window.skipUI.toast("Conta criada com sucesso!", { type: 'success' });
-      } catch (err) {
-        console.error("[CADASTRO]", err);
-        errBox.textContent = traduzirErroAuth(err.code);
-        errBox.style.display = 'block';
-      } finally {
-        btn.disabled = false;
-        btn.textContent = t('registerBtn');
-      }
-    }
+function contaTotalMao(){
+  if(!form) return 0;
+  return Object.values(form.maoDeObra).reduce((s,v)=>s+num(v),0);
+}
+function contaTotalEqp(){
+  if(!form) return 0;
+  return Object.values(form.equipamentos).reduce((s,v)=>s+num(v),0);
+}
 
-    async function handleRecuperarSubmit() {
-      const email = document.getElementById('recEmail').value.trim();
-      const errBox = document.getElementById('recErrorBox');
-      const succBox = document.getElementById('recSuccessBox');
-      const btn = document.getElementById('btnRecSubmit');
-
-      errBox.style.display = 'none';
-      succBox.style.display = 'none';
-      btn.disabled = true;
-      btn.textContent = 'Enviando link…';
-
-      try {
-        await auth.sendPasswordResetEmail(email);
-        succBox.textContent = "Link enviado para seu e-mail. Verifique a caixa de entrada e o spam.";
-        succBox.style.display = 'block';
-      } catch (err) {
-        console.error("[RECUPERAR]", err);
-        errBox.textContent = traduzirErroAuth(err.code);
-        errBox.style.display = 'block';
-      } finally {
-        btn.disabled = false;
-        btn.textContent = t('recoverBtn');
-      }
-    }
-
-    async function fazerLogout() {
-      try {
-        await auth.signOut();
-        window.skipUI.toast("Sessão finalizada");
-      } catch (err) {
-        console.error("[LOGOUT]", err);
-      }
-    }
-
-    // ==================== FIRESTORE: PROJETOS E OBRAS ====================
-    async function carregarProjetosEObras() {
-      try {
-        const snapProj = await db.collection('projetos').orderBy('nome', 'asc').get();
-        projetosCache = snapProj.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-
-        const snapObras = await db.collection('obras').orderBy('nome', 'asc').get();
-        obrasCache = snapObras.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-
-        console.log(`[obras] ${projetosCache.length} projetos e ${obrasCache.length} obras carregados`);
-
-        atualizarSelectsFormulario();
-        if (isAdmin) {
-          renderAdminProjectsList();
-        }
-      } catch (err) {
-        console.error("[obras] Erro ao carregar projetos e obras:", err);
-        window.skipUI.toast("Sem conexão com o banco. Os dados aparecerão quando a internet voltar.", { type: 'error' });
-      }
-    }
-
-    function atualizarSelectsFormulario() {
-      const projSelect = document.getElementById('formProjetoSelect');
-      const semProjAviso = document.getElementById('semProjetosAviso');
-
-      projSelect.innerHTML = '<option value="">Selecione um projeto…</option>';
-      projetosCache.forEach(p => {
-        const opt = document.createElement('option');
-        opt.value = p.id;
-        opt.textContent = p.nome;
-        projSelect.appendChild(opt);
+function renderMaoEqp(){
+  const mao = document.getElementById('maoList');
+  if(!catalogo.funcoes.length){
+    mao.innerHTML = `<div class="muted">${esc(t('emptyFunc'))}</div>`;
+  } else {
+    mao.innerHTML = catalogo.funcoes.map((f,i)=>{
+      const v = num(form?.maoDeObra?.[f.nome]);
+      return `<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid #EEF1F5;">
+        <span>${esc(f.nome)}</span>
+        <div class="stepper"><button type="button" data-mao="${esc(f.nome)}" data-d="-1">−</button><span>${v}</span><button type="button" data-mao="${esc(f.nome)}" data-d="1">+</button></div>
+      </div>`;
+    }).join('');
+    mao.querySelectorAll('button[data-mao]').forEach(b=>{
+      b.addEventListener('click', ()=>{
+        const name = b.dataset.mao; const d = Number(b.dataset.d);
+        const cur = num(form.maoDeObra[name]);
+        form.maoDeObra[name] = Math.max(0, cur + d);
+        renderMaoEqp();
       });
-
-      if (projetosCache.length === 0) {
-        semProjAviso.style.display = 'block';
-      } else {
-        semProjAviso.style.display = 'none';
-      }
-
-      // Auto-select if exactly 1 project
-      if (projetosCache.length === 1) {
-        projSelect.value = projetosCache[0].id;
-        aoMudarProjeto();
-      }
-    }
-
-    function aoMudarProjeto() {
-      const projId = document.getElementById('formProjetoSelect').value;
-      const obraSelect = document.getElementById('formObraSelect');
-
-      obraSelect.innerHTML = '<option value="">Selecione a obra…</option>';
-
-      if (!projId) {
-        obraSelect.disabled = true;
-        return;
-      }
-
-      const obrasFiltradas = obrasCache.filter(o => o.projetoId === projId);
-      obrasFiltradas.forEach(o => {
-        const opt = document.createElement('option');
-        opt.value = o.id;
-        opt.textContent = o.nome;
-        obraSelect.appendChild(opt);
-      });
-
-      obraSelect.disabled = false;
-
-      // Auto-select if exactly 1 obra
-      if (obrasFiltradas.length === 1) {
-        obraSelect.value = obrasFiltradas[0].id;
-      }
-    }
-
-    // ==================== FIRESTORE: INFORMES ====================
-    async function carregarInformes() {
-      const container = document.getElementById('informesListContainer');
-      container.innerHTML = `
-        <div class="skeleton-card"><div class="skeleton-line" style="width: 40%;"></div><div class="skeleton-line" style="width: 75%;"></div><div class="skeleton-line" style="width: 50%;"></div></div>
-        <div class="skeleton-card"><div class="skeleton-line" style="width: 35%;"></div><div class="skeleton-line" style="width: 70%;"></div><div class="skeleton-line" style="width: 45%;"></div></div>
-      `;
-
-      try {
-        let query;
-        if (isAdmin && currentScope === 'todos') {
-          query = db.collection('informes').orderBy('criadoEm', 'desc').limit(300);
-        } else {
-          query = db.collection('informes')
-            .where('autorId', '==', currentUser.uid)
-            .orderBy('criadoEm', 'desc')
-            .limit(300);
-        }
-
-        const snapshot = await query.get();
-        informesCache = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-
-        preencherFiltroMeses(informesCache);
-        aplicarFiltrosInformes();
-      } catch (err) {
-        console.error("[INFORMES] Erro ao carregar:", err);
-        container.innerHTML = `
-          <div class="app-card text-center p-4">
-            <p class="text-xs text-danger font-semibold mb-2">Erro ao carregar informes.</p>
-            <button type="button" class="btn" data-size="sm" onclick="carregarInformes()">Tentar novamente</button>
-          </div>
-        `;
-      }
-    }
-
-    function setScope(scope) {
-      currentScope = scope;
-      document.getElementById('btnScopeTodos').setAttribute('data-variant', scope === 'todos' ? '' : 'outline');
-      document.getElementById('btnScopeMeus').setAttribute('data-variant', scope === 'meus' ? '' : 'outline');
-      carregarInformes();
-    }
-
-    function preencherFiltroMeses(informes) {
-      const select = document.getElementById('filterMonth');
-      const mesesSet = new Set();
-
-      informes.forEach(inf => {
-        if (inf.dataISO) {
-          const yyyymm = inf.dataISO.substring(0, 7); // "YYYY-MM"
-          mesesSet.add(yyyymm);
-        }
-      });
-
-      const currentVal = select.value;
-      select.innerHTML = '<option value="all">Todos os meses</option>';
-
-      Array.from(mesesSet).sort().reverse().forEach(ym => {
-        const [ano, mes] = ym.split('-');
-        const opt = document.createElement('option');
-        opt.value = ym;
-        opt.textContent = `${mes}/${ano}`;
-        select.appendChild(opt);
-      });
-
-      select.value = currentVal;
-    }
-
-    function aplicarFiltrosInformes() {
-      const container = document.getElementById('informesListContainer');
-      const termo = document.getElementById('filterSearchObra').value.toLowerCase().trim();
-      const mesFiltro = document.getElementById('filterMonth').value;
-
-      let filtrados = informesCache.filter(inf => {
-        const matchObra = !termo || (inf.obra && inf.obra.toLowerCase().includes(termo)) || (inf.projeto && inf.projeto.toLowerCase().includes(termo));
-        const matchMes = mesFiltro === 'all' || (inf.dataISO && inf.dataISO.startsWith(mesFiltro));
-        return matchObra && matchMes;
-      });
-
-      if (filtrados.length === 0) {
-        container.innerHTML = `
-          <div class="app-card text-center p-6">
-            <div style="font-size: 32px; margin-bottom: 8px;">📋</div>
-            <h3 class="text-base font-bold m-0 text-muted">Nenhum informe ainda</h3>
-            <p class="text-xs muted m-0 mt-1">Toque no botão abaixo para criar o primeiro</p>
-          </div>
-        `;
-        return;
-      }
-
-      container.innerHTML = '';
-      filtrados.forEach(inf => {
-        const card = document.createElement('div');
-        card.className = 'app-card';
-        card.style.cursor = 'pointer';
-
-        // Calculate average progress if activities exist
-        let pctTotal = 0;
-        let pctCount = 0;
-        if (Array.isArray(inf.atividades)) {
-          inf.atividades.forEach(a => {
-            const p = parseFloat(a.pctAcumulado);
-            if (!isNaN(p) && p > 0) {
-              pctTotal += p;
-              pctCount++;
-            }
-          });
-        }
-        const pctMedio = pctCount > 0 ? (pctTotal / pctCount).toFixed(0) : null;
-
-        card.innerHTML = `
-          <div class="row between items-center mb-1">
-            <span class="badge" data-variant="secondary" style="font-weight: 700;">${inf.dataBR || inf.dataISO}</span>
-            ${pctMedio !== null ? `<span class="badge" data-variant="outline" style="font-size: 11px;">Média: ${pctMedio}%</span>` : ''}
-          </div>
-          <h3 class="text-base font-bold m-0 mt-1 text-truncate">${inf.obra || 'Obra sem nome'}</h3>
-          <p class="card-section-sub text-truncate">${inf.projeto || 'Projeto sem nome'}</p>
-          <div class="row between items-center mt-3 pt-2 text-xs muted" style="border-top: 1px solid #f3f4f6;">
-            <span class="text-truncate" style="max-width: 180px;">${inf.autorEmail || ''}</span>
-            <span class="accent font-semibold">Ver detalhes →</span>
-          </div>
-        `;
-
-        card.addEventListener('click', () => abrirDetalheInforme(inf));
-        container.appendChild(card);
-      });
-    }
-
-    function abrirDetalheInforme(inf) {
-      currentDetailedInforme = inf;
-      document.getElementById('detalheDataBadge').textContent = inf.dataBR || inf.dataISO;
-      document.getElementById('detalheObraTitle').textContent = inf.obra;
-      document.getElementById('detalheProjetoSub').textContent = inf.projeto;
-      document.getElementById('detalheAutorEmail').textContent = inf.autorEmail || '';
-
-      const text = gerarTextoWhatsApp(inf);
-      document.getElementById('detalheTextoBox').textContent = text;
-
-      // Delete action if author or admin
-      const actionsWrap = document.getElementById('detalheActionsWrap');
-      actionsWrap.innerHTML = '';
-      if (isAdmin || (currentUser && inf.autorId === currentUser.uid)) {
-        const btnDel = document.createElement('button');
-        btnDel.className = 'btn';
-        btnDel.setAttribute('data-variant', 'ghost');
-        btnDel.setAttribute('data-size', 'sm');
-        btnDel.style.color = '#dc2626';
-        btnDel.textContent = 'Excluir';
-        btnDel.onclick = () => excluirInformeConfirmado(inf.id);
-        actionsWrap.appendChild(btnDel);
-      }
-
-      mostrarView('viewDetalheInforme');
-    }
-
-    async function excluirInformeConfirmado(id) {
-      if (!confirm("Tem certeza que deseja excluir permanentemente este informe?")) return;
-      try {
-        await db.collection('informes').doc(id).delete();
-        window.skipUI.toast("Informe excluído com sucesso!", { type: 'success' });
-        carregarInformes();
-        mostrarView('viewInicio');
-      } catch (err) {
-        console.error("[EXCLUIR INFORME]", err);
-        window.skipUI.toast("Erro ao excluir informe.", { type: 'error' });
-      }
-    }
-
-    function copiarTextoDetalhe() {
-      const txt = document.getElementById('detalheTextoBox').textContent;
-      navigator.clipboard.writeText(txt).then(() => {
-        window.skipUI.toast("Texto copiado para a área de transferência!", { type: 'success' });
-      }).catch(() => {
-        window.skipUI.toast("Erro ao copiar.");
-      });
-    }
-
-    function abrirWhatsAppDetalhe() {
-      const txt = document.getElementById('detalheTextoBox').textContent;
-      window.open(`https://wa.me/?text=${encodeURIComponent(txt)}`, '_blank');
-    }
-
-    // ==================== FORMULÁRIO DO INFORME ====================
-    function abrirNovoInforme() {
-      // Estado sempre limpo
-      formAtividades = [];
-      formMaoDeObra = DEFAULT_MAO_DE_OBRA.map(m => ({ ...m, count: 0 }));
-      formEquipamentos = DEFAULT_EQUIPAMENTOS.map(e => ({ ...e, count: 0 }));
-
-      document.getElementById('formProjetoSelect').value = '';
-      document.getElementById('formObraSelect').value = '';
-      document.getElementById('formObraSelect').disabled = true;
-
-      const hoje = new Date().toISOString().substring(0, 10);
-      document.getElementById('formDataInforme').value = hoje;
-
-      document.getElementById('climaManha').value = '';
-      document.getElementById('climaTarde').value = '';
-      document.getElementById('txtOcorrencias').value = '';
-      document.getElementById('txtSeguranca').value = '';
-      document.getElementById('txtProximosPassos').value = '';
-      document.getElementById('boxCopiaInline').style.display = 'none';
-
-      // Auto-select single project / obra
-      if (projetosCache.length === 1) {
-        document.getElementById('formProjetoSelect').value = projetosCache[0].id;
-        aoMudarProjeto();
-      }
-
-      renderAtividadesList();
-      renderMaoDeObraList();
-      renderEquipamentosList();
-
-      mostrarView('viewFormulario');
-    }
-
-    // --- Copiar do Último Informe ---
-    let ultimoInformeCache = null;
-
-    async function buscarUltimoInformeParaCopiar() {
-      const box = document.getElementById('boxCopiaInline');
-      const meta = document.getElementById('txtUltimoInformeMeta');
-
-      try {
-        const obraAtualId = document.getElementById('formObraSelect').value;
-        let query = db.collection('informes')
-          .where('autorId', '==', currentUser.uid)
-          .orderBy('criadoEm', 'desc')
-          .limit(10);
-
-        const snap = await query.get();
-        if (snap.empty) {
-          window.skipUI.toast("Nenhum informe anterior encontrado.", { type: 'error' });
-          return;
-        }
-
-        const docs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-
-        // Prioritize same obra
-        let escolhido = docs[0];
-        if (obraAtualId) {
-          const obraObj = obrasCache.find(o => o.id === obraAtualId);
-          if (obraObj) {
-            const mesmaObra = docs.find(d => d.obra === obraObj.nome);
-            if (mesmaObra) escolhido = mesmaObra;
-          }
-        }
-
-        ultimoInformeCache = escolhido;
-        meta.textContent = `Último informe: ${escolhido.dataBR || escolhido.dataISO} · Obra: ${escolhido.obra}`;
-        box.style.display = 'block';
-      } catch (err) {
-        console.error("[COPIAR INFORME]", err);
-        window.skipUI.toast("Não foi possível buscar informe anterior.", { type: 'error' });
-      }
-    }
-
-    function aplicarCopiaInforme(modo) {
-      if (!ultimoInformeCache) return;
-
-      const inf = ultimoInformeCache;
-
-      // Match project and obra if exists
-      const proj = projetosCache.find(p => p.nome === inf.projeto);
-      if (proj) {
-        document.getElementById('formProjetoSelect').value = proj.id;
-        aoMudarProjeto();
-        const obra = obrasCache.find(o => o.nome === inf.obra && o.projetoId === proj.id);
-        if (obra) {
-          document.getElementById('formObraSelect').value = obra.id;
-        }
-      }
-
-      // Atividades
-      if (Array.isArray(inf.atividades)) {
-        formAtividades = inf.atividades.map(a => ({
-          nome: a.nome || '',
-          unidade: a.unidade || 'm³',
-          qtdDia: modo === 'tudo' ? (a.qtdDia || '') : '',
-          pctDia: modo === 'tudo' ? (a.pctDia || '') : '',
-          qtdAcumulada: a.qtdAcumulada || '',
-          pctAcumulado: a.pctAcumulado || ''
-        }));
-      }
-
-      // Mão de Obra
-      if (Array.isArray(inf.maoDeObra)) {
-        formMaoDeObra = inf.maoDeObra.map(m => ({
-          id: m.id || String(Math.random()),
-          pt: m.pt || m.nome,
-          es: m.es || m.nome,
-          count: modo === 'tudo' ? Number(m.count || 0) : 0
-        }));
-      }
-
-      // Equipamentos
-      if (Array.isArray(inf.equipamentos)) {
-        formEquipamentos = inf.equipamentos.map(e => ({
-          id: e.id || String(Math.random()),
-          pt: e.pt || e.nome,
-          es: e.es || e.nome,
-          count: modo === 'tudo' ? Number(e.count || 0) : 0
-        }));
-      }
-
-      if (modo === 'tudo') {
-        if (inf.clima) {
-          document.getElementById('climaManha').value = inf.clima.manha || '';
-          document.getElementById('climaTarde').value = inf.clima.tarde || '';
-        }
-        document.getElementById('txtOcorrencias').value = inf.ocorrencias || '';
-        document.getElementById('txtSeguranca').value = inf.seguranca || '';
-        document.getElementById('txtProximosPassos').value = inf.proximosPassos || '';
-      }
-
-      renderAtividadesList();
-      renderMaoDeObraList();
-      renderEquipamentosList();
-
-      document.getElementById('boxCopiaInline').style.display = 'none';
-      window.skipUI.toast(modo === 'tudo' ? "Dados copiados com avanço!" : "Estrutura copiada com sucesso!", { type: 'success' });
-    }
-
-    // --- Atividades ---
-    function renderAtividadesList() {
-      const container = document.getElementById('listaAtividadesContainer');
-      if (formAtividades.length === 0) {
-        container.innerHTML = `<p class="text-xs muted text-center p-3 m-0" id="txtSemAtividades">Nenhuma atividade adicionada.</p>`;
-        return;
-      }
-
-      container.innerHTML = '';
-      formAtividades.forEach((item, index) => {
-        const card = document.createElement('div');
-        card.className = 'activity-card-item';
-        card.innerHTML = `
-          <div class="row between items-center">
-            <span class="text-xs font-bold muted">#${index + 1}</span>
-            <button type="button" class="btn" data-variant="ghost" data-size="sm" style="color: #dc2626; padding: 2px 6px;" onclick="removerAtividade(${index})">
-              ✕ Excluir
-            </button>
-          </div>
-          <div class="cols-3 gap-2">
-            <div class="field" style="grid-column: span 2;">
-              <label class="text-xs muted">Descrição da Atividade</label>
-              <input class="input" type="text" value="${escapeHtml(item.nome)}" placeholder="Ex.: Concretagem de sapatas" oninput="formAtividades[${index}].nome = this.value">
-            </div>
-            <div class="field">
-              <label class="text-xs muted">Unidade</label>
-              <select class="input" onchange="formAtividades[${index}].unidade = this.value">
-                ${['m³', 'm²', 'ml', 'un', 'kg', 't'].map(u => `<option value="${u}" ${item.unidade === u ? 'selected' : ''}>${u}</option>`).join('')}
-              </select>
-            </div>
-          </div>
-          <div class="cols-2 gap-2">
-            <div class="field">
-              <label class="text-xs muted">Qtd. do Dia</label>
-              <input class="input" type="number" step="any" value="${item.qtdDia}" placeholder="Ex.: 6" oninput="formAtividades[${index}].qtdDia = this.value">
-            </div>
-            <div class="field">
-              <label class="text-xs muted">% do Dia</label>
-              <input class="input" type="number" step="any" value="${item.pctDia}" placeholder="Ex.: 5" oninput="formAtividades[${index}].pctDia = this.value">
-            </div>
-          </div>
-          <div class="cols-2 gap-2">
-            <div class="field">
-              <label class="text-xs muted">Qtd. Acumulada</label>
-              <input class="input" type="number" step="any" value="${item.qtdAcumulada}" placeholder="Ex.: 16" oninput="formAtividades[${index}].qtdAcumulada = this.value">
-            </div>
-            <div class="field">
-              <label class="text-xs muted">% Acumulado</label>
-              <input class="input" type="number" step="any" value="${item.pctAcumulado}" placeholder="Ex.: 45" oninput="formAtividades[${index}].pctAcumulado = this.value">
-            </div>
-          </div>
-        `;
-        container.appendChild(card);
-      });
-    }
-
-    function adicionarLinhaAtividade() {
-      formAtividades.push({
-        nome: '',
-        unidade: 'm³',
-        qtdDia: '',
-        pctDia: '',
-        qtdAcumulada: '',
-        pctAcumulado: ''
-      });
-      renderAtividadesList();
-    }
-
-    function removerAtividade(idx) {
-      formAtividades.splice(idx, 1);
-      renderAtividadesList();
-    }
-
-    // --- Mão de Obra ---
-    function renderMaoDeObraList() {
-      const container = document.getElementById('listaMaoDeObraContainer');
-      container.innerHTML = '';
-
-      let total = 0;
-      formMaoDeObra.forEach((item, index) => {
-        const count = Number(item.count) || 0;
-        total += count;
-
-        const nome = currentLang === 'es' ? (item.es || item.pt) : (item.pt || item.es);
-
-        const row = document.createElement('div');
-        row.className = 'resource-row-item';
-        row.innerHTML = `
-          <span class="text-sm font-medium">${escapeHtml(nome)}</span>
-          <div class="stepper-control">
-            <button type="button" class="stepper-btn" onclick="alterarMaoDeObra(${index}, -1)">−</button>
-            <span class="stepper-val">${count}</span>
-            <button type="button" class="stepper-btn" onclick="alterarMaoDeObra(${index}, 1)">+</button>
-          </div>
-        `;
-        container.appendChild(row);
-      });
-
-      const labelSingular = t('personSingular');
-      const labelPlural = t('personPlural');
-      const labelPerson = total === 1 ? labelSingular : labelPlural;
-      document.getElementById('tituloSecMaoDeObra').textContent = `👷 ${t('secMaoObra')} — Total: ${total} ${labelPerson}`;
-    }
-
-    function alterarMaoDeObra(index, delta) {
-      let val = Number(formMaoDeObra[index].count) || 0;
-      val = Math.max(0, val + delta);
-      formMaoDeObra[index].count = val;
-      renderMaoDeObraList();
-    }
-
-    function adicionarFuncaoPersonalizada() {
-      document.getElementById('inputFuncaoNomePT').value = '';
-      document.getElementById('inputFuncaoNomeES').value = '';
-      document.getElementById('dlgFuncao').showModal();
-    }
-
-    function confirmarNovaFuncao() {
-      const pt = document.getElementById('inputFuncaoNomePT').value.trim();
-      const es = document.getElementById('inputFuncaoNomeES').value.trim() || pt;
-      if (!pt) {
-        window.skipUI.toast("Informe o nome da função.", { type: 'error' });
-        return;
-      }
-      formMaoDeObra.push({ id: 'custom_' + Date.now(), pt, es, count: 1 });
-      renderMaoDeObraList();
-      document.getElementById('dlgFuncao').close();
-    }
-
-    // --- Equipamentos ---
-    function renderEquipamentosList() {
-      const container = document.getElementById('listaEquipamentosContainer');
-      container.innerHTML = '';
-
-      let total = 0;
-      formEquipamentos.forEach((item, index) => {
-        const count = Number(item.count) || 0;
-        total += count;
-
-        const nome = currentLang === 'es' ? (item.es || item.pt) : (item.pt || item.es);
-
-        const row = document.createElement('div');
-        row.className = 'resource-row-item';
-        row.innerHTML = `
-          <span class="text-sm font-medium">${escapeHtml(nome)}</span>
-          <div class="stepper-control">
-            <button type="button" class="stepper-btn" onclick="alterarEquipamento(${index}, -1)">−</button>
-            <span class="stepper-val">${count}</span>
-            <button type="button" class="stepper-btn" onclick="alterarEquipamento(${index}, 1)">+</button>
-          </div>
-        `;
-        container.appendChild(row);
-      });
-
-      const labelSingular = t('equipSingular');
-      const labelPlural = t('equipPlural');
-      const labelEquip = total === 1 ? labelSingular : labelPlural;
-      document.getElementById('tituloSecEquipamentos').textContent = `🚜 ${t('secEquip')} — Total: ${total} ${labelEquip}`;
-    }
-
-    function alterarEquipamento(index, delta) {
-      let val = Number(formEquipamentos[index].count) || 0;
-      val = Math.max(0, val + delta);
-      formEquipamentos[index].count = val;
-      renderEquipamentosList();
-    }
-
-    function adicionarEquipamentoPersonalizado() {
-      document.getElementById('inputEquipNomePT').value = '';
-      document.getElementById('inputEquipNomeES').value = '';
-      document.getElementById('dlgEquip').showModal();
-    }
-
-    function confirmarNovoEquipamento() {
-      const pt = document.getElementById('inputEquipNomePT').value.trim();
-      const es = document.getElementById('inputEquipNomeES').value.trim() || pt;
-      if (!pt) {
-        window.skipUI.toast("Informe o nome do equipamento.", { type: 'error' });
-        return;
-      }
-      formEquipamentos.push({ id: 'custom_' + Date.now(), pt, es, count: 1 });
-      renderEquipamentosList();
-      document.getElementById('dlgEquip').close();
-    }
-
-    // ==================== PREVIEW WHATSAPP FORMATTER ====================
-    function formatarDataBR(iso) {
-      if (!iso) return "";
-      const [yyyy, mm, dd] = iso.split('-');
-      return `${dd}/${mm}/${yyyy}`;
-    }
-
-    function gerarTextoWhatsApp(dados) {
-      const dataFormatada = dados.dataBR || formatarDataBR(dados.dataISO);
-      const isES = (currentLang === 'es');
-
-      let lines = [];
-
-      // Header
-      lines.push(isES ? `*AVANCE DE OBRA (${dataFormatada})*` : `*AVANÇO DA OBRA (${dataFormatada})*`);
-      if (dados.projeto) lines.push(`${isES ? '*Proyecto:*' : '*Projeto:*'} ${dados.projeto}`);
-      if (dados.obra) lines.push(`*Obra:* ${dados.obra}`);
-
-      // Atividades
-      if (Array.isArray(dados.atividades) && dados.atividades.length > 0) {
-        const ativLines = [];
-        dados.atividades.forEach((a, i) => {
-          if (!a.nome && !a.qtdDia && !a.qtdAcumulada) return;
-
-          let block = `${i + 1}. ${a.nome || 'Atividade'}`;
-
-          // Sub-linha Hoje
-          let hojeParts = [];
-          if (a.qtdDia !== '' && a.qtdDia !== null && !isNaN(a.qtdDia)) hojeParts.push(`${a.qtdDia} ${a.unidade || ''}`);
-          if (a.pctDia !== '' && a.pctDia !== null && !isNaN(a.pctDia) && Number(a.pctDia) > 0) hojeParts.push(`${a.pctDia}%`);
-
-          // Sub-linha Acumulado
-          let acumParts = [];
-          if (a.qtdAcumulada !== '' && a.qtdAcumulada !== null && !isNaN(a.qtdAcumulada)) acumParts.push(`${a.qtdAcumulada} ${a.unidade || ''}`);
-          if (a.pctAcumulado !== '' && a.pctAcumulado !== null && !isNaN(a.pctAcumulado) && Number(a.pctAcumulado) > 0) acumParts.push(`${a.pctAcumulado}%`);
-
-          if (hojeParts.length > 0) {
-            block += `\n   🗓️ ${isES ? 'Hoy' : 'Hoje'}: ${hojeParts.join(' | ')}`;
-          }
-          if (acumParts.length > 0) {
-            block += `\n   📊 ${isES ? 'Acumulado' : 'Acumulado'}: ${acumParts.join(' | ')}`;
-          }
-
-          ativLines.push(block);
-        });
-
-        if (ativLines.length > 0) {
-          lines.push(`\n⏳ *${isES ? 'ACTIVIDADES' : 'ATIVIDADES'}*`);
-          lines.push(ativLines.join('\n'));
-        }
-      }
-
-      // Mão de Obra
-      if (Array.isArray(dados.maoDeObra)) {
-        const ativos = dados.maoDeObra.filter(m => Number(m.count) > 0);
-        const total = ativos.reduce((acc, cur) => acc + Number(cur.count), 0);
-
-        if (total > 0) {
-          const pLabel = total === 1 ? (isES ? 'persona' : 'pessoa') : (isES ? 'personas' : 'pessoas');
-          lines.push(`\n👷 *${isES ? 'MANO DE OBRA' : 'MÃO DE OBRA'}* — Total: ${total} ${pLabel}`);
-          ativos.forEach(m => {
-            const nome = isES ? (m.es || m.pt) : (m.pt || m.es);
-            lines.push(`• ${m.count} ${nome}`);
-          });
-        }
-      }
-
-      // Equipamentos
-      if (Array.isArray(dados.equipamentos)) {
-        const ativos = dados.equipamentos.filter(e => Number(e.count) > 0);
-        const total = ativos.reduce((acc, cur) => acc + Number(cur.count), 0);
-
-        if (total > 0) {
-          const eLabel = total === 1 ? (isES ? 'equipo' : 'equipamento') : (isES ? 'equipos' : 'equipamentos');
-          lines.push(`\n🚜 *${isES ? 'EQUIPOS' : 'EQUIPAMENTOS'}* — Total: ${total} ${eLabel}`);
-          ativos.forEach(e => {
-            const nome = isES ? (e.es || e.pt) : (e.pt || e.es);
-            lines.push(`• ${e.count} ${nome}`);
-          });
-        }
-      }
-
-      // Clima
-      if (dados.clima && (dados.clima.manha || dados.clima.tarde)) {
-        const partesClima = [];
-        if (dados.clima.manha) partesClima.push(`${isES ? 'Mañana' : 'Manhã'}: ${dados.clima.manha}`);
-        if (dados.clima.tarde) partesClima.push(`${isES ? 'Tarde' : 'Tarde'}: ${dados.clima.tarde}`);
-        if (partesClima.length > 0) {
-          lines.push(`\n🌤️ *CLIMA*`);
-          lines.push(partesClima.join(' | '));
-        }
-      }
-
-      // Ocorrências
-      if (dados.ocorrencias && dados.ocorrencias.trim()) {
-        lines.push(`\n⚠️ *${isES ? 'OCURRENCIAS' : 'OCORRÊNCIAS'}*`);
-        lines.push(dados.ocorrencias.trim());
-      }
-
-      // Segurança
-      if (dados.seguranca && dados.seguranca.trim()) {
-        lines.push(`\n🦺 *${isES ? 'SEGURIDAD' : 'SEGURANÇA'}*`);
-        lines.push(dados.seguranca.trim());
-      }
-
-      // Próximos Passos
-      if (dados.proximosPassos && dados.proximosPassos.trim()) {
-        lines.push(`\n📌 *${isES ? 'PRÓXIMOS PASOS' : 'PRÓXIMOS PASSOS'}*`);
-        lines.push(dados.proximosPassos.trim());
-      }
-
-      return lines.join('\n');
-    }
-
-    function coletarDadosFormulario() {
-      const projId = document.getElementById('formProjetoSelect').value;
-      const obraId = document.getElementById('formObraSelect').value;
-      const dataISO = document.getElementById('formDataInforme').value;
-
-      if (!projId || !obraId || !dataISO) {
-        return null;
-      }
-
-      const projObj = projetosCache.find(p => p.id === projId);
-      const obraObj = obrasCache.find(o => o.id === obraId);
-
-      return {
-        projeto: projObj ? projObj.nome : '',
-        obra: obraObj ? obraObj.nome : '',
-        dataISO: dataISO,
-        dataBR: formatarDataBR(dataISO),
-        atividades: formAtividades,
-        maoDeObra: formMaoDeObra,
-        equipamentos: formEquipamentos,
-        clima: {
-          manha: document.getElementById('climaManha').value,
-          tarde: document.getElementById('climaTarde').value
-        },
-        ocorrencias: document.getElementById('txtOcorrencias').value.trim(),
-        seguranca: document.getElementById('txtSeguranca').value.trim(),
-        proximosPassos: document.getElementById('txtProximosPassos').value.trim()
-      };
-    }
-
-    function abrirPreviewTexto() {
-      const dados = coletarDadosFormulario();
-      if (!dados) {
-        window.skipUI.toast("Por favor, selecione o projeto, a obra e a data.", { type: 'error' });
-        return;
-      }
-
-      const texto = gerarTextoWhatsApp(dados);
-      document.getElementById('whatsappOutputText').textContent = texto;
-      mostrarView('viewPreview');
-    }
-
-    function copiarTextoPreview() {
-      const txt = document.getElementById('whatsappOutputText').textContent;
-      navigator.clipboard.writeText(txt).then(() => {
-        window.skipUI.toast("Texto copiado para a área de transferência!", { type: 'success' });
-      }).catch(() => {
-        window.skipUI.toast("Erro ao copiar.");
-      });
-    }
-
-    function compartilharTextoPreview() {
-      const txt = document.getElementById('whatsappOutputText').textContent;
-      if (navigator.share) {
-        navigator.share({
-          title: "Reporte Diário de Obra",
-          text: txt
-        }).catch(err => console.log("Compartilhamento cancelado", err));
-      } else {
-        copiarTextoPreview();
-      }
-    }
-
-    function abrirWhatsAppWeb() {
-      const txt = document.getElementById('whatsappOutputText').textContent;
-      window.open(`https://wa.me/?text=${encodeURIComponent(txt)}`, '_blank');
-    }
-
-    async function salvarInformeNoFirestore() {
-      const dados = coletarDadosFormulario();
-      if (!dados) {
-        window.skipUI.toast("Preencha os campos obrigatórios (Projeto, Obra e Data).", { type: 'error' });
-        return;
-      }
-
-      const btnSalvar = document.getElementById('btnSalvarInforme');
-      btnSalvar.disabled = true;
-
-      try {
-        const payload = {
-          ...dados,
-          autorId: currentUser.uid,
-          autorEmail: currentUser.email || 'autor',
-          criadoEm: firebase.firestore.FieldValue.serverTimestamp()
-        };
-
-        await db.collection('informes').add(payload);
-        window.skipUI.toast("Informe salvo com sucesso!", { type: 'success' });
-
-        carregarInformes();
-        mostrarView('viewInicio');
-      } catch (err) {
-        console.error("[SALVAR INFORME]", err);
-        window.skipUI.toast("Erro ao salvar informe. Verifique a conexão.", { type: 'error' });
-      } finally {
-        btnSalvar.disabled = false;
-      }
-    }
-
-    // ==================== VIEW ADMIN: PROJETOS E OBRAS ====================
-    function renderAdminProjectsList() {
-      const container = document.getElementById('adminProjectsContainer');
-      if (projetosCache.length === 0) {
-        container.innerHTML = `
-          <div class="app-card text-center p-6">
-            <h3 class="text-base font-bold m-0 text-muted">Nenhum projeto cadastrado ainda</h3>
-            <p class="text-xs muted m-0 mt-1 mb-3">Crie o primeiro projeto para começar a cadastrar frentes de obra.</p>
-            <button type="button" class="btn" data-size="sm" onclick="abrirModalNovoProjeto()">＋ Criar projeto</button>
-          </div>
-        `;
-        return;
-      }
-
-      container.innerHTML = '';
-      projetosCache.forEach(proj => {
-        const obrasDoProjeto = obrasCache.filter(o => o.projetoId === proj.id);
-
-        const card = document.createElement('div');
-        card.className = 'project-admin-card';
-
-        let obrasHtml = '';
-        if (obrasDoProjeto.length === 0) {
-          obrasHtml = `<p class="text-xs muted m-0 mt-2">Nenhuma obra vinculada a este projeto.</p>`;
-        } else {
-          obrasHtml = obrasDoProjeto.map(o => `
-            <div class="obra-pill-item">
-              <span class="font-medium">${escapeHtml(o.nome)}</span>
-              <div class="row gap-1">
-                <button type="button" class="btn" data-variant="ghost" data-size="sm" style="padding: 2px 6px; font-size: 11px;" onclick="abrirModalEditarObra('${o.id}', '${escapeHtml(o.nome)}')">Editar</button>
-                <button type="button" class="btn" data-variant="ghost" data-size="sm" style="padding: 2px 6px; font-size: 11px; color: #dc2626;" onclick="excluirObraConfirmada('${o.id}')">Excluir</button>
-              </div>
-            </div>
-          `).join('');
-        }
-
-        card.innerHTML = `
-          <div class="row between items-center">
-            <div>
-              <h3 class="text-base font-bold m-0">${escapeHtml(proj.nome)}</h3>
-              <span class="text-xs muted">${obrasDoProjeto.length} ${obrasDoProjeto.length === 1 ? 'obra' : 'obras'}</span>
-            </div>
-            <div class="row gap-1">
-              <button type="button" class="btn" data-variant="outline" data-size="sm" onclick="abrirModalEditarProjeto('${proj.id}', '${escapeHtml(proj.nome)}')">Editar</button>
-              <button type="button" class="btn" data-variant="ghost" data-size="sm" style="color: #dc2626;" onclick="excluirProjetoConfirmado('${proj.id}')">Excluir</button>
-            </div>
-          </div>
-          <div class="mt-3 pt-2" style="border-top: 1px dashed #e5e7eb;">
-            <div class="row between items-center mb-1">
-              <span class="text-xs font-semibold muted">Obras do Projeto:</span>
-              <button type="button" class="btn" data-variant="secondary" data-size="sm" style="font-size: 11px; padding: 2px 8px;" onclick="abrirModalNovaObra('${proj.id}', '${escapeHtml(proj.nome)}')">
-                ＋ Nova obra
-              </button>
-            </div>
-            ${obrasHtml}
-          </div>
-        `;
-
-        container.appendChild(card);
-      });
-    }
-
-    function abrirModalNovoProjeto() {
-      if (!isAdmin) {
-        window.skipUI.toast("Apenas o administrador pode cadastrar obras. Fale com o responsável.", { type: 'error' });
-        return;
-      }
-      editingProjectId = null;
-      document.getElementById('dlgProjetoTitle').textContent = "Novo Projeto";
-      document.getElementById('inputNomeProjeto').value = '';
-      document.getElementById('dlgProjeto').showModal();
-    }
-
-    function abrirModalEditarProjeto(id, nome) {
-      if (!isAdmin) return;
-      editingProjectId = id;
-      document.getElementById('dlgProjetoTitle').textContent = "Editar Projeto";
-      document.getElementById('inputNomeProjeto').value = nome;
-      document.getElementById('dlgProjeto').showModal();
-    }
-
-    async function salvarProjetoDialog() {
-      const nome = document.getElementById('inputNomeProjeto').value.trim();
-      if (!nome) {
-        window.skipUI.toast("Informe o nome do projeto.", { type: 'error' });
-        return;
-      }
-
-      try {
-        if (editingProjectId) {
-          await db.collection('projetos').doc(editingProjectId).update({ nome });
-          window.skipUI.toast("Projeto atualizado!");
-        } else {
-          await db.collection('projetos').add({
-            nome,
-            criadoEm: firebase.firestore.FieldValue.serverTimestamp(),
-            criadoPor: currentUser.uid
-          });
-          window.skipUI.toast("Projeto criado com sucesso!", { type: 'success' });
-        }
-        document.getElementById('dlgProjeto').close();
-        await carregarProjetosEObras();
-      } catch (err) {
-        console.error("[PROJETOS]", err);
-        window.skipUI.toast("Erro ao salvar projeto.", { type: 'error' });
-      }
-    }
-
-    async function excluirProjetoConfirmado(projId) {
-      if (!confirm("Excluir este projeto também excluirá todas as obras vinculadas a ele. Continuar?")) return;
-
-      try {
-        // Excluir obras do projeto
-        const obrasToDelete = obrasCache.filter(o => o.projetoId === projId);
-        for (const o of obrasToDelete) {
-          await db.collection('obras').doc(o.id).delete();
-        }
-        // Excluir projeto
-        await db.collection('projetos').doc(projId).delete();
-        window.skipUI.toast("Projeto e obras excluídos com sucesso!");
-        await carregarProjetosEObras();
-      } catch (err) {
-        console.error("[EXCLUIR PROJETO]", err);
-        window.skipUI.toast("Erro ao excluir projeto.", { type: 'error' });
-      }
-    }
-
-    function abrirModalNovaObra(projId, projNome) {
-      if (!isAdmin) return;
-      editingObraId = null;
-      document.getElementById('dlgObraTitle').textContent = "Nova Obra";
-      document.getElementById('dlgObraSub').textContent = `Projeto: ${projNome}`;
-      document.getElementById('inputObraProjetoId').value = projId;
-      document.getElementById('inputNomeObra').value = '';
-      document.getElementById('dlgObra').showModal();
-    }
-
-    function abrirModalEditarObra(obraId, obraNome) {
-      if (!isAdmin) return;
-      editingObraId = obraId;
-      document.getElementById('dlgObraTitle').textContent = "Editar Obra";
-      document.getElementById('inputNomeObra').value = obraNome;
-      document.getElementById('dlgObra').showModal();
-    }
-
-    async function salvarObraDialog() {
-      const nome = document.getElementById('inputNomeObra').value.trim();
-      const projetoId = document.getElementById('inputObraProjetoId').value;
-
-      if (!nome) {
-        window.skipUI.toast("Informe o nome da obra.", { type: 'error' });
-        return;
-      }
-
-      try {
-        if (editingObraId) {
-          await db.collection('obras').doc(editingObraId).update({ nome });
-          window.skipUI.toast("Obra atualizada!");
-        } else {
-          await db.collection('obras').add({
-            projetoId,
-            nome,
-            criadoEm: firebase.firestore.FieldValue.serverTimestamp(),
-            criadoPor: currentUser.uid
-          });
-          window.skipUI.toast("Obra adicionada com sucesso!", { type: 'success' });
-        }
-        document.getElementById('dlgObra').close();
-        await carregarProjetosEObras();
-      } catch (err) {
-        console.error("[OBRAS]", err);
-        window.skipUI.toast("Erro ao salvar obra.", { type: 'error' });
-      }
-    }
-
-    async function excluirObraConfirmada(obraId) {
-      if (!confirm("Tem certeza que deseja excluir esta obra?")) return;
-      try {
-        await db.collection('obras').doc(obraId).delete();
-        window.skipUI.toast("Obra excluída.");
-        await carregarProjetosEObras();
-      } catch (err) {
-        console.error("[EXCLUIR OBRA]", err);
-        window.skipUI.toast("Erro ao excluir obra.", { type: 'error' });
-      }
-    }
-
-    // Helper to sanitize html
-    function escapeHtml(text) {
-      if (!text) return "";
-      return String(text).replace(/[&<>'"]/g, tag => ({
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        "'": '&#39;',
-        '"': '&quot;'
-      }[tag] || tag));
-    }
-
-    // ==================== INITIALIZATION ====================
-    document.addEventListener('DOMContentLoaded', () => {
-      atualizarTextosIdioma();
-      iniciarFirebase();
     });
-  </script>
+  }
+  const eqp = document.getElementById('eqpList');
+  if(!catalogo.equipamentos.length){
+    eqp.innerHTML = `<div class="muted">${esc(t('emptyEqp'))}</div>`;
+  } else {
+    eqp.innerHTML = catalogo.equipamentos.map(e=>{
+      const v = num(form?.equipamentos?.[e.nome]);
+      return `<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid #EEF1F5;">
+        <span>${esc(e.nome)}</span>
+        <div class="stepper"><button type="button" data-eqp="${esc(e.nome)}" data-d="-1">−</button><span>${v}</span><button type="button" data-eqp="${esc(e.nome)}" data-d="1">+</button></div>
+      </div>`;
+    }).join('');
+    eqp.querySelectorAll('button[data-eqp]').forEach(b=>{
+      b.addEventListener('click', ()=>{
+        const name = b.dataset.eqp; const d = Number(b.dataset.d);
+        const cur = num(form.equipamentos[name]);
+        form.equipamentos[name] = Math.max(0, cur + d);
+        renderMaoEqp();
+      });
+    });
+  }
+  document.getElementById('titleMao').textContent = `${t('maoTitle')} ${contaTotalMao()} ${contaTotalMao()===1?t('persona1').replace(/^1\s/,''):t('personaN')}`.replace(/\s+/g,' ').trim();
+  document.getElementById('titleEqp').textContent = `${t('eqpTitle')} ${contaTotalEqp()} ${contaTotalEqp()===1?t('equipo1').replace(/^1\s/,''):t('equipoN')}`.replace(/\s+/g,' ').trim();
+}
+
+function renderActivities(){
+  const list = document.getElementById('actList');
+  if(!form) return;
+  if(!form.atividades.length){
+    list.innerHTML = `<div class="muted" style="margin-bottom:8px;">${esc(t('actSub'))}</div>`;
+    return;
+  }
+  list.innerHTML = form.atividades.map((a,i)=>{
+    const opts = [`<option value="">${esc(t('sinEquipo'))}</option>`].concat(catalogo.equipamentos.map(e=>`<option value="${esc(e.nome)}" ${a.equipamento===e.nome?'selected':''}>${esc(e.nome)}</option>`)).join('');
+    const addLink = catalogo.equipamentos.length ? '' : `<button class="link" type="button" data-goto-cat="1" style="font-size:12px;">${esc(t('addEquipoLink'))}</button>`;
+    const unitOpts = UNITS.map(u=>`<option value="${u}" ${a.unidade===u?'selected':''}>${u}</option>`).join('');
+    return `<div class="act-card" data-idx="${i}">
+      <div class="field"><input class="input" data-f="nome" value="${esc(a.nome)}" placeholder="${esc(t('actNamePh'))}"></div>
+      <div class="field"><label>${esc(t('work').length?'Equipo':'')} ${esc(t('sinEquipo')).length?'':''}</label><select class="select" data-f="equipamento">${opts}</select>${addLink}</div>
+      <div class="grid2">
+        <div class="field"><label>${esc(t('horas'))}</label><div style="display:flex;align-items:center;gap:6px;"><input class="input" type="number" step="0.5" min="0" data-f="horas" value="${esc(a.horas)}" placeholder="0" style="width:90px;"><span>h</span></div></div>
+        <div class="field"><label>${esc(t('unit'))}</label><select class="select" data-f="unidade">${unitOpts}</select></div>
+        <div class="field"><label>${esc(t('qtyDay'))}</label><input class="input" type="number" min="0" data-f="qtyDia" value="${esc(a.qtyDia)}"></div>
+        <div class="field"><label>${esc(t('pctDay'))}</label><input class="input" type="number" min="0" max="100" data-f="pctDia" value="${esc(a.pctDia)}"></div>
+        <div class="field"><label>${esc(t('qtyAcum'))}</label><input class="input" type="number" min="0" data-f="qtyAcum" value="${esc(a.qtyAcum)}"></div>
+        <div class="field"><label>${esc(t('pctAcum'))}</label><input class="input" type="number" min="0" max="100" data-f="pctAcum" value="${esc(a.pctAcum)}"></div>
+      </div>
+      <div class="act-row-del"><button class="btn small danger" type="button" data-del="${i}">🗑️</button></div>
+    </div>`;
+  }).join('');
+  list.querySelectorAll('[data-f]').forEach(el=>{
+    el.addEventListener('input', ()=>{
+      const card = el.closest('.act-card'); const idx = Number(card.dataset.idx);
+      form.atividades[idx][el.dataset.f] = el.value;
+    });
+    el.addEventListener('change', ()=>{
+      const card = el.closest('.act-card'); const idx = Number(card.dataset.idx);
+      form.atividades[idx][el.dataset.f] = el.value;
+    });
+  });
+  list.querySelectorAll('[data-del]').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      const idx = Number(b.dataset.del);
+      form.atividades.splice(idx,1); renderActivities();
+    });
+  });
+  list.querySelectorAll('[data-goto-cat]').forEach(b=>{
+    b.addEventListener('click', ()=> abrirCatalogo());
+  });
+}
+
+function novaAtividade(){
+  return { nome:'', equipamento:'', horas:'', unidade:'m³', qtyDia:'', pctDia:'', qtyAcum:'', pctAcum:'' };
+}
+
+function renderCatalog(){
+  const f = document.getElementById('catFuncList');
+  const e = document.getElementById('catEqpList');
+  f.innerHTML = renderCatalogList(catalogo.funcoes, 'funcoes', t('emptyFunc'), t('addFunc'), t('confirmDelFunc'));
+  e.innerHTML = renderCatalogList(catalogo.equipamentos, 'equipamentos', t('emptyEqp'), t('addEqp'), t('confirmDelEqp'));
+  bindCatalogActions(f,'funcoes');
+  bindCatalogActions(e,'equipamentos');
+}
+function renderCatalogList(arr, tipo, emptyMsg, addMsg, confirmMsg){
+  const items = arr.length ? arr.map((x,i)=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #EEF1F5;"><span>${esc(x.nome)}</span><button class="btn ghost" type="button" data-rm="${tipo}" data-i="${i}" style="color:#A11B1B;">✕</button></div>`).join('') : `<div class="muted">${esc(emptyMsg)}</div>`;
+  return items + `<button class="btn small secondary" type="button" data-add="${tipo}" style="margin-top:10px;">${esc(addMsg)}</button><div data-addbox="${tipo}" style="display:none;margin-top:8px;"></div>`;
+}
+function bindCatalogActions(root, tipo){
+  root.querySelectorAll('[data-add]').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      const box = root.querySelector(`[data-addbox="${tipo}"]`);
+      box.style.display='flex'; box.style.gap='6px';
+      box.innerHTML = `<input class="input" id="inl_${tipo}" placeholder="${esc(tipo==='funcoes'?t('newFuncPh'):t('newEqpPh'))}"><button class="btn small" type="button" id="ok_${tipo}">${esc(t('save'))}</button>`;
+      document.getElementById(`ok_${tipo}`).addEventListener('click', ()=> salvarCatalogItem(tipo, document.getElementById(`inl_${tipo}`).value.trim()));
+    });
+  });
+  root.querySelectorAll('[data-rm]').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      const msg = tipo==='funcoes' ? t('confirmDelFunc') : t('confirmDelEqp');
+      confirmar(msg, ()=> removerCatalogItem(tipo, Number(b.dataset.i)));
+    });
+  });
+}
+
+async function salvarCatalogItem(tipo, nome){
+  if(!nome) { toast(t('selectWork')); return; }
+  const item = { nome, nomeEs: nome, criadoEm: new Date().toISOString() };
+  try{
+    await db.collection('catalogos').doc(currentUser.uid).set({ [tipo]: firebase.firestore.FieldValue.arrayUnion(item) }, { merge:true });
+    catalogo[tipo].push(item);
+    renderCatalog(); renderMaoEqp(); renderActivities();
+    toast(t('catAdded'));
+  }catch(e){
+    console.warn("catálogo save:", e.code||e.message);
+    toast(e.code==='unavailable' ? t('offline') : traduzirErro(e.code, e.message));
+  }
+}
+
+async function removerCatalogItem(tipo, idx){
+  try{
+    const ref = db.collection('catalogos').doc(currentUser.uid);
+    const snap = await ref.get();
+    const arr = ((snap.data()||{})[tipo] || []).filter((_,i)=> i!==idx);
+    await ref.set({ [tipo]: arr }, { merge:true });
+    catalogo[tipo] = arr;
+    renderCatalog(); renderMaoEqp(); renderActivities();
+    toast(t('catRemoved'));
+  }catch(e){
+    console.warn("catálogo remove:", e.code||e.message);
+    toast(t('offline'));
+  }
+}
+
+function confirmar(msg, cb){
+  document.getElementById('dlgText').textContent = msg;
+  pendingDialogCb = cb;
+  document.getElementById('dlgBg').classList.add('open');
+}
+function fecharDialog(){ document.getElementById('dlgBg').classList.remove('open'); pendingDialogCb=null; }
+
+function abrirCatalogo(){ renderCatalog(); mostrarView('viewCatalog'); }
+
+async function carregarInformes(){
+  const list = document.getElementById('histList');
+  list.innerHTML = `<div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>`;
+  try{
+    let q;
+    if(currentUser.uid === ADMIN_UID && scope==='all'){
+      q = db.collection('informes').orderBy('criadoEm','desc').limit(300);
+    } else {
+      q = db.collection('informes').where('autorId','==',currentUser.uid).orderBy('criadoEm','desc').limit(300);
+    }
+    const snap = await q.get();
+    informesCache = snap.docs.map(d=>({id:d.id, ...d.data()}));
+    renderHistory();
+  }catch(e){
+    console.warn("informes:", e.code||e.message);
+    list.innerHTML = `<div class="banner-err">${esc(t('loadErr'))}<br><span class="small-muted">${esc(e.code||e.message)}</span></div><button class="btn secondary" type="button" id="btnRetryList">${esc(t('retryList'))}</button>`;
+    document.getElementById('btnRetryList').addEventListener('click', carregarInformes);
+  }
+}
+
+function renderHistory(){
+  const list = document.getElementById('histList');
+  const search = (document.getElementById('searchObra').value||'').toLowerCase();
+  const month = document.getElementById('monthFilter').value;
+  let arr = informesCache.slice();
+  if(scope==='mine') arr = arr.filter(i=>i.autorId===currentUser.uid);
+  if(search) arr = arr.filter(i=>(i.obra||'').toLowerCase().includes(search));
+  if(month) arr = arr.filter(i=>(i.dataISO||'').startsWith(month));
+  const mSel = document.getElementById('monthFilter');
+  const meses = [...new Set(informesCache.map(i=>(i.dataISO||'').slice(0,7)).filter(Boolean))].sort().reverse();
+  mSel.innerHTML = `<option value="">${esc(t('allMonths'))}</option>` + meses.map(m=>`<option value="${m}" ${m===month?'selected':''}>${esc(mesLabel(m+'-01'))}</option>`).join('');
+  if(!arr.length){
+    list.innerHTML = `<div class="card center" style="padding:28px;"><div style="font-size:32px;">📝</div><h3 style="margin-top:8px;">${esc(t('emptyTitle'))}</h3><div class="muted">${esc(t('emptySub'))}</div></div>`;
+    return;
+  }
+  list.innerHTML = arr.map(i=>{
+    const pct = averagePct(i);
+    return `<div class="card hist-card" data-id="${esc(i.id)}">
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <span class="hist-date">${esc(fmtBR(i.dataISO))}</span>
+        ${pct!==null?`<span class="pill green">${pct}${t('pctLbl')}</span>`:''}
+      </div>
+      <div style="margin-top:4px;"><strong>${esc(i.projeto||'')}</strong> · ${esc(i.obra||'')}</div>
+      <div class="small-muted" style="margin-top:4px;">${esc(i.autorEmail||'')}</div>
+    </div>`;
+  }).join('');
+  list.querySelectorAll('.hist-card').forEach(c=>c.addEventListener('click', ()=> abrirLeitura(c.dataset.id)));
+}
+
+function averagePct(i){
+  const vals = (i.atividades||[]).map(a=>num(a.pctAcum)).filter(v=>v>0);
+  if(!vals.length) return null;
+  return Math.round(vals.reduce((s,v)=>s+v,0)/vals.length);
+}
+
+function abrirLeitura(id){
+  currentReadId = id;
+  renderReadView(id);
+  mostrarView('viewRead');
+}
+function renderReadView(id){
+  const i = informesCache.find(x=>x.id===id);
+  if(!i) return;
+  document.getElementById('readTitle').textContent = `${fmtBR(i.dataISO)} · ${i.obra||''}`;
+  const acts = (i.atividades||[]).map(a=>`<div class="act-card"><strong>${esc(a.nome)}</strong><div class="small-muted">${esc(a.equipamento||'')} · ${esc(a.horas||0)} h</div><div class="small-muted">${esc(a.qtyDia||0)} ${esc(a.unidade||'')} · ${esc(a.pctDia||0)}% / ${esc(a.pctAcum||0)}%</div></div>`).join('');
+  document.getElementById('readBody').innerHTML = `<div class="card"><div class="muted">${esc(i.projeto||'')}</div></div><div class="section-title">${esc(t('activities'))}</div>${acts||'<div class="muted">—</div>'}`;
+  const canDel = currentUser.uid===ADMIN_UID || i.autorId===currentUser.uid;
+  document.getElementById('btnDeleteInforme').style.display = canDel ? '' : 'none';
+}
+
+function leerFormulario(){
+  const f = {
+    projetoId: document.getElementById('selProjeto').value,
+    obraId: document.getElementById('selObra').value,
+    data: document.getElementById('dataInforme').value,
+    clima: {manha: document.getElementById('climaManha').value, tarde: document.getElementById('climaTarde').value},
+    ocorrencias: document.getElementById('txtOcorr').value.trim(),
+    seguranca: document.getElementById('txtSeg').value.trim(),
+    proximosPassos: document.getElementById('txtProx').value.trim()
+  };
+  form.projetoId = f.projetoId; form.obraId = f.obraId; form.data = f.data; form.clima = f.clima;
+  form.ocorrencias = f.ocorrencias; form.seguranca = f.seguranca; form.proximosPassos = f.proximosPassos;
+  return form;
+}
+
+function nomeProjeto(id){ const p = projetos.find(x=>x.id===id); return p ? p.nome : ''; }
+function nomeObra(id){ const o = obras.find(x=>x.id===id); return o ? o.nome : ''; }
+
+function montarTexto(){
+  const f = leerFormulario();
+  const pt = idiomaAtual === 'pt';
+  const L = pt ? {
+    head:"AVANÇO DA OBRA", proj:"Projeto:", obra:"Obra:", act:"ATIVIDADES", eq:"Equipamento:", h:"Horas:", hoje:"Hoje:", acum:"Acumulado:",
+    mao:"MÃO DE OBRA", eqs:"EQUIPAMENTOS", clima:"CLIMA", manha:"Manhã", tarde:"Tarde", ocorr:"OCORRÊNCIAS", seg:"SEGURANÇA", prox:"PRÓXIMOS PASSOS", total:"Total:"
+  } : {
+    head:"AVANCE DE OBRA", proj:"Proyecto:", obra:"Obra:", act:"ACTIVIDADES", eq:"Equipo:", h:"Horas:", hoje:"Hoy:", acum:"Acumulado:",
+    mao:"MANO DE OBRA", eqs:"EQUIPOS", clima:"CLIMA", manha:"Mañana", tarde:"Tarde", ocorr:"OCURRENCIAS", seg:"SEGURIDAD", prox:"PRÓXIMOS PASOS", total:"Total:"
+  };
+  const L2 = {
+    maoP: pt ? (contaTotalMao()===1?'pessoa':'pessoas') : (contaTotalMao()===1?'persona':'personas'),
+    eqP: pt ? (contaTotalEqp()===1?'equipamento':'equipamentos') : (contaTotalEqp()===1?'equipo':'equipos')
+  };
+  const linhas = [];
+  linhas.push(`*${L.head} (${fmtBR(f.data)})*`);
+  if(nomeProjeto(f.projetoId)) linhas.push(`*${L.proj}* ${nomeProjeto(f.projetoId)}`);
+  if(nomeObra(f.obraId)) linhas.push(`*${L.obra}* ${nomeObra(f.obraId)}`);
+  linhas.push('');
+  const acts = form.atividades.filter(a=>a.nome);
+  if(acts.length){
+    linhas.push(`⏳ *${L.act}*`);
+    acts.forEach((a,idx)=>{
+      linhas.push(`${idx+1}. ${a.nome}`);
+      if(a.equipamento || num(a.horas)>0){
+        const parts = [];
+        if(a.equipamento) parts.push(`🔧 ${L.eq} ${a.equipamento}`);
+        if(num(a.horas)>0) parts.push(`⏱️ ${L.h} ${a.horas} h`);
+        linhas.push(`   ${parts.join(' | ')}`);
+      }
+      if(num(a.qtyDia)>0) linhas.push(`   🗓️ ${L.hoje} ${a.qtyDia} ${a.unidade}`);
+      const ac = [];
+      if(num(a.qtyAcum)>0) ac.push(`${a.qtyAcum} ${a.unidade}`);
+      if(num(a.pctAcum)>0) ac.push(`${a.pctAcum}%`);
+      if(ac.length) linhas.push(`   📊 ${L.acum} ${ac.join(' | ')}`);
+    });
+    linhas.push('');
+  }
+  const totalMao = contaTotalMao();
+  if(totalMao>0){
+    linhas.push(`👷 *${L.mao}* — ${L.total} ${totalMao} ${L2.maoP}`);
+    Object.entries(form.maoDeObra).forEach(([k,v])=>{ if(num(v)>0) linhas.push(`• ${v} ${k}`); });
+    linhas.push('');
+  }
+  const totalEq = contaTotalEqp();
+  if(totalEq>0){
+    linhas.push(`🚜 *${L.eqs}* — ${L.total} ${totalEq} ${L2.eqP}`);
+    Object.entries(form.equipamentos).forEach(([k,v])=>{ if(num(v)>0) linhas.push(`• ${v} ${k}`); });
+    linhas.push('');
+  }
+  const cM = f.clima.manha ? `${t('clima')[f.clima.manha]} ${CLIMA_KEYS.find(c=>c.k===f.clima.manha).icon}` : '';
+  const cT = f.clima.tarde ? `${t('clima')[f.clima.tarde]} ${CLIMA_KEYS.find(c=>c.k===f.clima.tarde).icon}` : '';
+  if(cM || cT){
+    linhas.push(`🌤️ *${L.clima}*`);
+    const partes = [];
+    if(cM) partes.push(`${L.manha}: ${cM}`);
+    if(cT) partes.push(`${L.tarde}: ${cT}`);
+    linhas.push(partes.join(' | '));
+    linhas.push('');
+  }
+  if(f.ocorrencias){ linhas.push(`⚠️ *${L.ocorr}*`); linhas.push(f.ocorrencias); linhas.push(''); }
+  if(f.seguridad){}
+  if(f.seguranca){ linhas.push(`🦺 *${L.seg}*`); linhas.push(f.seguranca); linhas.push(''); }
+  if(f.proximosPassos){ linhas.push(`📌 *${L.prox}*`); linhas.push(f.proximosPassos); }
+  return linhas.join('\n').replace(/\n{3,}/g,'\n\n').trim();
+}
+
+function renderPreview(){
+  document.getElementById('previewBox').textContent = montarTexto();
+}
+
+function validarForm(){
+  const f = leerFormulario();
+  if(!f.projetoId){ toast(t('selectProject')); return false; }
+  if(!f.obraId){ toast(t('selectObra')); return false; }
+  if(!f.data){ toast(t('needDate')); return false; }
+  return true;
+}
+
+async function salvarInforme(){
+  if(!validarForm()) return;
+  const f = leerFormulario();
+  const atividades = form.atividades.filter(a=>a.nome).map(a=>({
+    nome:a.nome, equipamento:a.equipamento||'', horas:num(a.horas), unidade:a.unidade,
+    qtyDia:num(a.qtyDia), pctDia:num(a.pctDia), qtyAcum:num(a.qtyAcum), pctAcum:num(a.pctAcum)
+  }));
+  const doc = {
+    autorId: currentUser.uid, autorEmail: currentUser.email||'',
+    projeto: nomeProjeto(f.projetoId), obra: nomeObra(f.obraId),
+    dataISO: f.data, dataBR: fmtBR(f.data),
+    atividades, maoDeObra: form.maoDeObra, equipamentos: form.equipamentos,
+    clima: f.clima, ocorrencias: f.ocorrencias, seguranca: f.seguranca, proximosPassos: f.proximosPassos,
+    criadoEm: firebase.firestore.FieldValue.serverTimestamp()
+  };
+  try{
+    await db.collection('informes').add(doc);
+    toast(t('savedOk'));
+    novoFormulario();
+    mostrarView('viewHome');
+    await carregarInformes();
+  }catch(e){
+    console.warn("informe save:", e.code||e.message);
+    toast(e.code==='unavailable'||!navigator.onLine ? t('offline') : traduzirErro(e.code,e.message));
+  }
+}
+
+async function copiarUltimo(tipo){
+  const base = informesCache.filter(i=>i.autorId===currentUser.uid);
+  if(!base.length){ toast(t('noPrevCopy')); return; }
+  const f = leerFormulario();
+  const same = base.filter(i=>i.obra===nomeObra(f.obraId));
+  const ultimo = (same.length?same:base)[0];
+  form.atividades = ultimo.atividades.map(a=>({
+    nome:a.nome, equipamento:a.equipamento, horas: tipo==='all' ? a.horas : '',
+    unidade:a.unidade, qtyDia: tipo==='all' ? a.qtyDia : '', pctDia: tipo==='all' ? a.pctDia : '',
+    qtyAcum:a.qtyAcum, pctAcum:a.pctAcum
+  }));
+  form.maoDeObra = ultimo.maoDeObra || {};
+  form.equipamentos = ultimo.equipamentos || {};
+  renderActivities(); renderMaoEqp();
+  toast(t('copied'));
+}
+
+function setupCopyLast(){
+  document.getElementById('btnCopyLast').addEventListener('click', ()=>{
+    const base = informesCache.filter(i=>i.autorId===currentUser.uid);
+    if(!base.length){ toast(t('noPrev')); return; }
+    const f = leerFormulario();
+    const same = base.filter(i=>i.obra===nomeObra(f.obraId));
+    const ultimo = (same.length?same:base)[0];
+    document.getElementById('copyLastInfo').textContent = `${t('lastReport')}: ${fmtBR(ultimo.dataISO)} · ${ultimo.obra||''}`;
+    document.getElementById('copyLastBox').style.display='block';
+  });
+  document.getElementById('btnCopyStruct').addEventListener('click', ()=>copiarUltimo('struct'));
+  document.getElementById('btnCopyAll').addEventListener('click', ()=>copiarUltimo('all'));
+}
+
+function renderAdmin(){
+  const list = document.getElementById('adminList');
+  if(!list) return;
+  if(!projetos.length){
+    list.innerHTML = `<div class="card center" style="padding:24px;"><div>🏗️</div><div class="muted" style="margin-top:6px;">${esc(t('emptyProj'))}</div></div>`;
+    return;
+  }
+  list.innerHTML = projetos.map(p=>{
+    const ob = obras.filter(o=>o.projetoId===p.id);
+    return `<div class="proj-row">
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <strong>${esc(p.nome)}</strong>
+        <span>
+          <button class="link" type="button" data-editp="${esc(p.id)}">${esc(t('editBtn'))}</button>
+          <button class="link" type="button" data-delp="${esc(p.id)}" style="color:#A11B1B;">${esc(t('delBtn'))}</button>
+        </span>
+      </div>
+      ${ob.map(o=>`<div class="obra-row"><span>${esc(o.nome)}</span><span><button class="link" type="button" data-edito="${esc(o.id)}">${esc(t('editBtn'))}</button> <button class="link" type="button" data-delo="${esc(o.id)}" style="color:#A11B1B;">${esc(t('delBtn'))}</button></span></div>`).join('')}
+      <button class="btn small secondary" type="button" data-addo="${esc(p.id)}" style="margin-top:8px;">${esc(t('newObra'))}</button>
+    </div>`;
+  }).join('');
+  list.querySelectorAll('[data-delp]').forEach(b=>b.addEventListener('click', ()=>confirmar(t('confirmDelProj'), ()=>excluirProjeto(b.dataset.delp))));
+  list.querySelectorAll('[data-delo]').forEach(b=>b.addEventListener('click', ()=>confirmar(t('confirmDelObra'), ()=>excluirObra(b.dataset.delo))));
+  list.querySelectorAll('[data-addo]').forEach(b=>b.addEventListener('click', ()=>abrirPrompt(t('obraNamePh'), async nome=>{ await criarObra(b.dataset.addo, nome); })));
+  list.querySelectorAll('[data-editp]').forEach(b=>b.addEventListener('click', ()=>abrirPrompt(t('projNamePh'), async nome=>{ await editarNome('projetos', b.dataset.editp, nome); }, nomeProjeto(b.dataset.editp))));
+  list.querySelectorAll('[data-edito]').forEach(b=>b.addEventListener('click', ()=>abrirPrompt(t('obraNamePh'), async nome=>{ await editarNome('obras', b.dataset.edito, nome); }, nomeObra(b.dataset.edito))));
+}
+
+function abrirPrompt(titulo, cb, valor){
+  document.getElementById('promptTitle').textContent = titulo;
+  document.getElementById('promptInput').value = valor || '';
+  document.getElementById('promptBg').classList.add('open');
+  promptCb = cb;
+}
+function fecharPrompt(){ document.getElementById('promptBg').classList.remove('open'); promptCb=null; }
+
+async function criarProjeto(nome){
+  try{
+    await db.collection('projetos').add({ nome, criadoEm: firebase.firestore.FieldValue.serverTimestamp(), criadoPor: currentUser.uid });
+    toast(t('saved'));
+    await carregarProjetosObras();
+  }catch(e){
+    console.warn("projeto:", e.code||e.message);
+    toast(e.code==='permission-denied' ? t('permErr') : t('offline'));
+  }
+}
+async function criarObra(projetoId, nome){
+  try{
+    await db.collection('obras').add({ projetoId, nome, criadoEm: firebase.firestore.FieldValue.serverTimestamp(), criadoPor: currentUser.uid });
+    toast(t('saved'));
+    await carregarProjetosObras();
+  }catch(e){
+    console.warn("obra:", e.code||e.message);
+    toast(e.code==='permission-denied' ? t('permErr') : t('offline'));
+  }
+}
+async function editarNome(col, id, nome){
+  try{
+    await db.collection(col).doc(id).update({ nome });
+    toast(t('saved'));
+    await carregarProjetosObras();
+  }catch(e){
+    toast(e.code==='permission-denied' ? t('permErr') : t('offline'));
+  }
+}
+async function excluirProjeto(id){
+  try{
+    const obs = await db.collection('obras').where('projetoId','==',id).get();
+    const batch = db.batch();
+    obs.docs.forEach(d=>batch.delete(d.ref));
+    batch.delete(db.collection('projetos').doc(id));
+    await batch.commit();
+    toast(t('deleted'));
+    await carregarProjetosObras();
+  }catch(e){
+    toast(e.code==='permission-denied' ? t('permErr') : t('offline'));
+  }
+}
+async function excluirObra(id){
+  try{
+    await db.collection('obras').doc(id).delete();
+    toast(t('deleted'));
+    await carregarProjetosObras();
+  }catch(e){
+    toast(e.code==='permission-denied' ? t('permErr') : t('offline'));
+  }
+}
+async function excluirInforme(id){
+  try{
+    await db.collection('informes').doc(id).delete();
+    toast(t('deleted'));
+    currentReadId = null;
+    await carregarInformes();
+    mostrarView('viewHome');
+  }catch(e){
+    toast(e.code==='permission-denied' ? t('permErr') : t('offline'));
+  }
+}
+
+function setupListeners(){
+  document.getElementById('formLogin').addEventListener('submit', async e=>{
+    e.preventDefault();
+    const email = document.getElementById('loginEmail').value.trim();
+    const pass = document.getElementById('loginPass').value;
+    document.getElementById('loginErr').innerHTML='';
+    try{ await auth.signInWithEmailAndPassword(email, pass); }
+    catch(err){ document.getElementById('loginErr').innerHTML = `<div class="banner-err">${esc(traduzirErro(err.code, err.message))}</div>`; }
+  });
+  document.getElementById('formSignup').addEventListener('submit', async e=>{
+    e.preventDefault();
+    const email = document.getElementById('suEmail').value.trim();
+    const pass = document.getElementById('suPass').value;
+    document.getElementById('signupErr').innerHTML='';
+    if(pass.length<6){ document.getElementById('signupErr').innerHTML = `<div class="banner-err">${esc(t('weakPass'))}</div>`; return; }
+    try{ await auth.createUserWithEmailAndPassword(email, pass); }
+    catch(err){ document.getElementById('signupErr').innerHTML = `<div class="banner-err">${esc(traduzirErro(err.code, err.message))}</div>`; }
+  });
+  document.getElementById('formRecover').addEventListener('submit', async e=>{
+    e.preventDefault();
+    const email = document.getElementById('reEmail').value.trim();
+    document.getElementById('recoverMsg').innerHTML='';
+    try{
+      await auth.sendPasswordResetEmail(email);
+      document.getElementById('recoverMsg').innerHTML = `<div class="banner-ok">${esc(t('recoverOk'))}</div>`;
+    }catch(err){ document.getElementById('recoverMsg').innerHTML = `<div class="banner-err">${esc(traduzirErro(err.code, err.message))}</div>`; }
+  });
+  document.getElementById('goRecover').addEventListener('click', ()=>mostrarLoginView('viewRecuperar'));
+  document.getElementById('goSignup').addEventListener('click', ()=>mostrarLoginView('viewCadastro'));
+  document.getElementById('goLoginFromSignup').addEventListener('click', ()=>mostrarLoginView('viewLogin'));
+  document.getElementById('goLoginFromRecover').addEventListener('click', ()=>mostrarLoginView('viewLogin'));
+
+  document.getElementById('btnLogout').addEventListener('click', ()=> auth.signOut());
+  document.getElementById('navHome').addEventListener('click', ()=>{ mostrarView('viewHome'); carregarInformes(); });
+  document.getElementById('navCatalog').addEventListener('click', ()=> abrirCatalogo());
+  document.getElementById('navAdmin').addEventListener('click', ()=>{ renderAdmin(); mostrarView('viewAdmin'); });
+  document.getElementById('fabNew').addEventListener('click', ()=>{ novoFormulario(); mostrarView('viewForm'); renderFormSelects(); });
+  document.getElementById('backFromForm').addEventListener('click', ()=>mostrarView('viewHome'));
+  document.getElementById('backFromPreview').addEventListener('click', ()=>mostrarView('viewForm'));
+  document.getElementById('backFromRead').addEventListener('click', ()=>mostrarView('viewHome'));
+  document.getElementById('backFromCatalog').addEventListener('click', ()=>mostrarView('viewHome'));
+  document.getElementById('goAdminFromWarn').addEventListener('click', ()=>{ renderAdmin(); mostrarView('viewAdmin'); });
+  document.getElementById('btnNewProj').addEventListener('click', ()=> abrirPrompt(t('projNamePh'), async nome=>{ await criarProjeto(nome); }));
+
+  document.getElementById('selProjeto').addEventListener('change', e=>{
+    form.projetoId = e.target.value; form.obraId='';
+    const ob = obras.filter(o=>o.projetoId===form.projetoId);
+    if(ob.length===1) form.obraId = ob[0].id;
+    renderFormSelects();
+  });
+  document.getElementById('selObra').addEventListener('change', e=>{ form.obraId = e.target.value; });
+  document.getElementById('dataInforme').addEventListener('change', e=>{ form.data = e.target.value; });
+  document.getElementById('btnAddAct').addEventListener('click', ()=>{ form.atividades.push(novaAtividade()); renderActivities(); });
+  setupCopyLast();
+  document.getElementById('btnPreview').addEventListener('click', ()=>{ leerFormulario(); renderPreview(); mostrarView('viewPreview'); });
+  document.getElementById('btnSaveForm').addEventListener('click', salvarInforme);
+  document.getElementById('btnSaveFromPreview').addEventListener('click', salvarInforme);
+  document.getElementById('btnCopyText').addEventListener('click', ()=>{
+    navigator.clipboard.writeText(montarTexto()).then(()=>toast(t('copied'))).catch(()=>toast(t('copied')));
+  });
+  document.getElementById('btnShare').addEventListener('click', async ()=>{
+    const txt = montarTexto();
+    if(navigator.share){ try{ await navigator.share({ text: txt }); }catch(e){} }
+    else toast(t('copied'));
+  });
+  document.getElementById('btnWa').addEventListener('click', ()=>{
+    window.open('https://wa.me/?text=' + encodeURIComponent(montarTexto()), '_blank');
+  });
+  document.getElementById('btnDeleteInforme').addEventListener('click', ()=>{
+    confirmar(t('confirmDelInforme'), ()=> excluirInforme(currentReadId));
+  });
+  document.querySelectorAll('#scopeSeg button').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      scope = b.dataset.scope;
+      document.querySelectorAll('#scopeSeg button').forEach(x=>x.classList.toggle('active', x===b));
+      carregarInformes();
+    });
+  });
+  document.getElementById('searchObra').addEventListener('input', renderHistory);
+  document.getElementById('monthFilter').addEventListener('change', renderHistory);
+  document.getElementById('dlgNo').addEventListener('click', fecharDialog);
+  document.getElementById('dlgYes').addEventListener('click', ()=>{ const cb = pendingDialogCb; fecharDialog(); if(cb) cb(); });
+  document.getElementById('promptNo').addEventListener('click', fecharPrompt);
+  document.getElementById('promptYes').addEventListener('click', ()=>{
+    const v = document.getElementById('promptInput').value.trim();
+    const cb = promptCb; fecharPrompt();
+    if(v && cb) cb(v);
+  });
+  document.getElementById('btnRetryFb').addEventListener('click', ()=> location.reload());
+  document.getElementById('climaManha').addEventListener('change', e=>{ form.clima.manha = e.target.value; });
+  document.getElementById('climaTarde').addEventListener('change', e=>{ form.clima.tarde = e.target.value; });
+  document.getElementById('searchObra').addEventListener('input', renderHistory);
+}
+
+function registrarServiceWorker(){
+  try{
+    if(!('serviceWorker' in navigator)) return;
+    const code = "self.addEventListener('install',e=>self.skipWaiting());self.addEventListener('activate',e=>e.waitUntil(self.clients.claim()));";
+    const url = URL.createObjectURL(new Blob([code], {type:'application/javascript'}));
+    navigator.serviceWorker.register(url).catch(()=>{});
+  }catch(e){}
+}
+
+document.addEventListener('DOMContentLoaded', async ()=>{
+  initFlags();
+  aplicarIdioma();
+  setupListeners();
+  registrarServiceWorker();
+  mostrarTela('bootScreen');
+  try{
+    await iniciarFirebase();
+    setupAuthListener();
+  }catch(e){
+    console.error("[APP] Firebase:", e.message);
+  }
+});
+</script>
 </body>
 </html>
