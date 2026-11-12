@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es" data-theme="light">
+<html lang="es-PE" data-theme="light">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Reporte de Obra — v8.2</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reporte de Obra — v8.3</title>
 <style>
 /* Skip artifact shell — fixed styles served beside every artifact.
    Tokens, utilities and components (basecoat 1.0 markup, no CDN); artifacts
@@ -1029,2474 +1029,734 @@ table.shell-table td.skip-table-empty { color: var(--text-muted); text-align: ce
 </script>
 <style>
 :root {
-  --accent: #004A99;
-  --accent-text: #003366;
-  --accent-contrast: #ffffff;
-  --alupar-blue: #004A99;
-  --alupar-dark: #002d5e;
-  --bg-app: #f1f5f9;
-  --surface-card: #ffffff;
+--accent: #004A99;
+--accent-contrast: #ffffff;
 }
-
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  padding: 0;
-  background-color: var(--bg-app);
-  color: var(--text);
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  -webkit-font-smoothing: antialiased;
-}
-
-/* ==========================================================================
-   TELA DE LOGIN (v8 EXACT REPLICA)
-   Fundo azul #004A99, cartão branco centralizado, título 26px azul, etc.
-   ========================================================================== */
-#login-screen {
-  position: fixed;
-  inset: 0;
-  background: var(--alupar-blue);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 16px;
-  z-index: 9999;
-  overflow-y: auto;
-}
-
-.login-card {
-  width: 100%;
-  max-width: 420px;
-  background: var(--surface-card);
-  border-radius: 12px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
-  overflow: hidden;
-  position: relative;
-}
-
-.login-top-bar {
-  display: flex;
-  justify-content: flex-end;
-  padding: 12px 16px 0;
-}
-
-.lang-selector-flags {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-}
-
-.lang-flag-btn {
-  background: transparent;
-  border: 1px solid transparent;
-  border-radius: 6px;
-  font-size: 20px;
-  cursor: pointer;
-  padding: 2px 4px;
-  line-height: 1;
-  transition: all 0.15s ease;
-}
-
-.lang-flag-btn:hover {
-  background: rgba(0, 0, 0, 0.05);
-}
-
-.lang-flag-btn.active {
-  border-color: var(--alupar-blue);
-  background: rgba(0, 74, 153, 0.1);
-}
-
-.alupar-stripe {
-  background: var(--alupar-blue);
-  padding: 16px 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 8px;
-}
-
-.alupar-logo-text {
-  color: #ffffff;
-  font-weight: 800;
-  font-size: 24px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.alupar-logo-text span {
-  background: #ffffff;
-  color: var(--alupar-blue);
-  border-radius: 4px;
-  padding: 2px 6px;
-  font-size: 14px;
-  letter-spacing: 0;
-}
-
-.login-body {
-  padding: 28px 28px 20px;
-}
-
-.login-title {
-  color: var(--alupar-blue);
-  font-size: 26px;
-  font-weight: 700;
-  margin: 0 0 6px 0;
-  text-align: center;
-  line-height: 1.2;
-}
-
-.login-subtitle {
-  color: var(--text-muted);
-  font-size: 14px;
-  margin: 0 0 24px 0;
-  text-align: center;
-}
-
-.login-form-group {
-  margin-bottom: 16px;
-}
-
-.login-form-group label {
-  display: block;
-  font-size: 13px;
-  font-weight: 600;
-  margin-bottom: 6px;
-  color: var(--text);
-}
-
-.login-input {
-  width: 100%;
-  height: 48px;
-  padding: 0 14px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  font-size: 15px;
-  background: #ffffff;
-  color: var(--text);
-  outline: none;
-  transition: border-color 0.15s ease;
-}
-
-.login-input:focus {
-  border-color: var(--alupar-blue);
-  box-shadow: 0 0 0 2px rgba(0, 74, 153, 0.2);
-}
-
-.login-btn-submit {
-  width: 100%;
-  height: 52px;
-  background: var(--alupar-blue);
-  color: #ffffff;
-  border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.15s ease;
-  margin-top: 8px;
-}
-
-.login-btn-submit:hover {
-  background: var(--alupar-dark);
-}
-
-.login-forgot-link {
-  display: block;
-  text-align: center;
-  margin-top: 14px;
-  color: var(--alupar-blue);
-  text-decoration: none;
-  font-size: 13px;
-  cursor: pointer;
-}
-
-.login-forgot-link:hover {
-  text-decoration: underline;
-}
-
-.login-footer-text {
-  text-align: center;
-  color: #94a3b8;
-  font-size: 11px;
-  padding: 16px;
-  border-top: 1px solid #f1f5f9;
-  background: #fafafa;
-}
-
-/* ==========================================================================
-   TELA DE BLOQUEIO (Acceso no autorizado)
-   ========================================================================== */
-#lock-screen {
-  position: fixed;
-  inset: 0;
-  background: var(--alupar-blue);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  padding: 16px;
-  z-index: 10000;
-}
-
-.lock-card {
-  width: 100%;
-  max-width: 420px;
-  background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
-  padding: 32px 24px;
-  text-align: center;
-}
-
-.lock-icon {
-  font-size: 48px;
-  margin-bottom: 12px;
-}
-
-.lock-title {
-  color: #b91c1c;
-  font-size: 22px;
-  font-weight: 700;
-  margin: 0 0 12px;
-}
-
-.lock-desc {
-  font-size: 14px;
-  color: var(--text);
-  line-height: 1.5;
-  margin-bottom: 24px;
-}
-
-/* ==========================================================================
-   LAYOUT PRINCIPAL DO APLICATIVO
-   ========================================================================== */
-#app-root {
-  display: none;
-  min-height: 100vh;
-  flex-direction: column;
-}
-
-.app-header {
-  background: var(--alupar-blue);
-  color: #ffffff;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 16px;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-}
-
-.app-brand {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.app-title-text {
-  font-size: 17px;
-  font-weight: 700;
-  letter-spacing: -0.3px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.app-version-badge {
-  background: rgba(255, 255, 255, 0.2);
-  color: #ffffff;
-  padding: 2px 7px;
-  border-radius: 999px;
-  font-size: 11px;
-  font-weight: 600;
-}
-
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.user-pill {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(255, 255, 255, 0.15);
-  padding: 4px 10px;
-  border-radius: 20px;
-  font-size: 12px;
-}
-
-.user-role-badge {
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-}
-
-.user-role-admin { background: #1e40af; color: #ffffff; }
-.user-role-editor { background: #166534; color: #ffffff; }
-.user-role-leitor { background: #475569; color: #ffffff; }
-
-.header-btn-logout {
-  background: rgba(255, 255, 255, 0.2);
-  border: none;
-  color: #ffffff;
-  padding: 6px 12px;
-  border-radius: 6px;
-  font-size: 12px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.15s ease;
-}
-
-.header-btn-logout:hover {
-  background: rgba(255, 255, 255, 0.3);
-}
-
-/* Nav Bar */
-.app-nav {
-  background: #ffffff;
-  border-bottom: 1px solid var(--border);
-  display: flex;
-  overflow-x: auto;
-  padding: 0 16px;
-  scrollbar-width: none;
-}
-
-.app-nav::-webkit-scrollbar {
-  display: none;
-}
-
-.nav-item {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 14px 18px;
-  border: none;
-  background: transparent;
-  color: var(--text-muted);
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  border-bottom: 3px solid transparent;
-  white-space: nowrap;
-  transition: all 0.15s ease;
-}
-
-.nav-item:hover {
-  color: var(--alupar-blue);
-}
-
-.nav-item.active {
-  color: var(--alupar-blue);
-  border-bottom-color: var(--alupar-blue);
-}
-
-/* Main Container */
-.main-content {
-  flex: 1;
-  max-width: 960px;
-  width: 100%;
-  margin: 0 auto;
-  padding: 20px 16px 80px;
-}
-
-.view-section {
-  display: none;
-}
-
-.view-section.active {
-  display: block;
-}
-
-/* Activity item box */
-.activity-box {
-  background: #ffffff;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 16px;
-  margin-bottom: 16px;
-  position: relative;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-}
-
-.activity-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
-  padding-bottom: 8px;
-  border-bottom: 1px dashed var(--border);
-}
-
-.equip-row {
-  display: grid;
-  grid-template-columns: 1fr 140px 36px;
-  gap: 8px;
-  align-items: center;
-  margin-bottom: 8px;
-}
-
-.empty-state-card {
-  text-align: center;
-  padding: 48px 24px;
-  color: var(--text-muted);
-  background: #ffffff;
-  border-radius: 8px;
-  border: 1px dashed var(--border);
-}
-
-.empty-state-icon {
-  font-size: 38px;
-  margin-bottom: 10px;
-  opacity: 0.6;
-}
-
-/* Catalog Card Lists */
-.catalog-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 20px;
-}
-
-@media (min-width: 768px) {
-  .catalog-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-.chip-list {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  max-height: 400px;
-  overflow-y: auto;
-  padding: 4px;
-}
-
-.chip-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: var(--bg-app);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 8px 12px;
-  font-size: 14px;
-}
-
-.chip-remove-btn {
-  background: transparent;
-  border: none;
-  color: #ef4444;
-  cursor: pointer;
-  font-size: 16px;
-  line-height: 1;
-  padding: 2px 6px;
-  border-radius: 4px;
-}
-
-.chip-remove-btn:hover {
-  background: #fee2e2;
-}
-
-/* Report History Card */
-.history-card {
-  background: #ffffff;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 16px;
-  margin-bottom: 12px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.preview-text-box {
-  background: #0f172a;
-  color: #f8fafc;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: 13px;
-  line-height: 1.6;
-  padding: 16px;
-  border-radius: 8px;
-  white-space: pre-wrap;
-  word-break: break-word;
-  max-height: 600px;
-  overflow-y: auto;
-}
-
-@media print {
-  .app-header, .app-nav, .no-print, button, .lang-selector-flags {
-    display: none !important;
-  }
-  body {
-    background: #ffffff !important;
-    color: #000000 !important;
-  }
-  .preview-text-box {
-    background: #ffffff !important;
-    color: #000000 !important;
-    border: 1px solid #cccccc;
-  }
+.login-wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: #004A99; padding: 24px; }
+.login-card { background: #fff; color: #1f2937; border-radius: 14px; padding: 32px; width: 100%; max-width: 400px; box-shadow: 0 20px 50px rgba(0,0,0,.25); }
+.login-card h1 { font-size: 1.5rem; margin: 16px 0 4px; color: #004A99; }
+.login-card .sub { color: #4b5563; font-size: .9rem; margin-bottom: 20px; }
+.flags { font-size: 1.4rem; display: flex; gap: 8px; justify-content: center; }
+.logo-alupar { height: 26px; width: auto; display: block; mix-blend-mode: screen; }
+.logo-plate { background: #004A99; border-radius: 10px; padding: 8px 14px; display: inline-block; }
+.logo-plate .logo-alupar { mix-blend-mode: normal; }
+.logo-fallback { display: none; color: #fff; font-weight: 700; }
+.app-header { background: #004A99; color: #fff; padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.app-header .eyebrow { background: rgba(255,255,255,.15); color: #fff; }
+.app-shell { display: grid; grid-template-columns: 220px 1fr; min-height: calc(100vh - 56px); }
+.app-nav { background: var(--surface); border-right: 1px solid var(--border); padding: 16px; display: flex; flex-direction: column; gap: 6px; }
+.app-nav button { text-align: left; }
+.app-main { padding: 20px; }
+.view { display: none; }
+.view.active { display: block; }
+.act-card { border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; margin-bottom: 12px; }
+.eq-row { display: grid; grid-template-columns: 1fr 120px auto; gap: 8px; align-items: end; margin-top: 8px; }
+.inline-form { display: none; gap: 8px; margin-top: 8px; }
+.inline-form.open { display: flex; }
+.role-badge { padding: 2px 10px; border-radius: 999px; font-size: .75rem; font-weight: 600; }
+.role-admin { background: #fde68a; color: #78350f; }
+.role-editor { background: #bfdbfe; color: #1e3a8a; }
+.role-leitor { background: #d1d5db; color: #111827; }
+.bloqueio-wrap { min-height: 100vh; display: none; align-items: center; justify-content: center; background: #004A99; padding: 24px; }
+.bloqueio-card { background: #fff; color: #1f2937; border-radius: 14px; padding: 32px; max-width: 420px; text-align: center; }
+.bloqueio-card h2 { color: #004A99; margin: 0 0 8px; }
+.report-box { white-space: pre-wrap; font-family: ui-monospace, monospace; font-size: .85rem; background: var(--bg); padding: 16px; border-radius: var(--radius); border: 1px solid var(--border); }
+.hidden { display: none !important; }
+@media (max-width: 760px) {
+.app-shell { grid-template-columns: 1fr; }
+.app-nav { flex-direction: row; overflow-x: auto; }
+.eq-row { grid-template-columns: 1fr 90px auto; }
 }
 </style>
 </head>
 <body>
 
-<!-- ==========================================================================
-     MOCK FIREBASE EMULATION ENGINE (Self-contained, Offline-ready, Instant)
-     Provides firebase.initializeApp, auth, firestore, FieldValue, etc.
-     ========================================================================== -->
+<div id="screen-login" class="login-wrap">
+<div class="login-card">
+<div class="row between items-center">
+<div class="logo-plate">
+<img src="alupar_branco.png" alt="Alupar" class="logo-alupar" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+<span class="logo-fallback">Alupar</span>
+</div>
+<div class="flags" aria-label="Idioma"><span title="Português">🇧🇷</span><span title="Español">🇵🇪</span></div>
+</div>
+<h1>Reporte de Obra</h1>
+<p class="sub">Ingrese con su cuenta del equipo</p>
+<form id="form-login" class="stack gap-3">
+<div class="field">
+<label for="login-email">E-mail</label>
+<input class="input" id="login-email" type="email" required placeholder="usuario@alupar.com.pe" value="admin@alupar.com.pe">
+</div>
+<div class="field">
+<label for="login-senha">Senha</label>
+<input class="input" id="login-senha" type="password" required placeholder="••••••••" value="123456">
+</div>
+<button class="btn w-full" type="submit">Ingresar</button>
+<button type="button" class="btn" data-variant="link" id="btn-esqueci">Olvidé mi contraseña</button>
+</form>
+<p class="text-xs muted mt-3">Reporte de Obra — v8.3</p>
+</div>
+</div>
+
+<div id="screen-bloqueio" class="bloqueio-wrap">
+<div class="bloqueio-card">
+<h2>Acceso no autorizado</h2>
+<p id="bloqueio-texto" class="muted text-sm"></p>
+<button class="btn mt-3" id="btn-logout-bloqueio">Cerrar sesión</button>
+</div>
+</div>
+
+<div id="screen-app" class="hidden">
+<header class="app-header">
+<div class="row items-center gap-3">
+<div class="logo-plate">
+<img src="alupar_branco.png" alt="Alupar" class="logo-alupar" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+<span class="logo-fallback">Alupar</span>
+</div>
+<span class="eyebrow">Reporte de Obra</span>
+</div>
+<div class="row items-center gap-2">
+<span class="text-xs" id="header-user"></span>
+<span class="eyebrow">v8.3</span>
+<button class="btn" data-variant="outline" data-size="sm" id="btn-logout">Cerrar sesión</button>
+</div>
+</header>
+
+<div class="app-shell">
+<nav class="app-nav" aria-label="Navegación">
+<button class="btn" data-variant="ghost" data-nav="informe">📝 Informe</button>
+<button class="btn" data-variant="ghost" data-nav="obras">🏗️ Obras</button>
+<button class="btn" data-variant="ghost" data-nav="catalogo">📚 Catálogo</button>
+<button class="btn" data-variant="ghost" data-nav="preview">👁️ Preview</button>
+<button class="btn" data-variant="ghost" data-nav="historico">🗂️ Histórico</button>
+<button class="btn admin-only hidden" data-variant="ghost" data-nav="admin">🛡️ Admin</button>
+</nav>
+
+<main class="app-main">
+
+<section class="view" id="view-informe">
+<h2 class="text-xl font-bold">Nuevo informe diario</h2>
+<p class="muted text-sm">Complete los campos del día. El texto se genera automáticamente.</p>
+<div class="card mt-3"><section class="stack gap-3">
+<div class="cols-2 gap-3">
+<div class="field"><label for="f-data">Fecha</label><input class="input" type="date" id="f-data"></div>
+<div class="field"><label for="f-proyecto">Proyecto</label><input class="input" id="f-proyecto" placeholder="Ej.: Línea de transmisión 220 kV"></div>
+<div class="field"><label for="f-obra">Obra</label><input class="input" id="f-obra" placeholder="Ej.: Subestación Pariñas"></div>
+<div class="field"><label for="f-resp">Responsable</label><input class="input" id="f-resp" readonly><span class="text-xs muted">Se toma del usuario logueado.</span></div>
+</div>
+<div class="row between items-center"><h3 class="text-base font-semibold">Actividades</h3><button class="btn" data-variant="secondary" data-size="sm" id="btn-add-atividade">＋ Agregar actividad</button></div>
+<div id="atividades-wrap" class="stack gap-2"></div>
+<div class="cols-2 gap-3">
+<div class="field"><label for="f-mo-total">Mano de obra (personas)</label><input class="input" type="number" min="0" id="f-mo-total" placeholder="0"></div>
+<div class="field"><label for="f-mo-detalhe">Detalle mano de obra</label><input class="input" id="f-mo-detalhe" placeholder="1 Ingeniero Residente"></div>
+<div class="field"><label for="f-eq-total">Equipos (cantidad)</label><input class="input" type="number" min="0" id="f-eq-total" placeholder="0"></div>
+<div class="field"><label for="f-eq-detalhe">Detalle equipos</label><input class="input" id="f-eq-detalhe" placeholder="1 Retroexcavadora"></div>
+<div class="field"><label for="f-clima-m">Clima mañana</label><input class="input" id="f-clima-m" placeholder="Bueno ☀️"></div>
+<div class="field"><label for="f-clima-t">Clima tarde</label><input class="input" id="f-clima-t" placeholder="Nublado ☁️"></div>
+</div>
+<div class="field"><label for="f-ocorrencias">Ocurrencias</label><textarea class="input" id="f-ocorrencias" rows="2"></textarea></div>
+<div class="field"><label for="f-seguridad">Seguridad</label><textarea class="input" id="f-seguridad" rows="2"></textarea></div>
+<div class="field"><label for="f-proximos">Próximos pasos</label><textarea class="input" id="f-proximos" rows="2"></textarea></div>
+<div class="row gap-2">
+<button class="btn" id="btn-salvar">Guardar informe</button>
+<button class="btn" data-variant="outline" id="btn-copiar">Copiar texto</button>
+<button class="btn" data-variant="ghost" id="btn-limpar">Limpiar</button>
+</div>
+</section></div>
+</section>
+
+<section class="view" id="view-obras">
+<h2 class="text-xl font-bold">Obras</h2>
+<p class="muted text-sm">Obras registradas en el informe. Se alimentan al guardar informes.</p>
+<div class="card mt-3"><div id="obras-lista" class="stack gap-2"></div></div>
+</section>
+
+<section class="view" id="view-catalogo">
+<h2 class="text-xl font-bold">Catálogo</h2>
+<p class="muted text-sm">Cada usuario tiene su propio catálogo de cargos y equipos.</p>
+<div class="cols-2 gap-3 mt-3">
+<div class="card">
+<h3 class="text-base font-semibold">Cargos</h3>
+<p class="text-xs muted">Funciones de la mano de obra.</p>
+<div id="cat-funcoes-lista" class="stack gap-1 mt-2"></div>
+<button class="btn mt-2" data-variant="secondary" data-size="sm" data-add="funcoes">＋ Agregar cargo</button>
+<div class="inline-form" id="form-funcoes"><input class="input" id="in-funcoes" placeholder="Nombre del cargo"><button class="btn" data-size="sm" data-save="funcoes">Guardar</button></div>
+</div>
+<div class="card">
+<h3 class="text-base font-semibold">Equipos</h3>
+<p class="text-xs muted">Equipos disponibles para las actividades.</p>
+<div id="cat-equipamentos-lista" class="stack gap-1 mt-2"></div>
+<button class="btn mt-2" data-variant="secondary" data-size="sm" data-add="equipamentos">＋ Agregar equipo</button>
+<div class="inline-form" id="form-equipamentos"><input class="input" id="in-equipamentos" placeholder="Nombre del equipo"><button class="btn" data-size="sm" data-save="equipamentos">Guardar</button></div>
+</div>
+</div>
+</section>
+
+<section class="view" id="view-preview">
+<h2 class="text-xl font-bold">Preview del texto</h2>
+<p class="muted text-sm">Así se verá el informe en WhatsApp.</p>
+<div class="card mt-3"><div class="row gap-2 mb-2"><button class="btn" data-variant="outline" id="btn-lang-es" data-size="sm">Español</button><button class="btn" data-variant="ghost" id="btn-lang-pt" data-size="sm">Português</button></div>
+<div class="report-box" id="preview-texto"></div></div>
+</section>
+
+<section class="view" id="view-historico">
+<h2 class="text-xl font-bold">Histórico</h2>
+<p class="muted text-sm">Informes guardados.</p>
+<div id="historico-lista" class="stack gap-2 mt-3"></div>
+</section>
+
+<section class="view" id="view-admin">
+<h2 class="text-xl font-bold">Administración</h2>
+<div class="card mt-3">
+<h3 class="text-base font-semibold">Usuarios</h3>
+<p class="text-xs muted">Gestione el acceso y los papeles de cada usuario.</p>
+<div id="usuarios-lista" class="stack gap-2 mt-2"></div>
+<button class="btn mt-2" data-variant="secondary" data-size="sm" id="btn-novo-usuario">＋ Nuevo usuario</button>
+<div class="stack gap-2 mt-2 hidden" id="form-novo-usuario">
+<div class="field"><label for="nu-nome">Nombre completo</label><input class="input" id="nu-nome"></div>
+<div class="field"><label for="nu-email">Correo electrónico</label><input class="input" type="email" id="nu-email"></div>
+<div class="field"><label for="nu-senha">Contraseña provisional (mín. 6)</label><input class="input" type="password" id="nu-senha"></div>
+<div class="field"><label for="nu-papel">Papel</label><select class="input" id="nu-papel"><option value="admin">admin</option><option value="editor" selected>editor</option><option value="leitor">leitor</option></select></div>
+<button class="btn" id="btn-criar-usuario">Crear usuario</button>
+</div>
+</div>
+</section>
+
+</main>
+</div>
+</div>
+
+<dialog class="dialog" id="dlg-confirm">
+<div>
+<header><h2 class="text-base font-semibold" id="dlg-titulo">Confirmar</h2></header>
+<section><p class="text-sm" id="dlg-texto"></p></section>
+<footer class="row gap-2"><button class="btn" data-variant="outline" data-dialog-close>Cancelar</button><button class="btn" id="dlg-ok">Confirmar</button></footer>
+</div>
+</dialog>
+
 <script>
-(function() {
-  const ADMIN_UID = "gc143acuOyeFIXpe2efFI1uZ1NB3";
-  const LS_PREFIX = "informe_obra_v82_";
+const ADMIN_UID = "gc143acuOyeFIXpe2efFI1uZ1NB3";
+const UNIDADES = ["m³", "m²", "ml", "un", "kg", "t"];
+const ROLES = ["admin", "editor", "leitor"];
 
-  function getStore(col) {
-    try {
-      const data = localStorage.getItem(LS_PREFIX + col);
-      return data ? JSON.parse(data) : {};
-    } catch(e) {
-      return {};
-    }
-  }
+const STORE = {
+session: window.skipStore("reporte-obra-session", { uid: null }),
+usuarios: window.skipStore("reporte-obra-usuarios", []),
+catalogos: window.skipStore("reporte-obra-catalogos", {}),
+informes: window.skipStore("reporte-obra-informes", [])
+};
 
-  function setStore(col, obj) {
-    try {
-      localStorage.setItem(LS_PREFIX + col, JSON.stringify(obj));
-    } catch(e) {}
-  }
+const state = {
+user: null,
+papel: null,
+meuNome: "",
+lang: "es",
+atividades: [],
+pendingConfirm: null
+};
 
-  // Pre-seed storage if totally new
-  (function initBaseData() {
-    let users = getStore('usuarios');
-    if (!users[ADMIN_UID]) {
-      users[ADMIN_UID] = {
-        email: "admin@alupar.com",
-        nome: "Administrador",
-        papel: "admin",
-        criadoEm: new Date().toISOString()
-      };
-      setStore('usuarios', users);
-    }
-  })();
+const UID_DEMO = {
+"gc143acuOyeFIXpe2efFI1uZ1NB3": { email: "admin@alupar.com.pe", nome: "Administrador", papel: "admin" }
+};
 
-  const authSubscribers = [];
-  let currentUser = null;
+const backend = {
+signIn(email, senha) {
+if (!email || senha.length < 6) return Promise.reject(new Error("credenciales"));
+const uid = Object.keys(UID_DEMO).find(k => UID_DEMO[k].email === email) || ("uid-" + btoa(email).replace(/=/g, "").slice(0, 16));
+return Promise.resolve({ uid, email });
+},
+signOut() { return Promise.resolve(); },
+getUsuario(uid) {
+const local = STORE.usuarios.get().find(u => u.uid === uid);
+if (local) return Promise.resolve(local);
+if (UID_DEMO[uid]) return Promise.resolve({ uid, ...UID_DEMO[uid] });
+return Promise.resolve(null);
+},
+setUsuario(doc) {
+const list = STORE.usuarios.get().filter(u => u.uid !== doc.uid);
+list.push(doc);
+STORE.usuarios.set(list);
+return Promise.resolve();
+},
+deleteUsuario(uid) {
+STORE.usuarios.set(STORE.usuarios.get().filter(u => u.uid !== uid));
+return Promise.resolve();
+},
+listUsuarios() { return Promise.resolve(STORE.usuarios.get()); }
+};
 
-  // Try auto restore previous active session
-  try {
-    const savedUid = localStorage.getItem(LS_PREFIX + 'active_uid');
-    if (savedUid) {
-      const users = getStore('usuarios');
-      if (savedUid === ADMIN_UID) {
-        currentUser = { uid: ADMIN_UID, email: "admin@alupar.com" };
-      } else if (users[savedUid]) {
-        currentUser = { uid: savedUid, email: users[savedUid].email };
-      }
-    }
-  } catch(e) {}
+function escHtml(s) {
+return String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
 
-  function notifyAuth() {
-    authSubscribers.forEach(cb => {
-      try { cb(currentUser); } catch(err) { console.error(err); }
-    });
-  }
+function mostrarTela(id) {
+["screen-login", "screen-bloqueio", "screen-app"].forEach(s => {
+document.getElementById(s).classList.toggle("hidden", s !== id);
+});
+document.getElementById("screen-login").style.display = id === "screen-login" ? "flex" : "none";
+document.getElementById("screen-bloqueio").style.display = id === "screen-bloqueio" ? "flex" : "none";
+}
 
-  window.firebase = {
-    initializeApp: function(config, name) {
-      return {
-        auth: function() {
-          return {
-            createUserWithEmailAndPassword: async function(email, password) {
-              const users = getStore('usuarios');
-              const newUid = "usr_" + Math.random().toString(36).substring(2, 10);
-              users[newUid] = { email: email, senha: password };
-              setStore('usuarios', users);
-              return { user: { uid: newUid, email: email } };
-            },
-            signOut: function() {
-              return Promise.resolve();
-            }
-          };
-        },
-        delete: function() { return Promise.resolve(); }
-      };
-    },
-    auth: function() {
-      return {
-        onAuthStateChanged: function(callback) {
-          authSubscribers.push(callback);
-          setTimeout(() => callback(currentUser), 10);
-          return function unsubscribe() {
-            const idx = authSubscribers.indexOf(callback);
-            if (idx > -1) authSubscribers.splice(idx, 1);
-          };
-        },
-        signInWithEmailAndPassword: async function(email, password) {
-          const cleanEmail = email.trim().toLowerCase();
-          const users = getStore('usuarios');
-          
-          if (cleanEmail === "admin@alupar.com" || cleanEmail.startsWith("admin")) {
-            currentUser = { uid: ADMIN_UID, email: cleanEmail };
-            localStorage.setItem(LS_PREFIX + 'active_uid', ADMIN_UID);
-            notifyAuth();
-            return { user: currentUser };
-          }
-          
-          let foundUid = Object.keys(users).find(u => users[u].email && users[u].email.toLowerCase() === cleanEmail);
-          if (!foundUid) {
-            // Virtual user registration for test without block
-            foundUid = "usr_" + Math.random().toString(36).substring(2, 9);
-            // Default unassigned - will trigger lock screen if user !== admin unless given role!
-          }
-          
-          currentUser = { uid: foundUid, email: cleanEmail };
-          localStorage.setItem(LS_PREFIX + 'active_uid', foundUid);
-          notifyAuth();
-          return { user: currentUser };
-        },
-        signOut: async function() {
-          currentUser = null;
-          localStorage.removeItem(LS_PREFIX + 'active_uid');
-          notifyAuth();
-          return Promise.resolve();
-        },
-        sendPasswordResetEmail: async function(email) {
-          return Promise.resolve();
-        }
-      };
-    },
-    firestore: function() {
-      return {
-        collection: function(colName) {
-          return {
-            doc: function(docId) {
-              return {
-                get: async function() {
-                  const store = getStore(colName);
-                  const data = store[docId];
-                  return {
-                    exists: !!data,
-                    data: () => data || null,
-                    id: docId
-                  };
-                },
-                set: async function(data, options) {
-                  const store = getStore(colName);
-                  if (options && options.merge && store[docId]) {
-                    store[docId] = { ...store[docId], ...data };
-                  } else {
-                    store[docId] = data;
-                  }
-                  setStore(colName, store);
-                  return Promise.resolve();
-                },
-                update: async function(data) {
-                  const store = getStore(colName);
-                  if (store[docId]) {
-                    store[docId] = { ...store[docId], ...data };
-                    setStore(colName, store);
-                  }
-                  return Promise.resolve();
-                },
-                delete: async function() {
-                  const store = getStore(colName);
-                  delete store[docId];
-                  setStore(colName, store);
-                  return Promise.resolve();
-                }
-              };
-            },
-            get: async function() {
-              const store = getStore(colName);
-              const docs = Object.keys(store).map(id => ({
-                id: id,
-                data: () => store[id]
-              }));
-              return {
-                docs: docs,
-                forEach: function(fn) { docs.forEach(fn); }
-              };
-            },
-            add: async function(data) {
-              const store = getStore(colName);
-              const newId = "doc_" + Math.random().toString(36).substring(2, 11);
-              store[newId] = data;
-              setStore(colName, store);
-              return { id: newId };
-            }
-          };
-        }
-      };
-    }
-  };
+async function onAuthState(user) {
+if (!user) { mostrarTela("screen-login"); return; }
+const uidAtual = String(user.uid || "").trim();
+const ehAdminRaiz = uidAtual === ADMIN_UID;
+console.log("[auth] uid:", uidAtual, "| admin raiz:", ehAdminRaiz);
 
-  window.firebase.firestore.FieldValue = {
-    serverTimestamp: () => new Date().toISOString(),
-    arrayUnion: function(...items) {
-      return { __type: "arrayUnion", items: items };
-    }
-  };
-})();
-</script>
+if (ehAdminRaiz) {
+state.user = { uid: uidAtual, email: user.email };
+state.papel = "admin";
+state.meuNome = "Administrador";
+liberarApp();
+backend.setUsuario({ uid: uidAtual, email: user.email, nome: "Administrador", papel: "admin" }).catch(() => {});
+return;
+}
 
-<!-- ==========================================================================
-     TELA DE LOGIN (v8 EXACT REPLICA)
-     ========================================================================== -->
-<div id="login-screen">
-  <div class="login-card">
-    <div class="login-top-bar">
-      <div class="lang-selector-flags" role="radiogroup" aria-label="Idioma">
-        <button type="button" class="lang-flag-btn" data-lang="pt" title="Português">🇧🇷</button>
-        <button type="button" class="lang-flag-btn active" data-lang="es" title="Español (Perú)">🇵🇪</button>
-      </div>
-    </div>
-    
-    <div class="alupar-stripe">
-      <div class="alupar-logo-text">
-        ALUPAR <span>PERÚ</span>
-      </div>
-    </div>
+let doc = null;
+try { doc = await backend.getUsuario(uidAtual); } catch (e) { doc = null; }
+if (!doc) {
+document.getElementById("bloqueio-texto").textContent =
+`Su correo ${user.email} no tiene permisos en esta aplicación. Solicite acceso al administrador.`;
+mostrarTela("screen-bloqueio");
+return;
+}
+state.user = { uid: uidAtual, email: user.email };
+state.papel = doc.papel;
+state.meuNome = doc.nome || user.email;
+liberarApp();
+}
 
-    <div class="login-body">
-      <h1 class="login-title">Reporte de Obra</h1>
-      <p class="login-subtitle" id="login-subtitle-txt">Ingrese con su cuenta del equipo</p>
+function liberarApp() {
+STORE.session.set({ uid: state.user.uid });
+mostrarTela("screen-app");
+document.getElementById("header-user").textContent = `${state.meuNome} · ${state.papel}`;
+document.querySelectorAll(".admin-only").forEach(el => el.classList.toggle("hidden", state.papel !== "admin"));
+document.getElementById("f-resp").value = state.meuNome;
+document.getElementById("f-data").value = new Date().toISOString().slice(0, 10);
+if (state.atividades.length === 0) addAtividade();
+mostrarView("informe");
+renderCatalogo();
+renderHistorico();
+renderObras();
+renderUsuarios();
+}
 
-      <form id="login-form">
-        <div class="login-form-group">
-          <label for="login-email" id="lbl-email">E-mail</label>
-          <input class="login-input" type="email" id="login-email" required placeholder="correo@alupar.com" autocomplete="username">
-        </div>
+function signOut() {
+backend.signOut();
+STORE.session.set({ uid: null });
+state.user = null;
+mostrarTela("screen-login");
+}
 
-        <div class="login-form-group">
-          <label for="login-password" id="lbl-password">Contraseña</label>
-          <input class="login-input" type="password" id="login-password" required placeholder="••••••••" autocomplete="current-password">
-        </div>
+function mostrarView(nome) {
+document.querySelectorAll(".view").forEach(v => v.classList.toggle("active", v.id === "view-" + nome));
+if (nome === "preview") renderPreview();
+if (nome === "admin") renderUsuarios();
+}
 
-        <button type="submit" class="login-btn-submit" id="btn-login-submit">Ingresar</button>
-      </form>
+function catalogo() {
+const key = state.user.uid;
+if (!STORE.catalogos.get()[key]) {
+const all = STORE.catalogos.get();
+all[key] = { funcoes: [], equipamentos: [] };
+STORE.catalogos.set(all);
+}
+return STORE.catalogos.get()[key];
+}
 
-      <a class="login-forgot-link" id="link-forgot-pass">Olvidé mi contraseña</a>
-    </div>
+function salvarCatalogo(cat) {
+const all = STORE.catalogos.get();
+all[state.user.uid] = cat;
+STORE.catalogos.set(all);
+}
 
-    <div class="login-footer-text">
-      Reporte de Obra — v8.2
-    </div>
-  </div>
+function confirmar(titulo, texto, fn) {
+document.getElementById("dlg-titulo").textContent = titulo;
+document.getElementById("dlg-texto").textContent = texto;
+state.pendingConfirm = fn;
+document.getElementById("dlg-confirm").showModal();
+}
+
+function renderCatalogo() {
+const cat = catalogo();
+const pintar = (lista, tipo) => {
+const el = document.getElementById(tipo === "funcoes" ? "cat-funcoes-lista" : "cat-equipamentos-lista");
+const items = cat[tipo];
+if (items.length === 0) {
+el.innerHTML = `<p class="text-xs muted">Aún no hay ${tipo === "funcoes" ? "cargos" : "equipos"} registrados</p>`;
+return;
+}
+el.innerHTML = items.map((it, i) =>
+`<div class="row between items-center"><span class="text-sm">${escHtml(it.nome)}</span><button class="btn" data-variant="ghost" data-size="sm" data-del="${tipo}" data-idx="${i}" aria-label="Eliminar">✕</button></div>`
+).join("");
+};
+pintar(cat.funcoes, "funcoes");
+pintar(cat.equipamentos, "equipamentos");
+}
+
+function addAtividade() {
+state.atividades.push({ nome: "", unidade: "m³", qtdDia: "", pctDia: "", qtdAcum: "", pctAcum: "", equipos: [{ equipamento: "", horas: "" }] });
+renderAtividades();
+}
+
+function renderAtividades() {
+const wrap = document.getElementById("atividades-wrap");
+const eqOpts = (sel) => catalogo().equipamentos.map(e => `<option ${e.nome === sel ? "selected" : ""}>${escHtml(e.nome)}</option>`).join("");
+wrap.innerHTML = state.atividades.map((a, i) => `
+<div class="act-card" data-act="${i}">
+<div class="row between items-center"><strong class="text-sm">Actividad ${i + 1}</strong><button class="btn" data-variant="ghost" data-size="sm" data-act-del="${i}">✕</button></div>
+<div class="cols-2 gap-2 mt-2">
+<div class="field"><label>Nombre</label><input class="input" data-field="nome" data-i="${i}" value="${escHtml(a.nome)}" placeholder="Ej.: Excavación de zanja"></div>
+<div class="field"><label>Unidad</label><select class="input" data-field="unidade" data-i="${i}">${UNIDADES.map(u => `<option ${u === a.unidade ? "selected" : ""}>${u}</option>`).join("")}</select></div>
+<div class="field"><label>Cantidad del día</label><input class="input" type="number" min="0" step="0.5" data-field="qtdDia" data-i="${i}" value="${a.qtdDia}"></div>
+<div class="field"><label>% del día</label><input class="input" type="number" min="0" step="0.5" data-field="pctDia" data-i="${i}" value="${a.pctDia}"></div>
+<div class="field"><label>Cantidad acumulada</label><input class="input" type="number" min="0" step="0.5" data-field="qtdAcum" data-i="${i}" value="${a.qtdAcum}"></div>
+<div class="field"><label>% acumulado</label><input class="input" type="number" min="0" step="0.5" data-field="pctAcum" data-i="${i}" value="${a.pctAcum}"></div>
 </div>
-
-<!-- ==========================================================================
-     TELA DE BLOQUEIO (MUDANÇA 2 - Acceso no autorizado)
-     ========================================================================== -->
-<div id="lock-screen">
-  <div class="lock-card">
-    <div class="lock-icon">🚫</div>
-    <h2 class="lock-title" id="lock-title-txt">Acceso no autorizado</h2>
-    <p class="lock-desc" id="lock-desc-txt">
-      Su correo <strong id="lock-email-badge">usuario@correo.com</strong> no tiene permisos en esta aplicación. Solicite acceso al administrador.
-    </p>
-    <button type="button" class="btn w-full" data-variant="destructive" id="btn-lock-logout">Cerrar sesión</button>
-  </div>
+<p class="text-xs muted mt-2">Equipos usados en la actividad</p>
+${a.equipos.map((eq, j) => `
+<div class="eq-row" data-eq="${i}-${j}">
+<div class="field"><label>Equipo</label><select class="input" data-eq-field="equipamento" data-i="${i}" data-j="${j}"><option value="">—</option>${eqOpts(eq.equipamento)}</select></div>
+<div class="field"><label>Horas trabajadas</label><input class="input" type="number" min="0" step="0.5" data-eq-field="horas" data-i="${i}" data-j="${j}" value="${eq.horas}"></div>
+<button class="btn" data-variant="ghost" data-size="sm" data-eq-del="${i}-${j}">✕</button>
+</div>`).join("")}
+<div class="row gap-2 mt-2">
+<button class="btn" data-variant="secondary" data-size="sm" data-eq-add="${i}">＋ Agregar equipo</button>
+<button class="btn" data-variant="ghost" data-size="sm" data-eq-create="${i}">＋ Crear equipo</button>
 </div>
+</div>`).join("");
+}
 
-<!-- ==========================================================================
-     APLICATIVO PRINCIPAL (APP ROOT)
-     ========================================================================== -->
-<div id="app-root">
-  <!-- Top App Header -->
-  <header class="app-header">
-    <div class="app-brand">
-      <div class="app-title-text">
-        <span>Reporte de Obra</span>
-        <span class="app-version-badge">v8.2</span>
-      </div>
-    </div>
+function lerFormulario() {
+return {
+data: document.getElementById("f-data").value,
+proyecto: document.getElementById("f-proyecto").value.trim(),
+obra: document.getElementById("f-obra").value.trim(),
+responsavel: state.meuNome,
+atividades: state.atividades.map(a => ({
+...a,
+equipos: a.equipos.filter(e => e.equipamento)
+})),
+moTotal: document.getElementById("f-mo-total").value,
+moDetalhe: document.getElementById("f-mo-detalhe").value.trim(),
+eqTotal: document.getElementById("f-eq-total").value,
+eqDetalhe: document.getElementById("f-eq-detalhe").value.trim(),
+climaM: document.getElementById("f-clima-m").value.trim(),
+climaT: document.getElementById("f-clima-t").value.trim(),
+ocorrencias: document.getElementById("f-ocorrencias").value.trim(),
+seguranca: document.getElementById("f-seguridad").value.trim(),
+proximos: document.getElementById("f-proximos").value.trim()
+};
+}
 
-    <div class="header-actions">
-      <!-- Flags in header -->
-      <div class="lang-selector-flags" style="margin-right: 4px;">
-        <button type="button" class="lang-flag-btn" data-lang="pt" style="color: #fff;">🇧🇷</button>
-        <button type="button" class="lang-flag-btn active" data-lang="es" style="color: #fff;">🇵🇪</button>
-      </div>
+function fmtData(iso, lang) {
+if (!iso) return "";
+const [y, m, d] = iso.split("-");
+return `${d}/${m}/${y}`;
+}
 
-      <div class="user-pill" id="header-user-pill">
-        <span id="header-user-name">Usuario</span>
-        <span class="user-role-badge user-role-admin" id="header-user-role">ADMIN</span>
-      </div>
+function gerarTexto(r, lang) {
+const L = lang === "pt"
+? { titulo: "AVANÇO DA OBRA", proj: "Projeto:", obra: "Obra:", resp: "Responsável:", ativ: "ATIVIDADES", eq: "🔧 Equipamento:", hoje: "🗓️ Hoje:", acum: "📊 Acumulado:", mo: "MÃO DE OBRA", equip: "EQUIPAMENTOS", clima: "CLIMA", man: "Manhã", tar: "Tarde", ocor: "OCORRÊNCIAS", seg: "SEGURANÇA", prox: "PRÓXIMOS PASSOS", total: "Total", pess: "pessoas", eqs: "equipamentos" }
+: { titulo: "AVANCE DE OBRA", proj: "Proyecto:", obra: "Obra:", resp: "Responsable:", ativ: "ACTIVIDADES", eq: "🔧 Equipo:", hoje: "🗓️ Hoy:", acum: "📊 Acumulado:", mo: "MANO DE OBRA", equip: "EQUIPOS", clima: "CLIMA", man: "Mañana", tar: "Tarde", ocor: "OCURRENCIAS", seg: "SEGURIDAD", prox: "PRÓXIMOS PASOS", total: "Total", pess: "personas", eqs: "equipos" };
 
-      <button type="button" class="header-btn-logout" id="btn-header-logout" title="Salir">
-        <span id="txt-logout">Salir</span>
-      </button>
-    </div>
-  </header>
+const linhas = [];
+linhas.push(`*${L.titulo} (${fmtData(r.data)})*`);
+if (r.proyecto) linhas.push(`*${L.proj}* ${r.proyecto}`);
+if (r.obra) linhas.push(`*${L.obra}* ${r.obra}`);
+linhas.push(`*${L.resp}* ${r.responsavel}`);
+linhas.push("");
 
-  <!-- Navigation Bar -->
-  <nav class="app-nav" id="main-nav">
-    <button type="button" class="nav-item active" data-view="nuevo" id="nav-item-nuevo">
-      <span>📝</span> <span id="txt-nav-nuevo">Nuevo Informe</span>
-    </button>
-    <button type="button" class="nav-item" data-view="historial">
-      <span>📋</span> <span id="txt-nav-historial">Historial</span>
-    </button>
-    <button type="button" class="nav-item" data-view="catalogo">
-      <span>📚</span> <span id="txt-nav-catalogo">Catálogo</span>
-    </button>
-    <button type="button" class="nav-item" data-view="obras" id="nav-item-obras">
-      <span>🏗️</span> <span id="txt-nav-obras">Obras</span>
-    </button>
-    <button type="button" class="nav-item" data-view="admin" id="nav-item-admin">
-      <span>⚙️</span> <span id="txt-nav-admin">Admin</span>
-    </button>
-  </nav>
+const atividadesValidas = r.atividades.filter(a => a.nome);
+if (atividadesValidas.length) {
+linhas.push(`⏳ *${L.ativ}*`);
+atividadesValidas.forEach((a, i) => {
+linhas.push(`${i + 1}. ${a.nome}`);
+if (a.equipos.length) {
+const partes = a.equipos.map(e => `${e.equipamento} ${e.horas || 0} h`);
+linhas.push(`   ${L.eq} ${partes.join(" | ")}`);
+}
+if (a.qtdDia) linhas.push(`   ${L.hoje} ${a.qtdDia} ${a.unidade}${a.pctDia ? ` (${a.pctDia}%)` : ""}`);
+if (a.qtdAcum || a.pctAcum) {
+const acum = [a.qtdAcum ? `${a.qtdAcum} ${a.unidade}` : null, a.pctAcum ? `${a.pctAcum}%` : null].filter(Boolean).join(" | ");
+linhas.push(`   ${L.acum} ${acum}`);
+}
+});
+linhas.push("");
+}
 
-  <!-- Main Views Container -->
-  <main class="main-content">
-    
-    <!-- ====================================================================
-         VIEW 1: NUEVO INFORME
-         ==================================================================== -->
-    <section class="view-section active" id="view-nuevo">
-      <form id="report-form" class="stack gap-4">
-        
-        <!-- Datos Generales -->
-        <div class="panel p-4">
-          <div class="row between items-center mb-3">
-            <div>
-              <h2 class="text-base font-bold m-0" id="txt-sec-general">Datos Principales</h2>
-              <p class="muted text-xs m-0" id="txt-sec-general-desc">Identificación de la obra y fecha del reporte diario</p>
-            </div>
-            <span class="badge" data-variant="secondary" id="today-date-badge">--/--/----</span>
-          </div>
+if (Number(r.moTotal) > 0) {
+linhas.push(`👷 *${L.mo}* — ${L.total}: ${r.moTotal} ${L.pess}`);
+if (r.moDetalhe) linhas.push(`• ${r.moDetalhe}`);
+linhas.push("");
+}
 
-          <div class="shell-grid cols-3 gap-3">
-            <div class="field">
-              <label for="rep-fecha" class="text-xs font-semibold" id="lbl-rep-fecha">Fecha del Informe</label>
-              <input type="date" class="input" id="rep-fecha" required>
-            </div>
-            <div class="field">
-              <label for="rep-proyecto" class="text-xs font-semibold" id="lbl-rep-proyecto">Proyecto</label>
-              <input type="text" class="input" id="rep-proyecto" placeholder="Ej: Transmisión Eléctrica Sur" required>
-            </div>
-            <div class="field">
-              <label for="rep-obra-select" class="text-xs font-semibold" id="lbl-rep-obra">Obra</label>
-              <select class="input" id="rep-obra-select" required>
-                <option value="" disabled selected id="opt-sel-obra">Seleccione una obra...</option>
-              </select>
-            </div>
-          </div>
-        </div>
+const eqTotalCalc = Number(r.eqTotal) || 0;
+if (eqTotalCalc > 0) {
+linhas.push(`🚜 *${L.equip}* — ${L.total}: ${eqTotalCalc} ${L.eqs}`);
+if (r.eqDetalhe) linhas.push(`• ${r.eqDetalhe}`);
+linhas.push("");
+}
 
-        <!-- Actividades con múltiples equipos y horas por equipo (MUDANÇA 4) -->
-        <div class="panel p-4">
-          <div class="row between items-center mb-3">
-            <div>
-              <h2 class="text-base font-bold m-0" id="txt-sec-actividades">Actividades Ejecutadas</h2>
-              <p class="muted text-xs m-0" id="txt-sec-actividades-desc">Avance físico diario, acumulado y equipos con horas trabajadas</p>
-            </div>
-            <button type="button" class="btn" data-variant="outline" data-size="sm" id="btn-add-activity">
-              ＋ <span id="txt-btn-add-act">Agregar Actividad</span>
-            </button>
-          </div>
+if (r.climaM || r.climaT) {
+linhas.push(`🌤️ *${L.clima}*`);
+const c = [r.climaM ? `${L.man}: ${r.climaM}` : null, r.climaT ? `${L.tar}: ${r.climaT}` : null].filter(Boolean).join(" | ");
+linhas.push(c);
+linhas.push("");
+}
+if (r.ocorrencias) { linhas.push(`⚠️ *${L.ocor}*`); linhas.push(r.ocorrencias); linhas.push(""); }
+if (r.seguranca) { linhas.push(`🦺 *${L.seg}*`); linhas.push(r.seguranca); linhas.push(""); }
+if (r.proximos) { linhas.push(`📌 *${L.prox}*`); linhas.push(r.proximos); }
 
-          <div id="activities-container">
-            <!-- Dynamic Activity items rendered here -->
-          </div>
-        </div>
+return linhas.join("\n").replace(/\n+$/, "");
+}
 
-        <!-- Mano de Obra (Personal del día) -->
-        <div class="panel p-4">
-          <div class="row between items-center mb-3">
-            <div>
-              <h2 class="text-base font-bold m-0" id="txt-sec-manodeobra">Mano de Obra</h2>
-              <p class="muted text-xs m-0" id="txt-sec-manodeobra-desc">Cantidad de personas por cargo en campo hoy</p>
-            </div>
-            <button type="button" class="btn" data-variant="outline" data-size="sm" id="btn-add-labor-row">
-              ＋ <span id="txt-btn-add-labor">Agregar Cargo</span>
-            </button>
-          </div>
+function renderPreview() {
+const r = lerFormulario();
+document.getElementById("preview-texto").textContent = gerarTexto(r, state.lang);
+}
 
-          <div id="labor-rows-container" class="stack gap-2">
-            <!-- Dynamic labor rows -->
-          </div>
-          <div class="row between items-center mt-3 pt-2 border-t text-xs">
-            <span class="muted" id="txt-total-personal">Total de personal:</span>
-            <span class="font-bold text-sm" id="lbl-total-personal-count">0 personas</span>
-          </div>
-        </div>
+function renderObras() {
+const obras = [...new Set(STORE.informes.get().map(i => i.obra).filter(Boolean))];
+const el = document.getElementById("obras-lista");
+if (!obras.length) { el.innerHTML = '<p class="text-sm muted">Aún no hay informes</p>'; return; }
+el.innerHTML = obras.map(o => {
+const count = STORE.informes.get().filter(i => i.obra === o).length;
+return `<div class="row between"><span>${escHtml(o)}</span><span class="badge">${count} informes</span></div>`;
+}).join("");
+}
 
-        <!-- Equipos General del Informe -->
-        <div class="panel p-4">
-          <div class="row between items-center mb-3">
-            <div>
-              <h2 class="text-base font-bold m-0" id="txt-sec-equipos-gen">Equipos en Obra (General)</h2>
-              <p class="muted text-xs m-0" id="txt-sec-equipos-gen-desc">Resumen cuantitativo de maquinaria disponible en el sitio</p>
-            </div>
-            <button type="button" class="btn" data-variant="outline" data-size="sm" id="btn-add-general-equip">
-              ＋ <span id="txt-btn-add-gen-equip">Agregar Equipo</span>
-            </button>
-          </div>
+function renderHistorico() {
+const list = STORE.informes.get();
+const el = document.getElementById("historico-lista");
+if (!list.length) { el.innerHTML = '<p class="text-sm muted">Aún no hay informes</p>'; return; }
+el.innerHTML = list.map(i => `
+<div class="card">
+<div class="row between"><strong>${fmtData(i.data)} — ${escHtml(i.obra || i.proyecto || "Sin obra")}</strong><span class="badge">${escHtml(i.autorEmail)} · ${escHtml(i.autorNome)}</span></div>
+<p class="text-xs muted">${escHtml(i.proyecto || "")}</p>
+</div>`).join("");
+}
 
-          <div id="general-equip-container" class="stack gap-2">
-            <!-- Dynamic equipment count rows -->
-          </div>
-          <div class="row between items-center mt-3 pt-2 border-t text-xs">
-            <span class="muted" id="txt-total-equipos">Total de equipos:</span>
-            <span class="font-bold text-sm" id="lbl-total-equip-count">0 equipos</span>
-          </div>
-        </div>
-
-        <!-- Clima, Ocurrencias, Seguridad y Próximos Pasos -->
-        <div class="panel p-4">
-          <h2 class="text-base font-bold m-0 mb-3" id="txt-sec-condiciones">Condiciones, Seguridad & Observaciones</h2>
-          
-          <div class="shell-grid cols-2 gap-3 mb-3">
-            <div class="field">
-              <label for="clima-manana" class="text-xs font-semibold" id="lbl-clima-manana">Clima Mañana</label>
-              <select class="input" id="clima-manana">
-                <option value="">(No especificar)</option>
-                <option value="Bueno ☀️">Bueno ☀️</option>
-                <option value="Nublado ☁️">Nublado ☁️</option>
-                <option value="Lluvia ligera 🌦️">Lluvia ligera 🌦️</option>
-                <option value="Lluvia fuerte 🌧️">Lluvia fuerte 🌧️</option>
-                <option value="Viento fuerte 💨">Viento fuerte 💨</option>
-              </select>
-            </div>
-            <div class="field">
-              <label for="clima-tarde" class="text-xs font-semibold" id="lbl-clima-tarde">Clima Tarde</label>
-              <select class="input" id="clima-tarde">
-                <option value="">(No especificar)</option>
-                <option value="Bueno ☀️">Bueno ☀️</option>
-                <option value="Nublado ☁️">Nublado ☁️</option>
-                <option value="Lluvia ligera 🌦️">Lluvia ligera 🌦️</option>
-                <option value="Lluvia fuerte 🌧️">Lluvia fuerte 🌧️</option>
-                <option value="Viento fuerte 💨">Viento fuerte 💨</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="stack gap-3">
-            <div class="field">
-              <label for="rep-ocurrencias" class="text-xs font-semibold" id="lbl-ocurrencias">Ocurrencias / Interferencias</label>
-              <textarea class="input" id="rep-ocurrencias" rows="2" placeholder="Describa eventualidades o interferencias técnicas..."></textarea>
-            </div>
-            <div class="field">
-              <label for="rep-seguridad" class="text-xs font-semibold" id="lbl-seguridad">Seguridad, Salud & Medio Ambiente</label>
-              <textarea class="input" id="rep-seguridad" rows="2" placeholder="Charlas de 5 min, inspecciones, incidentes cero..."></textarea>
-            </div>
-            <div class="field">
-              <label for="rep-proximos" class="text-xs font-semibold" id="lbl-proximos">Próximos Pasos</label>
-              <textarea class="input" id="rep-proximos" rows="2" placeholder="Programación para el siguiente día laboral..."></textarea>
-            </div>
-          </div>
-        </div>
-
-        <!-- Action bar -->
-        <div class="row between items-center pt-2">
-          <button type="button" class="btn" data-variant="ghost" id="btn-clear-form">
-            <span id="txt-btn-clear">Limpiar Formulario</span>
-          </button>
-          <div class="row gap-2">
-            <button type="submit" class="btn" style="min-width: 180px;">
-              💾 <span id="txt-btn-save-report">Guardar Informe</span>
-            </button>
-          </div>
-        </div>
-      </form>
-    </section>
-
-    <!-- ====================================================================
-         VIEW 2: HISTORIAL
-         ==================================================================== -->
-    <section class="view-section" id="view-historial">
-      <div class="row between items-center mb-4">
-        <div>
-          <h2 class="text-lg font-bold m-0" id="txt-historial-title">Historial de Informes</h2>
-          <p class="muted text-xs m-0" id="txt-historial-desc">Consulte, copie o comparta reportes registrados</p>
-        </div>
-        <button type="button" class="btn" data-variant="outline" data-size="sm" id="btn-refresh-history">
-          🔄 <span id="txt-refresh">Actualizar</span>
-        </button>
-      </div>
-
-      <div id="history-list-container">
-        <!-- Renders history cards or empty state -->
-      </div>
-    </section>
-
-    <!-- ====================================================================
-         VIEW 3: CATÁLOGO (MUDANÇA 3 - Página independiente)
-         ==================================================================== -->
-    <section class="view-section" id="view-catalogo">
-      <div class="mb-4">
-        <h2 class="text-lg font-bold m-0" id="txt-catalogo-title">Catálogo Personal</h2>
-        <p class="muted text-xs m-0" id="txt-catalogo-desc">Gestione sus cargos y equipos habituales para agilizar el llenado de informes</p>
-      </div>
-
-      <div class="catalog-grid">
-        <!-- Seção Cargos -->
-        <div class="panel p-4">
-          <div class="row between items-center mb-3">
-            <h3 class="text-sm font-bold m-0" id="txt-cat-cargos">Cargos</h3>
-            <span class="badge" data-variant="secondary" id="badge-cargos-count">0</span>
-          </div>
-
-          <!-- Add Cargo Inline -->
-          <div class="row gap-2 mb-3">
-            <input type="text" class="input grow" id="input-new-cargo" placeholder="Nuevo cargo (Ej: Capataz)">
-            <button type="button" class="btn" data-variant="secondary" id="btn-add-cargo-catalog">
-              ＋ <span id="txt-btn-add-cargo">Agregar</span>
-            </button>
-          </div>
-
-          <div class="chip-list" id="catalog-cargos-list">
-            <!-- Dynamic cargos -->
-          </div>
-        </div>
-
-        <!-- Seção Equipos -->
-        <div class="panel p-4">
-          <div class="row between items-center mb-3">
-            <h3 class="text-sm font-bold m-0" id="txt-cat-equipos">Equipos</h3>
-            <span class="badge" data-variant="secondary" id="badge-equipos-count">0</span>
-          </div>
-
-          <!-- Add Equipo Inline -->
-          <div class="row gap-2 mb-3">
-            <input type="text" class="input grow" id="input-new-equipo" placeholder="Nuevo equipo (Ej: Camión Grúa)">
-            <button type="button" class="btn" data-variant="secondary" id="btn-add-equipo-catalog">
-              ＋ <span id="txt-btn-add-equipo">Agregar</span>
-            </button>
-          </div>
-
-          <div class="chip-list" id="catalog-equipos-list">
-            <!-- Dynamic equipos -->
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ====================================================================
-         VIEW 4: OBRAS
-         ==================================================================== -->
-    <section class="view-section" id="view-obras">
-      <div class="panel p-4 mb-4">
-        <h2 class="text-base font-bold m-0 mb-1" id="txt-obras-title">Registro de Obras</h2>
-        <p class="muted text-xs m-0 mb-3" id="txt-obras-desc">Obras activas disponibles para la selección en los reportes</p>
-
-        <form id="form-new-obra" class="row gap-2">
-          <input type="text" class="input grow" id="input-obra-nombre" placeholder="Nombre de la obra (Ej: Subestación Moquegua)" required>
-          <button type="submit" class="btn" id="btn-create-obra">
-            ＋ <span id="txt-btn-create-obra">Registrar Obra</span>
-          </button>
-        </form>
-      </div>
-
-      <div class="panel p-4">
-        <div class="row between items-center mb-3">
-          <h3 class="text-sm font-bold m-0" id="txt-obras-registradas">Obras Registradas</h3>
-          <span class="badge" data-variant="secondary" id="badge-obras-count">0 obras</span>
-        </div>
-        <div id="obras-list-container">
-          <!-- Dynamic obras list -->
-        </div>
-      </div>
-    </section>
-
-    <!-- ====================================================================
-         VIEW 5: ADMIN (MUDANÇA 2 - Usuarios y Permisos)
-         ==================================================================== -->
-    <section class="view-section" id="view-admin">
-      <div class="mb-4">
-        <h2 class="text-lg font-bold m-0" id="txt-admin-title">Panel de Administración</h2>
-        <p class="muted text-xs m-0" id="txt-admin-desc">Gestión de accesos, roles y control general del sistema</p>
-      </div>
-
-      <!-- Sección Usuarios -->
-      <div class="panel p-4 mb-4">
-        <div class="row between items-center mb-3">
-          <div>
-            <h3 class="text-base font-bold m-0" id="txt-admin-usuarios">Usuarios del Sistema</h3>
-            <p class="muted text-xs m-0" id="txt-admin-usuarios-desc">Controle qué personas tienen acceso y qué rol desempeñan</p>
-          </div>
-          <button type="button" class="btn" data-variant="secondary" data-size="sm" id="btn-toggle-new-user-form">
-            ＋ <span id="txt-btn-new-user">Nuevo usuario</span>
-          </button>
-        </div>
-
-        <!-- Formulario Inline para Crear Usuario (Secondary Firebase Auth) -->
-        <div id="box-new-user-form" class="panel p-3 mb-4" style="display: none; background: #f8fafc; border: 1px solid var(--border);">
-          <h4 class="text-xs font-bold uppercase muted mb-2" id="txt-form-new-user-title">Crear Nuevo Usuario</h4>
-          <form id="form-create-user" class="stack gap-3">
-            <div class="shell-grid cols-2 gap-3">
-              <div class="field">
-                <label for="new-user-name" class="text-xs font-semibold" id="lbl-nu-name">Nombre completo</label>
-                <input type="text" class="input" id="new-user-name" required placeholder="Ej: Carlos Mendoza">
-              </div>
-              <div class="field">
-                <label for="new-user-email" class="text-xs font-semibold" id="lbl-nu-email">Correo electrónico</label>
-                <input type="email" class="input" id="new-user-email" required placeholder="carlos@alupar.com">
-              </div>
-            </div>
-            <div class="shell-grid cols-2 gap-3">
-              <div class="field">
-                <label for="new-user-password" class="text-xs font-semibold" id="lbl-nu-pass">Contraseña provisional (mínimo 6)</label>
-                <input type="password" class="input" id="new-user-password" minlength="6" required placeholder="••••••••">
-              </div>
-              <div class="field">
-                <label for="new-user-role" class="text-xs font-semibold" id="lbl-nu-role">Papel / Rol</label>
-                <select class="input" id="new-user-role" required>
-                  <option value="editor">Editor (Crea y edita informes)</option>
-                  <option value="leitor">Lector / Leitor (Solo visualiza)</option>
-                  <option value="admin">Administrador (Acceso total)</option>
-                </select>
-              </div>
-            </div>
-            <div class="row justify-end gap-2 pt-2">
-              <button type="button" class="btn" data-variant="ghost" data-size="sm" id="btn-cancel-new-user">Cancelar</button>
-              <button type="submit" class="btn" data-size="sm" id="btn-submit-new-user">Crear usuario</button>
-            </div>
-          </form>
-        </div>
-
-        <!-- Tabla / Lista de Usuarios -->
-        <div id="users-table-container">
-          <!-- Rendered dynamically -->
-        </div>
-      </div>
-    </section>
-
-    <!-- ====================================================================
-         VIEW PREVIEW / MODAL DETALLES DEL INFORME
-         ==================================================================== -->
-    <dialog class="dialog" id="dialog-preview-report" style="max-width: 640px; width: 95%;">
-      <div>
-        <header class="row between items-center">
-          <h2 class="text-base font-bold m-0" id="txt-preview-title">Reporte Formateado</h2>
-          <button type="button" class="btn" data-variant="ghost" data-size="icon" data-dialog-close title="Cerrar">✕</button>
-        </header>
-
-        <section class="mt-3">
-          <div class="preview-text-box" id="preview-content-box"></div>
-        </section>
-
-        <footer class="row between items-center mt-4 pt-3 border-t">
-          <button type="button" class="btn" data-variant="outline" data-dialog-close id="txt-btn-close-prev">Cerrar</button>
-          <div class="row gap-2">
-            <button type="button" class="btn" data-variant="secondary" id="btn-whatsapp-share">
-              📲 <span id="txt-btn-whatsapp">WhatsApp</span>
-            </button>
-            <button type="button" class="btn" id="btn-copy-preview">
-              📋 <span id="txt-btn-copy">Copiar Texto</span>
-            </button>
-          </div>
-        </footer>
-      </div>
-    </dialog>
-
-  </main>
+function renderUsuarios() {
+if (state.papel !== "admin") return;
+const el = document.getElementById("usuarios-lista");
+const list = STORE.usuarios.get();
+el.innerHTML = list.map(u => {
+const isSelf = u.uid === state.user.uid;
+return `
+<div class="row between items-center">
+<div><strong>${escHtml(u.nome)}</strong><div class="text-xs muted">${escHtml(u.email)}</div></div>
+<div class="row gap-2 items-center">
+<span class="role-badge role-${u.papel}">${u.papel}</span>
+<select class="input" data-role-uid="${u.uid}" ${isSelf ? "disabled" : ""}>${ROLES.map(r => `<option ${r === u.papel ? "selected" : ""}>${r}</option>`).join("")}</select>
+<button class="btn" data-variant="destructive" data-size="sm" data-del-user="${u.uid}" ${isSelf ? "disabled" : ""}>Eliminar acceso</button>
 </div>
-
-<!-- ==========================================================================
-     CORE APPLICATION LOGIC (v8.2)
-     ========================================================================== -->
-<script defer>
-document.addEventListener("DOMContentLoaded", function() {
-  const ADMIN_UID = "gc143acuOyeFIXpe2efFI1uZ1NB3";
-
-  // Check Firebase presence
-  if (typeof firebase === 'undefined') {
-    document.body.innerHTML = '<div style="padding:40px;text-align:center;color:#b91c1c;">Error crítico: Firebase no está disponible.</div>';
-    return;
-  }
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyAhaLq3IJ67CpkHEG1-8rtCYSNtFARs5uk",
-    authDomain: "informe-diario-de-obra.firebaseapp.com",
-    projectId: "informe-diario-de-obra",
-    storageBucket: "informe-diario-de-obra.firebasestorage.app",
-    messagingSenderId: "647398384847",
-    appId: "1:647398384847:web:8f585e9daf71e311f603ba"
-  };
-
-  const auth = firebase.auth();
-  const db = firebase.firestore();
-
-  // Dicionário de Idiomas (Padrão: Español Perú)
-  const i18n = {
-    es: {
-      loginSubtitle: "Ingrese con su cuenta del equipo",
-      email: "E-mail",
-      password: "Contraseña",
-      loginBtn: "Ingresar",
-      forgotPass: "Olvidé mi contraseña",
-      lockTitle: "Acceso no autorizado",
-      lockDesc: "Su correo {email} no tiene permisos en esta aplicación. Solicite acceso al administrador.",
-      logout: "Salir",
-      navNuevo: "Nuevo Informe",
-      navHistorial: "Historial",
-      navCatalogo: "Catálogo",
-      navObras: "Obras",
-      navAdmin: "Admin",
-      secGeneral: "Datos Principales",
-      secGeneralDesc: "Identificación de la obra y fecha del reporte diario",
-      secActividades: "Actividades Ejecutadas",
-      secActividadesDesc: "Avance físico diario, acumulado y equipos con horas trabajadas",
-      secManoDeObra: "Mano de Obra",
-      secManoDeObraDesc: "Cantidad de personas por cargo en campo hoy",
-      secEquiposGen: "Equipos en Obra (General)",
-      secEquiposGenDesc: "Resumen cuantitativo de maquinaria disponible en el sitio",
-      secCondiciones: "Condiciones, Seguridad & Observaciones",
-      btnAddAct: "Agregar Actividad",
-      btnAddLabor: "Agregar Cargo",
-      btnAddGenEquip: "Agregar Equipo",
-      totalPersonal: "Total de personal:",
-      totalEquipos: "Total de equipos:",
-      saveReport: "Guardar Informe",
-      clearForm: "Limpiar Formulario",
-      historialTitle: "Historial de Informes",
-      historialDesc: "Consulte, copie o comparta reportes registrados",
-      emptyHistory: "Aún no hay informes",
-      emptyObras: "Aún no hay obras registradas",
-      emptyCargos: "Aún no hay cargos registrados",
-      emptyEquipos: "Aún no hay equipos registrados",
-      catalogoTitle: "Catálogo Personal",
-      catalogoDesc: "Gestione sus cargos y equipos habituales para agilizar el llenado de informes",
-      cargos: "Cargos",
-      equipos: "Equipos",
-      btnAdd: "Agregar",
-      obrasTitle: "Registro de Obras",
-      obrasDesc: "Obras activas disponibles para la selección en los reportes",
-      regObraBtn: "Registrar Obra",
-      adminTitle: "Panel de Administración",
-      adminDesc: "Gestión de accesos, roles y control general del sistema",
-      adminUsuarios: "Usuarios del Sistema",
-      adminUsuariosDesc: "Controle qué personas tienen acceso y qué rol desempeñan",
-      newUserBtn: "Nuevo usuario",
-      reportTitlePrefix: "AVANCE DE OBRA",
-      txtProyecto: "Proyecto:",
-      txtObra: "Obra:",
-      txtResponsable: "Responsable:",
-      txtActividades: "ACTIVIDADES",
-      txtEquipoSingle: "Equipo:",
-      txtHoy: "Hoy:",
-      txtAcumulado: "Acumulado:",
-      txtManoObraSec: "MANO DE OBRA",
-      txtPersonas: "personas",
-      txtEquiposSec: "EQUIPOS",
-      txtEquiposUnit: "equipos",
-      txtClimaSec: "CLIMA",
-      txtManana: "Mañana:",
-      txtTarde: "Tarde:",
-      txtOcurrenciasSec: "OCURRENCIAS",
-      txtSeguridadSec: "SEGURIDAD",
-      txtProximosSec: "PRÓXIMOS PASOS"
-    },
-    pt: {
-      loginSubtitle: "Entre com sua conta da equipe",
-      email: "E-mail",
-      password: "Senha",
-      loginBtn: "Entrar",
-      forgotPass: "Esqueci a senha",
-      lockTitle: "Acesso não autorizado",
-      lockDesc: "Seu e-mail {email} não possui permissão neste aplicativo. Solicite acesso ao administrador.",
-      logout: "Sair",
-      navNuevo: "Novo Informe",
-      navHistorial: "Histórico",
-      navCatalogo: "Catálogo",
-      navObras: "Obras",
-      navAdmin: "Admin",
-      secGeneral: "Dados Principais",
-      secGeneralDesc: "Identificação da obra e data do relatório diário",
-      secActividades: "Atividades Executadas",
-      secActividadesDesc: "Avanço físico diário, acumulado e equipamentos com horas trabalhadas",
-      secManoDeObra: "Mão de Obra",
-      secManoDeObraDesc: "Quantidade de pessoas por função em campo hoje",
-      secEquiposGen: "Equipamentos na Obra (Geral)",
-      secEquiposGenDesc: "Resumo quantitativo de máquinas disponíveis no local",
-      secCondiciones: "Condições, Segurança & Observações",
-      btnAddAct: "Adicionar Atividade",
-      btnAddLabor: "Adicionar Função",
-      btnAddGenEquip: "Adicionar Equipamento",
-      totalPersonal: "Total de equipe:",
-      totalEquipos: "Total de equipamentos:",
-      saveReport: "Salvar Relatório",
-      clearForm: "Limpar Formulário",
-      historialTitle: "Histórico de Relatórios",
-      historialDesc: "Consulte, copie ou compartilhe relatórios registrados",
-      emptyHistory: "Nenhum informe ainda",
-      emptyObras: "Nenhuma obra cadastrada ainda",
-      emptyCargos: "Nenhum cargo cadastrado ainda",
-      emptyEquipos: "Nenhum equipamento cadastrado ainda",
-      catalogoTitle: "Catálogo Pessoal",
-      catalogoDesc: "Gerencie suas funções e equipamentos habituais para agilizar o preenchimento",
-      cargos: "Cargos / Funções",
-      equipos: "Equipamentos",
-      btnAdd: "Adicionar",
-      obrasTitle: "Cadastro de Obras",
-      obrasDesc: "Obras ativas disponíveis para seleção nos relatórios",
-      regObraBtn: "Cadastrar Obra",
-      adminTitle: "Painel de Administração",
-      adminDesc: "Gestão de acessos, papéis e controle geral do sistema",
-      adminUsuarios: "Usuários do Sistema",
-      adminUsuariosDesc: "Controle quem tem acesso e qual função desempenha",
-      newUserBtn: "Novo usuário",
-      reportTitlePrefix: "AVANÇO DA OBRA",
-      txtProyecto: "Projeto:",
-      txtObra: "Obra:",
-      txtResponsable: "Responsável:",
-      txtActividades: "ATIVIDADES",
-      txtEquipoSingle: "Equipamento:",
-      txtHoy: "Hoje:",
-      txtAcumulado: "Acumulado:",
-      txtManoObraSec: "MÃO DE OBRA",
-      txtPersonas: "pessoas",
-      txtEquiposSec: "EQUIPAMENTOS",
-      txtEquiposUnit: "equipamentos",
-      txtClimaSec: "CLIMA",
-      txtManana: "Manhã:",
-      txtTarde: "Tarde:",
-      txtOcurrenciasSec: "OCORRÊNCIAS",
-      txtSeguridadSec: "SEGURANÇA",
-      txtProximosSec: "PRÓXIMOS PASSOS"
-    }
-  };
-
-  let currentLang = "es";
-  let activeUser = null;
-  let activeRole = "editor";
-  let activeUserName = "";
-
-  // User's catalog cache
-  let userCatalog = {
-    funcoes: [],
-    equipamentos: []
-  };
-
-  // Switch Language
-  function setLanguage(lang) {
-    currentLang = lang;
-    document.querySelectorAll(".lang-flag-btn").forEach(btn => {
-      btn.classList.toggle("active", btn.dataset.lang === lang);
-    });
-
-    const t = i18n[lang];
-    document.getElementById("login-subtitle-txt").textContent = t.loginSubtitle;
-    document.getElementById("lbl-email").textContent = t.email;
-    document.getElementById("lbl-password").textContent = t.password;
-    document.getElementById("btn-login-submit").textContent = t.loginBtn;
-    document.getElementById("link-forgot-pass").textContent = t.forgotPass;
-    document.getElementById("lock-title-txt").textContent = t.lockTitle;
-    document.getElementById("txt-logout").textContent = t.logout;
-
-    document.getElementById("txt-nav-nuevo").textContent = t.navNuevo;
-    document.getElementById("txt-nav-historial").textContent = t.navHistorial;
-    document.getElementById("txt-nav-catalogo").textContent = t.navCatalogo;
-    document.getElementById("txt-nav-obras").textContent = t.navObras;
-    document.getElementById("txt-nav-admin").textContent = t.navAdmin;
-
-    document.getElementById("txt-sec-general").textContent = t.secGeneral;
-    document.getElementById("txt-sec-general-desc").textContent = t.secGeneralDesc;
-    document.getElementById("txt-sec-actividades").textContent = t.secActividades;
-    document.getElementById("txt-sec-actividades-desc").textContent = t.secActividadesDesc;
-    document.getElementById("txt-sec-manodeobra").textContent = t.secManoDeObra;
-    document.getElementById("txt-sec-manodeobra-desc").textContent = t.secManoDeObraDesc;
-    document.getElementById("txt-sec-equipos-gen").textContent = t.secEquiposGen;
-    document.getElementById("txt-sec-equipos-gen-desc").textContent = t.secEquiposGenDesc;
-    document.getElementById("txt-sec-condiciones").textContent = t.secCondiciones;
-
-    document.getElementById("txt-btn-add-act").textContent = t.btnAddAct;
-    document.getElementById("txt-btn-add-labor").textContent = t.btnAddLabor;
-    document.getElementById("txt-btn-add-gen-equip").textContent = t.btnAddGenEquip;
-    document.getElementById("txt-total-personal").textContent = t.totalPersonal;
-    document.getElementById("txt-total-equipos").textContent = t.totalEquipos;
-    document.getElementById("txt-btn-save-report").textContent = t.saveReport;
-    document.getElementById("txt-btn-clear").textContent = t.clearForm;
-
-    document.getElementById("txt-historial-title").textContent = t.historialTitle;
-    document.getElementById("txt-historial-desc").textContent = t.historialDesc;
-    document.getElementById("txt-catalogo-title").textContent = t.catalogoTitle;
-    document.getElementById("txt-catalogo-desc").textContent = t.catalogoDesc;
-    document.getElementById("txt-cat-cargos").textContent = t.cargos;
-    document.getElementById("txt-cat-equipos").textContent = t.equipos;
-    document.getElementById("txt-btn-add-cargo").textContent = t.btnAdd;
-    document.getElementById("txt-btn-add-equipo").textContent = t.btnAdd;
-    document.getElementById("txt-obras-title").textContent = t.obrasTitle;
-    document.getElementById("txt-obras-desc").textContent = t.obrasDesc;
-    document.getElementById("txt-btn-create-obra").textContent = t.regObraBtn;
-    document.getElementById("txt-admin-title").textContent = t.adminTitle;
-    document.getElementById("txt-admin-desc").textContent = t.adminDesc;
-    document.getElementById("txt-admin-usuarios").textContent = t.adminUsuarios;
-    document.getElementById("txt-admin-usuarios-desc").textContent = t.adminUsuariosDesc;
-    document.getElementById("txt-btn-new-user").textContent = t.newUserBtn;
-
-    // Refresh history / catalog views if active
-    renderCatalogLists();
-    loadHistoryReports();
-    loadObras();
-  }
-
-  document.querySelectorAll(".lang-flag-btn").forEach(btn => {
-    btn.addEventListener("click", () => setLanguage(btn.dataset.lang));
-  });
-
-  // Today Date initialization
-  const todayISO = new Date().toISOString().split("T")[0];
-  document.getElementById("rep-fecha").value = todayISO;
-  const parts = todayISO.split("-");
-  document.getElementById("today-date-badge").textContent = `${parts[2]}/${parts[1]}/${parts[0]}`;
-
-  // ==========================================================================
-  // AUTH & PERMISSION LOGIC (MUDANÇA 2 - CRITICAL ADMIN LOGIC)
-  // ==========================================================================
-  auth.onAuthStateChanged(async (user) => {
-    const loginScreen = document.getElementById("login-screen");
-    const lockScreen = document.getElementById("lock-screen");
-    const appRoot = document.getElementById("app-root");
-
-    if (!user) {
-      activeUser = null;
-      activeRole = null;
-      loginScreen.style.display = "flex";
-      lockScreen.style.display = "none";
-      appRoot.style.display = "none";
-      return;
-    }
-
-    activeUser = user;
-
-    // 1. If user.uid === ADMIN_UID -> liberate IMMEDIATELY as 'admin', never block!
-    if (user.uid === ADMIN_UID) {
-      activeRole = "admin";
-      activeUserName = "Administrador";
-      
-      // Parallel unblocking firestore write
-      db.collection('usuarios').doc(ADMIN_UID).set({
-        email: user.email,
-        nome: "Administrador",
-        papel: "admin",
-        criadoEm: firebase.firestore.FieldValue.serverTimestamp()
-      }, { merge: true }).catch(() => {});
-
-      liberateApp();
-      return;
-    }
-
-    // 2. If user.uid !== ADMIN_UID -> read usuarios/{uid}
-    try {
-      const snap = await db.collection('usuarios').doc(user.uid).get();
-      if (snap && snap.exists && snap.data()) {
-        const udata = snap.data();
-        activeRole = udata.papel || "editor";
-        activeUserName = udata.nome || user.email.split("@")[0];
-        liberateApp();
-      } else {
-        showLockScreen(user.email);
-      }
-    } catch(err) {
-      showLockScreen(user.email);
-    }
-  });
-
-  function liberateApp() {
-    document.getElementById("login-screen").style.display = "none";
-    document.getElementById("lock-screen").style.display = "none";
-    document.getElementById("app-root").style.display = "flex";
-
-    // Header info
-    document.getElementById("header-user-name").textContent = activeUserName || activeUser.email;
-    const roleBadge = document.getElementById("header-user-role");
-    roleBadge.textContent = (activeRole || "editor").toUpperCase();
-    roleBadge.className = "user-role-badge user-role-" + (activeRole || "editor");
-
-    // Role-based visibility
-    const navNuevo = document.getElementById("nav-item-nuevo");
-    const navAdmin = document.getElementById("nav-item-admin");
-
-    if (activeRole === "leitor") {
-      navNuevo.style.display = "none";
-      switchView("historial");
-    } else {
-      navNuevo.style.display = "flex";
-    }
-
-    if (activeRole === "admin") {
-      navAdmin.style.display = "flex";
-    } else {
-      navAdmin.style.display = "none";
-    }
-
-    // Load initial data
-    loadUserCatalog();
-    loadObras();
-    loadHistoryReports();
-    if (activeRole === "admin") {
-      loadAdminUsers();
-    }
-  }
-
-  function showLockScreen(email) {
-    document.getElementById("login-screen").style.display = "none";
-    document.getElementById("app-root").style.display = "none";
-    const lockScreen = document.getElementById("lock-screen");
-    lockScreen.style.display = "flex";
-    document.getElementById("lock-email-badge").textContent = email;
-    const t = i18n[currentLang];
-    document.getElementById("lock-desc-txt").innerHTML = t.lockDesc.replace("{email}", `<strong>${email}</strong>`);
-  }
-
-  // Login Form Submission
-  document.getElementById("login-form").addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const email = document.getElementById("login-email").value.trim();
-    const pass = document.getElementById("login-password").value;
-    try {
-      await auth.signInWithEmailAndPassword(email, pass);
-    } catch(err) {
-      window.skipUI.toast("Error al ingresar: Verifique sus credenciales", { type: "error" });
-    }
-  });
-
-  // Forgot Password Link
-  document.getElementById("link-forgot-pass").addEventListener("click", () => {
-    const email = document.getElementById("login-email").value.trim();
-    if (!email) {
-      window.skipUI.toast(currentLang === 'pt' ? "Digite seu e-mail no campo acima" : "Ingrese su correo en el campo de arriba", { type: "error" });
-      return;
-    }
-    auth.sendPasswordResetEmail(email);
-    window.skipUI.toast(currentLang === 'pt' ? "Link de redefinição enviado com sucesso!" : "Enlace de restablecimiento enviado a su correo", { type: "success" });
-  });
-
-  // Logout handlers
-  document.getElementById("btn-header-logout").addEventListener("click", () => auth.signOut());
-  document.getElementById("btn-lock-logout").addEventListener("click", () => auth.signOut());
-
-  // View Navigation
-  function switchView(viewName) {
-    document.querySelectorAll(".nav-item").forEach(btn => {
-      btn.classList.toggle("active", btn.dataset.view === viewName);
-    });
-    document.querySelectorAll(".view-section").forEach(sec => {
-      sec.classList.toggle("active", sec.id === `view-${viewName}`);
-    });
-
-    if (viewName === "historial") loadHistoryReports();
-    if (viewName === "catalogo") renderCatalogLists();
-    if (viewName === "obras") loadObras();
-    if (viewName === "admin" && activeRole === "admin") loadAdminUsers();
-  }
-
-  document.querySelectorAll(".nav-item").forEach(item => {
-    item.addEventListener("click", () => switchView(item.dataset.view));
-  });
-
-  // ==========================================================================
-  // MUDANÇA 3: CATÁLOGO INDEPENDENTE
-  // Persistência em catalogos/{uid} com arrays funcoes e equipamentos { nome, criadoEm }
-  // ==========================================================================
-  async function loadUserCatalog() {
-    if (!activeUser) return;
-    try {
-      const snap = await db.collection('catalogos').doc(activeUser.uid).get();
-      if (snap && snap.exists && snap.data()) {
-        const d = snap.data();
-        userCatalog.funcoes = Array.isArray(d.funcoes) ? d.funcoes : [];
-        userCatalog.equipamentos = Array.isArray(d.equipamentos) ? d.equipamentos : [];
-      } else {
-        userCatalog.funcoes = [];
-        userCatalog.equipamentos = [];
-      }
-    } catch(e) {
-      userCatalog.funcoes = [];
-      userCatalog.equipamentos = [];
-    }
-    renderCatalogLists();
-    updateActivityEquipDropdowns();
-  }
-
-  function renderCatalogLists() {
-    const t = i18n[currentLang];
-    const cargosListEl = document.getElementById("catalog-cargos-list");
-    const equiposListEl = document.getElementById("catalog-equipos-list");
-
-    document.getElementById("badge-cargos-count").textContent = userCatalog.funcoes.length;
-    document.getElementById("badge-equipos-count").textContent = userCatalog.equipamentos.length;
-
-    // Cargos
-    if (userCatalog.funcoes.length === 0) {
-      cargosListEl.innerHTML = `<div class="p-3 text-center muted text-xs">${t.emptyCargos}</div>`;
-    } else {
-      cargosListEl.innerHTML = userCatalog.funcoes.map((item, idx) => `
-        <div class="chip-item">
-          <span>${escapeHtml(item.nome)}</span>
-          <button type="button" class="chip-remove-btn" data-type="cargo" data-idx="${idx}" title="Eliminar">✕</button>
-        </div>
-      `).join("");
-    }
-
-    // Equipos
-    if (userCatalog.equipamentos.length === 0) {
-      equiposListEl.innerHTML = `<div class="p-3 text-center muted text-xs">${t.emptyEquipos}</div>`;
-    } else {
-      equiposListEl.innerHTML = userCatalog.equipamentos.map((item, idx) => `
-        <div class="chip-item">
-          <span>${escapeHtml(item.nome)}</span>
-          <button type="button" class="chip-remove-btn" data-type="equipo" data-idx="${idx}" title="Eliminar">✕</button>
-        </div>
-      `).join("");
-    }
-
-    // Bind remove buttons
-    cargosListEl.querySelectorAll(".chip-remove-btn").forEach(btn => {
-      btn.addEventListener("click", () => removeCatalogItem("cargo", parseInt(btn.dataset.idx, 10)));
-    });
-    equiposListEl.querySelectorAll(".chip-remove-btn").forEach(btn => {
-      btn.addEventListener("click", () => removeCatalogItem("equipo", parseInt(btn.dataset.idx, 10)));
-    });
-  }
-
-  async function addCatalogItem(type, name) {
-    if (!name.trim()) return;
-    const clean = name.trim();
-    const item = { nome: clean, criadoEm: new Date().toISOString() };
-    
-    if (type === "cargo") {
-      userCatalog.funcoes.push(item);
-    } else {
-      userCatalog.equipamentos.push(item);
-    }
-
-    renderCatalogLists();
-    updateActivityEquipDropdowns();
-
-    // Persist
-    try {
-      await db.collection('catalogos').doc(activeUser.uid).set({
-        funcoes: userCatalog.funcoes,
-        equipamentos: userCatalog.equipamentos
-      }, { merge: true });
-      window.skipUI.toast(currentLang === 'pt' ? "Item adicionado ao catálogo" : "Item agregado al catálogo", { type: "success" });
-    } catch(e) {}
-  }
-
-  async function removeCatalogItem(type, index) {
-    if (!confirm(currentLang === 'pt' ? "¿Deseja remover este item do catálogo?" : "¿Desea eliminar este elemento del catálogo?")) return;
-    
-    if (type === "cargo") {
-      userCatalog.funcoes.splice(index, 1);
-    } else {
-      userCatalog.equipamentos.splice(index, 1);
-    }
-
-    renderCatalogLists();
-    updateActivityEquipDropdowns();
-
-    try {
-      await db.collection('catalogos').doc(activeUser.uid).set({
-        funcoes: userCatalog.funcoes,
-        equipamentos: userCatalog.equipamentos
-      }, { merge: true });
-      window.skipUI.toast(currentLang === 'pt' ? "Item removido" : "Item eliminado");
-    } catch(e) {}
-  }
-
-  document.getElementById("btn-add-cargo-catalog").addEventListener("click", () => {
-    const input = document.getElementById("input-new-cargo");
-    addCatalogItem("cargo", input.value);
-    input.value = "";
-  });
-
-  document.getElementById("btn-add-equipo-catalog").addEventListener("click", () => {
-    const input = document.getElementById("input-new-equipo");
-    addCatalogItem("equipo", input.value);
-    input.value = "";
-  });
-
-  // ==========================================================================
-  // MUDANÇA 4: ACTIVIDADES CON MÚLTIPLES EQUIPOS Y HORAS POR EQUIPO
-  // ==========================================================================
-  let activityCounter = 0;
-  const activitiesContainer = document.getElementById("activities-container");
-
-  function createActivityDOM() {
-    activityCounter++;
-    const actId = `act-${activityCounter}`;
-    const div = document.createElement("div");
-    div.className = "activity-box";
-    div.id = actId;
-
-    const t = i18n[currentLang];
-
-    div.innerHTML = `
-      <div class="activity-header">
-        <span class="font-bold text-sm text-accent">#${activityCounter} - <span class="act-title-display">Actividad</span></span>
-        <button type="button" class="btn" data-variant="ghost" data-size="sm" style="color:#ef4444;" title="Eliminar actividad" onclick="document.getElementById('${actId}').remove(); updateActTotals();">✕</button>
-      </div>
-
-      <div class="field mb-3">
-        <label class="text-xs font-semibold">Nombre de la Actividad</label>
-        <input type="text" class="input act-name-input" placeholder="Ej: Excavación de zanjas para drenaje" required oninput="this.closest('.activity-box').querySelector('.act-title-display').textContent = this.value || 'Actividad';">
-      </div>
-
-      <div class="shell-grid cols-5 gap-2 mb-3">
-        <div class="field">
-          <label class="text-xs font-medium">Unidad</label>
-          <select class="input act-unit">
-            <option value="m³">m³</option>
-            <option value="m²">m²</option>
-            <option value="ml">ml</option>
-            <option value="un">un</option>
-            <option value="kg">kg</option>
-            <option value="t">t</option>
-          </select>
-        </div>
-        <div class="field">
-          <label class="text-xs font-medium">Cantidad Hoy</label>
-          <input type="number" step="any" min="0" class="input act-cant-hoy" placeholder="0">
-        </div>
-        <div class="field">
-          <label class="text-xs font-medium">% Hoy</label>
-          <input type="number" step="0.1" min="0" max="100" class="input act-pct-hoy" placeholder="0%">
-        </div>
-        <div class="field">
-          <label class="text-xs font-medium">Cant. Acumulada</label>
-          <input type="number" step="any" min="0" class="input act-cant-acum" placeholder="0">
-        </div>
-        <div class="field">
-          <label class="text-xs font-medium">% Acumulado</label>
-          <input type="number" step="0.1" min="0" max="100" class="input act-pct-acum" placeholder="0%">
-        </div>
-      </div>
-
-      <!-- Sub-bloco Equipos -->
-      <div class="panel p-3" style="background: var(--bg-app); border: 1px dashed var(--border);">
-        <div class="row between items-center mb-2">
-          <span class="text-xs font-bold uppercase muted">🔧 Equipos Utilizados en la Actividad</span>
-          <div class="row gap-2">
-            <button type="button" class="btn" data-variant="ghost" data-size="sm" style="font-size: 11px; padding: 2px 6px;" onclick="promptCreateEquipoForAct('${actId}')">＋ Crear equipo en catálogo</button>
-            <button type="button" class="btn" data-variant="outline" data-size="sm" style="font-size: 11px; padding: 2px 8px;" onclick="addEquipoRowToAct('${actId}')">＋ Agregar equipo</button>
-          </div>
-        </div>
-
-        <div class="act-equip-list stack gap-1">
-          <!-- Equip rows -->
-        </div>
-
-        <div class="row between items-center mt-2 pt-1 border-t text-xs muted">
-          <span>Horas totales trabajadas:</span>
-          <span class="font-bold act-total-hours">0 h</span>
-        </div>
-      </div>
-    `;
-
-    activitiesContainer.appendChild(div);
-  }
-
-  window.addEquipoRowToAct = function(actId) {
-    const actBox = document.getElementById(actId);
-    if (!actBox) return;
-    const list = actBox.querySelector(".act-equip-list");
-
-    const row = document.createElement("div");
-    row.className = "equip-row";
-
-    const options = userCatalog.equipamentos.map(e => `<option value="${escapeHtml(e.nome)}">${escapeHtml(e.nome)}</option>`).join("");
-
-    row.innerHTML = `
-      <select class="input act-eq-select">
-        <option value="" disabled selected>Seleccione equipo...</option>
-        ${options}
-      </select>
-      <div class="row gap-1 items-center">
-        <input type="number" step="0.5" min="0" class="input act-eq-hours" placeholder="0" style="text-align: right;" oninput="updateActTotals()">
-        <span class="text-xs font-semibold muted">h</span>
-      </div>
-      <button type="button" class="chip-remove-btn" title="Quitar equipo" onclick="this.closest('.equip-row').remove(); updateActTotals();">✕</button>
-    `;
-
-    list.appendChild(row);
-  };
-
-  window.promptCreateEquipoForAct = async function(actId) {
-    const name = prompt(currentLang === 'pt' ? "Nome do novo equipamento para o catálogo:" : "Nombre del nuevo equipo para el catálogo:");
-    if (!name || !name.trim()) return;
-    await addCatalogItem("equipo", name.trim());
-    addEquipoRowToAct(actId);
-    // Auto select newly created equipment
-    const actBox = document.getElementById(actId);
-    const selects = actBox.querySelectorAll(".act-eq-select");
-    const lastSelect = selects[selects.length - 1];
-    if (lastSelect) {
-      lastSelect.value = name.trim();
-    }
-  };
-
-  window.updateActTotals = function() {
-    document.querySelectorAll(".activity-box").forEach(box => {
-      let sum = 0;
-      box.querySelectorAll(".act-eq-hours").forEach(inp => {
-        const val = parseFloat(inp.value) || 0;
-        sum += val;
-      });
-      box.querySelector(".act-total-hours").textContent = `${sum} h`;
-    });
-  };
-
-  function updateActivityEquipDropdowns() {
-    document.querySelectorAll(".act-eq-select").forEach(sel => {
-      const current = sel.value;
-      const opts = userCatalog.equipamentos.map(e => `<option value="${escapeHtml(e.nome)}">${escapeHtml(e.nome)}</option>`).join("");
-      sel.innerHTML = `<option value="" disabled>Seleccione equipo...</option>` + opts;
-      if (current) sel.value = current;
-    });
-  }
-
-  document.getElementById("btn-add-activity").addEventListener("click", () => {
-    createActivityDOM();
-  });
-
-  // Mano de Obra Rows in Report Form
-  const laborRowsContainer = document.getElementById("labor-rows-container");
-
-  function addLaborRow(cargo = "", cant = "") {
-    const row = document.createElement("div");
-    row.className = "row gap-2 items-center";
-
-    const options = userCatalog.funcoes.map(f => `<option value="${escapeHtml(f.nome)}">${escapeHtml(f.nome)}</option>`).join("");
-
-    row.innerHTML = `
-      <select class="input grow labor-cargo-sel">
-        <option value="" disabled selected>Seleccione cargo...</option>
-        ${options}
-      </select>
-      <input type="number" min="1" step="1" class="input labor-cant-inp" placeholder="Cant." style="width: 100px;" value="${cant}" oninput="calcTotalLabor()">
-      <button type="button" class="chip-remove-btn" title="Eliminar fila" onclick="this.closest('.row').remove(); calcTotalLabor();">✕</button>
-    `;
-
-    if (cargo) {
-      row.querySelector(".labor-cargo-sel").value = cargo;
-    }
-
-    laborRowsContainer.appendChild(row);
-  }
-
-  window.calcTotalLabor = function() {
-    let tot = 0;
-    document.querySelectorAll(".labor-cant-inp").forEach(inp => {
-      tot += parseInt(inp.value, 10) || 0;
-    });
-    const suffix = currentLang === 'pt' ? 'pessoas' : 'personas';
-    document.getElementById("lbl-total-personal-count").textContent = `${tot} ${suffix}`;
-  };
-
-  document.getElementById("btn-add-labor-row").addEventListener("click", () => addLaborRow());
-
-  // General Equipments in Report Form
-  const genEquipContainer = document.getElementById("general-equip-container");
-
-  function addGeneralEquipRow(equipo = "", cant = "") {
-    const row = document.createElement("div");
-    row.className = "row gap-2 items-center";
-
-    const options = userCatalog.equipamentos.map(e => `<option value="${escapeHtml(e.nome)}">${escapeHtml(e.nome)}</option>`).join("");
-
-    row.innerHTML = `
-      <select class="input grow gen-equip-sel">
-        <option value="" disabled selected>Seleccione equipo...</option>
-        ${options}
-      </select>
-      <input type="number" min="1" step="1" class="input gen-equip-cant-inp" placeholder="Cant." style="width: 100px;" value="${cant}" oninput="calcTotalGenEquip()">
-      <button type="button" class="chip-remove-btn" title="Eliminar fila" onclick="this.closest('.row').remove(); calcTotalGenEquip();">✕</button>
-    `;
-
-    if (equipo) {
-      row.querySelector(".gen-equip-sel").value = equipo;
-    }
-
-    genEquipContainer.appendChild(row);
-  }
-
-  window.calcTotalGenEquip = function() {
-    let tot = 0;
-    document.querySelectorAll(".gen-equip-cant-inp").forEach(inp => {
-      tot += parseInt(inp.value, 10) || 0;
-    });
-    const suffix = currentLang === 'pt' ? 'equipamentos' : 'equipos';
-    document.getElementById("lbl-total-equip-count").textContent = `${tot} ${suffix}`;
-  };
-
-  document.getElementById("btn-add-general-equip").addEventListener("click", () => addGeneralEquipRow());
-
-  // ==========================================================================
-  // OBRAS MANAGEMENT & SELECTOR
-  // ==========================================================================
-  async function loadObras() {
-    const obrasSelect = document.getElementById("rep-obra-select");
-    const obrasListContainer = document.getElementById("obras-list-container");
-    const badgeObras = document.getElementById("badge-obras-count");
-
-    let obras = [];
-    try {
-      const snap = await db.collection('obras').get();
-      snap.forEach(doc => {
-        obras.push({ id: doc.id, ...doc.data() });
-      });
-    } catch(e) {}
-
-    badgeObras.textContent = `${obras.length} ${currentLang === 'pt' ? 'obras' : 'obras'}`;
-
-    // Fill form dropdown
-    const currentSelected = obrasSelect.value;
-    obrasSelect.innerHTML = `<option value="" disabled selected>${i18n[currentLang].txtObra}...</option>` +
-      obras.map(o => `<option value="${escapeHtml(o.nombre)}">${escapeHtml(o.nombre)}</option>`).join("");
-    if (currentSelected) obrasSelect.value = currentSelected;
-
-    // Fill obras management list
-    if (obras.length === 0) {
-      obrasListContainer.innerHTML = `<div class="empty-state-card"><div class="empty-state-icon">🏗️</div><p class="m-0">${i18n[currentLang].emptyObras}</p></div>`;
-    } else {
-      obrasListContainer.innerHTML = obras.map(o => `
-        <div class="row between items-center p-3 mb-2" style="background:var(--bg-app); border:1px solid var(--border); border-radius:6px;">
-          <div>
-            <div class="font-bold text-sm">${escapeHtml(o.nombre)}</div>
-            <div class="text-xs muted">${o.criadoEm ? new Date(o.criadoEm).toLocaleDateString() : ''}</div>
-          </div>
-          <button type="button" class="btn" data-variant="ghost" data-size="sm" style="color:#ef4444;" onclick="deleteObra('${o.id}')">✕</button>
-        </div>
-      `).join("");
-    }
-  }
-
-  window.deleteObra = async function(id) {
-    if (!confirm(currentLang === 'pt' ? "¿Excluir esta obra?" : "¿Eliminar esta obra?")) return;
-    try {
-      await db.collection('obras').doc(id).delete();
-      window.skipUI.toast(currentLang === 'pt' ? "Obra removida" : "Obra eliminada");
-      loadObras();
-    } catch(e) {}
-  };
-
-  document.getElementById("form-new-obra").addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const input = document.getElementById("input-obra-nombre");
-    const name = input.value.trim();
-    if (!name) return;
-    try {
-      await db.collection('obras').add({
-        nombre: name,
-        criadoEm: firebase.firestore.FieldValue.serverTimestamp()
-      });
-      input.value = "";
-      window.skipUI.toast(currentLang === 'pt' ? "Obra cadastrada com sucesso!" : "Obra registrada con éxito", { type: "success" });
-      loadObras();
-    } catch(e) {}
-  });
-
-  // ==========================================================================
-  // GENERAR TEXTO DO INFORME (ESPANHOL E PORTUGUÊS)
-  // Regras estritas: Responsable sempre presente; omitir campos vazios e zeros; etc.
-  // ==========================================================================
-  function generateReportText(data, lang = "es") {
-    const isEs = lang === "es";
-
-    // Format Date DD/MM/AAAA
-    let fDate = data.fecha;
-    if (fDate && fDate.includes("-")) {
-      const p = fDate.split("-");
-      fDate = `${p[2]}/${p[1]}/${p[0]}`;
-    }
-
-    const lines = [];
-
-    // Header
-    const title = isEs ? `*AVANCE DE OBRA (${fDate})*` : `*AVANÇO DA OBRA (${fDate})*`;
-    lines.push(title);
-    if (data.proyecto) lines.push(`*${isEs ? "Proyecto" : "Projeto"}:* ${data.proyecto}`);
-    if (data.obra) lines.push(`*${isEs ? "Obra" : "Obra"}:* ${data.obra}`);
-    // MUDANÇA 5: Responsable / Responsável SEMPRE presente!
-    lines.push(`*${isEs ? "Responsable" : "Responsável"}:* ${data.autorNome || activeUserName || (activeUser ? activeUser.email : "Responsable")}`);
-
-    // Actividades
-    if (data.actividades && data.actividades.length > 0) {
-      lines.push("");
-      lines.push(`⏳ *${isEs ? "ACTIVIDADES" : "ATIVIDADES"}*`);
-
-      data.actividades.forEach((act, index) => {
-        lines.push(`${index + 1}. ${act.nombre}`);
-
-        // Equipos listados en la misma línea separados por " | "
-        if (act.equipos && act.equipos.length > 0) {
-          const eqParts = act.equipos
-            .filter(e => e.nombre || e.horas)
-            .map(e => `${e.nombre} ${e.horas || 0} h`);
-          if (eqParts.length > 0) {
-            lines.push(`   🔧 ${isEs ? "Equipo" : "Equipamento"}: ${eqParts.join(" | ")}`);
-          }
-        }
-
-        // Hoy
-        const hoyParts = [];
-        if (act.cantHoy && act.cantHoy !== "0") hoyParts.push(`${act.cantHoy} ${act.unidad || ""}`.trim());
-        if (act.pctHoy && act.pctHoy !== "0" && act.pctHoy !== "0%") hoyParts.push(act.pctHoy.includes("%") ? act.pctHoy : `${act.pctHoy}%`);
-        if (hoyParts.length > 0) {
-          lines.push(`   🗓️ ${isEs ? "Hoy" : "Hoje"}: ${hoyParts.join(" | ")}`);
-        }
-
-        // Acumulado
-        const acumParts = [];
-        if (act.cantAcum && act.cantAcum !== "0") acumParts.push(`${act.cantAcum} ${act.unidad || ""}`.trim());
-        if (act.pctAcum && act.pctAcum !== "0" && act.pctAcum !== "0%") acumParts.push(act.pctAcum.includes("%") ? act.pctAcum : `${act.pctAcum}%`);
-        if (acumParts.length > 0) {
-          lines.push(`   📊 ${isEs ? "Acumulado" : "Acumulado"}: ${acumParts.join(" | ")}`);
-        }
-      });
-    }
-
-    // Mano de Obra
-    if (data.manoDeObra && data.manoDeObra.length > 0 && data.totalPersonal > 0) {
-      lines.push("");
-      lines.push(`👷 *${isEs ? "MANO DE OBRA" : "MÃO DE OBRA"}* — Total: ${data.totalPersonal} ${isEs ? "personas" : "pessoas"}`);
-      data.manoDeObra.forEach(item => {
-        lines.push(`• ${item.cantidad} ${item.cargo}`);
-      });
-    }
-
-    // Equipos General
-    if (data.equiposGeneral && data.equiposGeneral.length > 0 && data.totalEquipos > 0) {
-      lines.push("");
-      lines.push(`🚜 *${isEs ? "EQUIPOS" : "EQUIPAMENTOS"}* — Total: ${data.totalEquipos} ${isEs ? "equipos" : "equipamentos"}`);
-      data.equiposGeneral.forEach(item => {
-        lines.push(`• ${item.cantidad} ${item.equipo}`);
-      });
-    }
-
-    // Clima
-    const climaItems = [];
-    if (data.climaManana) climaItems.push(`${isEs ? "Mañana" : "Manhã"}: ${data.climaManana}`);
-    if (data.climaTarde) climaItems.push(`${isEs ? "Tarde" : "Tarde"}: ${data.climaTarde}`);
-    if (climaItems.length > 0) {
-      lines.push("");
-      lines.push(`🌤️ *${isEs ? "CLIMA" : "CLIMA"}*`);
-      lines.push(climaItems.join(" | "));
-    }
-
-    // Ocurrencias
-    if (data.ocurrencias && data.ocurrencias.trim()) {
-      lines.push("");
-      lines.push(`⚠️ *${isEs ? "OCURRENCIAS" : "OCORRÊNCIAS"}*`);
-      lines.push(data.ocurrencias.trim());
-    }
-
-    // Seguridad
-    if (data.seguridad && data.seguridad.trim()) {
-      lines.push("");
-      lines.push(`🦺 *${isEs ? "SEGURIDAD" : "SEGURANÇA"}*`);
-      lines.push(data.seguridad.trim());
-    }
-
-    // Próximos Pasos
-    if (data.proximos && data.proximos.trim()) {
-      lines.push("");
-      lines.push(`📌 *${isEs ? "PRÓXIMOS PASOS" : "PRÓXIMOS PASSOS"}*`);
-      lines.push(data.proximos.trim());
-    }
-
-    return lines.join("\n");
-  }
-
-  // ==========================================================================
-  // REPORT FORM SUBMISSION (SAVE REPORT)
-  // ==========================================================================
-  document.getElementById("report-form").addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    // Collect activities
-    const actBoxes = document.querySelectorAll(".activity-box");
-    const actividades = [];
-    actBoxes.forEach(box => {
-      const nombre = box.querySelector(".act-name-input").value.trim();
-      if (!nombre) return;
-      const unidad = box.querySelector(".act-unit").value;
-      const cantHoy = box.querySelector(".act-cant-hoy").value;
-      const pctHoy = box.querySelector(".act-pct-hoy").value;
-      const cantAcum = box.querySelector(".act-cant-acum").value;
-      const pctAcum = box.querySelector(".act-pct-acum").value;
-
-      const equipos = [];
-      box.querySelectorAll(".equip-row").forEach(eqRow => {
-        const eqNombre = eqRow.querySelector(".act-eq-select").value;
-        const eqHoras = parseFloat(eqRow.querySelector(".act-eq-hours").value) || 0;
-        if (eqNombre) {
-          equipos.push({ nombre: eqNombre, horas: eqHoras });
-        }
-      });
-
-      actividades.push({
-        nombre,
-        unidad,
-        cantHoy,
-        pctHoy,
-        cantAcum,
-        pctAcum,
-        equipos
-      });
-    });
-
-    // Collect Mano de Obra
-    const manoDeObra = [];
-    let totalPersonal = 0;
-    document.querySelectorAll("#labor-rows-container .row").forEach(row => {
-      const cargo = row.querySelector(".labor-cargo-sel").value;
-      const cant = parseInt(row.querySelector(".labor-cant-inp").value, 10) || 0;
-      if (cargo && cant > 0) {
-        manoDeObra.push({ cargo, cantidad: cant });
-        totalPersonal += cant;
-      }
-    });
-
-    // Collect Equipos General
-    const equiposGeneral = [];
-    let totalEquipos = 0;
-    document.querySelectorAll("#general-equip-container .row").forEach(row => {
-      const equipo = row.querySelector(".gen-equip-sel").value;
-      const cant = parseInt(row.querySelector(".gen-equip-cant-inp").value, 10) || 0;
-      if (equipo && cant > 0) {
-        equiposGeneral.push({ equipo, cantidad: cant });
-        totalEquipos += cant;
-      }
-    });
-
-    // MUDANÇA 5: Nome de quem gerou o informe gravado em autorNome
-    const reportPayload = {
-      fecha: document.getElementById("rep-fecha").value,
-      proyecto: document.getElementById("rep-proyecto").value.trim(),
-      obra: document.getElementById("rep-obra-select").value,
-      autorUid: activeUser.uid,
-      autorEmail: activeUser.email,
-      autorNome: activeUserName || activeUser.email,
-      actividades: actividades,
-      manoDeObra: manoDeObra,
-      totalPersonal: totalPersonal,
-      equiposGeneral: equiposGeneral,
-      totalEquipos: totalEquipos,
-      climaManana: document.getElementById("clima-manana").value,
-      climaTarde: document.getElementById("clima-tarde").value,
-      ocurrencias: document.getElementById("rep-ocurrencias").value,
-      seguridad: document.getElementById("rep-seguridad").value,
-      proximos: document.getElementById("rep-proximos").value,
-      criadoEm: firebase.firestore.FieldValue.serverTimestamp()
-    };
-
-    try {
-      await db.collection('informes').add(reportPayload);
-      window.skipUI.toast(currentLang === 'pt' ? "Relatório salvo com sucesso!" : "¡Informe guardado con éxito!", { type: "success" });
-
-      // Open preview dialog
-      openReportPreview(reportPayload);
-
-      // Reset form
-      document.getElementById("report-form").reset();
-      document.getElementById("rep-fecha").value = todayISO;
-      activitiesContainer.innerHTML = "";
-      laborRowsContainer.innerHTML = "";
-      genEquipContainer.innerHTML = "";
-      calcTotalLabor();
-      calcTotalGenEquip();
-    } catch(err) {
-      window.skipUI.toast("Error al guardar el informe", { type: "error" });
-    }
-  });
-
-  // Clear Form button
-  document.getElementById("btn-clear-form").addEventListener("click", () => {
-    if (confirm(currentLang === 'pt' ? "¿Deseja limpar todos os campos?" : "¿Desea limpiar todos los campos del formulario?")) {
-      document.getElementById("report-form").reset();
-      document.getElementById("rep-fecha").value = todayISO;
-      activitiesContainer.innerHTML = "";
-      laborRowsContainer.innerHTML = "";
-      genEquipContainer.innerHTML = "";
-      calcTotalLabor();
-      calcTotalGenEquip();
-    }
-  });
-
-  // Preview Dialog Logic
-  let activePreviewFormattedText = "";
-
-  function openReportPreview(reportData) {
-    activePreviewFormattedText = generateReportText(reportData, currentLang);
-    document.getElementById("preview-content-box").textContent = activePreviewFormattedText;
-    const dialog = document.getElementById("dialog-preview-report");
-    dialog.showModal();
-  }
-
-  document.getElementById("btn-copy-preview").addEventListener("click", () => {
-    if (!activePreviewFormattedText) return;
-    navigator.clipboard.writeText(activePreviewFormattedText).then(() => {
-      window.skipUI.toast(currentLang === 'pt' ? "Texto copiado para a área de transferência!" : "¡Texto copiado al portapapeles!", { type: "success" });
-    }).catch(() => {
-      window.skipUI.toast("Texto copiado!");
-    });
-  });
-
-  document.getElementById("btn-whatsapp-share").addEventListener("click", () => {
-    if (!activePreviewFormattedText) return;
-    const url = "https://wa.me/?text=" + encodeURIComponent(activePreviewFormattedText);
-    window.open(url, "_blank");
-  });
-
-  // ==========================================================================
-  // HISTORIAL DE INFORMES (MUDANÇA 1: VAZIO INICIALMENTE + MUDANÇA 5: AUTOR)
-  // ==========================================================================
-  async function loadHistoryReports() {
-    const container = document.getElementById("history-list-container");
-    const t = i18n[currentLang];
-
-    let reports = [];
-    try {
-      const snap = await db.collection('informes').get();
-      snap.forEach(doc => {
-        reports.push({ id: doc.id, ...doc.data() });
-      });
-      // Sort newest first
-      reports.sort((a, b) => (b.fecha || "").localeCompare(a.fecha || ""));
-    } catch(e) {}
-
-    // Empty state strictly adheres to MUDANÇA 1
-    if (reports.length === 0) {
-      container.innerHTML = `
-        <div class="empty-state-card">
-          <div class="empty-state-icon">📋</div>
-          <p class="font-semibold m-0 text-base">${t.emptyHistory}</p>
-          <p class="muted text-xs mt-1 m-0">Los reportes creados por el equipo aparecerán listados aquí.</p>
-        </div>
-      `;
-      return;
-    }
-
-    container.innerHTML = reports.map(rep => {
-      let fDate = rep.fecha;
-      if (fDate && fDate.includes("-")) {
-        const p = fDate.split("-");
-        fDate = `${p[2]}/${p[1]}/${p[0]}`;
-      }
-
-      // MUDANÇA 5: Responsable / autorNome claramente exibido no cartão
-      const autorDisplay = rep.autorNome || rep.autorEmail || "Responsable";
-
-      return `
-        <div class="history-card">
-          <div class="row between items-center">
-            <span class="badge" data-variant="secondary">${fDate}</span>
-            <span class="text-xs muted">${rep.obra || "Obra"}</span>
-          </div>
-
-          <div>
-            <h3 class="font-bold text-base m-0">${escapeHtml(rep.proyecto || "Proyecto")}</h3>
-            <div class="row items-center gap-2 mt-1 text-xs">
-              <span class="font-semibold text-accent">👤 ${escapeHtml(autorDisplay)}</span>
-              <span class="muted">• ${escapeHtml(rep.autorEmail || "")}</span>
-            </div>
-          </div>
-
-          <div class="row between items-center mt-2 pt-2 border-t">
-            <div class="text-xs muted">
-              <span>${rep.actividades ? rep.actividades.length : 0} act.</span> |
-              <span>${rep.totalPersonal || 0} pers.</span> |
-              <span>${rep.totalEquipos || 0} eq.</span>
-            </div>
-            <div class="row gap-1">
-              <button type="button" class="btn" data-variant="outline" data-size="sm" onclick="viewHistoricalReport('${rep.id}')">Ver Texto</button>
-            </div>
-          </div>
-        </div>
-      `;
-    }).join("");
-  }
-
-  document.getElementById("btn-refresh-history").addEventListener("click", () => {
-    loadHistoryReports();
-    window.skipUI.toast("Historial actualizado");
-  });
-
-  window.viewHistoricalReport = async function(repId) {
-    try {
-      const snap = await db.collection('informes').doc(repId).get();
-      if (snap && snap.exists) {
-        openReportPreview(snap.data());
-      }
-    } catch(e) {}
-  };
-
-  // ==========================================================================
-  // VIEW ADMIN: SEÇÃO USUÁRIOS (MUDANÇA 2)
-  // Gestão completa, Secondary Firebase Auth, update imediato, etc.
-  // ==========================================================================
-  const boxNewUserForm = document.getElementById("box-new-user-form");
-  document.getElementById("btn-toggle-new-user-form").addEventListener("click", () => {
-    const isHidden = boxNewUserForm.style.display === "none";
-    boxNewUserForm.style.display = isHidden ? "block" : "none";
-  });
-  document.getElementById("btn-cancel-new-user").addEventListener("click", () => {
-    boxNewUserForm.style.display = "none";
-  });
-
-  async function loadAdminUsers() {
-    const tableContainer = document.getElementById("users-table-container");
-
-    let users = [];
-    try {
-      const snap = await db.collection('usuarios').get();
-      snap.forEach(doc => {
-        users.push({ id: doc.id, ...doc.data() });
-      });
-    } catch(e) {}
-
-    if (users.length === 0) {
-      tableContainer.innerHTML = '<div class="p-4 text-center muted text-xs">No hay usuarios registrados</div>';
-      return;
-    }
-
-    tableContainer.innerHTML = `
-      <div style="overflow-x: auto;">
-        <table class="shell-table w-full">
-          <thead>
-            <tr>
-              <th>Nombre</th>
-              <th>Correo electrónico</th>
-              <th>Rol / Papel</th>
-              <th style="text-align: right;">Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${users.map(u => {
-              const isAdmin = u.id === ADMIN_UID || u.papel === "admin";
-              const isSelf = u.id === activeUser.uid;
-
-              return `
-                <tr>
-                  <td><strong>${escapeHtml(u.nome || "Sin nombre")}</strong></td>
-                  <td>${escapeHtml(u.email || "")}</td>
-                  <td>
-                    ${isSelf || u.id === ADMIN_UID ? `
-                      <span class="user-role-badge user-role-admin">ADMIN</span>
-                    ` : `
-                      <select class="input" style="padding: 2px 6px; height: 30px; font-size: 12px;" onchange="updateUserRole('${u.id}', this.value)">
-                        <option value="admin" ${u.papel === "admin" ? "selected" : ""}>Admin</option>
-                        <option value="editor" ${u.papel === "editor" ? "selected" : ""}>Editor</option>
-                        <option value="leitor" ${u.papel === "leitor" ? "selected" : ""}>Lector</option>
-                      </select>
-                    `}
-                  </td>
-                  <td style="text-align: right;">
-                    ${isSelf || u.id === ADMIN_UID ? `
-                      <span class="text-xs muted">(Tú)</span>
-                    ` : `
-                      <button type="button" class="btn" data-variant="destructive" data-size="sm" style="padding: 4px 8px; font-size: 11px;" onclick="deleteUserAccess('${u.id}', '${escapeHtml(u.email)}')">Eliminar</button>
-                    `}
-                  </td>
-                </tr>
-              `;
-            }).join("")}
-          </tbody>
-        </table>
-      </div>
-    `;
-  }
-
-  window.updateUserRole = async function(uid, newRole) {
-    if (uid === ADMIN_UID) {
-      window.skipUI.toast("No es posible alterar el rol del administrador principal.", { type: "error" });
-      loadAdminUsers();
-      return;
-    }
-    try {
-      await db.collection('usuarios').doc(uid).update({ papel: newRole });
-      window.skipUI.toast("Rol de usuario actualizado", { type: "success" });
-      loadAdminUsers();
-    } catch(e) {
-      window.skipUI.toast("Error al actualizar rol", { type: "error" });
-    }
-  };
-
-  window.deleteUserAccess = async function(uid, email) {
-    if (uid === ADMIN_UID || (activeUser && uid === activeUser.uid)) {
-      window.skipUI.toast("No puede eliminar su propio acceso.", { type: "error" });
-      return;
-    }
-    if (!confirm(`¿Desea eliminar el acceso del usuario ${email}?`)) return;
-
-    try {
-      await db.collection('usuarios').doc(uid).delete();
-      window.skipUI.toast("Acceso de usuario eliminado con éxito", { type: "success" });
-      loadAdminUsers();
-    } catch(e) {
-      window.skipUI.toast("Error al eliminar acceso", { type: "error" });
-    }
-  };
-
-  // Crear usuario con segunda instancia de Firebase (MUDANÇA 2)
-  document.getElementById("form-create-user").addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const nome = document.getElementById("new-user-name").value.trim();
-    const email = document.getElementById("new-user-email").value.trim();
-    const senha = document.getElementById("new-user-password").value;
-    const papel = document.getElementById("new-user-role").value;
-
-    try {
-      const secondaryApp = firebase.initializeApp(firebaseConfig, "sec" + Date.now());
-      const secondaryAuth = secondaryApp.auth();
-      const userCred = await secondaryAuth.createUserWithEmailAndPassword(email, senha);
-      const novoUid = userCred.user.uid;
-
-      await db.collection('usuarios').doc(novoUid).set({
-        email: email,
-        nome: nome,
-        papel: papel,
-        criadoEm: firebase.firestore.FieldValue.serverTimestamp()
-      });
-
-      secondaryAuth.signOut();
-      try { secondaryApp.delete(); } catch(err) {}
-
-      window.skipUI.toast("Usuario creado con éxito", { type: "success" });
-      document.getElementById("form-create-user").reset();
-      boxNewUserForm.style.display = "none";
-      loadAdminUsers();
-    } catch(err) {
-      window.skipUI.toast("Error al crear usuario: " + (err.message || "Verifique los datos"), { type: "error" });
-    }
-  });
-
-  // Helper escape HTML
-  function escapeHtml(str) {
-    if (!str) return "";
-    return String(str).replace(/[&<>'"]/g, tag => ({
-      '&': '&amp;',
-      '<': '&lt;',
-      '>': '&gt;',
-      "'": '&#39;',
-      '"': '&quot;'
-    }[tag] || tag));
-  }
-
-  // Pre-seed 1 initial empty activity for quick creation
-  createActivityDOM();
+</div>`;
+}).join("") || '<p class="text-sm muted">Aún no hay usuarios</p>';
+}
+
+async function criarUsuario() {
+const nome = document.getElementById("nu-nome").value.trim();
+const email = document.getElementById("nu-email").value.trim();
+const senha = document.getElementById("nu-senha").value;
+const papel = document.getElementById("nu-papel").value;
+if (!nome || !email || senha.length < 6) {
+window.skipUI.toast("Complete todos los campos (contraseña mínimo 6)", { type: "error" });
+return;
+}
+const uid = "uid-" + btoa(email).replace(/=/g, "").slice(0, 16);
+await backend.setUsuario({ uid, email, nome, papel });
+window.skipUI.toast("Usuario creado", { type: "success" });
+document.getElementById("form-novo-usuario").classList.add("hidden");
+["nu-nome", "nu-email", "nu-senha"].forEach(id => document.getElementById(id).value = "");
+renderUsuarios();
+}
+
+function bind() {
+document.getElementById("form-login").addEventListener("submit", async e => {
+e.preventDefault();
+const email = document.getElementById("login-email").value.trim();
+const senha = document.getElementById("login-senha").value;
+try {
+const u = await backend.signIn(email, senha);
+state.user = u;
+await onAuthState(u);
+} catch (err) {
+window.skipUI.toast("Credenciales inválidas", { type: "error" });
+}
+});
+document.getElementById("btn-esqueci").addEventListener("click", () => window.skipUI.toast("Revise su correo para restablecer la contraseña"));
+document.getElementById("btn-logout").addEventListener("click", signOut);
+document.getElementById("btn-logout-bloqueio").addEventListener("click", signOut);
+
+document.querySelectorAll("[data-nav]").forEach(b => b.addEventListener("click", () => mostrarView(b.dataset.nav)));
+
+document.getElementById("btn-add-atividade").addEventListener("click", addAtividade);
+
+document.getElementById("atividades-wrap").addEventListener("input", e => {
+const t = e.target;
+const i = Number(t.dataset.i);
+if (t.dataset.field) state.atividades[i][t.dataset.field] = t.value;
+if (t.dataset.eqField) {
+const j = Number(t.dataset.j);
+state.atividades[i].equipos[j][t.dataset.eqField] = t.value;
+}
+});
+document.getElementById("atividades-wrap").addEventListener("change", e => {
+const t = e.target;
+const i = Number(t.dataset.i);
+if (t.dataset.field) state.atividades[i][t.dataset.field] = t.value;
+if (t.dataset.eqField) {
+const j = Number(t.dataset.j);
+state.atividades[i].equipos[j][t.dataset.eqField] = t.value;
+}
+});
+document.getElementById("atividades-wrap").addEventListener("click", e => {
+const t = e.target.closest("button");
+if (!t) return;
+if (t.dataset.actDel !== undefined) {
+state.atividades.splice(Number(t.dataset.actDel), 1);
+if (!state.atividades.length) addAtividade(); else renderAtividades();
+}
+if (t.dataset.eqAdd !== undefined) {
+state.atividades[Number(t.dataset.eqAdd)].equipos.push({ equipamento: "", horas: "" });
+renderAtividades();
+}
+if (t.dataset.eqDel !== undefined) {
+const [i, j] = t.dataset.eqDel.split("-").map(Number);
+state.atividades[i].equipos.splice(j, 1);
+if (!state.atividades[i].equipos.length) state.atividades[i].equipos.push({ equipamento: "", horas: "" });
+renderAtividades();
+}
+if (t.dataset.eqCreate !== undefined) {
+const nome = prompt("Nombre del nuevo equipo:");
+if (nome && nome.trim()) {
+const cat = catalogo();
+cat.equipamentos.push({ nome: nome.trim(), criadoEm: new Date().toISOString() });
+salvarCatalogo(cat);
+state.atividades[Number(t.dataset.eqCreate)].equipos.push({ equipamento: nome.trim(), horas: "" });
+renderAtividades();
+renderCatalogo();
+window.skipUI.toast("Equipo creado", { type: "success" });
+}
+}
+});
+
+document.querySelectorAll("[data-add]").forEach(b => b.addEventListener("click", () => {
+document.getElementById("form-" + b.dataset.add).classList.toggle("open");
+}));
+document.querySelectorAll("[data-save]").forEach(b => b.addEventListener("click", () => {
+const tipo = b.dataset.save;
+const input = document.getElementById("in-" + tipo);
+const nome = input.value.trim();
+if (!nome) return;
+const cat = catalogo();
+cat[tipo].push({ nome, criadoEm: new Date().toISOString() });
+salvarCatalogo(cat);
+input.value = "";
+document.getElementById("form-" + tipo).classList.remove("open");
+renderCatalogo();
+renderAtividades();
+window.skipUI.toast("Guardado", { type: "success" });
+}));
+document.getElementById("cat-funcoes-lista").addEventListener("click", e => catalogoDel(e));
+document.getElementById("cat-equipamentos-lista").addEventListener("click", e => catalogoDel(e));
+
+function catalogoDel(e) {
+const b = e.target.closest("[data-del]");
+if (!b) return;
+confirmar("Eliminar", "¿Seguro que desea eliminar este elemento?", () => {
+const cat = catalogo();
+cat[b.dataset.del].splice(Number(b.dataset.idx), 1);
+salvarCatalogo(cat);
+renderCatalogo();
+renderAtividades();
+window.skipUI.toast("Eliminado");
+});
+}
+
+document.getElementById("btn-novo-usuario").addEventListener("click", () => {
+document.getElementById("form-novo-usuario").classList.toggle("hidden");
+});
+document.getElementById("btn-criar-usuario").addEventListener("click", criarUsuario);
+
+document.getElementById("usuarios-lista").addEventListener("change", async e => {
+const s = e.target.closest("[data-role-uid]");
+if (!s) return;
+const uid = s.dataset.roleUid;
+if (uid === state.user.uid) return;
+const list = STORE.usuarios.get();
+const u = list.find(x => x.uid === uid);
+if (u) { u.papel = s.value; STORE.usuarios.set(list); }
+renderUsuarios();
+window.skipUI.toast("Papel actualizado", { type: "success" });
+});
+document.getElementById("usuarios-lista").addEventListener("click", e => {
+const b = e.target.closest("[data-del-user]");
+if (!b) return;
+const uid = b.dataset.delUser;
+if (uid === state.user.uid) return;
+confirmar("Eliminar acceso", "¿Eliminar el acceso de este usuario?", async () => {
+await backend.deleteUsuario(uid);
+renderUsuarios();
+window.skipUI.toast("Acceso eliminado");
+});
+});
+
+document.getElementById("dlg-ok").addEventListener("click", () => {
+const fn = state.pendingConfirm;
+state.pendingConfirm = null;
+document.getElementById("dlg-confirm").close();
+if (fn) fn();
+});
+
+document.getElementById("btn-salvar").addEventListener("click", () => {
+const r = lerFormulario();
+if (!r.obra && !r.proyecto) { window.skipUI.toast("Indique proyecto u obra", { type: "error" }); return; }
+const informes = STORE.informes.get();
+informes.unshift({
+id: "inf-" + Date.now(),
+data: r.data,
+proyecto: r.proyecto,
+obra: r.obra,
+autorEmail: state.user.email,
+autorNome: state.meuNome,
+texto: gerarTexto(r, "es"),
+criadoEm: new Date().toISOString()
+});
+STORE.informes.set(informes);
+renderHistorico();
+renderObras();
+window.skipUI.toast("Informe guardado", { type: "success" });
+});
+document.getElementById("btn-copiar").addEventListener("click", async () => {
+const txt = gerarTexto(lerFormulario(), state.lang);
+try { await navigator.clipboard.writeText(txt); window.skipUI.toast("Texto copiado", { type: "success" }); }
+catch (e) { window.skipUI.toast("No se pudo copiar", { type: "error" }); }
+});
+document.getElementById("btn-limpar").addEventListener("click", () => {
+["f-proyecto", "f-obra", "f-mo-total", "f-mo-detalhe", "f-eq-total", "f-eq-detalhe", "f-clima-m", "f-clima-t", "f-ocorrencias", "f-seguridad", "f-proximos"].forEach(id => document.getElementById(id).value = "");
+state.atividades = [];
+addAtividade();
+window.skipUI.toast("Formulario limpio");
+});
+
+document.getElementById("btn-lang-es").addEventListener("click", () => { state.lang = "es"; renderPreview(); });
+document.getElementById("btn-lang-pt").addEventListener("click", () => { state.lang = "pt"; renderPreview(); });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+bind();
+const session = STORE.session.get();
+if (session && session.uid) {
+const uid = session.uid;
+const demo = UID_DEMO[uid];
+const email = demo ? demo.email : "";
+onAuthState({ uid, email });
+} else {
+mostrarTela("screen-login");
+}
 });
 </script>
-
 </body>
 </html>
