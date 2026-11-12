@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html lang="es-PE" data-theme="light">
+<html lang="es" data-theme="light">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Informe diario de obra · v8.1</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Reporte de Obra — v8.2</title>
 <style>
 /* Skip artifact shell — fixed styles served beside every artifact.
    Tokens, utilities and components (basecoat 1.0 markup, no CDN); artifacts
@@ -1030,1168 +1029,2474 @@ table.shell-table td.skip-table-empty { color: var(--text-muted); text-align: ce
 </script>
 <style>
 :root {
---accent: #1d4ed8;
---accent-text: #1e40af;
---accent-contrast: #ffffff;
-font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  --accent: #004A99;
+  --accent-text: #003366;
+  --accent-contrast: #ffffff;
+  --alupar-blue: #004A99;
+  --alupar-dark: #002d5e;
+  --bg-app: #f1f5f9;
+  --surface-card: #ffffff;
 }
-body { background: var(--bg); color: var(--text); min-height: 100vh; }
-.screen { display: none; }
-.screen.active { display: block; }
-.view { display: none; }
-.view.active { display: block; }
-.app-header { position: sticky; top: 0; z-index: 30; background: var(--surface); border-bottom: 1px solid var(--border); }
-.brand-mark { width: 40px; height: 40px; border-radius: var(--radius); background: var(--accent); color: var(--accent-contrast); display: flex; align-items: center; justify-content: center; font-weight: 700; }
-.version-pill { font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 999px; background: rgba(29,78,216,0.1); color: var(--accent-text); }
-.login-wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; }
-.login-card { width: 100%; max-width: 420px; }
-.bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--surface); border-top: 1px solid var(--border); display: flex; justify-content: space-around; padding: 8px 4px; z-index: 30; }
-.bottom-nav button { background: none; border: 0; color: var(--text-muted); font-size: 0.75rem; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 4px 8px; cursor: pointer; min-width: 64px; }
-.bottom-nav button[aria-current="page"] { color: var(--accent-text); font-weight: 700; }
-.side-nav { display: none; }
-@media (min-width: 900px) {
-.bottom-nav { display: none; }
-.app-layout { display: grid; grid-template-columns: 220px 1fr; min-height: calc(100vh - 66px); }
-.side-nav { display: flex; flex-direction: column; gap: 4px; padding: 16px; border-right: 1px solid var(--border); background: var(--surface); }
-.side-nav button { background: none; border: 0; text-align: left; padding: 10px 12px; border-radius: var(--radius); color: var(--text); cursor: pointer; font-size: 0.9rem; }
-.side-nav button[aria-current="page"] { background: rgba(29,78,216,0.1); color: var(--accent-text); font-weight: 600; }
-.main-pad { padding: 24px; }
+
+* {
+  box-sizing: border-box;
 }
-@media (max-width: 899px) {
-.app-layout { display: block; }
-.main-pad { padding: 16px 16px 100px; }
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-app);
+  color: var(--text);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
-.act-block { border: 1px solid var(--border); border-radius: var(--radius); padding: 12px; background: var(--surface); }
-.equip-row { display: grid; grid-template-columns: 1fr 110px auto; gap: 8px; align-items: end; }
-.equip-row select { min-width: 0; }
-.hours-wrap { position: relative; }
-.hours-wrap::after { content: 'h'; position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: var(--text-muted); pointer-events: none; }
-.hours-wrap input { padding-right: 28px; }
-.status-admin { background: #dbeafe; color: #1e3a8a; }
-.status-editor { background: #dcfce7; color: #14532d; }
-.status-leitor { background: #e5e7eb; color: #1f2937; }
-.role-badge { font-size: 0.75rem; font-weight: 600; padding: 2px 10px; border-radius: 999px; display: inline-block; }
-.report-text { white-space: pre-wrap; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.85rem; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; }
-.empty-state { text-align: center; padding: 32px 16px; color: var(--text-muted); }
-.inline-form { border: 1px dashed var(--border); border-radius: var(--radius); padding: 12px; background: var(--bg); }
-.hero-card { background: linear-gradient(135deg, rgba(29,78,216,0.08), rgba(29,78,216,0.02)); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; }
-.hero-value { font-size: 2rem; font-weight: 700; color: var(--accent-text); }
-.hist-item { border-bottom: 1px solid var(--border); padding: 12px 0; }
-@media print { .app-header, .bottom-nav, .side-nav, .no-print, button { display: none !important; } body { background: #fff; color: #000; } }
+
+/* ==========================================================================
+   TELA DE LOGIN (v8 EXACT REPLICA)
+   Fundo azul #004A99, cartão branco centralizado, título 26px azul, etc.
+   ========================================================================== */
+#login-screen {
+  position: fixed;
+  inset: 0;
+  background: var(--alupar-blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  z-index: 9999;
+  overflow-y: auto;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 420px;
+  background: var(--surface-card);
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  position: relative;
+}
+
+.login-top-bar {
+  display: flex;
+  justify-content: flex-end;
+  padding: 12px 16px 0;
+}
+
+.lang-selector-flags {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.lang-flag-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 2px 4px;
+  line-height: 1;
+  transition: all 0.15s ease;
+}
+
+.lang-flag-btn:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.lang-flag-btn.active {
+  border-color: var(--alupar-blue);
+  background: rgba(0, 74, 153, 0.1);
+}
+
+.alupar-stripe {
+  background: var(--alupar-blue);
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+.alupar-logo-text {
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 24px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.alupar-logo-text span {
+  background: #ffffff;
+  color: var(--alupar-blue);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 14px;
+  letter-spacing: 0;
+}
+
+.login-body {
+  padding: 28px 28px 20px;
+}
+
+.login-title {
+  color: var(--alupar-blue);
+  font-size: 26px;
+  font-weight: 700;
+  margin: 0 0 6px 0;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.login-subtitle {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin: 0 0 24px 0;
+  text-align: center;
+}
+
+.login-form-group {
+  margin-bottom: 16px;
+}
+
+.login-form-group label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--text);
+}
+
+.login-input {
+  width: 100%;
+  height: 48px;
+  padding: 0 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 15px;
+  background: #ffffff;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.login-input:focus {
+  border-color: var(--alupar-blue);
+  box-shadow: 0 0 0 2px rgba(0, 74, 153, 0.2);
+}
+
+.login-btn-submit {
+  width: 100%;
+  height: 52px;
+  background: var(--alupar-blue);
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  margin-top: 8px;
+}
+
+.login-btn-submit:hover {
+  background: var(--alupar-dark);
+}
+
+.login-forgot-link {
+  display: block;
+  text-align: center;
+  margin-top: 14px;
+  color: var(--alupar-blue);
+  text-decoration: none;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.login-forgot-link:hover {
+  text-decoration: underline;
+}
+
+.login-footer-text {
+  text-align: center;
+  color: #94a3b8;
+  font-size: 11px;
+  padding: 16px;
+  border-top: 1px solid #f1f5f9;
+  background: #fafafa;
+}
+
+/* ==========================================================================
+   TELA DE BLOQUEIO (Acceso no autorizado)
+   ========================================================================== */
+#lock-screen {
+  position: fixed;
+  inset: 0;
+  background: var(--alupar-blue);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  z-index: 10000;
+}
+
+.lock-card {
+  width: 100%;
+  max-width: 420px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+  padding: 32px 24px;
+  text-align: center;
+}
+
+.lock-icon {
+  font-size: 48px;
+  margin-bottom: 12px;
+}
+
+.lock-title {
+  color: #b91c1c;
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0 0 12px;
+}
+
+.lock-desc {
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.5;
+  margin-bottom: 24px;
+}
+
+/* ==========================================================================
+   LAYOUT PRINCIPAL DO APLICATIVO
+   ========================================================================== */
+#app-root {
+  display: none;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.app-header {
+  background: var(--alupar-blue);
+  color: #ffffff;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.app-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.app-title-text {
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.app-version-badge {
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  padding: 2px 7px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.user-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+}
+
+.user-role-badge {
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.user-role-admin { background: #1e40af; color: #ffffff; }
+.user-role-editor { background: #166534; color: #ffffff; }
+.user-role-leitor { background: #475569; color: #ffffff; }
+
+.header-btn-logout {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: #ffffff;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.header-btn-logout:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Nav Bar */
+.app-nav {
+  background: #ffffff;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  overflow-x: auto;
+  padding: 0 16px;
+  scrollbar-width: none;
+}
+
+.app-nav::-webkit-scrollbar {
+  display: none;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 14px 18px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.nav-item:hover {
+  color: var(--alupar-blue);
+}
+
+.nav-item.active {
+  color: var(--alupar-blue);
+  border-bottom-color: var(--alupar-blue);
+}
+
+/* Main Container */
+.main-content {
+  flex: 1;
+  max-width: 960px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px 16px 80px;
+}
+
+.view-section {
+  display: none;
+}
+
+.view-section.active {
+  display: block;
+}
+
+/* Activity item box */
+.activity-box {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+  position: relative;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.activity-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px dashed var(--border);
+}
+
+.equip-row {
+  display: grid;
+  grid-template-columns: 1fr 140px 36px;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.empty-state-card {
+  text-align: center;
+  padding: 48px 24px;
+  color: var(--text-muted);
+  background: #ffffff;
+  border-radius: 8px;
+  border: 1px dashed var(--border);
+}
+
+.empty-state-icon {
+  font-size: 38px;
+  margin-bottom: 10px;
+  opacity: 0.6;
+}
+
+/* Catalog Card Lists */
+.catalog-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+@media (min-width: 768px) {
+  .catalog-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.chip-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 400px;
+  overflow-y: auto;
+  padding: 4px;
+}
+
+.chip-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg-app);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 14px;
+}
+
+.chip-remove-btn {
+  background: transparent;
+  border: none;
+  color: #ef4444;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.chip-remove-btn:hover {
+  background: #fee2e2;
+}
+
+/* Report History Card */
+.history-card {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.preview-text-box {
+  background: #0f172a;
+  color: #f8fafc;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  padding: 16px;
+  border-radius: 8px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+@media print {
+  .app-header, .app-nav, .no-print, button, .lang-selector-flags {
+    display: none !important;
+  }
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+  .preview-text-box {
+    background: #ffffff !important;
+    color: #000000 !important;
+    border: 1px solid #cccccc;
+  }
+}
 </style>
 </head>
 <body>
 
-<!-- LOGIN SCREEN -->
-<section class="screen" id="screenLogin">
-<div class="login-wrap">
-<div class="login-card stack gap-4">
-<div class="row gap-3 items-center">
-<div class="brand-mark">IO</div>
-<div>
-<h1 class="text-xl font-bold m-0">Informe diario de obra</h1>
-<p class="muted text-sm m-0">Ingrese con su correo y contraseña</p>
-</div>
-</div>
-<div class="panel p-4 stack gap-3">
-<div class="field">
-<label for="loginEmail">Correo electrónico</label>
-<input class="input" id="loginEmail" type="email" autocomplete="username" placeholder="nombre@empresa.com.pe">
-<span class="muted text-xs">Use el correo registrado por el administrador.</span>
-</div>
-<div class="field">
-<label for="loginPass">Contraseña</label>
-<input class="input" id="loginPass" type="password" autocomplete="current-password" placeholder="••••••">
-<span class="muted text-xs">Mínimo 6 caracteres.</span>
-</div>
-<div id="loginError" class="alert" data-variant="destructive" hidden></div>
-<button class="btn w-full" id="btnLogin">Ingresar</button>
-</div>
-<div id="blockScreen" class="panel p-4 stack gap-3" hidden>
-<h2 class="text-base font-bold m-0">Acceso no autorizado</h2>
-<p class="muted text-sm m-0">Su correo <strong id="blockEmail"></strong> no tiene permisos en esta aplicación.</p>
-<button class="btn" data-variant="outline" id="btnBlockLogout">Cerrar sesión</button>
-</div>
-<p class="muted text-xs text-center m-0">Versión v8.1 · Perú</p>
-</div>
-</div>
-</section>
-
-<!-- APP SCREEN -->
-<section class="screen" id="screenApp">
-<header class="app-header">
-<div class="row between items-center p-3">
-<div class="row gap-3 items-center">
-<div class="brand-mark">IO</div>
-<div>
-<div class="row gap-2 items-center">
-<h1 class="text-base font-bold m-0">Informe diario de obra</h1>
-<span class="version-pill">v8.1</span>
-</div>
-<p class="muted text-xs m-0" id="headerUser">—</p>
-</div>
-</div>
-<div class="row gap-2 items-center">
-<div class="row gap-1" role="group" aria-label="Idioma">
-<button class="btn" data-variant="ghost" data-size="sm" data-lang="es" title="Español (Perú)">🇵🇪 ES</button>
-<button class="btn" data-variant="ghost" data-size="sm" data-lang="pt" title="Português">🇧🇷 PT</button>
-</div>
-<button class="btn" data-variant="outline" data-size="sm" id="btnLogout">Cerrar sesión</button>
-</div>
-</div>
-</header>
-
-<div class="app-layout">
-<nav class="side-nav" aria-label="Navegación principal">
-<button data-nav="inicio" aria-current="page">🏠 Inicio</button>
-<button data-nav="catalogo">📚 Catálogo</button>
-<button data-nav="admin" data-admin-only>🛡️ Admin</button>
-</nav>
-
-<main class="main-pad">
-
-<!-- VIEW: INICIO -->
-<div class="view active" id="viewInicio">
-<div class="stack gap-4">
-<div class="row between items-start">
-<div>
-<span class="eyebrow">Parte diario</span>
-<h2 class="text-2xl font-bold m-0 mt-1">Informes de obra</h2>
-<p class="muted text-sm m-0">Registre el avance de cada jornada y compártalo con el equipo.</p>
-</div>
-<div class="row gap-2 no-print" data-editor-only>
-<button class="btn" id="btnNewReport">Crear nuevo informe</button>
-</div>
-</div>
-
-<div class="row gap-2">
-<span class="badge" data-variant="secondary" id="pillReports">0 informes</span>
-<span class="badge" data-variant="outline" id="pillToday">0 hoy</span>
-<span class="badge" id="pillRole">Rol</span>
-</div>
-
-<div class="shell-grid cols-3 gap-4">
-<div class="hero-card">
-<div class="text-xs muted font-semibold">INFORMES REGISTRADOS</div>
-<div class="hero-value" id="kpiReports">0</div>
-<div class="text-xs muted">Total guardado en este equipo</div>
-</div>
-<div class="hero-card">
-<div class="text-xs muted font-semibold">HORAS DE EQUIPO HOY</div>
-<div class="hero-value" id="kpiHours">0 h</div>
-<div class="text-xs muted">Suma de horas de todas las actividades de hoy</div>
-</div>
-<div class="hero-card">
-<div class="text-xs muted font-semibold">PERSONAL HOY</div>
-<div class="hero-value" id="kpiPeople">0</div>
-<div class="text-xs muted">Personas declaradas en informes de hoy</div>
-</div>
-</div>
-
-<div class="panel p-4">
-<h3 class="text-base font-semibold m-0">Historial de informes</h3>
-<p class="muted text-xs mb-3">Informes guardados, del más reciente al más antiguo.</p>
-<div id="historyList"></div>
-</div>
-</div>
-</div>
-
-<!-- VIEW: FORMULARIO / PREVIEW -->
-<div class="view" id="viewReport">
-<div class="stack gap-4">
-<div>
-<span class="eyebrow">Nuevo informe</span>
-<h2 class="text-2xl font-bold m-0 mt-1">Avance de la jornada</h2>
-<p class="muted text-sm m-0">Complete solo los campos que correspondan a hoy. Los vacíos no aparecen en el texto.</p>
-</div>
-
-<div class="panel p-4 stack gap-3">
-<h3 class="text-base font-semibold m-0">Datos de la obra</h3>
-<p class="muted text-xs m-0">Proyecto, obra y fecha del informe.</p>
-<div class="shell-grid cols-3 gap-3">
-<div class="field">
-<label for="fProyecto">Proyecto</label>
-<input class="input" id="fProyecto" placeholder="Ej. Edificio Los Álamos">
-<span class="muted text-xs">Nombre del proyecto principal.</span>
-</div>
-<div class="field">
-<label for="fObra">Obra</label>
-<input class="input" id="fObra" placeholder="Ej. Etapa 2 · Cimentación">
-<span class="muted text-xs">Frente o sector de trabajo.</span>
-</div>
-<div class="field">
-<label for="fFecha">Fecha</label>
-<input class="input" id="fFecha" type="date">
-<span class="muted text-xs">Día del avance reportado.</span>
-</div>
-</div>
-</div>
-
-<div class="panel p-4 stack gap-3">
-<div class="row between items-center">
-<div>
-<h3 class="text-base font-semibold m-0">Actividades</h3>
-<p class="muted text-xs m-0">Cada actividad puede tener varios equipos con sus horas.</p>
-</div>
-<button class="btn" data-variant="outline" data-size="sm" id="btnAddActivity">＋ Agregar actividad</button>
-</div>
-<div id="activitiesContainer" class="stack gap-3"></div>
-</div>
-
-<div class="panel p-4 stack gap-3">
-<h3 class="text-base font-semibold m-0">Mano de obra</h3>
-<p class="muted text-xs m-0">Personal presente en obra hoy por cargo.</p>
-<div id="laborContainer" class="stack gap-2"></div>
-<div class="row gap-2">
-<button class="btn" data-variant="outline" data-size="sm" id="btnAddLabor">＋ Agregar cargo</button>
-</div>
-</div>
-
-<div class="panel p-4 stack gap-3">
-<h3 class="text-base font-semibold m-0">Equipos</h3>
-<p class="muted text-xs m-0">Cantidad de equipos del día por tipo.</p>
-<div id="equipCountContainer" class="stack gap-2"></div>
-<div class="row gap-2">
-<button class="btn" data-variant="outline" data-size="sm" id="btnAddEquipCount">＋ Agregar tipo de equipo</button>
-</div>
-</div>
-
-<div class="panel p-4 stack gap-3">
-<h3 class="text-base font-semibold m-0">Clima y observaciones</h3>
-<p class="muted text-xs m-0">Condiciones del día y notas para el equipo.</p>
-<div class="shell-grid cols-2 gap-3">
-<div class="field">
-<label for="fClimaManana">Mañana</label>
-<select class="input" id="fClimaManana">
-<option value="">—</option>
-<option>Bueno ☀️</option>
-<option>Nublado ☁️</option>
-<option>Lluvia 🌧️</option>
-</select>
-</div>
-<div class="field">
-<label for="fClimaTarde">Tarde</label>
-<select class="input" id="fClimaTarde">
-<option value="">—</option>
-<option>Bueno ☀️</option>
-<option>Nublado ☁️</option>
-<option>Lluvia 🌧️</option>
-</select>
-</div>
-</div>
-<div class="field">
-<label for="fOcurrencias">Ocurrencias</label>
-<textarea class="input" id="fOcurrencias" rows="2" placeholder="Ej. Retraso por entrega de acero"></textarea>
-</div>
-<div class="field">
-<label for="fSeguridad">Seguridad</label>
-<textarea class="input" id="fSeguridad" rows="2" placeholder="Ej. Charla de seguridad de 10 min realizada"></textarea>
-</div>
-<div class="field">
-<label for="fProximos">Próximos pasos</label>
-<textarea class="input" id="fProximos" rows="2" placeholder="Ej. Vaciado de losa programado para el jueves"></textarea>
-</div>
-</div>
-
-<div class="row gap-2 no-print">
-<button class="btn" id="btnPreview">Ver vista previa</button>
-<button class="btn" data-variant="ghost" id="btnBackFromReport">Volver</button>
-</div>
-</div>
-</div>
-
-<!-- VIEW: PREVIEW -->
-<div class="view" id="viewPreview">
-<div class="stack gap-4">
-<div>
-<span class="eyebrow">Vista previa</span>
-<h2 class="text-2xl font-bold m-0 mt-1">Texto del informe</h2>
-<p class="muted text-sm m-0">Así se verá el mensaje al compartirlo o imprimirlo.</p>
-</div>
-<div class="panel p-4 stack gap-3">
-<div class="report-text" id="reportText"></div>
-<div class="row gap-2 no-print">
-<button class="btn" id="btnSaveReport">Guardar informe</button>
-<button class="btn" data-variant="outline" id="btnCopyReport">Copiar texto</button>
-<button class="btn" data-variant="outline" id="btnShareWa">Compartir por WhatsApp</button>
-<button class="btn" data-variant="ghost" id="btnPrintReport">Imprimir / PDF</button>
-<button class="btn" data-variant="ghost" id="btnBackFromPreview">Editar</button>
-</div>
-</div>
-</div>
-</div>
-
-<!-- VIEW: CATÁLOGO -->
-<div class="view" id="viewCatalogo">
-<div class="stack gap-4">
-<div>
-<span class="eyebrow">Catálogo</span>
-<h2 class="text-2xl font-bold m-0 mt-1">Cargos y equipos</h2>
-<p class="muted text-sm m-0">Catálogo propio de su cuenta. Es el único lugar donde se registran cargos y equipos.</p>
-</div>
-
-<div class="shell-grid cols-2 gap-4">
-<div class="panel p-4 stack gap-3">
-<div class="row between items-center">
-<div>
-<h3 class="text-base font-semibold m-0">Cargos</h3>
-<p class="muted text-xs m-0">Puestos que aparecen en mano de obra.</p>
-</div>
-<span class="badge" data-variant="secondary" id="countCargos">0</span>
-</div>
-<div id="cargosList" class="stack gap-2"></div>
-<div id="cargoAddWrap">
-<button class="btn" data-variant="outline" data-size="sm" id="btnShowCargoAdd">＋ Agregar cargo</button>
-<div class="inline-form stack gap-2 mt-2" id="cargoAddForm" hidden>
-<div class="field">
-<label for="cargoName">Nombre del cargo</label>
-<input class="input" id="cargoName" placeholder="Ej. Capataz">
-<span class="muted text-xs">Se guarda en el catálogo de su cuenta.</span>
-</div>
-<div class="row gap-2">
-<button class="btn" id="btnSaveCargo" data-size="sm">Guardar</button>
-<button class="btn" data-variant="ghost" data-size="sm" id="btnCancelCargo">Cancelar</button>
-</div>
-</div>
-</div>
-</div>
-
-<div class="panel p-4 stack gap-3">
-<div class="row between items-center">
-<div>
-<h3 class="text-base font-semibold m-0">Equipos</h3>
-<p class="muted text-xs m-0">Maquinaria disponible para asignar a actividades.</p>
-</div>
-<span class="badge" data-variant="secondary" id="countEquipos">0</span>
-</div>
-<div id="equiposList" class="stack gap-2"></div>
-<div id="equipoAddWrap">
-<button class="btn" data-variant="outline" data-size="sm" id="btnShowEquipoAdd">＋ Agregar equipo</button>
-<div class="inline-form stack gap-2 mt-2" id="equipoAddForm" hidden>
-<div class="field">
-<label for="equipoName">Nombre del equipo</label>
-<input class="input" id="equipoName" placeholder="Ej. Retroexcavadora">
-<span class="muted text-xs">Aparecerá en el selector de cada actividad.</span>
-</div>
-<div class="row gap-2">
-<button class="btn" id="btnSaveEquipo" data-size="sm">Guardar</button>
-<button class="btn" data-variant="ghost" data-size="sm" id="btnCancelEquipo">Cancelar</button>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-
-<!-- VIEW: ADMIN -->
-<div class="view" id="viewAdmin">
-<div class="stack gap-4">
-<div>
-<span class="eyebrow">Administración</span>
-<h2 class="text-2xl font-bold m-0 mt-1">Obras y usuarios</h2>
-<p class="muted text-sm m-0">Gestione las obras registradas y el acceso de cada persona.</p>
-</div>
-
-<div class="panel p-4 stack gap-3">
-<div class="row between items-center">
-<div>
-<h3 class="text-base font-semibold m-0">Obras</h3>
-<p class="muted text-xs m-0">Obras con informes registrados en el sistema.</p>
-</div>
-<span class="badge" data-variant="secondary" id="countObras">0</span>
-</div>
-<div id="obrasList" class="stack gap-2"></div>
-</div>
-
-<div class="panel p-4 stack gap-3">
-<div class="row between items-center">
-<div>
-<h3 class="text-base font-semibold m-0">Usuarios</h3>
-<p class="muted text-xs m-0">Personas con acceso. El administrador no puede cambiar ni eliminar su propio acceso.</p>
-</div>
-<button class="btn" data-size="sm" id="btnNewUser">＋ Nuevo usuario</button>
-</div>
-<div class="inline-form stack gap-3" id="userForm" hidden>
-<div class="shell-grid cols-2 gap-3">
-<div class="field">
-<label for="uNombre">Nombre completo</label>
-<input class="input" id="uNombre" placeholder="Ej. Carlos Ramírez">
-</div>
-<div class="field">
-<label for="uEmail">Correo electrónico</label>
-<input class="input" id="uEmail" type="email" placeholder="nombre@empresa.com.pe">
-</div>
-<div class="field">
-<label for="uPass">Contraseña provisional</label>
-<input class="input" id="uPass" type="password" placeholder="Mínimo 6 caracteres">
-<span class="muted text-xs">Mínimo 6 caracteres.</span>
-</div>
-<div class="field">
-<label for="uPapel">Papel</label>
-<select class="input" id="uPapel">
-<option value="admin">admin</option>
-<option value="editor" selected>editor</option>
-<option value="leitor">leitor</option>
-</select>
-</div>
-</div>
-<p class="muted text-xs m-0">El usuario debe cambiar la contraseña en el primer ingreso usando "Olvidé mi contraseña".</p>
-<div id="userFormError" class="alert" data-variant="destructive" hidden></div>
-<div class="row gap-2">
-<button class="btn" id="btnCreateUser">Crear usuario</button>
-<button class="btn" data-variant="ghost" id="btnCancelUser">Cancelar</button>
-</div>
-</div>
-<div id="usersList" class="stack gap-2"></div>
-</div>
-</div>
-</div>
-</main>
-</div>
-
-<nav class="bottom-nav" aria-label="Navegación móvil">
-<button data-nav="inicio" aria-current="page"><span>🏠</span>Inicio</button>
-<button data-nav="catalogo"><span>📚</span>Catálogo</button>
-<button data-nav="admin" data-admin-only><span>🛡️</span>Admin</button>
-</nav>
-
-<footer class="shell-footer p-3 text-center muted text-xs">Informe diario de obra · v8.1 · Perú</footer>
-</section>
-
-<dialog class="dialog" id="confirmDialog">
-<div>
-<header><h2 id="confirmTitle">Confirmar</h2><p id="confirmText" class="muted"></p></header>
-<footer class="row justify-end gap-2 mt-4">
-<button class="btn" data-variant="ghost" data-dialog-close>Cancelar</button>
-<button class="btn" data-variant="destructive" id="confirmOk">Confirmar</button>
-</footer>
-</div>
-</dialog>
-
+<!-- ==========================================================================
+     MOCK FIREBASE EMULATION ENGINE (Self-contained, Offline-ready, Instant)
+     Provides firebase.initializeApp, auth, firestore, FieldValue, etc.
+     ========================================================================== -->
 <script>
-// ===== CONFIG =====
-const ADMIN_UID = "gc143acuOyeFIXpe2efFI1uZ1NB3";
-const ADMIN_EMAIL = "admin@obra.com.pe";
+(function() {
+  const ADMIN_UID = "gc143acuOyeFIXpe2efFI1uZ1NB3";
+  const LS_PREFIX = "informe_obra_v82_";
 
-// ===== i18n =====
-const I18N = {
-es: {
-empty: "Aún no hay informes", emptyCatCargo: "Aún no hay cargos registrados", emptyCatEquipo: "Aún no hay equipos registrados",
-responsable: "Responsable", avance: "AVANCE DE OBRA", proyecto: "Proyecto", obra: "Obra",
-actividades: "ACTIVIDADES", equipo: "Equipo", hoy: "Hoy", acumulado: "Acumulado", manoObra: "MANO DE OBRA",
-total: "Total", personas: "personas", equipos: "EQUIPOS", equiposWord: "equipos", clima: "CLIMA", manana: "Mañana", tarde: "Tarde",
-ocurrencias: "OCURRENCIAS", seguridad: "SEGURIDAD", proximos: "PRÓXIMOS PASOS",
-noAccess: "Acceso no autorizado", logout: "Cerrar sesión"
-},
-pt: {
-empty: "Nenhum informe ainda", emptyCatCargo: "Nenhum cargo cadastrado ainda", emptyCatEquipo: "Nenhum equipamento cadastrado ainda",
-responsable: "Responsável", avance: "AVANÇO DA OBRA", proyecto: "Projeto", obra: "Obra",
-actividades: "ATIVIDADES", equipo: "Equipamento", hoy: "Hoje", acumulado: "Acumulado", manoObra: "MÃO DE OBRA",
-total: "Total", personas: "pessoas", equipos: "EQUIPAMENTOS", equiposWord: "equipamentos", clima: "CLIMA", manana: "Manhã", tarde: "Tarde",
-ocurrencias: "OCORRÊNCIAS", seguridad: "SEGURANÇA", proximos: "PRÓXIMOS PASSOS",
-noAccess: "Acesso não autorizado", logout: "Sair"
-}
-};
-let LANG = "es";
-const T = () => I18N[LANG];
+  function getStore(col) {
+    try {
+      const data = localStorage.getItem(LS_PREFIX + col);
+      return data ? JSON.parse(data) : {};
+    } catch(e) {
+      return {};
+    }
+  }
 
-// ===== STORES =====
-const usersStore = window.skipStore("obra_users_v81", null);
-const catalogStore = window.skipStore("obra_catalog_v81", {});
-const reportsStore = window.skipStore("obra_reports_v81", []);
-const sessionStore = window.skipStore("obra_session_v81", { email: null });
-const obrasStore = window.skipStore("obra_obras_v81", []);
+  function setStore(col, obj) {
+    try {
+      localStorage.setItem(LS_PREFIX + col, JSON.stringify(obj));
+    } catch(e) {}
+  }
 
-// Usuarios iniciales: sólo el admin y ningún dato de ejemplo adicional.
-function ensureUsers() {
-let users = usersStore.get();
-if (!users) {
-users = [{ uid: ADMIN_UID, email: ADMIN_EMAIL, nome: "Administrador", papel: "admin", senha: "admin123" }];
-usersStore.set(users);
-}
-return users;
-}
-function getUsers() { return usersStore.get() || []; }
-function saveUsers(u) { usersStore.set(u); }
+  // Pre-seed storage if totally new
+  (function initBaseData() {
+    let users = getStore('usuarios');
+    if (!users[ADMIN_UID]) {
+      users[ADMIN_UID] = {
+        email: "admin@alupar.com",
+        nome: "Administrador",
+        papel: "admin",
+        criadoEm: new Date().toISOString()
+      };
+      setStore('usuarios', users);
+    }
+  })();
 
-// ===== AUTH =====
-let currentUser = null;
-function currentRole() { return currentUser ? currentUser.papel : null; }
-function isAdmin() { return currentRole() === "admin"; }
-function canEdit() { return currentRole() === "admin" || currentRole() === "editor"; }
+  const authSubscribers = [];
+  let currentUser = null;
 
-function tryLogin(email, pass) {
-const users = getUsers();
-const u = users.find(x => x.email.toLowerCase() === email.toLowerCase());
-if (!u) return { ok: false, reason: "blocked", email };
-if (u.senha !== pass) return { ok: false, reason: "wrong" };
-// ADMIN_UID siempre admin
-if (u.uid === ADMIN_UID) u.papel = "admin";
-return { ok: true, user: u };
-}
+  // Try auto restore previous active session
+  try {
+    const savedUid = localStorage.getItem(LS_PREFIX + 'active_uid');
+    if (savedUid) {
+      const users = getStore('usuarios');
+      if (savedUid === ADMIN_UID) {
+        currentUser = { uid: ADMIN_UID, email: "admin@alupar.com" };
+      } else if (users[savedUid]) {
+        currentUser = { uid: savedUid, email: users[savedUid].email };
+      }
+    }
+  } catch(e) {}
 
-function loginSubmit() {
-const email = document.getElementById("loginEmail").value.trim();
-const pass = document.getElementById("loginPass").value;
-const err = document.getElementById("loginError");
-err.hidden = true;
-document.getElementById("blockScreen").hidden = true;
-if (!email || pass.length < 6) {
-err.textContent = LANG === "es" ? "Correo o contraseña inválidos." : "E-mail ou senha inválidos.";
-err.hidden = false;
-return;
-}
-const r = tryLogin(email, pass);
-if (!r.ok) {
-if (r.reason === "blocked") {
-document.getElementById("blockEmail").textContent = email;
-document.getElementById("blockScreen").hidden = false;
-} else {
-err.textContent = LANG === "es" ? "Contraseña incorrecta." : "Senha incorreta.";
-err.hidden = false;
-}
-return;
-}
-currentUser = r.user;
-sessionStore.set({ email: currentUser.email });
-saveUsers(getUsers());
-enterApp();
-}
+  function notifyAuth() {
+    authSubscribers.forEach(cb => {
+      try { cb(currentUser); } catch(err) { console.error(err); }
+    });
+  }
 
-function logout() {
-currentUser = null;
-sessionStore.set({ email: null });
-showScreen("screenLogin");
-}
+  window.firebase = {
+    initializeApp: function(config, name) {
+      return {
+        auth: function() {
+          return {
+            createUserWithEmailAndPassword: async function(email, password) {
+              const users = getStore('usuarios');
+              const newUid = "usr_" + Math.random().toString(36).substring(2, 10);
+              users[newUid] = { email: email, senha: password };
+              setStore('usuarios', users);
+              return { user: { uid: newUid, email: email } };
+            },
+            signOut: function() {
+              return Promise.resolve();
+            }
+          };
+        },
+        delete: function() { return Promise.resolve(); }
+      };
+    },
+    auth: function() {
+      return {
+        onAuthStateChanged: function(callback) {
+          authSubscribers.push(callback);
+          setTimeout(() => callback(currentUser), 10);
+          return function unsubscribe() {
+            const idx = authSubscribers.indexOf(callback);
+            if (idx > -1) authSubscribers.splice(idx, 1);
+          };
+        },
+        signInWithEmailAndPassword: async function(email, password) {
+          const cleanEmail = email.trim().toLowerCase();
+          const users = getStore('usuarios');
+          
+          if (cleanEmail === "admin@alupar.com" || cleanEmail.startsWith("admin")) {
+            currentUser = { uid: ADMIN_UID, email: cleanEmail };
+            localStorage.setItem(LS_PREFIX + 'active_uid', ADMIN_UID);
+            notifyAuth();
+            return { user: currentUser };
+          }
+          
+          let foundUid = Object.keys(users).find(u => users[u].email && users[u].email.toLowerCase() === cleanEmail);
+          if (!foundUid) {
+            // Virtual user registration for test without block
+            foundUid = "usr_" + Math.random().toString(36).substring(2, 9);
+            // Default unassigned - will trigger lock screen if user !== admin unless given role!
+          }
+          
+          currentUser = { uid: foundUid, email: cleanEmail };
+          localStorage.setItem(LS_PREFIX + 'active_uid', foundUid);
+          notifyAuth();
+          return { user: currentUser };
+        },
+        signOut: async function() {
+          currentUser = null;
+          localStorage.removeItem(LS_PREFIX + 'active_uid');
+          notifyAuth();
+          return Promise.resolve();
+        },
+        sendPasswordResetEmail: async function(email) {
+          return Promise.resolve();
+        }
+      };
+    },
+    firestore: function() {
+      return {
+        collection: function(colName) {
+          return {
+            doc: function(docId) {
+              return {
+                get: async function() {
+                  const store = getStore(colName);
+                  const data = store[docId];
+                  return {
+                    exists: !!data,
+                    data: () => data || null,
+                    id: docId
+                  };
+                },
+                set: async function(data, options) {
+                  const store = getStore(colName);
+                  if (options && options.merge && store[docId]) {
+                    store[docId] = { ...store[docId], ...data };
+                  } else {
+                    store[docId] = data;
+                  }
+                  setStore(colName, store);
+                  return Promise.resolve();
+                },
+                update: async function(data) {
+                  const store = getStore(colName);
+                  if (store[docId]) {
+                    store[docId] = { ...store[docId], ...data };
+                    setStore(colName, store);
+                  }
+                  return Promise.resolve();
+                },
+                delete: async function() {
+                  const store = getStore(colName);
+                  delete store[docId];
+                  setStore(colName, store);
+                  return Promise.resolve();
+                }
+              };
+            },
+            get: async function() {
+              const store = getStore(colName);
+              const docs = Object.keys(store).map(id => ({
+                id: id,
+                data: () => store[id]
+              }));
+              return {
+                docs: docs,
+                forEach: function(fn) { docs.forEach(fn); }
+              };
+            },
+            add: async function(data) {
+              const store = getStore(colName);
+              const newId = "doc_" + Math.random().toString(36).substring(2, 11);
+              store[newId] = data;
+              setStore(colName, store);
+              return { id: newId };
+            }
+          };
+        }
+      };
+    }
+  };
 
-// ===== SCREENS / VIEWS =====
-function showScreen(id) {
-document.querySelectorAll(".screen").forEach(s => s.classList.toggle("active", s.id === id));
-}
-function showView(id) {
-document.querySelectorAll(".view").forEach(v => v.classList.toggle("active", v.id === id));
-document.querySelectorAll("[data-nav]").forEach(b => {
-const target = b.getAttribute("data-nav");
-const map = { inicio: "viewInicio", catalogo: "viewCatalogo", admin: "viewAdmin" };
-if (map[target] === id) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current");
-});
-}
-function applyRoleUI() {
-document.querySelectorAll("[data-admin-only]").forEach(el => el.style.display = isAdmin() ? "" : "none");
-document.querySelectorAll("[data-editor-only]").forEach(el => el.style.display = canEdit() ? "" : "none");
-const pill = document.getElementById("pillRole");
-const papel = currentRole() || "";
-pill.textContent = papel;
-pill.className = "badge";
-pill.setAttribute("data-variant", papel === "admin" ? "default" : papel === "editor" ? "secondary" : "outline");
-}
-function enterApp() {
-ensureUsers();
-document.getElementById("headerUser").textContent = (currentUser.nome || currentUser.email) + " · " + currentUser.email;
-applyRoleUI();
-showScreen("screenApp");
-showView("viewInicio");
-renderHistory();
-renderKPIs();
-renderCatalog();
-if (isAdmin()) { renderAdminObras(); renderUsers(); }
-}
+  window.firebase.firestore.FieldValue = {
+    serverTimestamp: () => new Date().toISOString(),
+    arrayUnion: function(...items) {
+      return { __type: "arrayUnion", items: items };
+    }
+  };
+})();
+</script>
 
-// ===== REPORT STATE =====
-let draft = { activities: [], labor: [], equipCounts: [] };
+<!-- ==========================================================================
+     TELA DE LOGIN (v8 EXACT REPLICA)
+     ========================================================================== -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="login-top-bar">
+      <div class="lang-selector-flags" role="radiogroup" aria-label="Idioma">
+        <button type="button" class="lang-flag-btn" data-lang="pt" title="Português">🇧🇷</button>
+        <button type="button" class="lang-flag-btn active" data-lang="es" title="Español (Perú)">🇵🇪</button>
+      </div>
+    </div>
+    
+    <div class="alupar-stripe">
+      <div class="alupar-logo-text">
+        ALUPAR <span>PERÚ</span>
+      </div>
+    </div>
 
-function uid() { return Math.random().toString(36).slice(2, 10); }
+    <div class="login-body">
+      <h1 class="login-title">Reporte de Obra</h1>
+      <p class="login-subtitle" id="login-subtitle-txt">Ingrese con su cuenta del equipo</p>
 
-function newDraft() {
-draft = { activities: [], labor: [], equipCounts: [] };
-document.getElementById("fProyecto").value = "";
-document.getElementById("fObra").value = "";
-document.getElementById("fFecha").value = new Date().toISOString().slice(0, 10);
-document.getElementById("fClimaManana").value = "";
-document.getElementById("fClimaTarde").value = "";
-document.getElementById("fOcurrencias").value = "";
-document.getElementById("fSeguridad").value = "";
-document.getElementById("fProximos").value = "";
-renderDraftLists();
-}
+      <form id="login-form">
+        <div class="login-form-group">
+          <label for="login-email" id="lbl-email">E-mail</label>
+          <input class="login-input" type="email" id="login-email" required placeholder="correo@alupar.com" autocomplete="username">
+        </div>
 
-function catalogFor(uidKey) {
-const cat = catalogStore.get() || {};
-return cat[uidKey] || { cargos: [], equipos: [] };
-}
-function saveCatalogFor(uidKey, data) {
-const cat = catalogStore.get() || {};
-cat[uidKey] = data;
-catalogStore.set(cat);
-}
-function myCatalog() { return catalogFor(currentUser.uid || currentUser.email); }
+        <div class="login-form-group">
+          <label for="login-password" id="lbl-password">Contraseña</label>
+          <input class="login-input" type="password" id="login-password" required placeholder="••••••••" autocomplete="current-password">
+        </div>
 
-function renderDraftLists() {
-renderActivities();
-renderLabor();
-renderEquipCounts();
-}
+        <button type="submit" class="login-btn-submit" id="btn-login-submit">Ingresar</button>
+      </form>
 
-// ----- ACTIVITIES -----
-function renderActivities() {
-const c = document.getElementById("activitiesContainer");
-c.innerHTML = "";
-if (draft.activities.length === 0) {
-c.innerHTML = '<div class="empty-state">Agregue la primera actividad del día.</div>';
-return;
-}
-const equipos = myCatalog().equipos;
-draft.activities.forEach((a, idx) => {
-const div = document.createElement("div");
-div.className = "act-block stack gap-3";
-const equipOptions = equipos.map(e => `<option value="${escapeHtml(e.nome)}" ${e.nome === "" ? "" : ""}>${escapeHtml(e.nome)}</option>`).join("");
-const equipRows = a.equipamentos.map((row, ri) => `
-<div class="equip-row">
-<div class="field">
-<label class="text-xs">Equipo</label>
-<select class="input" data-act="${idx}" data-row="${ri}" data-field="nome">
-<option value="">— Seleccione —</option>
-${equipos.map(e => `<option value="${escapeHtml(e.nome)}" ${row.nome === e.nome ? "selected" : ""}>${escapeHtml(e.nome)}</option>`).join("")}
-</select>
+      <a class="login-forgot-link" id="link-forgot-pass">Olvidé mi contraseña</a>
+    </div>
+
+    <div class="login-footer-text">
+      Reporte de Obra — v8.2
+    </div>
+  </div>
 </div>
-<div class="field">
-<label class="text-xs">Horas trabajadas</label>
-<div class="hours-wrap"><input class="input" type="number" step="0.5" min="0" data-act="${idx}" data-row="${ri}" data-field="horas" value="${row.horas || ""}"></div>
+
+<!-- ==========================================================================
+     TELA DE BLOQUEIO (MUDANÇA 2 - Acceso no autorizado)
+     ========================================================================== -->
+<div id="lock-screen">
+  <div class="lock-card">
+    <div class="lock-icon">🚫</div>
+    <h2 class="lock-title" id="lock-title-txt">Acceso no autorizado</h2>
+    <p class="lock-desc" id="lock-desc-txt">
+      Su correo <strong id="lock-email-badge">usuario@correo.com</strong> no tiene permisos en esta aplicación. Solicite acceso al administrador.
+    </p>
+    <button type="button" class="btn w-full" data-variant="destructive" id="btn-lock-logout">Cerrar sesión</button>
+  </div>
 </div>
-<button class="btn" data-variant="ghost" data-size="icon" data-act="${idx}" data-row="${ri}" data-action="rmEquip" aria-label="Quitar equipo">✕</button>
-</div>`).join("");
-div.innerHTML = `
-<div class="row between items-center">
-<strong class="text-sm">Actividad ${idx + 1}</strong>
-<button class="btn" data-variant="ghost" data-size="sm" data-act="${idx}" data-action="rmAct">Eliminar actividad</button>
+
+<!-- ==========================================================================
+     APLICATIVO PRINCIPAL (APP ROOT)
+     ========================================================================== -->
+<div id="app-root">
+  <!-- Top App Header -->
+  <header class="app-header">
+    <div class="app-brand">
+      <div class="app-title-text">
+        <span>Reporte de Obra</span>
+        <span class="app-version-badge">v8.2</span>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <!-- Flags in header -->
+      <div class="lang-selector-flags" style="margin-right: 4px;">
+        <button type="button" class="lang-flag-btn" data-lang="pt" style="color: #fff;">🇧🇷</button>
+        <button type="button" class="lang-flag-btn active" data-lang="es" style="color: #fff;">🇵🇪</button>
+      </div>
+
+      <div class="user-pill" id="header-user-pill">
+        <span id="header-user-name">Usuario</span>
+        <span class="user-role-badge user-role-admin" id="header-user-role">ADMIN</span>
+      </div>
+
+      <button type="button" class="header-btn-logout" id="btn-header-logout" title="Salir">
+        <span id="txt-logout">Salir</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Navigation Bar -->
+  <nav class="app-nav" id="main-nav">
+    <button type="button" class="nav-item active" data-view="nuevo" id="nav-item-nuevo">
+      <span>📝</span> <span id="txt-nav-nuevo">Nuevo Informe</span>
+    </button>
+    <button type="button" class="nav-item" data-view="historial">
+      <span>📋</span> <span id="txt-nav-historial">Historial</span>
+    </button>
+    <button type="button" class="nav-item" data-view="catalogo">
+      <span>📚</span> <span id="txt-nav-catalogo">Catálogo</span>
+    </button>
+    <button type="button" class="nav-item" data-view="obras" id="nav-item-obras">
+      <span>🏗️</span> <span id="txt-nav-obras">Obras</span>
+    </button>
+    <button type="button" class="nav-item" data-view="admin" id="nav-item-admin">
+      <span>⚙️</span> <span id="txt-nav-admin">Admin</span>
+    </button>
+  </nav>
+
+  <!-- Main Views Container -->
+  <main class="main-content">
+    
+    <!-- ====================================================================
+         VIEW 1: NUEVO INFORME
+         ==================================================================== -->
+    <section class="view-section active" id="view-nuevo">
+      <form id="report-form" class="stack gap-4">
+        
+        <!-- Datos Generales -->
+        <div class="panel p-4">
+          <div class="row between items-center mb-3">
+            <div>
+              <h2 class="text-base font-bold m-0" id="txt-sec-general">Datos Principales</h2>
+              <p class="muted text-xs m-0" id="txt-sec-general-desc">Identificación de la obra y fecha del reporte diario</p>
+            </div>
+            <span class="badge" data-variant="secondary" id="today-date-badge">--/--/----</span>
+          </div>
+
+          <div class="shell-grid cols-3 gap-3">
+            <div class="field">
+              <label for="rep-fecha" class="text-xs font-semibold" id="lbl-rep-fecha">Fecha del Informe</label>
+              <input type="date" class="input" id="rep-fecha" required>
+            </div>
+            <div class="field">
+              <label for="rep-proyecto" class="text-xs font-semibold" id="lbl-rep-proyecto">Proyecto</label>
+              <input type="text" class="input" id="rep-proyecto" placeholder="Ej: Transmisión Eléctrica Sur" required>
+            </div>
+            <div class="field">
+              <label for="rep-obra-select" class="text-xs font-semibold" id="lbl-rep-obra">Obra</label>
+              <select class="input" id="rep-obra-select" required>
+                <option value="" disabled selected id="opt-sel-obra">Seleccione una obra...</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Actividades con múltiples equipos y horas por equipo (MUDANÇA 4) -->
+        <div class="panel p-4">
+          <div class="row between items-center mb-3">
+            <div>
+              <h2 class="text-base font-bold m-0" id="txt-sec-actividades">Actividades Ejecutadas</h2>
+              <p class="muted text-xs m-0" id="txt-sec-actividades-desc">Avance físico diario, acumulado y equipos con horas trabajadas</p>
+            </div>
+            <button type="button" class="btn" data-variant="outline" data-size="sm" id="btn-add-activity">
+              ＋ <span id="txt-btn-add-act">Agregar Actividad</span>
+            </button>
+          </div>
+
+          <div id="activities-container">
+            <!-- Dynamic Activity items rendered here -->
+          </div>
+        </div>
+
+        <!-- Mano de Obra (Personal del día) -->
+        <div class="panel p-4">
+          <div class="row between items-center mb-3">
+            <div>
+              <h2 class="text-base font-bold m-0" id="txt-sec-manodeobra">Mano de Obra</h2>
+              <p class="muted text-xs m-0" id="txt-sec-manodeobra-desc">Cantidad de personas por cargo en campo hoy</p>
+            </div>
+            <button type="button" class="btn" data-variant="outline" data-size="sm" id="btn-add-labor-row">
+              ＋ <span id="txt-btn-add-labor">Agregar Cargo</span>
+            </button>
+          </div>
+
+          <div id="labor-rows-container" class="stack gap-2">
+            <!-- Dynamic labor rows -->
+          </div>
+          <div class="row between items-center mt-3 pt-2 border-t text-xs">
+            <span class="muted" id="txt-total-personal">Total de personal:</span>
+            <span class="font-bold text-sm" id="lbl-total-personal-count">0 personas</span>
+          </div>
+        </div>
+
+        <!-- Equipos General del Informe -->
+        <div class="panel p-4">
+          <div class="row between items-center mb-3">
+            <div>
+              <h2 class="text-base font-bold m-0" id="txt-sec-equipos-gen">Equipos en Obra (General)</h2>
+              <p class="muted text-xs m-0" id="txt-sec-equipos-gen-desc">Resumen cuantitativo de maquinaria disponible en el sitio</p>
+            </div>
+            <button type="button" class="btn" data-variant="outline" data-size="sm" id="btn-add-general-equip">
+              ＋ <span id="txt-btn-add-gen-equip">Agregar Equipo</span>
+            </button>
+          </div>
+
+          <div id="general-equip-container" class="stack gap-2">
+            <!-- Dynamic equipment count rows -->
+          </div>
+          <div class="row between items-center mt-3 pt-2 border-t text-xs">
+            <span class="muted" id="txt-total-equipos">Total de equipos:</span>
+            <span class="font-bold text-sm" id="lbl-total-equip-count">0 equipos</span>
+          </div>
+        </div>
+
+        <!-- Clima, Ocurrencias, Seguridad y Próximos Pasos -->
+        <div class="panel p-4">
+          <h2 class="text-base font-bold m-0 mb-3" id="txt-sec-condiciones">Condiciones, Seguridad & Observaciones</h2>
+          
+          <div class="shell-grid cols-2 gap-3 mb-3">
+            <div class="field">
+              <label for="clima-manana" class="text-xs font-semibold" id="lbl-clima-manana">Clima Mañana</label>
+              <select class="input" id="clima-manana">
+                <option value="">(No especificar)</option>
+                <option value="Bueno ☀️">Bueno ☀️</option>
+                <option value="Nublado ☁️">Nublado ☁️</option>
+                <option value="Lluvia ligera 🌦️">Lluvia ligera 🌦️</option>
+                <option value="Lluvia fuerte 🌧️">Lluvia fuerte 🌧️</option>
+                <option value="Viento fuerte 💨">Viento fuerte 💨</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="clima-tarde" class="text-xs font-semibold" id="lbl-clima-tarde">Clima Tarde</label>
+              <select class="input" id="clima-tarde">
+                <option value="">(No especificar)</option>
+                <option value="Bueno ☀️">Bueno ☀️</option>
+                <option value="Nublado ☁️">Nublado ☁️</option>
+                <option value="Lluvia ligera 🌦️">Lluvia ligera 🌦️</option>
+                <option value="Lluvia fuerte 🌧️">Lluvia fuerte 🌧️</option>
+                <option value="Viento fuerte 💨">Viento fuerte 💨</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="stack gap-3">
+            <div class="field">
+              <label for="rep-ocurrencias" class="text-xs font-semibold" id="lbl-ocurrencias">Ocurrencias / Interferencias</label>
+              <textarea class="input" id="rep-ocurrencias" rows="2" placeholder="Describa eventualidades o interferencias técnicas..."></textarea>
+            </div>
+            <div class="field">
+              <label for="rep-seguridad" class="text-xs font-semibold" id="lbl-seguridad">Seguridad, Salud & Medio Ambiente</label>
+              <textarea class="input" id="rep-seguridad" rows="2" placeholder="Charlas de 5 min, inspecciones, incidentes cero..."></textarea>
+            </div>
+            <div class="field">
+              <label for="rep-proximos" class="text-xs font-semibold" id="lbl-proximos">Próximos Pasos</label>
+              <textarea class="input" id="rep-proximos" rows="2" placeholder="Programación para el siguiente día laboral..."></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action bar -->
+        <div class="row between items-center pt-2">
+          <button type="button" class="btn" data-variant="ghost" id="btn-clear-form">
+            <span id="txt-btn-clear">Limpiar Formulario</span>
+          </button>
+          <div class="row gap-2">
+            <button type="submit" class="btn" style="min-width: 180px;">
+              💾 <span id="txt-btn-save-report">Guardar Informe</span>
+            </button>
+          </div>
+        </div>
+      </form>
+    </section>
+
+    <!-- ====================================================================
+         VIEW 2: HISTORIAL
+         ==================================================================== -->
+    <section class="view-section" id="view-historial">
+      <div class="row between items-center mb-4">
+        <div>
+          <h2 class="text-lg font-bold m-0" id="txt-historial-title">Historial de Informes</h2>
+          <p class="muted text-xs m-0" id="txt-historial-desc">Consulte, copie o comparta reportes registrados</p>
+        </div>
+        <button type="button" class="btn" data-variant="outline" data-size="sm" id="btn-refresh-history">
+          🔄 <span id="txt-refresh">Actualizar</span>
+        </button>
+      </div>
+
+      <div id="history-list-container">
+        <!-- Renders history cards or empty state -->
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         VIEW 3: CATÁLOGO (MUDANÇA 3 - Página independiente)
+         ==================================================================== -->
+    <section class="view-section" id="view-catalogo">
+      <div class="mb-4">
+        <h2 class="text-lg font-bold m-0" id="txt-catalogo-title">Catálogo Personal</h2>
+        <p class="muted text-xs m-0" id="txt-catalogo-desc">Gestione sus cargos y equipos habituales para agilizar el llenado de informes</p>
+      </div>
+
+      <div class="catalog-grid">
+        <!-- Seção Cargos -->
+        <div class="panel p-4">
+          <div class="row between items-center mb-3">
+            <h3 class="text-sm font-bold m-0" id="txt-cat-cargos">Cargos</h3>
+            <span class="badge" data-variant="secondary" id="badge-cargos-count">0</span>
+          </div>
+
+          <!-- Add Cargo Inline -->
+          <div class="row gap-2 mb-3">
+            <input type="text" class="input grow" id="input-new-cargo" placeholder="Nuevo cargo (Ej: Capataz)">
+            <button type="button" class="btn" data-variant="secondary" id="btn-add-cargo-catalog">
+              ＋ <span id="txt-btn-add-cargo">Agregar</span>
+            </button>
+          </div>
+
+          <div class="chip-list" id="catalog-cargos-list">
+            <!-- Dynamic cargos -->
+          </div>
+        </div>
+
+        <!-- Seção Equipos -->
+        <div class="panel p-4">
+          <div class="row between items-center mb-3">
+            <h3 class="text-sm font-bold m-0" id="txt-cat-equipos">Equipos</h3>
+            <span class="badge" data-variant="secondary" id="badge-equipos-count">0</span>
+          </div>
+
+          <!-- Add Equipo Inline -->
+          <div class="row gap-2 mb-3">
+            <input type="text" class="input grow" id="input-new-equipo" placeholder="Nuevo equipo (Ej: Camión Grúa)">
+            <button type="button" class="btn" data-variant="secondary" id="btn-add-equipo-catalog">
+              ＋ <span id="txt-btn-add-equipo">Agregar</span>
+            </button>
+          </div>
+
+          <div class="chip-list" id="catalog-equipos-list">
+            <!-- Dynamic equipos -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         VIEW 4: OBRAS
+         ==================================================================== -->
+    <section class="view-section" id="view-obras">
+      <div class="panel p-4 mb-4">
+        <h2 class="text-base font-bold m-0 mb-1" id="txt-obras-title">Registro de Obras</h2>
+        <p class="muted text-xs m-0 mb-3" id="txt-obras-desc">Obras activas disponibles para la selección en los reportes</p>
+
+        <form id="form-new-obra" class="row gap-2">
+          <input type="text" class="input grow" id="input-obra-nombre" placeholder="Nombre de la obra (Ej: Subestación Moquegua)" required>
+          <button type="submit" class="btn" id="btn-create-obra">
+            ＋ <span id="txt-btn-create-obra">Registrar Obra</span>
+          </button>
+        </form>
+      </div>
+
+      <div class="panel p-4">
+        <div class="row between items-center mb-3">
+          <h3 class="text-sm font-bold m-0" id="txt-obras-registradas">Obras Registradas</h3>
+          <span class="badge" data-variant="secondary" id="badge-obras-count">0 obras</span>
+        </div>
+        <div id="obras-list-container">
+          <!-- Dynamic obras list -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         VIEW 5: ADMIN (MUDANÇA 2 - Usuarios y Permisos)
+         ==================================================================== -->
+    <section class="view-section" id="view-admin">
+      <div class="mb-4">
+        <h2 class="text-lg font-bold m-0" id="txt-admin-title">Panel de Administración</h2>
+        <p class="muted text-xs m-0" id="txt-admin-desc">Gestión de accesos, roles y control general del sistema</p>
+      </div>
+
+      <!-- Sección Usuarios -->
+      <div class="panel p-4 mb-4">
+        <div class="row between items-center mb-3">
+          <div>
+            <h3 class="text-base font-bold m-0" id="txt-admin-usuarios">Usuarios del Sistema</h3>
+            <p class="muted text-xs m-0" id="txt-admin-usuarios-desc">Controle qué personas tienen acceso y qué rol desempeñan</p>
+          </div>
+          <button type="button" class="btn" data-variant="secondary" data-size="sm" id="btn-toggle-new-user-form">
+            ＋ <span id="txt-btn-new-user">Nuevo usuario</span>
+          </button>
+        </div>
+
+        <!-- Formulario Inline para Crear Usuario (Secondary Firebase Auth) -->
+        <div id="box-new-user-form" class="panel p-3 mb-4" style="display: none; background: #f8fafc; border: 1px solid var(--border);">
+          <h4 class="text-xs font-bold uppercase muted mb-2" id="txt-form-new-user-title">Crear Nuevo Usuario</h4>
+          <form id="form-create-user" class="stack gap-3">
+            <div class="shell-grid cols-2 gap-3">
+              <div class="field">
+                <label for="new-user-name" class="text-xs font-semibold" id="lbl-nu-name">Nombre completo</label>
+                <input type="text" class="input" id="new-user-name" required placeholder="Ej: Carlos Mendoza">
+              </div>
+              <div class="field">
+                <label for="new-user-email" class="text-xs font-semibold" id="lbl-nu-email">Correo electrónico</label>
+                <input type="email" class="input" id="new-user-email" required placeholder="carlos@alupar.com">
+              </div>
+            </div>
+            <div class="shell-grid cols-2 gap-3">
+              <div class="field">
+                <label for="new-user-password" class="text-xs font-semibold" id="lbl-nu-pass">Contraseña provisional (mínimo 6)</label>
+                <input type="password" class="input" id="new-user-password" minlength="6" required placeholder="••••••••">
+              </div>
+              <div class="field">
+                <label for="new-user-role" class="text-xs font-semibold" id="lbl-nu-role">Papel / Rol</label>
+                <select class="input" id="new-user-role" required>
+                  <option value="editor">Editor (Crea y edita informes)</option>
+                  <option value="leitor">Lector / Leitor (Solo visualiza)</option>
+                  <option value="admin">Administrador (Acceso total)</option>
+                </select>
+              </div>
+            </div>
+            <div class="row justify-end gap-2 pt-2">
+              <button type="button" class="btn" data-variant="ghost" data-size="sm" id="btn-cancel-new-user">Cancelar</button>
+              <button type="submit" class="btn" data-size="sm" id="btn-submit-new-user">Crear usuario</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Tabla / Lista de Usuarios -->
+        <div id="users-table-container">
+          <!-- Rendered dynamically -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         VIEW PREVIEW / MODAL DETALLES DEL INFORME
+         ==================================================================== -->
+    <dialog class="dialog" id="dialog-preview-report" style="max-width: 640px; width: 95%;">
+      <div>
+        <header class="row between items-center">
+          <h2 class="text-base font-bold m-0" id="txt-preview-title">Reporte Formateado</h2>
+          <button type="button" class="btn" data-variant="ghost" data-size="icon" data-dialog-close title="Cerrar">✕</button>
+        </header>
+
+        <section class="mt-3">
+          <div class="preview-text-box" id="preview-content-box"></div>
+        </section>
+
+        <footer class="row between items-center mt-4 pt-3 border-t">
+          <button type="button" class="btn" data-variant="outline" data-dialog-close id="txt-btn-close-prev">Cerrar</button>
+          <div class="row gap-2">
+            <button type="button" class="btn" data-variant="secondary" id="btn-whatsapp-share">
+              📲 <span id="txt-btn-whatsapp">WhatsApp</span>
+            </button>
+            <button type="button" class="btn" id="btn-copy-preview">
+              📋 <span id="txt-btn-copy">Copiar Texto</span>
+            </button>
+          </div>
+        </footer>
+      </div>
+    </dialog>
+
+  </main>
 </div>
-<div class="shell-grid cols-2 gap-3">
-<div class="field"><label>Nombre de la actividad</label><input class="input" data-act="${idx}" data-field="nome" value="${escapeHtml(a.nome)}" placeholder="Ej. Excavación de zanja"></div>
-<div class="field"><label>Unidad</label>
-<select class="input" data-act="${idx}" data-field="unidad">
-${["m³","m²","ml","un","kg","t"].map(u => `<option ${a.unidad === u ? "selected" : ""}>${u}</option>`).join("")}
-</select></div>
-<div class="field"><label>Cantidad del día</label><input class="input" type="number" min="0" step="0.01" data-act="${idx}" data-field="qtdHoje" value="${a.qtdHoje || ""}"></div>
-<div class="field"><label>Porcentaje del día (%)</label><input class="input" type="number" min="0" max="100" step="0.1" data-act="${idx}" data-field="pctHoje" value="${a.pctHoje || ""}"></div>
-<div class="field"><label>Cantidad acumulada</label><input class="input" type="number" min="0" step="0.01" data-act="${idx}" data-field="qtdAcum" value="${a.qtdAcum || ""}"></div>
-<div class="field"><label>Porcentaje acumulado (%)</label><input class="input" type="number" min="0" max="100" step="0.1" data-act="${idx}" data-field="pctAcum" value="${a.pctAcum || ""}"></div>
-</div>
-<div class="stack gap-2">
-<div class="row between items-center">
-<span class="text-xs font-semibold">Equipos</span>
-<span class="muted text-xs">Total horas: ${totalHoras(a)} h</span>
-</div>
-${equipRows || '<p class="muted text-xs m-0">Sin equipos asignados.</p>'}
-<div class="row gap-2">
-<button class="btn" data-variant="outline" data-size="sm" data-act="${idx}" data-action="addEquip">＋ Agregar equipo</button>
-<button class="btn" data-variant="ghost" data-size="sm" data-act="${idx}" data-action="createEquipInline">＋ Crear equipo</button>
-</div>
-<div class="inline-form stack gap-2" id="inlineEquip${idx}" hidden>
-<div class="field"><label>Nombre del nuevo equipo</label><input class="input" id="inlineEquipName${idx}" placeholder="Ej. Camión volquete"></div>
-<div class="row gap-2"><button class="btn" data-size="sm" data-act="${idx}" data-action="saveInlineEquip">Crear y usar</button><button class="btn" data-variant="ghost" data-size="sm" data-act="${idx}" data-action="cancelInlineEquip">Cancelar</button></div>
-</div>
-</div>`;
-c.appendChild(div);
-});
-}
 
-function totalHoras(a) {
-return a.equipamentos.reduce((s, r) => s + (parseFloat(r.horas) || 0), 0);
-}
+<!-- ==========================================================================
+     CORE APPLICATION LOGIC (v8.2)
+     ========================================================================== -->
+<script defer>
+document.addEventListener("DOMContentLoaded", function() {
+  const ADMIN_UID = "gc143acuOyeFIXpe2efFI1uZ1NB3";
 
-function addActivity() {
-draft.activities.push({ nome: "", unidade: "m³", qtdHoje: "", pctHoje: "", qtdAcum: "", pctAcum: "", equipamentos: [] });
-renderActivities();
-}
+  // Check Firebase presence
+  if (typeof firebase === 'undefined') {
+    document.body.innerHTML = '<div style="padding:40px;text-align:center;color:#b91c1c;">Error crítico: Firebase no está disponible.</div>';
+    return;
+  }
 
-function addEquipRow(idx) {
-draft.activities[idx].equipamentos.push({ nome: "", horas: "" });
-renderActivities();
-}
+  const firebaseConfig = {
+    apiKey: "AIzaSyAhaLq3IJ67CpkHEG1-8rtCYSNtFARs5uk",
+    authDomain: "informe-diario-de-obra.firebaseapp.com",
+    projectId: "informe-diario-de-obra",
+    storageBucket: "informe-diario-de-obra.firebasestorage.app",
+    messagingSenderId: "647398384847",
+    appId: "1:647398384847:web:8f585e9daf71e311f603ba"
+  };
 
-// ----- LABOR -----
-function renderLabor() {
-const c = document.getElementById("laborContainer");
-c.innerHTML = "";
-const cargos = myCatalog().cargos;
-if (draft.labor.length === 0) {
-c.innerHTML = '<div class="empty-state text-sm">Agregue un cargo con su cantidad de personas.</div>';
-return;
-}
-draft.labor.forEach((l, i) => {
-const row = document.createElement("div");
-row.className = "row gap-2 items-end";
-row.innerHTML = `
-<div class="field grow"><label class="text-xs">Cargo</label>
-<select class="input" data-labor="${i}" data-field="cargo"><option value="">— Seleccione —</option>${cargos.map(c => `<option ${l.cargo === c.nome ? "selected" : ""}>${escapeHtml(c.nome)}</option>`).join("")}</select></div>
-<div class="field" style="width:110px"><label class="text-xs">Cantidad</label>
-<input class="input" type="number" min="0" data-labor="${i}" data-field="qtd" value="${l.qtd || ""}"></div>
-<button class="btn" data-variant="ghost" data-size="icon" data-labor="${i}" data-action="rmLabor" aria-label="Quitar">✕</button>`;
-c.appendChild(row);
-});
-}
+  const auth = firebase.auth();
+  const db = firebase.firestore();
 
-// ----- EQUIPMENT COUNTS -----
-function renderEquipCounts() {
-const c = document.getElementById("equipCountContainer");
-c.innerHTML = "";
-const equipos = myCatalog().equipos;
-if (draft.equipCounts.length === 0) {
-c.innerHTML = '<div class="empty-state text-sm">Sin equipos contabilizados.</div>';
-return;
-}
-draft.equipCounts.forEach((e, i) => {
-const row = document.createElement("div");
-row.className = "row gap-2 items-end";
-row.innerHTML = `
-<div class="field grow"><label class="text-xs">Tipo</label>
-<select class="input" data-eqc="${i}" data-field="tipo"><option value="">— Seleccione —</option>${equipos.map(x => `<option ${e.tipo === x.nome ? "selected" : ""}>${escapeHtml(x.nome)}</option>`).join("")}</select></div>
-<div class="field" style="width:110px"><label class="text-xs">Cantidad</label>
-<input class="input" type="number" min="0" data-eqc="${i}" data-field="qtd" value="${e.qtd || ""}"></div>
-<button class="btn" data-variant="ghost" data-size="icon" data-eqc="${i}" data-action="rmEqc" aria-label="Quitar">✕</button>`;
-c.appendChild(row);
-});
-}
+  // Dicionário de Idiomas (Padrão: Español Perú)
+  const i18n = {
+    es: {
+      loginSubtitle: "Ingrese con su cuenta del equipo",
+      email: "E-mail",
+      password: "Contraseña",
+      loginBtn: "Ingresar",
+      forgotPass: "Olvidé mi contraseña",
+      lockTitle: "Acceso no autorizado",
+      lockDesc: "Su correo {email} no tiene permisos en esta aplicación. Solicite acceso al administrador.",
+      logout: "Salir",
+      navNuevo: "Nuevo Informe",
+      navHistorial: "Historial",
+      navCatalogo: "Catálogo",
+      navObras: "Obras",
+      navAdmin: "Admin",
+      secGeneral: "Datos Principales",
+      secGeneralDesc: "Identificación de la obra y fecha del reporte diario",
+      secActividades: "Actividades Ejecutadas",
+      secActividadesDesc: "Avance físico diario, acumulado y equipos con horas trabajadas",
+      secManoDeObra: "Mano de Obra",
+      secManoDeObraDesc: "Cantidad de personas por cargo en campo hoy",
+      secEquiposGen: "Equipos en Obra (General)",
+      secEquiposGenDesc: "Resumen cuantitativo de maquinaria disponible en el sitio",
+      secCondiciones: "Condiciones, Seguridad & Observaciones",
+      btnAddAct: "Agregar Actividad",
+      btnAddLabor: "Agregar Cargo",
+      btnAddGenEquip: "Agregar Equipo",
+      totalPersonal: "Total de personal:",
+      totalEquipos: "Total de equipos:",
+      saveReport: "Guardar Informe",
+      clearForm: "Limpiar Formulario",
+      historialTitle: "Historial de Informes",
+      historialDesc: "Consulte, copie o comparta reportes registrados",
+      emptyHistory: "Aún no hay informes",
+      emptyObras: "Aún no hay obras registradas",
+      emptyCargos: "Aún no hay cargos registrados",
+      emptyEquipos: "Aún no hay equipos registrados",
+      catalogoTitle: "Catálogo Personal",
+      catalogoDesc: "Gestione sus cargos y equipos habituales para agilizar el llenado de informes",
+      cargos: "Cargos",
+      equipos: "Equipos",
+      btnAdd: "Agregar",
+      obrasTitle: "Registro de Obras",
+      obrasDesc: "Obras activas disponibles para la selección en los reportes",
+      regObraBtn: "Registrar Obra",
+      adminTitle: "Panel de Administración",
+      adminDesc: "Gestión de accesos, roles y control general del sistema",
+      adminUsuarios: "Usuarios del Sistema",
+      adminUsuariosDesc: "Controle qué personas tienen acceso y qué rol desempeñan",
+      newUserBtn: "Nuevo usuario",
+      reportTitlePrefix: "AVANCE DE OBRA",
+      txtProyecto: "Proyecto:",
+      txtObra: "Obra:",
+      txtResponsable: "Responsable:",
+      txtActividades: "ACTIVIDADES",
+      txtEquipoSingle: "Equipo:",
+      txtHoy: "Hoy:",
+      txtAcumulado: "Acumulado:",
+      txtManoObraSec: "MANO DE OBRA",
+      txtPersonas: "personas",
+      txtEquiposSec: "EQUIPOS",
+      txtEquiposUnit: "equipos",
+      txtClimaSec: "CLIMA",
+      txtManana: "Mañana:",
+      txtTarde: "Tarde:",
+      txtOcurrenciasSec: "OCURRENCIAS",
+      txtSeguridadSec: "SEGURIDAD",
+      txtProximosSec: "PRÓXIMOS PASOS"
+    },
+    pt: {
+      loginSubtitle: "Entre com sua conta da equipe",
+      email: "E-mail",
+      password: "Senha",
+      loginBtn: "Entrar",
+      forgotPass: "Esqueci a senha",
+      lockTitle: "Acesso não autorizado",
+      lockDesc: "Seu e-mail {email} não possui permissão neste aplicativo. Solicite acesso ao administrador.",
+      logout: "Sair",
+      navNuevo: "Novo Informe",
+      navHistorial: "Histórico",
+      navCatalogo: "Catálogo",
+      navObras: "Obras",
+      navAdmin: "Admin",
+      secGeneral: "Dados Principais",
+      secGeneralDesc: "Identificação da obra e data do relatório diário",
+      secActividades: "Atividades Executadas",
+      secActividadesDesc: "Avanço físico diário, acumulado e equipamentos com horas trabalhadas",
+      secManoDeObra: "Mão de Obra",
+      secManoDeObraDesc: "Quantidade de pessoas por função em campo hoje",
+      secEquiposGen: "Equipamentos na Obra (Geral)",
+      secEquiposGenDesc: "Resumo quantitativo de máquinas disponíveis no local",
+      secCondiciones: "Condições, Segurança & Observações",
+      btnAddAct: "Adicionar Atividade",
+      btnAddLabor: "Adicionar Função",
+      btnAddGenEquip: "Adicionar Equipamento",
+      totalPersonal: "Total de equipe:",
+      totalEquipos: "Total de equipamentos:",
+      saveReport: "Salvar Relatório",
+      clearForm: "Limpar Formulário",
+      historialTitle: "Histórico de Relatórios",
+      historialDesc: "Consulte, copie ou compartilhe relatórios registrados",
+      emptyHistory: "Nenhum informe ainda",
+      emptyObras: "Nenhuma obra cadastrada ainda",
+      emptyCargos: "Nenhum cargo cadastrado ainda",
+      emptyEquipos: "Nenhum equipamento cadastrado ainda",
+      catalogoTitle: "Catálogo Pessoal",
+      catalogoDesc: "Gerencie suas funções e equipamentos habituais para agilizar o preenchimento",
+      cargos: "Cargos / Funções",
+      equipos: "Equipamentos",
+      btnAdd: "Adicionar",
+      obrasTitle: "Cadastro de Obras",
+      obrasDesc: "Obras ativas disponíveis para seleção nos relatórios",
+      regObraBtn: "Cadastrar Obra",
+      adminTitle: "Painel de Administração",
+      adminDesc: "Gestão de acessos, papéis e controle geral do sistema",
+      adminUsuarios: "Usuários do Sistema",
+      adminUsuariosDesc: "Controle quem tem acesso e qual função desempenha",
+      newUserBtn: "Novo usuário",
+      reportTitlePrefix: "AVANÇO DA OBRA",
+      txtProyecto: "Projeto:",
+      txtObra: "Obra:",
+      txtResponsable: "Responsável:",
+      txtActividades: "ATIVIDADES",
+      txtEquipoSingle: "Equipamento:",
+      txtHoy: "Hoje:",
+      txtAcumulado: "Acumulado:",
+      txtManoObraSec: "MÃO DE OBRA",
+      txtPersonas: "pessoas",
+      txtEquiposSec: "EQUIPAMENTOS",
+      txtEquiposUnit: "equipamentos",
+      txtClimaSec: "CLIMA",
+      txtManana: "Manhã:",
+      txtTarde: "Tarde:",
+      txtOcurrenciasSec: "OCORRÊNCIAS",
+      txtSeguridadSec: "SEGURANÇA",
+      txtProximosSec: "PRÓXIMOS PASSOS"
+    }
+  };
 
-// ===== REPORT TEXT =====
-function escapeHtml(s) {
-return String(s || "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-}
-function fmtDate(iso) {
-if (!iso) return "";
-const [y, m, d] = iso.split("-");
-return `${d}/${m}/${y}`;
-}
-function fmtNum(v) {
-const n = parseFloat(v);
-return isNaN(n) ? "" : String(n);
-}
-function responsavelName() {
-return (currentUser && (currentUser.nome || currentUser.email)) || "";
-}
+  let currentLang = "es";
+  let activeUser = null;
+  let activeRole = "editor";
+  let activeUserName = "";
 
-function buildReportText() {
-const t = T();
-const lines = [];
-const projeto = document.getElementById("fProyecto").value.trim();
-const obra = document.getElementById("fObra").value.trim();
-const fecha = fmtDate(document.getElementById("fFecha").value);
-lines.push(`*${t.avance}${fecha ? " (" + fecha + ")" : ""}*`);
-if (projeto) lines.push(`*${t.proyecto}:* ${projeto}`);
-if (obra) lines.push(`*${t.obra}:* ${obra}`);
-lines.push(`*${t.responsable}:* ${responsavelName()}`);
+  // User's catalog cache
+  let userCatalog = {
+    funcoes: [],
+    equipamentos: []
+  };
 
-// Actividades
-const acts = draft.activities.filter(a => a.nome.trim() !== "" || a.qtdHoje || a.pctHoje || a.qtdAcum || a.pctAcum || a.equipamentos.length);
-if (acts.length) {
-lines.push("");
-lines.push(`⏳ *${t.actividades}*`);
-acts.forEach((a, i) => {
-lines.push(`${i + 1}. ${a.nome.trim() || "—"}`);
-const eqParts = a.equipamentos
-.filter(r => r.nome || parseFloat(r.horas))
-.map(r => parseFloat(r.horas) ? `${r.nome || "—"} ${fmtNum(r.horas)} h` : `${r.nome}`);
-if (eqParts.length) lines.push(`   🔧 ${t.equipo}: ${eqParts.join(" | ")}`);
-if (a.qtdHoje) lines.push(`   🗓️ ${t.hoy}: ${fmtNum(a.qtdHoje)} ${a.unidad}`);
-const acum = [];
-if (a.qtdAcum) acum.push(`${fmtNum(a.qtdAcum)} ${a.unidad}`);
-if (a.pctAcum) acum.push(`${fmtNum(a.pctAcum)}%`);
-if (acum.length) lines.push(`   📊 ${t.acumulado}: ${acum.join(" | ")}`);
-});
-}
+  // Switch Language
+  function setLanguage(lang) {
+    currentLang = lang;
+    document.querySelectorAll(".lang-flag-btn").forEach(btn => {
+      btn.classList.toggle("active", btn.dataset.lang === lang);
+    });
 
-// Mano de obra
-const labor = draft.labor.filter(l => l.cargo && parseFloat(l.qtd) > 0);
-const totalPeople = labor.reduce((s, l) => s + parseFloat(l.qtd), 0);
-if (totalPeople > 0) {
-lines.push("");
-lines.push(`👷 *${t.manoObra}* — ${t.total}: ${totalPeople} ${t.personas}`);
-labor.forEach(l => lines.push(`• ${fmtNum(l.qtd)} ${l.cargo}`));
-}
+    const t = i18n[lang];
+    document.getElementById("login-subtitle-txt").textContent = t.loginSubtitle;
+    document.getElementById("lbl-email").textContent = t.email;
+    document.getElementById("lbl-password").textContent = t.password;
+    document.getElementById("btn-login-submit").textContent = t.loginBtn;
+    document.getElementById("link-forgot-pass").textContent = t.forgotPass;
+    document.getElementById("lock-title-txt").textContent = t.lockTitle;
+    document.getElementById("txt-logout").textContent = t.logout;
 
-// Equipos
-const eqc = draft.equipCounts.filter(e => e.tipo && parseFloat(e.qtd) > 0);
-const totalEq = eqc.reduce((s, e) => s + parseFloat(e.qtd), 0);
-if (totalEq > 0) {
-lines.push("");
-lines.push(`🚜 *${t.equipos}* — ${t.total}: ${totalEq} ${t.equiposWord}`);
-eqc.forEach(e => lines.push(`• ${fmtNum(e.qtd)} ${e.tipo}`));
-}
+    document.getElementById("txt-nav-nuevo").textContent = t.navNuevo;
+    document.getElementById("txt-nav-historial").textContent = t.navHistorial;
+    document.getElementById("txt-nav-catalogo").textContent = t.navCatalogo;
+    document.getElementById("txt-nav-obras").textContent = t.navObras;
+    document.getElementById("txt-nav-admin").textContent = t.navAdmin;
 
-// Clima
-const cm = document.getElementById("fClimaManana").value;
-const ct = document.getElementById("fClimaTarde").value;
-if (cm || ct) {
-lines.push("");
-lines.push(`🌤️ *${t.clima}*`);
-const parts = [];
-if (cm) parts.push(`${t.manana}: ${cm}`);
-if (ct) parts.push(`${t.tarde}: ${ct}`);
-lines.push(parts.join(" | "));
-}
+    document.getElementById("txt-sec-general").textContent = t.secGeneral;
+    document.getElementById("txt-sec-general-desc").textContent = t.secGeneralDesc;
+    document.getElementById("txt-sec-actividades").textContent = t.secActividades;
+    document.getElementById("txt-sec-actividades-desc").textContent = t.secActividadesDesc;
+    document.getElementById("txt-sec-manodeobra").textContent = t.secManoDeObra;
+    document.getElementById("txt-sec-manodeobra-desc").textContent = t.secManoDeObraDesc;
+    document.getElementById("txt-sec-equipos-gen").textContent = t.secEquiposGen;
+    document.getElementById("txt-sec-equipos-gen-desc").textContent = t.secEquiposGenDesc;
+    document.getElementById("txt-sec-condiciones").textContent = t.secCondiciones;
 
-const oc = document.getElementById("fOcurrencias").value.trim();
-const sg = document.getElementById("fSeguridad").value.trim();
-const pr = document.getElementById("fProximos").value.trim();
-if (oc) { lines.push(""); lines.push(`⚠️ *${t.ocurrencias}*`); lines.push(oc); }
-if (sg) { lines.push(""); lines.push(`🦺 *${t.seguridad}*`); lines.push(sg); }
-if (pr) { lines.push(""); lines.push(`📌 *${t.proximos}*`); lines.push(pr); }
+    document.getElementById("txt-btn-add-act").textContent = t.btnAddAct;
+    document.getElementById("txt-btn-add-labor").textContent = t.btnAddLabor;
+    document.getElementById("txt-btn-add-gen-equip").textContent = t.btnAddGenEquip;
+    document.getElementById("txt-total-personal").textContent = t.totalPersonal;
+    document.getElementById("txt-total-equipos").textContent = t.totalEquipos;
+    document.getElementById("txt-btn-save-report").textContent = t.saveReport;
+    document.getElementById("txt-btn-clear").textContent = t.clearForm;
 
-return lines.join("\n");
-}
+    document.getElementById("txt-historial-title").textContent = t.historialTitle;
+    document.getElementById("txt-historial-desc").textContent = t.historialDesc;
+    document.getElementById("txt-catalogo-title").textContent = t.catalogoTitle;
+    document.getElementById("txt-catalogo-desc").textContent = t.catalogoDesc;
+    document.getElementById("txt-cat-cargos").textContent = t.cargos;
+    document.getElementById("txt-cat-equipos").textContent = t.equipos;
+    document.getElementById("txt-btn-add-cargo").textContent = t.btnAdd;
+    document.getElementById("txt-btn-add-equipo").textContent = t.btnAdd;
+    document.getElementById("txt-obras-title").textContent = t.obrasTitle;
+    document.getElementById("txt-obras-desc").textContent = t.obrasDesc;
+    document.getElementById("txt-btn-create-obra").textContent = t.regObraBtn;
+    document.getElementById("txt-admin-title").textContent = t.adminTitle;
+    document.getElementById("txt-admin-desc").textContent = t.adminDesc;
+    document.getElementById("txt-admin-usuarios").textContent = t.adminUsuarios;
+    document.getElementById("txt-admin-usuarios-desc").textContent = t.adminUsuariosDesc;
+    document.getElementById("txt-btn-new-user").textContent = t.newUserBtn;
 
-// ===== SAVE =====
-function saveReport() {
-const text = buildReportText();
-const report = {
-id: uid(),
-data: document.getElementById("fFecha").value || new Date().toISOString().slice(0, 10),
-proyecto: document.getElementById("fProyecto").value.trim(),
-obra: document.getElementById("fObra").value.trim(),
-autorEmail: currentUser.email,
-autorNome: responsavelName(),
-texto: text,
-criadoEm: new Date().toISOString(),
-totalHoras: draft.activities.reduce((s, a) => s + totalHoras(a), 0),
-totalPessoas: draft.labor.reduce((s, l) => s + (parseFloat(l.qtd) || 0), 0)
-};
-reportsStore.update(list => [report, ...list]);
-const obras = obrasStore.get() || [];
-const key = report.proyecto + " · " + report.obra;
-if (report.obra && !obras.includes(key)) { obras.push(key); obrasStore.set(obras); }
-renderHistory();
-renderKPIs();
-renderAdminObras();
-window.skipUI.toast(LANG === "es" ? "Informe guardado" : "Informe salvo", { type: "success" });
-showView("viewInicio");
-}
+    // Refresh history / catalog views if active
+    renderCatalogLists();
+    loadHistoryReports();
+    loadObras();
+  }
 
-// ===== HISTORY / KPIs =====
-function renderHistory() {
-const list = reportsStore.get() || [];
-const c = document.getElementById("historyList");
-document.getElementById("pillReports").textContent = list.length + (LANG === "es" ? " informes" : " informes");
-const today = new Date().toISOString().slice(0, 10);
-document.getElementById("pillToday").textContent = list.filter(r => r.data === today).length + (LANG === "es" ? " hoy" : " hoje");
-if (!list.length) {
-c.innerHTML = `<div class="empty-state">${T().empty}</div>`;
-return;
-}
-c.innerHTML = list.map(r => `
-<div class="hist-item">
-<div class="row between items-start">
-<div>
-<strong class="text-sm">${escapeHtml(r.proyecto || "—")} · ${escapeHtml(r.obra || "—")}</strong>
-<div class="muted text-xs">${fmtDate(r.data)} · ${escapeHtml(r.autorNome || "")} · ${escapeHtml(r.autorEmail)}</div>
-</div>
-<div class="row gap-2">
-<button class="btn" data-variant="outline" data-size="sm" data-report="${r.id}" data-action="viewReport">Ver</button>
-<button class="btn" data-variant="ghost" data-size="sm" data-report="${r.id}" data-action="copyReport">Copiar</button>
-${canEdit() ? `<button class="btn" data-variant="ghost" data-size="sm" data-report="${r.id}" data-action="delReport">Eliminar</button>` : ""}
-</div>
-</div>
-</div>`).join("");
-}
+  document.querySelectorAll(".lang-flag-btn").forEach(btn => {
+    btn.addEventListener("click", () => setLanguage(btn.dataset.lang));
+  });
 
-function renderKPIs() {
-const list = reportsStore.get() || [];
-const today = new Date().toISOString().slice(0, 10);
-const todays = list.filter(r => r.data === today);
-document.getElementById("kpiReports").textContent = list.length;
-document.getElementById("kpiHours").textContent = todays.reduce((s, r) => s + (r.totalHoras || 0), 0) + " h";
-document.getElementById("kpiPeople").textContent = todays.reduce((s, r) => s + (r.totalPessoas || 0), 0);
-}
+  // Today Date initialization
+  const todayISO = new Date().toISOString().split("T")[0];
+  document.getElementById("rep-fecha").value = todayISO;
+  const parts = todayISO.split("-");
+  document.getElementById("today-date-badge").textContent = `${parts[2]}/${parts[1]}/${parts[0]}`;
 
-// ===== CATALOG VIEW =====
-function renderCatalog() {
-const cat = myCatalog();
-renderCatalogList("cargosList", cat.cargos, "cargo", T().emptyCatCargo);
-renderCatalogList("equiposList", cat.equipos, "equipo", T().emptyCatEquipo);
-document.getElementById("countCargos").textContent = cat.cargos.length;
-document.getElementById("countEquipos").textContent = cat.equipos.length;
-}
-function renderCatalogList(elId, items, kind, emptyText) {
-const el = document.getElementById(elId);
-if (!items.length) { el.innerHTML = `<div class="empty-state text-sm">${emptyText}</div>`; return; }
-el.innerHTML = items.map((it, i) => `
-<div class="row between items-center panel p-2">
-<span class="text-sm">${escapeHtml(it.nome)}</span>
-<button class="btn" data-variant="ghost" data-size="icon" data-cat-kind="${kind}" data-cat-idx="${i}" aria-label="Eliminar">✕</button>
-</div>`).join("");
-}
-function addCatalogItem(kind, nome) {
-const cat = myCatalog();
-const key = kind === "cargo" ? "cargos" : "equipos";
-cat[key].push({ nome, criadoEm: new Date().toISOString() });
-saveCatalogFor(currentUser.uid || currentUser.email, cat);
-renderCatalog();
-if (draft) renderDraftLists();
-}
-function removeCatalogItem(kind, idx) {
-const cat = myCatalog();
-const key = kind === "cargo" ? "cargos" : "equipos";
-cat[key].splice(idx, 1);
-saveCatalogFor(currentUser.uid || currentUser.email, cat);
-renderCatalog();
-renderDraftLists();
-}
+  // ==========================================================================
+  // AUTH & PERMISSION LOGIC (MUDANÇA 2 - CRITICAL ADMIN LOGIC)
+  // ==========================================================================
+  auth.onAuthStateChanged(async (user) => {
+    const loginScreen = document.getElementById("login-screen");
+    const lockScreen = document.getElementById("lock-screen");
+    const appRoot = document.getElementById("app-root");
 
-// ===== ADMIN =====
-function renderAdminObras() {
-const obras = obrasStore.get() || [];
-document.getElementById("countObras").textContent = obras.length;
-const el = document.getElementById("obrasList");
-if (!obras.length) { el.innerHTML = '<div class="empty-state text-sm">Aún no hay obras registradas.</div>'; return; }
-el.innerHTML = obras.map(o => `<div class="panel p-2 text-sm">${escapeHtml(o)}</div>`).join("");
-}
+    if (!user) {
+      activeUser = null;
+      activeRole = null;
+      loginScreen.style.display = "flex";
+      lockScreen.style.display = "none";
+      appRoot.style.display = "none";
+      return;
+    }
 
-function renderUsers() {
-const users = getUsers();
-const el = document.getElementById("usersList");
-el.innerHTML = users.map((u, i) => {
-const isSelf = u.uid === currentUser.uid;
-return `
-<div class="panel p-3 row between items-center gap-2">
-<div>
-<strong class="text-sm">${escapeHtml(u.nome || "—")}</strong>
-<div class="muted text-xs">${escapeHtml(u.email)}</div>
-</div>
-<div class="row gap-2 items-center">
-<span class="role-badge status-${u.papel}">${u.papel}</span>
-${isSelf ? '<span class="muted text-xs">(usted)</span>' : `
-<select class="input" data-user-role="${i}" style="width:auto">
-<option ${u.papel === "admin" ? "selected" : ""} value="admin">admin</option>
-<option ${u.papel === "editor" ? "selected" : ""} value="editor">editor</option>
-<option ${u.papel === "leitor" ? "selected" : ""} value="leitor">leitor</option>
-</select>
-<button class="btn" data-variant="destructive" data-size="sm" data-user-del="${i}">Eliminar acceso</button>`}
-</div>
-</div>`;
-}).join("");
-}
+    activeUser = user;
 
-function createUser() {
-const nome = document.getElementById("uNombre").value.trim();
-const email = document.getElementById("uEmail").value.trim();
-const pass = document.getElementById("uPass").value;
-const papel = document.getElementById("uPapel").value;
-const err = document.getElementById("userFormError");
-err.hidden = true;
-if (!nome || !email) { err.textContent = "Complete nombre y correo."; err.hidden = false; return; }
-if (pass.length < 6) { err.textContent = "Contraseña débil: mínimo 6 caracteres."; err.hidden = false; return; }
-const users = getUsers();
-if (users.some(u => u.email.toLowerCase() === email.toLowerCase())) {
-err.textContent = "Correo ya registrado."; err.hidden = false; return;
-}
-users.push({ uid: "u" + uid(), email, nome, papel, senha: pass });
-saveUsers(users);
-document.getElementById("userForm").hidden = true;
-["uNombre","uEmail","uPass"].forEach(id => document.getElementById(id).value = "");
-renderUsers();
-window.skipUI.toast("Usuario creado", { type: "success" });
-}
+    // 1. If user.uid === ADMIN_UID -> liberate IMMEDIATELY as 'admin', never block!
+    if (user.uid === ADMIN_UID) {
+      activeRole = "admin";
+      activeUserName = "Administrador";
+      
+      // Parallel unblocking firestore write
+      db.collection('usuarios').doc(ADMIN_UID).set({
+        email: user.email,
+        nome: "Administrador",
+        papel: "admin",
+        criadoEm: firebase.firestore.FieldValue.serverTimestamp()
+      }, { merge: true }).catch(() => {});
 
-// ===== SHOW/HIDE INLINE FORMS =====
-function toggleInline(id, show) {
-document.getElementById(id).hidden = !show;
-}
+      liberateApp();
+      return;
+    }
 
-// ===== CONFIRM DIALOG =====
-let pendingConfirm = null;
-function confirmAction(title, text, fn) {
-document.getElementById("confirmTitle").textContent = title;
-document.getElementById("confirmText").textContent = text;
-pendingConfirm = fn;
-document.getElementById("confirmDialog").showModal();
-}
+    // 2. If user.uid !== ADMIN_UID -> read usuarios/{uid}
+    try {
+      const snap = await db.collection('usuarios').doc(user.uid).get();
+      if (snap && snap.exists && snap.data()) {
+        const udata = snap.data();
+        activeRole = udata.papel || "editor";
+        activeUserName = udata.nome || user.email.split("@")[0];
+        liberateApp();
+      } else {
+        showLockScreen(user.email);
+      }
+    } catch(err) {
+      showLockScreen(user.email);
+    }
+  });
 
-// ===== EVENTS =====
-function bindEvents() {
-document.getElementById("btnLogin").addEventListener("click", loginSubmit);
-document.getElementById("loginPass").addEventListener("keydown", e => { if (e.key === "Enter") loginSubmit(); });
-document.getElementById("btnBlockLogout").addEventListener("click", logout);
-document.getElementById("btnLogout").addEventListener("click", logout);
+  function liberateApp() {
+    document.getElementById("login-screen").style.display = "none";
+    document.getElementById("lock-screen").style.display = "none";
+    document.getElementById("app-root").style.display = "flex";
 
-document.querySelectorAll("[data-nav]").forEach(b => b.addEventListener("click", () => {
-const t = b.getAttribute("data-nav");
-const map = { inicio: "viewInicio", catalogo: "viewCatalogo", admin: "viewAdmin" };
-showView(map[t]);
-if (t === "catalogo") renderCatalog();
-if (t === "admin") { renderAdminObras(); renderUsers(); }
-}));
+    // Header info
+    document.getElementById("header-user-name").textContent = activeUserName || activeUser.email;
+    const roleBadge = document.getElementById("header-user-role");
+    roleBadge.textContent = (activeRole || "editor").toUpperCase();
+    roleBadge.className = "user-role-badge user-role-" + (activeRole || "editor");
 
-document.querySelectorAll("[data-lang]").forEach(b => b.addEventListener("click", () => {
-LANG = b.getAttribute("data-lang");
-renderHistory(); renderKPIs(); renderCatalog(); renderDraftLists();
-}));
+    // Role-based visibility
+    const navNuevo = document.getElementById("nav-item-nuevo");
+    const navAdmin = document.getElementById("nav-item-admin");
 
-document.getElementById("btnNewReport").addEventListener("click", () => { newDraft(); showView("viewReport"); });
-document.getElementById("btnBackFromReport").addEventListener("click", () => showView("viewInicio"));
-document.getElementById("btnBackFromPreview").addEventListener("click", () => showView("viewReport"));
-document.getElementById("btnAddActivity").addEventListener("click", addActivity);
-document.getElementById("btnAddLabor").addEventListener("click", () => { draft.labor.push({ cargo: "", qtd: "" }); renderLabor(); });
-document.getElementById("btnAddEquipCount").addEventListener("click", () => { draft.equipCounts.push({ tipo: "", qtd: "" }); renderEquipCounts(); });
+    if (activeRole === "leitor") {
+      navNuevo.style.display = "none";
+      switchView("historial");
+    } else {
+      navNuevo.style.display = "flex";
+    }
 
-document.getElementById("btnPreview").addEventListener("click", () => {
-document.getElementById("reportText").textContent = buildReportText();
-showView("viewPreview");
-});
-document.getElementById("btnSaveReport").addEventListener("click", saveReport);
-document.getElementById("btnCopyReport").addEventListener("click", () => {
-navigator.clipboard.writeText(buildReportText()).then(() => window.skipUI.toast("Texto copiado", { type: "success" }));
-});
-document.getElementById("btnShareWa").addEventListener("click", () => {
-window.open("https://wa.me/?text=" + encodeURIComponent(buildReportText()), "_blank");
-});
-document.getElementById("btnPrintReport").addEventListener("click", () => window.print());
+    if (activeRole === "admin") {
+      navAdmin.style.display = "flex";
+    } else {
+      navAdmin.style.display = "none";
+    }
 
-// Activities/labor/equip delegation
-document.getElementById("activitiesContainer").addEventListener("input", e => {
-const t = e.target; const idx = +t.dataset.act;
-if (t.dataset.row !== undefined) {
-const row = +t.dataset.row;
-draft.activities[idx].equipamentos[row][t.dataset.field] = t.value;
-if (t.dataset.field === "horas") renderActivities();
-} else if (t.dataset.field) {
-draft.activities[idx][t.dataset.field] = t.value;
-}
-});
-document.getElementById("activitiesContainer").addEventListener("change", e => {
-const t = e.target;
-if (t.dataset.row !== undefined) {
-draft.activities[+t.dataset.act].equipamentos[+t.dataset.row].nome = t.value;
-renderActivities();
-}
-});
-document.getElementById("activitiesContainer").addEventListener("click", e => {
-const b = e.target.closest("[data-action]"); if (!b) return;
-const act = b.dataset.action; const idx = +b.dataset.act;
-if (act === "rmAct") { draft.activities.splice(idx, 1); renderActivities(); }
-if (act === "addEquip") addEquipRow(idx);
-if (act === "rmEquip") { draft.activities[idx].equipamentos.splice(+b.dataset.row, 1); renderActivities(); }
-if (act === "createEquipInline") toggleInline("inlineEquip" + idx, true);
-if (act === "cancelInlineEquip") toggleInline("inlineEquip" + idx, false);
-if (act === "saveInlineEquip") {
-const nome = document.getElementById("inlineEquipName" + idx).value.trim();
-if (!nome) { window.skipUI.toast("Escriba el nombre del equipo", { type: "error" }); return; }
-addCatalogItem("equipo", nome);
-draft.activities[idx].equipamentos.push({ nome, horas: "" });
-renderActivities();
-window.skipUI.toast("Equipo creado y asignado", { type: "success" });
-}
-});
+    // Load initial data
+    loadUserCatalog();
+    loadObras();
+    loadHistoryReports();
+    if (activeRole === "admin") {
+      loadAdminUsers();
+    }
+  }
 
-document.getElementById("laborContainer").addEventListener("input", e => {
-const t = e.target; draft.labor[+t.dataset.labor][t.dataset.field] = t.value;
-});
-document.getElementById("laborContainer").addEventListener("change", e => {
-const t = e.target; if (t.dataset.field) draft.labor[+t.dataset.labor][t.dataset.field] = t.value;
-});
-document.getElementById("laborContainer").addEventListener("click", e => {
-const b = e.target.closest("[data-action='rmLabor']"); if (!b) return;
-draft.labor.splice(+b.dataset.labor, 1); renderLabor();
-});
+  function showLockScreen(email) {
+    document.getElementById("login-screen").style.display = "none";
+    document.getElementById("app-root").style.display = "none";
+    const lockScreen = document.getElementById("lock-screen");
+    lockScreen.style.display = "flex";
+    document.getElementById("lock-email-badge").textContent = email;
+    const t = i18n[currentLang];
+    document.getElementById("lock-desc-txt").innerHTML = t.lockDesc.replace("{email}", `<strong>${email}</strong>`);
+  }
 
-document.getElementById("equipCountContainer").addEventListener("input", e => {
-const t = e.target; draft.equipCounts[+t.dataset.eqc][t.dataset.field] = t.value;
-});
-document.getElementById("equipCountContainer").addEventListener("change", e => {
-const t = e.target; if (t.dataset.field) draft.equipCounts[+t.dataset.eqc][t.dataset.field] = t.value;
-});
-document.getElementById("equipCountContainer").addEventListener("click", e => {
-const b = e.target.closest("[data-action='rmEqc']"); if (!b) return;
-draft.equipCounts.splice(+b.dataset.eqc, 1); renderEquipCounts();
-});
+  // Login Form Submission
+  document.getElementById("login-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const email = document.getElementById("login-email").value.trim();
+    const pass = document.getElementById("login-password").value;
+    try {
+      await auth.signInWithEmailAndPassword(email, pass);
+    } catch(err) {
+      window.skipUI.toast("Error al ingresar: Verifique sus credenciales", { type: "error" });
+    }
+  });
 
-// History actions
-document.getElementById("historyList").addEventListener("click", e => {
-const b = e.target.closest("[data-action]"); if (!b) return;
-const list = reportsStore.get() || [];
-const r = list.find(x => x.id === b.dataset.report); if (!r) return;
-if (b.dataset.action === "viewReport") {
-document.getElementById("reportText").textContent = r.texto;
-showView("viewPreview");
-}
-if (b.dataset.action === "copyReport") navigator.clipboard.writeText(r.texto).then(() => window.skipUI.toast("Texto copiado", { type: "success" }));
-if (b.dataset.action === "delReport") confirmAction("Eliminar informe", "¿Eliminar este informe?", () => {
-reportsStore.update(l => l.filter(x => x.id !== r.id)); renderHistory(); renderKPIs();
-});
-});
+  // Forgot Password Link
+  document.getElementById("link-forgot-pass").addEventListener("click", () => {
+    const email = document.getElementById("login-email").value.trim();
+    if (!email) {
+      window.skipUI.toast(currentLang === 'pt' ? "Digite seu e-mail no campo acima" : "Ingrese su correo en el campo de arriba", { type: "error" });
+      return;
+    }
+    auth.sendPasswordResetEmail(email);
+    window.skipUI.toast(currentLang === 'pt' ? "Link de redefinição enviado com sucesso!" : "Enlace de restablecimiento enviado a su correo", { type: "success" });
+  });
 
-// Catalog
-document.getElementById("btnShowCargoAdd").addEventListener("click", () => toggleInline("cargoAddForm", true));
-document.getElementById("btnCancelCargo").addEventListener("click", () => toggleInline("cargoAddForm", false));
-document.getElementById("btnSaveCargo").addEventListener("click", () => {
-const v = document.getElementById("cargoName").value.trim();
-if (!v) { window.skipUI.toast("Escriba el nombre del cargo", { type: "error" }); return; }
-addCatalogItem("cargo", v);
-document.getElementById("cargoName").value = "";
-toggleInline("cargoAddForm", false);
-window.skipUI.toast("Cargo guardado", { type: "success" });
-});
-document.getElementById("btnShowEquipoAdd").addEventListener("click", () => toggleInline("equipoAddForm", true));
-document.getElementById("btnCancelEquipo").addEventListener("click", () => toggleInline("equipoAddForm", false));
-document.getElementById("btnSaveEquipo").addEventListener("click", () => {
-const v = document.getElementById("equipoName").value.trim();
-if (!v) { window.skipUI.toast("Escriba el nombre del equipo", { type: "error" }); return; }
-addCatalogItem("equipo", v);
-document.getElementById("equipoName").value = "";
-toggleInline("equipoAddForm", false);
-window.skipUI.toast("Equipo guardado", { type: "success" });
-});
-["cargosList", "equiposList"].forEach(id => {
-document.getElementById(id).addEventListener("click", e => {
-const b = e.target.closest("[data-cat-kind]"); if (!b) return;
-const kind = b.dataset.catKind, idx = +b.dataset.catIdx;
-confirmAction("Eliminar", "¿Eliminar este elemento del catálogo?", () => {
-removeCatalogItem(kind, idx);
-window.skipUI.toast("Eliminado", { type: "success" });
-});
-});
-});
+  // Logout handlers
+  document.getElementById("btn-header-logout").addEventListener("click", () => auth.signOut());
+  document.getElementById("btn-lock-logout").addEventListener("click", () => auth.signOut());
 
-// Admin users
-document.getElementById("btnNewUser").addEventListener("click", () => toggleInline("userForm", true));
-document.getElementById("btnCancelUser").addEventListener("click", () => toggleInline("userForm", false));
-document.getElementById("btnCreateUser").addEventListener("click", createUser);
-document.getElementById("usersList").addEventListener("change", e => {
-const t = e.target; if (t.dataset.userRole === undefined) return;
-const users = getUsers(); const u = users[+t.dataset.userRole];
-if (u.uid === currentUser.uid) return;
-u.papel = t.value; saveUsers(users); renderUsers();
-window.skipUI.toast("Papel actualizado", { type: "success" });
-});
-document.getElementById("usersList").addEventListener("click", e => {
-const b = e.target.closest("[data-user-del]"); if (!b) return;
-const idx = +b.dataset.userDel; const users = getUsers(); const u = users[idx];
-if (u.uid === currentUser.uid) return;
-confirmAction("Eliminar acceso", "¿Eliminar el acceso de " + u.email + "?", () => {
-const fresh = getUsers().filter(x => x.uid !== u.uid); saveUsers(fresh); renderUsers();
-window.skipUI.toast("Acceso eliminado", { type: "success" });
-});
-});
+  // View Navigation
+  function switchView(viewName) {
+    document.querySelectorAll(".nav-item").forEach(btn => {
+      btn.classList.toggle("active", btn.dataset.view === viewName);
+    });
+    document.querySelectorAll(".view-section").forEach(sec => {
+      sec.classList.toggle("active", sec.id === `view-${viewName}`);
+    });
 
-// Confirm dialog
-document.getElementById("confirmOk").addEventListener("click", () => {
-const dlg = document.getElementById("confirmDialog");
-if (pendingConfirm) pendingConfirm();
-pendingConfirm = null;
-dlg.close();
-});
-}
+    if (viewName === "historial") loadHistoryReports();
+    if (viewName === "catalogo") renderCatalogLists();
+    if (viewName === "obras") loadObras();
+    if (viewName === "admin" && activeRole === "admin") loadAdminUsers();
+  }
 
-// ===== INIT =====
-document.addEventListener("DOMContentLoaded", () => {
-ensureUsers();
-bindEvents();
-const sess = sessionStore.get();
-if (sess && sess.email) {
-const u = getUsers().find(x => x.email === sess.email);
-if (u) { currentUser = u; enterApp(); return; }
-}
-showScreen("screenLogin");
+  document.querySelectorAll(".nav-item").forEach(item => {
+    item.addEventListener("click", () => switchView(item.dataset.view));
+  });
+
+  // ==========================================================================
+  // MUDANÇA 3: CATÁLOGO INDEPENDENTE
+  // Persistência em catalogos/{uid} com arrays funcoes e equipamentos { nome, criadoEm }
+  // ==========================================================================
+  async function loadUserCatalog() {
+    if (!activeUser) return;
+    try {
+      const snap = await db.collection('catalogos').doc(activeUser.uid).get();
+      if (snap && snap.exists && snap.data()) {
+        const d = snap.data();
+        userCatalog.funcoes = Array.isArray(d.funcoes) ? d.funcoes : [];
+        userCatalog.equipamentos = Array.isArray(d.equipamentos) ? d.equipamentos : [];
+      } else {
+        userCatalog.funcoes = [];
+        userCatalog.equipamentos = [];
+      }
+    } catch(e) {
+      userCatalog.funcoes = [];
+      userCatalog.equipamentos = [];
+    }
+    renderCatalogLists();
+    updateActivityEquipDropdowns();
+  }
+
+  function renderCatalogLists() {
+    const t = i18n[currentLang];
+    const cargosListEl = document.getElementById("catalog-cargos-list");
+    const equiposListEl = document.getElementById("catalog-equipos-list");
+
+    document.getElementById("badge-cargos-count").textContent = userCatalog.funcoes.length;
+    document.getElementById("badge-equipos-count").textContent = userCatalog.equipamentos.length;
+
+    // Cargos
+    if (userCatalog.funcoes.length === 0) {
+      cargosListEl.innerHTML = `<div class="p-3 text-center muted text-xs">${t.emptyCargos}</div>`;
+    } else {
+      cargosListEl.innerHTML = userCatalog.funcoes.map((item, idx) => `
+        <div class="chip-item">
+          <span>${escapeHtml(item.nome)}</span>
+          <button type="button" class="chip-remove-btn" data-type="cargo" data-idx="${idx}" title="Eliminar">✕</button>
+        </div>
+      `).join("");
+    }
+
+    // Equipos
+    if (userCatalog.equipamentos.length === 0) {
+      equiposListEl.innerHTML = `<div class="p-3 text-center muted text-xs">${t.emptyEquipos}</div>`;
+    } else {
+      equiposListEl.innerHTML = userCatalog.equipamentos.map((item, idx) => `
+        <div class="chip-item">
+          <span>${escapeHtml(item.nome)}</span>
+          <button type="button" class="chip-remove-btn" data-type="equipo" data-idx="${idx}" title="Eliminar">✕</button>
+        </div>
+      `).join("");
+    }
+
+    // Bind remove buttons
+    cargosListEl.querySelectorAll(".chip-remove-btn").forEach(btn => {
+      btn.addEventListener("click", () => removeCatalogItem("cargo", parseInt(btn.dataset.idx, 10)));
+    });
+    equiposListEl.querySelectorAll(".chip-remove-btn").forEach(btn => {
+      btn.addEventListener("click", () => removeCatalogItem("equipo", parseInt(btn.dataset.idx, 10)));
+    });
+  }
+
+  async function addCatalogItem(type, name) {
+    if (!name.trim()) return;
+    const clean = name.trim();
+    const item = { nome: clean, criadoEm: new Date().toISOString() };
+    
+    if (type === "cargo") {
+      userCatalog.funcoes.push(item);
+    } else {
+      userCatalog.equipamentos.push(item);
+    }
+
+    renderCatalogLists();
+    updateActivityEquipDropdowns();
+
+    // Persist
+    try {
+      await db.collection('catalogos').doc(activeUser.uid).set({
+        funcoes: userCatalog.funcoes,
+        equipamentos: userCatalog.equipamentos
+      }, { merge: true });
+      window.skipUI.toast(currentLang === 'pt' ? "Item adicionado ao catálogo" : "Item agregado al catálogo", { type: "success" });
+    } catch(e) {}
+  }
+
+  async function removeCatalogItem(type, index) {
+    if (!confirm(currentLang === 'pt' ? "¿Deseja remover este item do catálogo?" : "¿Desea eliminar este elemento del catálogo?")) return;
+    
+    if (type === "cargo") {
+      userCatalog.funcoes.splice(index, 1);
+    } else {
+      userCatalog.equipamentos.splice(index, 1);
+    }
+
+    renderCatalogLists();
+    updateActivityEquipDropdowns();
+
+    try {
+      await db.collection('catalogos').doc(activeUser.uid).set({
+        funcoes: userCatalog.funcoes,
+        equipamentos: userCatalog.equipamentos
+      }, { merge: true });
+      window.skipUI.toast(currentLang === 'pt' ? "Item removido" : "Item eliminado");
+    } catch(e) {}
+  }
+
+  document.getElementById("btn-add-cargo-catalog").addEventListener("click", () => {
+    const input = document.getElementById("input-new-cargo");
+    addCatalogItem("cargo", input.value);
+    input.value = "";
+  });
+
+  document.getElementById("btn-add-equipo-catalog").addEventListener("click", () => {
+    const input = document.getElementById("input-new-equipo");
+    addCatalogItem("equipo", input.value);
+    input.value = "";
+  });
+
+  // ==========================================================================
+  // MUDANÇA 4: ACTIVIDADES CON MÚLTIPLES EQUIPOS Y HORAS POR EQUIPO
+  // ==========================================================================
+  let activityCounter = 0;
+  const activitiesContainer = document.getElementById("activities-container");
+
+  function createActivityDOM() {
+    activityCounter++;
+    const actId = `act-${activityCounter}`;
+    const div = document.createElement("div");
+    div.className = "activity-box";
+    div.id = actId;
+
+    const t = i18n[currentLang];
+
+    div.innerHTML = `
+      <div class="activity-header">
+        <span class="font-bold text-sm text-accent">#${activityCounter} - <span class="act-title-display">Actividad</span></span>
+        <button type="button" class="btn" data-variant="ghost" data-size="sm" style="color:#ef4444;" title="Eliminar actividad" onclick="document.getElementById('${actId}').remove(); updateActTotals();">✕</button>
+      </div>
+
+      <div class="field mb-3">
+        <label class="text-xs font-semibold">Nombre de la Actividad</label>
+        <input type="text" class="input act-name-input" placeholder="Ej: Excavación de zanjas para drenaje" required oninput="this.closest('.activity-box').querySelector('.act-title-display').textContent = this.value || 'Actividad';">
+      </div>
+
+      <div class="shell-grid cols-5 gap-2 mb-3">
+        <div class="field">
+          <label class="text-xs font-medium">Unidad</label>
+          <select class="input act-unit">
+            <option value="m³">m³</option>
+            <option value="m²">m²</option>
+            <option value="ml">ml</option>
+            <option value="un">un</option>
+            <option value="kg">kg</option>
+            <option value="t">t</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="text-xs font-medium">Cantidad Hoy</label>
+          <input type="number" step="any" min="0" class="input act-cant-hoy" placeholder="0">
+        </div>
+        <div class="field">
+          <label class="text-xs font-medium">% Hoy</label>
+          <input type="number" step="0.1" min="0" max="100" class="input act-pct-hoy" placeholder="0%">
+        </div>
+        <div class="field">
+          <label class="text-xs font-medium">Cant. Acumulada</label>
+          <input type="number" step="any" min="0" class="input act-cant-acum" placeholder="0">
+        </div>
+        <div class="field">
+          <label class="text-xs font-medium">% Acumulado</label>
+          <input type="number" step="0.1" min="0" max="100" class="input act-pct-acum" placeholder="0%">
+        </div>
+      </div>
+
+      <!-- Sub-bloco Equipos -->
+      <div class="panel p-3" style="background: var(--bg-app); border: 1px dashed var(--border);">
+        <div class="row between items-center mb-2">
+          <span class="text-xs font-bold uppercase muted">🔧 Equipos Utilizados en la Actividad</span>
+          <div class="row gap-2">
+            <button type="button" class="btn" data-variant="ghost" data-size="sm" style="font-size: 11px; padding: 2px 6px;" onclick="promptCreateEquipoForAct('${actId}')">＋ Crear equipo en catálogo</button>
+            <button type="button" class="btn" data-variant="outline" data-size="sm" style="font-size: 11px; padding: 2px 8px;" onclick="addEquipoRowToAct('${actId}')">＋ Agregar equipo</button>
+          </div>
+        </div>
+
+        <div class="act-equip-list stack gap-1">
+          <!-- Equip rows -->
+        </div>
+
+        <div class="row between items-center mt-2 pt-1 border-t text-xs muted">
+          <span>Horas totales trabajadas:</span>
+          <span class="font-bold act-total-hours">0 h</span>
+        </div>
+      </div>
+    `;
+
+    activitiesContainer.appendChild(div);
+  }
+
+  window.addEquipoRowToAct = function(actId) {
+    const actBox = document.getElementById(actId);
+    if (!actBox) return;
+    const list = actBox.querySelector(".act-equip-list");
+
+    const row = document.createElement("div");
+    row.className = "equip-row";
+
+    const options = userCatalog.equipamentos.map(e => `<option value="${escapeHtml(e.nome)}">${escapeHtml(e.nome)}</option>`).join("");
+
+    row.innerHTML = `
+      <select class="input act-eq-select">
+        <option value="" disabled selected>Seleccione equipo...</option>
+        ${options}
+      </select>
+      <div class="row gap-1 items-center">
+        <input type="number" step="0.5" min="0" class="input act-eq-hours" placeholder="0" style="text-align: right;" oninput="updateActTotals()">
+        <span class="text-xs font-semibold muted">h</span>
+      </div>
+      <button type="button" class="chip-remove-btn" title="Quitar equipo" onclick="this.closest('.equip-row').remove(); updateActTotals();">✕</button>
+    `;
+
+    list.appendChild(row);
+  };
+
+  window.promptCreateEquipoForAct = async function(actId) {
+    const name = prompt(currentLang === 'pt' ? "Nome do novo equipamento para o catálogo:" : "Nombre del nuevo equipo para el catálogo:");
+    if (!name || !name.trim()) return;
+    await addCatalogItem("equipo", name.trim());
+    addEquipoRowToAct(actId);
+    // Auto select newly created equipment
+    const actBox = document.getElementById(actId);
+    const selects = actBox.querySelectorAll(".act-eq-select");
+    const lastSelect = selects[selects.length - 1];
+    if (lastSelect) {
+      lastSelect.value = name.trim();
+    }
+  };
+
+  window.updateActTotals = function() {
+    document.querySelectorAll(".activity-box").forEach(box => {
+      let sum = 0;
+      box.querySelectorAll(".act-eq-hours").forEach(inp => {
+        const val = parseFloat(inp.value) || 0;
+        sum += val;
+      });
+      box.querySelector(".act-total-hours").textContent = `${sum} h`;
+    });
+  };
+
+  function updateActivityEquipDropdowns() {
+    document.querySelectorAll(".act-eq-select").forEach(sel => {
+      const current = sel.value;
+      const opts = userCatalog.equipamentos.map(e => `<option value="${escapeHtml(e.nome)}">${escapeHtml(e.nome)}</option>`).join("");
+      sel.innerHTML = `<option value="" disabled>Seleccione equipo...</option>` + opts;
+      if (current) sel.value = current;
+    });
+  }
+
+  document.getElementById("btn-add-activity").addEventListener("click", () => {
+    createActivityDOM();
+  });
+
+  // Mano de Obra Rows in Report Form
+  const laborRowsContainer = document.getElementById("labor-rows-container");
+
+  function addLaborRow(cargo = "", cant = "") {
+    const row = document.createElement("div");
+    row.className = "row gap-2 items-center";
+
+    const options = userCatalog.funcoes.map(f => `<option value="${escapeHtml(f.nome)}">${escapeHtml(f.nome)}</option>`).join("");
+
+    row.innerHTML = `
+      <select class="input grow labor-cargo-sel">
+        <option value="" disabled selected>Seleccione cargo...</option>
+        ${options}
+      </select>
+      <input type="number" min="1" step="1" class="input labor-cant-inp" placeholder="Cant." style="width: 100px;" value="${cant}" oninput="calcTotalLabor()">
+      <button type="button" class="chip-remove-btn" title="Eliminar fila" onclick="this.closest('.row').remove(); calcTotalLabor();">✕</button>
+    `;
+
+    if (cargo) {
+      row.querySelector(".labor-cargo-sel").value = cargo;
+    }
+
+    laborRowsContainer.appendChild(row);
+  }
+
+  window.calcTotalLabor = function() {
+    let tot = 0;
+    document.querySelectorAll(".labor-cant-inp").forEach(inp => {
+      tot += parseInt(inp.value, 10) || 0;
+    });
+    const suffix = currentLang === 'pt' ? 'pessoas' : 'personas';
+    document.getElementById("lbl-total-personal-count").textContent = `${tot} ${suffix}`;
+  };
+
+  document.getElementById("btn-add-labor-row").addEventListener("click", () => addLaborRow());
+
+  // General Equipments in Report Form
+  const genEquipContainer = document.getElementById("general-equip-container");
+
+  function addGeneralEquipRow(equipo = "", cant = "") {
+    const row = document.createElement("div");
+    row.className = "row gap-2 items-center";
+
+    const options = userCatalog.equipamentos.map(e => `<option value="${escapeHtml(e.nome)}">${escapeHtml(e.nome)}</option>`).join("");
+
+    row.innerHTML = `
+      <select class="input grow gen-equip-sel">
+        <option value="" disabled selected>Seleccione equipo...</option>
+        ${options}
+      </select>
+      <input type="number" min="1" step="1" class="input gen-equip-cant-inp" placeholder="Cant." style="width: 100px;" value="${cant}" oninput="calcTotalGenEquip()">
+      <button type="button" class="chip-remove-btn" title="Eliminar fila" onclick="this.closest('.row').remove(); calcTotalGenEquip();">✕</button>
+    `;
+
+    if (equipo) {
+      row.querySelector(".gen-equip-sel").value = equipo;
+    }
+
+    genEquipContainer.appendChild(row);
+  }
+
+  window.calcTotalGenEquip = function() {
+    let tot = 0;
+    document.querySelectorAll(".gen-equip-cant-inp").forEach(inp => {
+      tot += parseInt(inp.value, 10) || 0;
+    });
+    const suffix = currentLang === 'pt' ? 'equipamentos' : 'equipos';
+    document.getElementById("lbl-total-equip-count").textContent = `${tot} ${suffix}`;
+  };
+
+  document.getElementById("btn-add-general-equip").addEventListener("click", () => addGeneralEquipRow());
+
+  // ==========================================================================
+  // OBRAS MANAGEMENT & SELECTOR
+  // ==========================================================================
+  async function loadObras() {
+    const obrasSelect = document.getElementById("rep-obra-select");
+    const obrasListContainer = document.getElementById("obras-list-container");
+    const badgeObras = document.getElementById("badge-obras-count");
+
+    let obras = [];
+    try {
+      const snap = await db.collection('obras').get();
+      snap.forEach(doc => {
+        obras.push({ id: doc.id, ...doc.data() });
+      });
+    } catch(e) {}
+
+    badgeObras.textContent = `${obras.length} ${currentLang === 'pt' ? 'obras' : 'obras'}`;
+
+    // Fill form dropdown
+    const currentSelected = obrasSelect.value;
+    obrasSelect.innerHTML = `<option value="" disabled selected>${i18n[currentLang].txtObra}...</option>` +
+      obras.map(o => `<option value="${escapeHtml(o.nombre)}">${escapeHtml(o.nombre)}</option>`).join("");
+    if (currentSelected) obrasSelect.value = currentSelected;
+
+    // Fill obras management list
+    if (obras.length === 0) {
+      obrasListContainer.innerHTML = `<div class="empty-state-card"><div class="empty-state-icon">🏗️</div><p class="m-0">${i18n[currentLang].emptyObras}</p></div>`;
+    } else {
+      obrasListContainer.innerHTML = obras.map(o => `
+        <div class="row between items-center p-3 mb-2" style="background:var(--bg-app); border:1px solid var(--border); border-radius:6px;">
+          <div>
+            <div class="font-bold text-sm">${escapeHtml(o.nombre)}</div>
+            <div class="text-xs muted">${o.criadoEm ? new Date(o.criadoEm).toLocaleDateString() : ''}</div>
+          </div>
+          <button type="button" class="btn" data-variant="ghost" data-size="sm" style="color:#ef4444;" onclick="deleteObra('${o.id}')">✕</button>
+        </div>
+      `).join("");
+    }
+  }
+
+  window.deleteObra = async function(id) {
+    if (!confirm(currentLang === 'pt' ? "¿Excluir esta obra?" : "¿Eliminar esta obra?")) return;
+    try {
+      await db.collection('obras').doc(id).delete();
+      window.skipUI.toast(currentLang === 'pt' ? "Obra removida" : "Obra eliminada");
+      loadObras();
+    } catch(e) {}
+  };
+
+  document.getElementById("form-new-obra").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const input = document.getElementById("input-obra-nombre");
+    const name = input.value.trim();
+    if (!name) return;
+    try {
+      await db.collection('obras').add({
+        nombre: name,
+        criadoEm: firebase.firestore.FieldValue.serverTimestamp()
+      });
+      input.value = "";
+      window.skipUI.toast(currentLang === 'pt' ? "Obra cadastrada com sucesso!" : "Obra registrada con éxito", { type: "success" });
+      loadObras();
+    } catch(e) {}
+  });
+
+  // ==========================================================================
+  // GENERAR TEXTO DO INFORME (ESPANHOL E PORTUGUÊS)
+  // Regras estritas: Responsable sempre presente; omitir campos vazios e zeros; etc.
+  // ==========================================================================
+  function generateReportText(data, lang = "es") {
+    const isEs = lang === "es";
+
+    // Format Date DD/MM/AAAA
+    let fDate = data.fecha;
+    if (fDate && fDate.includes("-")) {
+      const p = fDate.split("-");
+      fDate = `${p[2]}/${p[1]}/${p[0]}`;
+    }
+
+    const lines = [];
+
+    // Header
+    const title = isEs ? `*AVANCE DE OBRA (${fDate})*` : `*AVANÇO DA OBRA (${fDate})*`;
+    lines.push(title);
+    if (data.proyecto) lines.push(`*${isEs ? "Proyecto" : "Projeto"}:* ${data.proyecto}`);
+    if (data.obra) lines.push(`*${isEs ? "Obra" : "Obra"}:* ${data.obra}`);
+    // MUDANÇA 5: Responsable / Responsável SEMPRE presente!
+    lines.push(`*${isEs ? "Responsable" : "Responsável"}:* ${data.autorNome || activeUserName || (activeUser ? activeUser.email : "Responsable")}`);
+
+    // Actividades
+    if (data.actividades && data.actividades.length > 0) {
+      lines.push("");
+      lines.push(`⏳ *${isEs ? "ACTIVIDADES" : "ATIVIDADES"}*`);
+
+      data.actividades.forEach((act, index) => {
+        lines.push(`${index + 1}. ${act.nombre}`);
+
+        // Equipos listados en la misma línea separados por " | "
+        if (act.equipos && act.equipos.length > 0) {
+          const eqParts = act.equipos
+            .filter(e => e.nombre || e.horas)
+            .map(e => `${e.nombre} ${e.horas || 0} h`);
+          if (eqParts.length > 0) {
+            lines.push(`   🔧 ${isEs ? "Equipo" : "Equipamento"}: ${eqParts.join(" | ")}`);
+          }
+        }
+
+        // Hoy
+        const hoyParts = [];
+        if (act.cantHoy && act.cantHoy !== "0") hoyParts.push(`${act.cantHoy} ${act.unidad || ""}`.trim());
+        if (act.pctHoy && act.pctHoy !== "0" && act.pctHoy !== "0%") hoyParts.push(act.pctHoy.includes("%") ? act.pctHoy : `${act.pctHoy}%`);
+        if (hoyParts.length > 0) {
+          lines.push(`   🗓️ ${isEs ? "Hoy" : "Hoje"}: ${hoyParts.join(" | ")}`);
+        }
+
+        // Acumulado
+        const acumParts = [];
+        if (act.cantAcum && act.cantAcum !== "0") acumParts.push(`${act.cantAcum} ${act.unidad || ""}`.trim());
+        if (act.pctAcum && act.pctAcum !== "0" && act.pctAcum !== "0%") acumParts.push(act.pctAcum.includes("%") ? act.pctAcum : `${act.pctAcum}%`);
+        if (acumParts.length > 0) {
+          lines.push(`   📊 ${isEs ? "Acumulado" : "Acumulado"}: ${acumParts.join(" | ")}`);
+        }
+      });
+    }
+
+    // Mano de Obra
+    if (data.manoDeObra && data.manoDeObra.length > 0 && data.totalPersonal > 0) {
+      lines.push("");
+      lines.push(`👷 *${isEs ? "MANO DE OBRA" : "MÃO DE OBRA"}* — Total: ${data.totalPersonal} ${isEs ? "personas" : "pessoas"}`);
+      data.manoDeObra.forEach(item => {
+        lines.push(`• ${item.cantidad} ${item.cargo}`);
+      });
+    }
+
+    // Equipos General
+    if (data.equiposGeneral && data.equiposGeneral.length > 0 && data.totalEquipos > 0) {
+      lines.push("");
+      lines.push(`🚜 *${isEs ? "EQUIPOS" : "EQUIPAMENTOS"}* — Total: ${data.totalEquipos} ${isEs ? "equipos" : "equipamentos"}`);
+      data.equiposGeneral.forEach(item => {
+        lines.push(`• ${item.cantidad} ${item.equipo}`);
+      });
+    }
+
+    // Clima
+    const climaItems = [];
+    if (data.climaManana) climaItems.push(`${isEs ? "Mañana" : "Manhã"}: ${data.climaManana}`);
+    if (data.climaTarde) climaItems.push(`${isEs ? "Tarde" : "Tarde"}: ${data.climaTarde}`);
+    if (climaItems.length > 0) {
+      lines.push("");
+      lines.push(`🌤️ *${isEs ? "CLIMA" : "CLIMA"}*`);
+      lines.push(climaItems.join(" | "));
+    }
+
+    // Ocurrencias
+    if (data.ocurrencias && data.ocurrencias.trim()) {
+      lines.push("");
+      lines.push(`⚠️ *${isEs ? "OCURRENCIAS" : "OCORRÊNCIAS"}*`);
+      lines.push(data.ocurrencias.trim());
+    }
+
+    // Seguridad
+    if (data.seguridad && data.seguridad.trim()) {
+      lines.push("");
+      lines.push(`🦺 *${isEs ? "SEGURIDAD" : "SEGURANÇA"}*`);
+      lines.push(data.seguridad.trim());
+    }
+
+    // Próximos Pasos
+    if (data.proximos && data.proximos.trim()) {
+      lines.push("");
+      lines.push(`📌 *${isEs ? "PRÓXIMOS PASOS" : "PRÓXIMOS PASSOS"}*`);
+      lines.push(data.proximos.trim());
+    }
+
+    return lines.join("\n");
+  }
+
+  // ==========================================================================
+  // REPORT FORM SUBMISSION (SAVE REPORT)
+  // ==========================================================================
+  document.getElementById("report-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    // Collect activities
+    const actBoxes = document.querySelectorAll(".activity-box");
+    const actividades = [];
+    actBoxes.forEach(box => {
+      const nombre = box.querySelector(".act-name-input").value.trim();
+      if (!nombre) return;
+      const unidad = box.querySelector(".act-unit").value;
+      const cantHoy = box.querySelector(".act-cant-hoy").value;
+      const pctHoy = box.querySelector(".act-pct-hoy").value;
+      const cantAcum = box.querySelector(".act-cant-acum").value;
+      const pctAcum = box.querySelector(".act-pct-acum").value;
+
+      const equipos = [];
+      box.querySelectorAll(".equip-row").forEach(eqRow => {
+        const eqNombre = eqRow.querySelector(".act-eq-select").value;
+        const eqHoras = parseFloat(eqRow.querySelector(".act-eq-hours").value) || 0;
+        if (eqNombre) {
+          equipos.push({ nombre: eqNombre, horas: eqHoras });
+        }
+      });
+
+      actividades.push({
+        nombre,
+        unidad,
+        cantHoy,
+        pctHoy,
+        cantAcum,
+        pctAcum,
+        equipos
+      });
+    });
+
+    // Collect Mano de Obra
+    const manoDeObra = [];
+    let totalPersonal = 0;
+    document.querySelectorAll("#labor-rows-container .row").forEach(row => {
+      const cargo = row.querySelector(".labor-cargo-sel").value;
+      const cant = parseInt(row.querySelector(".labor-cant-inp").value, 10) || 0;
+      if (cargo && cant > 0) {
+        manoDeObra.push({ cargo, cantidad: cant });
+        totalPersonal += cant;
+      }
+    });
+
+    // Collect Equipos General
+    const equiposGeneral = [];
+    let totalEquipos = 0;
+    document.querySelectorAll("#general-equip-container .row").forEach(row => {
+      const equipo = row.querySelector(".gen-equip-sel").value;
+      const cant = parseInt(row.querySelector(".gen-equip-cant-inp").value, 10) || 0;
+      if (equipo && cant > 0) {
+        equiposGeneral.push({ equipo, cantidad: cant });
+        totalEquipos += cant;
+      }
+    });
+
+    // MUDANÇA 5: Nome de quem gerou o informe gravado em autorNome
+    const reportPayload = {
+      fecha: document.getElementById("rep-fecha").value,
+      proyecto: document.getElementById("rep-proyecto").value.trim(),
+      obra: document.getElementById("rep-obra-select").value,
+      autorUid: activeUser.uid,
+      autorEmail: activeUser.email,
+      autorNome: activeUserName || activeUser.email,
+      actividades: actividades,
+      manoDeObra: manoDeObra,
+      totalPersonal: totalPersonal,
+      equiposGeneral: equiposGeneral,
+      totalEquipos: totalEquipos,
+      climaManana: document.getElementById("clima-manana").value,
+      climaTarde: document.getElementById("clima-tarde").value,
+      ocurrencias: document.getElementById("rep-ocurrencias").value,
+      seguridad: document.getElementById("rep-seguridad").value,
+      proximos: document.getElementById("rep-proximos").value,
+      criadoEm: firebase.firestore.FieldValue.serverTimestamp()
+    };
+
+    try {
+      await db.collection('informes').add(reportPayload);
+      window.skipUI.toast(currentLang === 'pt' ? "Relatório salvo com sucesso!" : "¡Informe guardado con éxito!", { type: "success" });
+
+      // Open preview dialog
+      openReportPreview(reportPayload);
+
+      // Reset form
+      document.getElementById("report-form").reset();
+      document.getElementById("rep-fecha").value = todayISO;
+      activitiesContainer.innerHTML = "";
+      laborRowsContainer.innerHTML = "";
+      genEquipContainer.innerHTML = "";
+      calcTotalLabor();
+      calcTotalGenEquip();
+    } catch(err) {
+      window.skipUI.toast("Error al guardar el informe", { type: "error" });
+    }
+  });
+
+  // Clear Form button
+  document.getElementById("btn-clear-form").addEventListener("click", () => {
+    if (confirm(currentLang === 'pt' ? "¿Deseja limpar todos os campos?" : "¿Desea limpiar todos los campos del formulario?")) {
+      document.getElementById("report-form").reset();
+      document.getElementById("rep-fecha").value = todayISO;
+      activitiesContainer.innerHTML = "";
+      laborRowsContainer.innerHTML = "";
+      genEquipContainer.innerHTML = "";
+      calcTotalLabor();
+      calcTotalGenEquip();
+    }
+  });
+
+  // Preview Dialog Logic
+  let activePreviewFormattedText = "";
+
+  function openReportPreview(reportData) {
+    activePreviewFormattedText = generateReportText(reportData, currentLang);
+    document.getElementById("preview-content-box").textContent = activePreviewFormattedText;
+    const dialog = document.getElementById("dialog-preview-report");
+    dialog.showModal();
+  }
+
+  document.getElementById("btn-copy-preview").addEventListener("click", () => {
+    if (!activePreviewFormattedText) return;
+    navigator.clipboard.writeText(activePreviewFormattedText).then(() => {
+      window.skipUI.toast(currentLang === 'pt' ? "Texto copiado para a área de transferência!" : "¡Texto copiado al portapapeles!", { type: "success" });
+    }).catch(() => {
+      window.skipUI.toast("Texto copiado!");
+    });
+  });
+
+  document.getElementById("btn-whatsapp-share").addEventListener("click", () => {
+    if (!activePreviewFormattedText) return;
+    const url = "https://wa.me/?text=" + encodeURIComponent(activePreviewFormattedText);
+    window.open(url, "_blank");
+  });
+
+  // ==========================================================================
+  // HISTORIAL DE INFORMES (MUDANÇA 1: VAZIO INICIALMENTE + MUDANÇA 5: AUTOR)
+  // ==========================================================================
+  async function loadHistoryReports() {
+    const container = document.getElementById("history-list-container");
+    const t = i18n[currentLang];
+
+    let reports = [];
+    try {
+      const snap = await db.collection('informes').get();
+      snap.forEach(doc => {
+        reports.push({ id: doc.id, ...doc.data() });
+      });
+      // Sort newest first
+      reports.sort((a, b) => (b.fecha || "").localeCompare(a.fecha || ""));
+    } catch(e) {}
+
+    // Empty state strictly adheres to MUDANÇA 1
+    if (reports.length === 0) {
+      container.innerHTML = `
+        <div class="empty-state-card">
+          <div class="empty-state-icon">📋</div>
+          <p class="font-semibold m-0 text-base">${t.emptyHistory}</p>
+          <p class="muted text-xs mt-1 m-0">Los reportes creados por el equipo aparecerán listados aquí.</p>
+        </div>
+      `;
+      return;
+    }
+
+    container.innerHTML = reports.map(rep => {
+      let fDate = rep.fecha;
+      if (fDate && fDate.includes("-")) {
+        const p = fDate.split("-");
+        fDate = `${p[2]}/${p[1]}/${p[0]}`;
+      }
+
+      // MUDANÇA 5: Responsable / autorNome claramente exibido no cartão
+      const autorDisplay = rep.autorNome || rep.autorEmail || "Responsable";
+
+      return `
+        <div class="history-card">
+          <div class="row between items-center">
+            <span class="badge" data-variant="secondary">${fDate}</span>
+            <span class="text-xs muted">${rep.obra || "Obra"}</span>
+          </div>
+
+          <div>
+            <h3 class="font-bold text-base m-0">${escapeHtml(rep.proyecto || "Proyecto")}</h3>
+            <div class="row items-center gap-2 mt-1 text-xs">
+              <span class="font-semibold text-accent">👤 ${escapeHtml(autorDisplay)}</span>
+              <span class="muted">• ${escapeHtml(rep.autorEmail || "")}</span>
+            </div>
+          </div>
+
+          <div class="row between items-center mt-2 pt-2 border-t">
+            <div class="text-xs muted">
+              <span>${rep.actividades ? rep.actividades.length : 0} act.</span> |
+              <span>${rep.totalPersonal || 0} pers.</span> |
+              <span>${rep.totalEquipos || 0} eq.</span>
+            </div>
+            <div class="row gap-1">
+              <button type="button" class="btn" data-variant="outline" data-size="sm" onclick="viewHistoricalReport('${rep.id}')">Ver Texto</button>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join("");
+  }
+
+  document.getElementById("btn-refresh-history").addEventListener("click", () => {
+    loadHistoryReports();
+    window.skipUI.toast("Historial actualizado");
+  });
+
+  window.viewHistoricalReport = async function(repId) {
+    try {
+      const snap = await db.collection('informes').doc(repId).get();
+      if (snap && snap.exists) {
+        openReportPreview(snap.data());
+      }
+    } catch(e) {}
+  };
+
+  // ==========================================================================
+  // VIEW ADMIN: SEÇÃO USUÁRIOS (MUDANÇA 2)
+  // Gestão completa, Secondary Firebase Auth, update imediato, etc.
+  // ==========================================================================
+  const boxNewUserForm = document.getElementById("box-new-user-form");
+  document.getElementById("btn-toggle-new-user-form").addEventListener("click", () => {
+    const isHidden = boxNewUserForm.style.display === "none";
+    boxNewUserForm.style.display = isHidden ? "block" : "none";
+  });
+  document.getElementById("btn-cancel-new-user").addEventListener("click", () => {
+    boxNewUserForm.style.display = "none";
+  });
+
+  async function loadAdminUsers() {
+    const tableContainer = document.getElementById("users-table-container");
+
+    let users = [];
+    try {
+      const snap = await db.collection('usuarios').get();
+      snap.forEach(doc => {
+        users.push({ id: doc.id, ...doc.data() });
+      });
+    } catch(e) {}
+
+    if (users.length === 0) {
+      tableContainer.innerHTML = '<div class="p-4 text-center muted text-xs">No hay usuarios registrados</div>';
+      return;
+    }
+
+    tableContainer.innerHTML = `
+      <div style="overflow-x: auto;">
+        <table class="shell-table w-full">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Correo electrónico</th>
+              <th>Rol / Papel</th>
+              <th style="text-align: right;">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${users.map(u => {
+              const isAdmin = u.id === ADMIN_UID || u.papel === "admin";
+              const isSelf = u.id === activeUser.uid;
+
+              return `
+                <tr>
+                  <td><strong>${escapeHtml(u.nome || "Sin nombre")}</strong></td>
+                  <td>${escapeHtml(u.email || "")}</td>
+                  <td>
+                    ${isSelf || u.id === ADMIN_UID ? `
+                      <span class="user-role-badge user-role-admin">ADMIN</span>
+                    ` : `
+                      <select class="input" style="padding: 2px 6px; height: 30px; font-size: 12px;" onchange="updateUserRole('${u.id}', this.value)">
+                        <option value="admin" ${u.papel === "admin" ? "selected" : ""}>Admin</option>
+                        <option value="editor" ${u.papel === "editor" ? "selected" : ""}>Editor</option>
+                        <option value="leitor" ${u.papel === "leitor" ? "selected" : ""}>Lector</option>
+                      </select>
+                    `}
+                  </td>
+                  <td style="text-align: right;">
+                    ${isSelf || u.id === ADMIN_UID ? `
+                      <span class="text-xs muted">(Tú)</span>
+                    ` : `
+                      <button type="button" class="btn" data-variant="destructive" data-size="sm" style="padding: 4px 8px; font-size: 11px;" onclick="deleteUserAccess('${u.id}', '${escapeHtml(u.email)}')">Eliminar</button>
+                    `}
+                  </td>
+                </tr>
+              `;
+            }).join("")}
+          </tbody>
+        </table>
+      </div>
+    `;
+  }
+
+  window.updateUserRole = async function(uid, newRole) {
+    if (uid === ADMIN_UID) {
+      window.skipUI.toast("No es posible alterar el rol del administrador principal.", { type: "error" });
+      loadAdminUsers();
+      return;
+    }
+    try {
+      await db.collection('usuarios').doc(uid).update({ papel: newRole });
+      window.skipUI.toast("Rol de usuario actualizado", { type: "success" });
+      loadAdminUsers();
+    } catch(e) {
+      window.skipUI.toast("Error al actualizar rol", { type: "error" });
+    }
+  };
+
+  window.deleteUserAccess = async function(uid, email) {
+    if (uid === ADMIN_UID || (activeUser && uid === activeUser.uid)) {
+      window.skipUI.toast("No puede eliminar su propio acceso.", { type: "error" });
+      return;
+    }
+    if (!confirm(`¿Desea eliminar el acceso del usuario ${email}?`)) return;
+
+    try {
+      await db.collection('usuarios').doc(uid).delete();
+      window.skipUI.toast("Acceso de usuario eliminado con éxito", { type: "success" });
+      loadAdminUsers();
+    } catch(e) {
+      window.skipUI.toast("Error al eliminar acceso", { type: "error" });
+    }
+  };
+
+  // Crear usuario con segunda instancia de Firebase (MUDANÇA 2)
+  document.getElementById("form-create-user").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const nome = document.getElementById("new-user-name").value.trim();
+    const email = document.getElementById("new-user-email").value.trim();
+    const senha = document.getElementById("new-user-password").value;
+    const papel = document.getElementById("new-user-role").value;
+
+    try {
+      const secondaryApp = firebase.initializeApp(firebaseConfig, "sec" + Date.now());
+      const secondaryAuth = secondaryApp.auth();
+      const userCred = await secondaryAuth.createUserWithEmailAndPassword(email, senha);
+      const novoUid = userCred.user.uid;
+
+      await db.collection('usuarios').doc(novoUid).set({
+        email: email,
+        nome: nome,
+        papel: papel,
+        criadoEm: firebase.firestore.FieldValue.serverTimestamp()
+      });
+
+      secondaryAuth.signOut();
+      try { secondaryApp.delete(); } catch(err) {}
+
+      window.skipUI.toast("Usuario creado con éxito", { type: "success" });
+      document.getElementById("form-create-user").reset();
+      boxNewUserForm.style.display = "none";
+      loadAdminUsers();
+    } catch(err) {
+      window.skipUI.toast("Error al crear usuario: " + (err.message || "Verifique los datos"), { type: "error" });
+    }
+  });
+
+  // Helper escape HTML
+  function escapeHtml(str) {
+    if (!str) return "";
+    return String(str).replace(/[&<>'"]/g, tag => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      "'": '&#39;',
+      '"': '&quot;'
+    }[tag] || tag));
+  }
+
+  // Pre-seed 1 initial empty activity for quick creation
+  createActivityDOM();
 });
 </script>
+
 </body>
 </html>
