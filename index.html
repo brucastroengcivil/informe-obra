@@ -1050,7 +1050,16 @@ body { background: var(--bg); }
 .badge-admin { background: #dbeafe; color: #1e3a8a; }
 .badge-editor { background: #dcfce7; color: #14532d; }
 .badge-leitor { background: #f1f5f9; color: #334155; }
-.seal { position: fixed; bottom: 8px; right: 8px; font-size: 10px; color: #004a99; pointer-events: none; z-index: 99; background: #fff; padding: 2px 6px; border-radius: 6px; border: 1px solid #cbd5e1; }
+.rodape-versao { text-align: center; font-size: 10px; color: #9AA5B1; padding: 14px 0 18px; letter-spacing: .3px; }
+.seal-erro { display: none; text-align: center; font-size: 11px; color: #991b1b; padding: 8px 0; }
+.lang-pill { display: inline-flex; align-items: center; gap: 4px; background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.4); color: #fff; font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 999px; cursor: pointer; font-family: inherit; }
+.lang-pill-menu { position: relative; }
+.lang-pill-pop { position: absolute; right: 0; top: 34px; background: #fff; color: #0f172a; border: 1px solid #cbd5e1; border-radius: 8px; padding: 4px; display: flex; flex-direction: column; gap: 2px; z-index: 50; min-width: 150px; }
+.lang-pill-pop.hide { display: none; }
+.lang-pill-pop button { background: none; border: 0; cursor: pointer; font: inherit; font-size: 14px; padding: 6px 8px; border-radius: 6px; text-align: left; color: #0f172a; display: flex; justify-content: space-between; gap: 8px; }
+.lang-pill-pop button:hover { background: #e6f0fb; }
+main { padding-bottom: 70px; }
+@media (min-width: 900px) { main { padding-bottom: 0; } }
 .nav-bar { display: flex; gap: 6px; background: #fff; border-bottom: 1px solid var(--border); padding: 8px 12px; position: sticky; top: 56px; z-index: 20; }
 .nav-bar button { border: 0; background: transparent; padding: 8px 12px; border-radius: 8px; cursor: pointer; color: var(--text); font: inherit; }
 .nav-bar button.active { background: #004a99; color: #fff; }
@@ -1073,23 +1082,13 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
 .perm-scope-list label { display: flex; gap: 6px; align-items: center; font-size: 13px; padding: 2px 0; }
 .perm-scope-tools { display: flex; gap: 8px; margin-top: 6px; }
 .scope-proj-head { font-weight: 600; font-size: 12px; margin: 6px 0 2px; }
-.lang-switch { display: flex; gap: 4px; align-items: center; }
-.lang-switch button { background: none; border: 1px solid rgba(255,255,255,.5); border-radius: 8px; padding: 2px 6px; cursor: pointer; font-size: 15px; }
-.lang-switch button.on { border-color: #fff; box-shadow: 0 0 0 2px rgba(255,255,255,.35); }
+
 .copy-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
 .copy-row button { cursor: pointer; border-radius: 8px; padding: 8px 14px; font: inherit; }
 .copy-primary { background: #004a99; color: #fff; border: 1px solid #004a99; }
 .copy-secondary { background: #fff; color: #004a99; border: 1px solid #004a99; }
 .copy-row .copy-msg { font-size: 12px; color: #991b1b; align-self: center; }
-.lang-menu { position: relative; }
-.lang-menu-btn { display: none; }
-@media (max-width: 520px) {
-  .lang-switch { display: none; }
-  .lang-menu-btn { display: inline-block; background: none; border: 1px solid rgba(255,255,255,.5); border-radius: 8px; padding: 2px 6px; color: #fff; cursor: pointer; font-size: 15px; }
-  .lang-menu-pop { position: absolute; right: 0; top: 36px; background: #fff; border: 1px solid #cbd5e1; border-radius: 8px; padding: 4px; display: flex; flex-direction: column; gap: 4px; z-index: 50; }
-  .lang-menu-pop.hide { display: none; }
-  .lang-menu-pop button { background: none; border: 0; cursor: pointer; font-size: 18px; padding: 4px; }
-}
+@media (max-width: 520px) { .lang-pill-txt-long { display: none; } }
 .list-item { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); }
 .list-item:last-child { border-bottom: 0; }
 .sticky-bottom-nav { display: none; }
@@ -1119,9 +1118,12 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
 <!-- LOGIN -->
 <section id="viewLogin" class="login-wrap">
   <div class="login-card">
-    <div class="flags">
-      <button type="button" id="flagPE" class="on" aria-label="Español" title="Español" onclick="setLang('es')">🇵🇪</button>
-      <button type="button" id="flagBR" aria-label="Português" title="Português" onclick="setLang('pt')">🇧🇷</button>
+    <div class="flags lang-pill-menu">
+      <button type="button" class="lang-pill" id="pillLoginLang" aria-haspopup="true" aria-expanded="false" onclick="toggleLangMenu()"></button>
+      <div class="lang-pill-pop hide" id="loginLangPop">
+        <button type="button" onclick="setLang('es')" data-lang="es">🇵🇪 Español <span class="lang-check">✓</span></button>
+        <button type="button" onclick="setLang('pt')" data-lang="pt">🇧🇷 Português <span class="lang-check">✓</span></button>
+      </div>
     </div>
     <img src="alupar.png" alt="Alupar" class="logo-login" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="logo-login-fallback">ALUPAR</span>
     <h1 id="loginTitle">Informe de Avance de Obra</h1>
@@ -1139,7 +1141,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
       <button type="button" class="btn w-full" id="btnIngresar" onclick="return iadLogin()">Ingresar</button>
     </form>
     <p class="text-sm mt-3 text-center"><a href="#" onclick="event.preventDefault(); window.skipUI.toast(t('forgot'));" id="lnkForgot">Olvidé mi contraseña</a></p>
-    <p class="muted text-xs mt-4 text-center">Informe de Avance de Obra — v9.2</p>
+    <div class="rodape-versao">v9.3</div>
   </div>
 </section>
 
@@ -1154,15 +1156,11 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
         </div>
       </div>
       <div class="row items-center gap-3">
-        <div class="lang-switch" aria-label="Idioma">
-          <button type="button" id="hFlagPE" aria-label="Español" title="Español" onclick="setLang('es')">🇵🇪</button>
-          <button type="button" id="hFlagBR" aria-label="Português" title="Português" onclick="setLang('pt')">🇧🇷</button>
-        </div>
-        <div class="lang-menu">
-          <button type="button" class="lang-menu-btn" id="hFlagMenu" aria-label="Idioma" onclick="toggleLangMenu()">🌐</button>
-          <div class="lang-menu-pop hide" id="hLangPop">
-            <button type="button" onclick="setLang('es')" aria-label="Español">🇵🇪</button>
-            <button type="button" onclick="setLang('pt')" aria-label="Português">🇧🇷</button>
+        <div class="lang-pill-menu">
+          <button type="button" class="lang-pill" id="pillAppLang" aria-haspopup="true" aria-expanded="false" onclick="toggleLangMenu()"></button>
+          <div class="lang-pill-pop hide" id="hLangPop">
+            <button type="button" onclick="setLang('es')" data-lang="es">🇵🇪 Español <span class="lang-check">✓</span></button>
+            <button type="button" onclick="setLang('pt')" data-lang="pt">🇧🇷 Português <span class="lang-check">✓</span></button>
           </div>
         </div>
         <span class="text-sm" id="userName"></span>
@@ -1416,7 +1414,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
   </nav>
 </div>
 
-<div class="seal">JS OK · v9.2</div>
+<div class="seal-erro" id="sealErro" role="alert">Error de script</div>
 
 <script>
 (function () {
@@ -1481,6 +1479,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
   };
   var lang = localStorage.getItem('iad_lang') || 'es';
   function t(k) { return (DICT[lang] && DICT[lang][k]) || DICT.es[k] || k; }
+  window.addEventListener('error', function () { document.getElementById('sealErro').style.display = 'block'; });
 
   var UNIDADES = ['m³', 'm²', 'ml', 'un', 'kg', 't'];
   var PAPEIS = ['admin', 'editor', 'leitor'];
@@ -1617,8 +1616,8 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
   window.setLang = function (l) {
     lang = l; localStorage.setItem('iad_lang', l);
     document.documentElement.lang = l === 'pt' ? 'pt-BR' : 'es';
-    document.getElementById('flagPE').classList.toggle('on', l === 'es');
-    document.getElementById('flagBR').classList.toggle('on', l === 'pt');
+    document.getElementById('hLangPop').classList.add('hide');
+    document.getElementById('loginLangPop').classList.add('hide');
     syncHeaderFlags();
     applyLang();
     renderAll();
@@ -1740,11 +1739,20 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
     navigator.share({ text: txt }).catch(function (e) { if (e && e.name !== 'AbortError') window.skipUI.toast(lang === 'pt' ? 'Erro ao compartilhar' : 'Error al compartir', { type: 'error' }); });
   };
   window.toggleLangMenu = function () {
-    document.getElementById('hLangPop').classList.toggle('hide');
+    var open = document.getElementById('hLangPop').classList.contains('hide');
+    document.getElementById('hLangPop').classList.toggle('hide', !open);
+    document.getElementById('loginLangPop').classList.toggle('hide', !open);
+    document.querySelectorAll('.lang-pill').forEach(function (b) { b.setAttribute('aria-expanded', String(open)); });
   };
   function syncHeaderFlags() {
-    document.getElementById('hFlagPE').classList.toggle('on', lang === 'es');
-    document.getElementById('hFlagBR').classList.toggle('on', lang === 'pt');
+    var label = lang === 'pt' ? '🇧🇷 PT' : '🇵🇪 ES';
+    document.getElementById('pillAppLang').textContent = label;
+    document.getElementById('pillLoginLang').textContent = label;
+    document.getElementById('pillAppLang').setAttribute('aria-label', lang === 'pt' ? 'Idioma: Português' : 'Idioma: Español');
+    document.getElementById('pillLoginLang').setAttribute('aria-label', lang === 'pt' ? 'Idioma: Português' : 'Idioma: Español');
+    document.querySelectorAll('.lang-pill-pop [data-lang]').forEach(function (b) {
+      b.querySelector('.lang-check').style.visibility = b.getAttribute('data-lang') === lang ? 'visible' : 'hidden';
+    });
     var sh = document.getElementById('btnCompartirA');
     if (sh) sh.style.display = navigator.share ? '' : 'none';
     var shb = document.getElementById('btnCompartirB');
@@ -2226,6 +2234,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
 
   // ---------- Render geral ----------
   function renderAll() {
+    syncHeaderFlags();
     renderInformes();
     renderPermCheckboxesInit();
     renderCatalogo();
@@ -2247,8 +2256,6 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
   // ---------- Init ----------
   document.addEventListener('DOMContentLoaded', function () {
     document.documentElement.lang = lang === 'pt' ? 'pt-BR' : 'es';
-    document.getElementById('flagPE').classList.toggle('on', lang === 'es');
-    document.getElementById('flagBR').classList.toggle('on', lang === 'pt');
     applyLang();
     syncHeaderFlags();
     document.getElementById('loginSenha').value = '';
@@ -2260,6 +2267,12 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
   window.editAtiv = editAtiv;
   window.equipoGeral = equipoGeral;
   window.mo = mo;
+  window.formState = {
+    data: "", projetoId: "", projetoNome: "", obraId: "", obraNome: "",
+    atividades: [], equipos: [], manoObra: [],
+    climaManha: "", climaTarde: "",
+    ocorrencias: "", seguranca: "", proximos: ""
+  };
 })();
 </script>
 </body>
