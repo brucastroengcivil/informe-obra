@@ -3,13 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Informe de Avance Diario — IAD v9</title>
 <meta name="theme-color" content="#004A99">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="IAD">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-touch-fullscreen" content="yes">
+<title>Informe de Avance Diario</title>
 <style>
 /* Skip artifact shell — fixed styles served beside every artifact.
    Tokens, utilities and components (basecoat 1.0 markup, no CDN); artifacts
@@ -1035,2662 +1033,1234 @@ table.shell-table td.skip-table-empty { color: var(--text-muted); text-align: ce
 </script>
 <style>
 :root {
-  --accent: #004A99;
-  --accent-text: #003A78;
-  --accent-contrast: #ffffff;
-  --brand-blue: #004A99;
-  --brand-dark: #003A78;
-  --brand-green: #28A745;
-  --brand-alupar-green: #00A650;
-  --bg-page: #F4F6F9;
+--accent: #004A99;
+--accent-text: #004A99;
+--accent-contrast: #ffffff;
+--ok: #28A745;
+--ok2: #00A650;
+--dark: #003A78;
+--bg2: #F4F6F9;
 }
 * { box-sizing: border-box; }
-body {
-  background-color: var(--bg-page);
-  color: var(--text);
-  margin: 0;
-  padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  min-height: 100vh;
-}
-
-/* Screen Management: 4 sibling screens */
-.screen {
-  position: fixed;
-  inset: 0;
-  display: none;
-  flex-direction: column;
-  background: var(--bg-page);
-  z-index: 10;
-  overflow-y: auto;
-}
-.screen.active {
-  display: flex;
-}
-
-/* Logos & Brand Elements */
-.logo-plaque {
-  background-color: var(--brand-blue);
-  border-radius: 10px;
-  padding: 8px 14px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 2px 6px rgba(0, 74, 153, 0.25);
-}
-.logo-alupar {
-  height: 28px;
-  width: auto;
-  display: block;
-  mix-blend-mode: screen;
-}
-.header-bar .logo-alupar {
-  height: 24px;
-  mix-blend-mode: screen;
-}
-.sidebar .logo-alupar {
-  height: 26px;
-  mix-blend-mode: screen;
-}
-.login-card .logo-alupar {
-  height: 30px;
-  mix-blend-mode: screen;
-}
-
-/* Logo Fallback */
-.logo-fallback {
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
-  line-height: 1;
-}
-.logo-fallback::before {
-  content: "";
-  display: block;
-  width: 100%;
-  height: 3px;
-  background: var(--brand-alupar-green);
-  border-radius: 2px;
-  margin-bottom: 3px;
-}
-.logo-fallback span {
-  font-size: 1.15rem;
-  font-weight: 800;
-  letter-spacing: -0.5px;
-  color: #ffffff;
-}
-
-/* App Header */
-.app-header {
-  background: var(--brand-blue);
-  color: #ffffff;
-  padding: 10px 16px;
-  position: sticky;
-  top: 0;
-  z-index: 30;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
-}
-.app-header .separator {
-  width: 1px;
-  height: 22px;
-  background-color: rgba(255, 255, 255, 0.4);
-  margin: 0 10px;
-}
-.badge-v9 {
-  background-color: var(--brand-green);
-  color: #ffffff;
-  font-weight: 700;
-  font-size: 0.72rem;
-  padding: 2px 7px;
-  border-radius: 999px;
-  letter-spacing: 0.5px;
-}
-
-/* Language Switcher Buttons */
-.lang-btn {
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  border: 1.5px solid transparent;
-  background: transparent;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.15rem;
-  transition: all 0.18s ease;
-  opacity: 0.55;
-  padding: 0;
-}
-.lang-btn.active {
-  opacity: 1;
-  background: #E6F0FA;
-  border-color: #004A99;
-  box-shadow: 0 1px 4px rgba(0, 74, 153, 0.2);
-}
-.header-lang-btn {
-  background: rgba(255, 255, 255, 0.12);
-  color: #fff;
-}
-.header-lang-btn.active {
-  background: #ffffff;
-  border-color: #ffffff;
-}
-
-/* App Layout & Responsive Shell */
-.app-body {
-  display: flex;
-  flex: 1;
-  min-height: calc(100vh - 56px);
-}
-
-/* Desktop Sidebar */
-.desktop-sidebar {
-  display: none;
-  width: 220px;
-  background: #ffffff;
-  border-right: 1px solid var(--border);
-  flex-direction: column;
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 40;
-}
-.desktop-sidebar .sidebar-brand {
-  background: var(--brand-blue);
-  padding: 16px 14px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.sidebar-nav {
-  padding: 16px 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  flex: 1;
-}
-.sidebar-link {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 14px;
-  border-radius: 8px;
-  color: var(--text);
-  text-decoration: none;
-  font-weight: 500;
-  font-size: 0.9rem;
-  border: none;
-  background: transparent;
-  width: 100%;
-  text-align: left;
-  cursor: pointer;
-  transition: all 0.15s;
-}
-.sidebar-link:hover {
-  background: #EBF3FC;
-  color: var(--brand-blue);
-}
-.sidebar-link.active {
-  background: #E6F0FA;
-  color: var(--brand-blue);
-  font-weight: 700;
-}
-.sidebar-footer {
-  padding: 14px;
-  border-top: 1px solid var(--border);
-  background: #fafbfc;
-}
-
-/* Main Container Area */
-.main-viewport {
-  flex: 1;
-  padding: 16px;
-  max-width: 100%;
-  margin: 0 auto;
-  width: 100%;
-  padding-bottom: 84px; /* for mobile navbar */
-}
-@media (min-width: 600px) and (max-width: 1023px) {
-  .main-viewport {
-    max-width: 720px;
-    padding: 20px 16px 90px;
-  }
-}
+body { background: var(--bg2); margin: 0; padding-bottom: 72px; padding-bottom: calc(72px + env(safe-area-inset-bottom)); }
+.screen { position: fixed; inset: 0; display: none; z-index: 10; overflow-y: auto; }
+.screen.active { display: flex; }
+#loginScreen { background: #004A99; align-items: center; justify-content: center; padding: 20px; }
+#bootScreen { background: #004A99; color: #fff; align-items: center; justify-content: center; flex-direction: column; }
+#semPermissaoScreen { background: var(--bg2); align-items: center; justify-content: center; padding: 20px; }
+#appShell { background: var(--bg2); display: none; flex-direction: column; }
+#appShell.active { display: flex; }
+.login-card { background: #fff; border-radius: 20px; padding: 28px; width: 100%; max-width: 400px; box-shadow: 0 20px 50px rgba(0,0,0,.25); }
+@media (min-width: 600px) { .login-card { max-width: 440px; } }
+.logo-band { background: #004A99; border-radius: 10px; padding: 8px 14px; display: inline-flex; align-items: center; }
+.logo-img { height: 28px; width: auto; mix-blend-mode: screen; display: block; }
+.logo-fallback { display: none; color: #fff; font-weight: 700; font-size: 18px; border-top: 3px solid #00A650; padding-top: 2px; }
+.logo-fallback.show { display: block; }
+.code-err { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 10px; color: #6b7280; margin-top: 6px; }
+.lang-switch { display: flex; gap: 6px; justify-content: flex-end; }
+.flag-btn { width: 34px; height: 34px; border-radius: 9999px; border: 2px solid transparent; background: #fff; cursor: pointer; font-size: 18px; opacity: .55; display: inline-flex; align-items: center; justify-content: center; }
+.flag-btn.active { border-color: #004A99; background: #E6F0FA; opacity: 1; }
+.flag-btn:hover { opacity: 1; }
+.field-label { font-size: 13px; font-weight: 600; color: #1f2937; display: block; margin-bottom: 4px; }
+.input-lg { height: 48px; width: 100%; }
+.btn-full { width: 100%; height: 52px; font-size: 16px; }
+.toast-dark { position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%); background: #1f2937; color: #fff; padding: 10px 16px; border-radius: 10px; z-index: 100; font-size: 14px; animation: fadeIn .2s; }
+@keyframes fadeIn { from { opacity: 0; transform: translate(-50%,6px); } to { opacity: 1; transform: translate(-50%,0); } }
+.topbar { background: #004A99; color: #fff; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; position: sticky; top: 0; z-index: 9; padding-top: calc(12px + env(safe-area-inset-top)); }
+.badge-v10 { background: #28A745; color: #fff; font-weight: 700; font-size: 11px; padding: 3px 8px; border-radius: 9999px; }
+.topbar .flag-btn { width: 30px; height: 30px; font-size: 15px; }
+.bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; height: 60px; background: #fff; border-top: 1px solid #e5e7eb; display: flex; z-index: 9; padding-bottom: env(safe-area-inset-bottom); }
+.bottom-nav button { flex: 1; border: 0; background: none; font-size: 12px; color: #4b5563; cursor: pointer; min-height: 44px; }
+.bottom-nav button.active { color: #004A99; font-weight: 700; }
+.side-nav { display: none; }
 @media (min-width: 1024px) {
-  .desktop-sidebar {
-    display: flex;
-  }
-  .app-header {
-    display: none; /* Desktop uses sidebar brand */
-  }
-  .main-viewport {
-    margin-left: 220px;
-    max-width: 1100px;
-    padding: 28px 32px;
-    padding-bottom: 40px;
-  }
-  .mobile-bottom-nav {
-    display: none !important;
-  }
+.bottom-nav { display: none; }
+.side-nav { display: flex; flex-direction: column; position: fixed; top: 0; left: 0; bottom: 0; width: 220px; background: #fff; border-right: 1px solid #e5e7eb; padding: 16px; z-index: 9; }
+.side-nav .brand { background: #004A99; border-radius: 10px; padding: 8px 14px; margin-bottom: 16px; display: inline-flex; }
+.side-nav button { text-align: left; background: none; border: 0; padding: 10px 12px; border-radius: 8px; cursor: pointer; font-size: 14px; color: #1f2937; }
+.side-nav button:hover { background: #E6F0FA; cursor: pointer; }
+.side-nav button.active { background: #E6F0FA; color: #004A99; font-weight: 700; }
+.side-foot { margin-top: auto; font-size: 12px; color: #6b7280; }
+.main-wrap { margin-left: 220px; }
+.topbar { padding-left: 24px; }
 }
-
-/* Mobile Fixed Bottom Navigation */
-.mobile-bottom-nav {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 60px;
-  background: #ffffff;
-  border-top: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  z-index: 35;
-  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.06);
-  padding-bottom: env(safe-area-inset-bottom);
-}
-.bottom-nav-item {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  border: none;
-  background: transparent;
-  color: var(--text-muted);
-  font-size: 0.75rem;
-  font-weight: 500;
-  gap: 2px;
-  cursor: pointer;
-  text-decoration: none;
-  min-height: 44px;
-}
-.bottom-nav-item.active {
-  color: var(--brand-blue);
-  font-weight: 700;
-}
-.bottom-nav-item svg {
-  width: 20px;
-  height: 20px;
-}
-
-/* Views inside appShell */
-.app-view {
-  display: none;
-}
-.app-view.active {
-  display: block;
-  animation: fadeIn 0.15s ease;
-}
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(4px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* Stepper & Counter Rows */
-.stepper-wrap {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.stepper-btn {
-  width: 32px;
-  height: 32px;
-  border-radius: 6px;
-  border: 1px solid var(--border);
-  background: #ffffff;
-  color: var(--text);
-  font-size: 1.1rem;
-  font-weight: bold;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.12s;
-  touch-action: manipulation;
-}
-.stepper-btn:hover {
-  background: #f1f5f9;
-  border-color: #cbd5e1;
-}
-.stepper-btn:active {
-  transform: scale(0.95);
-}
-.stepper-val {
-  min-width: 28px;
-  text-align: center;
-  font-weight: 700;
-  font-size: 0.95rem;
-}
-
-/* Catalog Touch Chips Panel */
-.catalog-chip-panel {
-  background: #f8fafc;
-  border: 1.5px dashed #cbd5e1;
-  border-radius: 12px;
-  padding: 14px;
-  margin-top: 10px;
-  animation: fadeIn 0.15s ease;
-}
-.touch-chips-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 12px;
-}
-.touch-chip {
-  padding: 6px 12px;
-  border-radius: 20px;
-  border: 1px solid #cbd5e1;
-  background: #ffffff;
-  color: var(--text);
-  font-size: 0.825rem;
-  font-weight: 500;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  transition: all 0.15s ease;
-}
-.touch-chip:hover:not(:disabled) {
-  border-color: var(--brand-blue);
-  color: var(--brand-blue);
-  background: #f0f7ff;
-}
-.touch-chip:disabled {
-  background: #e2e8f0;
-  color: #64748b;
-  cursor: default;
-  border-color: #cbd5e1;
-}
-
-/* Report Card inside History */
-.report-card {
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  background: #ffffff;
-  padding: 16px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-  position: relative;
-}
-.report-card:hover {
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.07);
-}
-
-/* Custom Textarea for Preview */
-.report-text-preview {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  font-size: 0.85rem;
-  line-height: 1.5;
-  background: #f8fafc;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 14px;
-  white-space: pre-wrap;
-  word-break: break-word;
-  color: #1e293b;
-  min-height: 260px;
-}
-
-/* Print CSS */
-@media print {
-  .no-print, .desktop-sidebar, .mobile-bottom-nav, .app-header, button:not(.print-include) {
-    display: none !important;
-  }
-  .main-viewport {
-    margin: 0 !important;
-    padding: 0 !important;
-    max-width: 100% !important;
-  }
-  body, .screen, .main-viewport {
-    background: #ffffff !important;
-    color: #000000 !important;
-  }
-}
+.main-area { max-width: 720px; margin: 0 auto; padding: 16px; }
+@media (min-width: 600px) { .main-area { max-width: 720px; } }
+@media (min-width: 1024px) { .main-area { max-width: 1100px; margin-left: 0; } }
+.view { display: none; }
+.view.active { display: block; }
+.card-box { background: #fff; border-radius: 14px; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,.06); margin-bottom: 14px; }
+.card-box h3 { margin: 0 0 4px; font-size: 16px; }
+.muted-sm { font-size: 12px; color: #6b7280; margin: 0 0 10px; }
+.act-card { border: 1px solid #e5e7eb; border-radius: 12px; padding: 12px; margin-bottom: 10px; background: #fafbfc; }
+.grid-act { display: grid; grid-template-columns: 1fr; gap: 10px; }
+@media (min-width: 1024px) { .grid-act { grid-template-columns: 2fr 1.2fr 1fr 1fr; } }
+.history-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+@media (min-width: 600px) { .history-grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1024px) { .history-grid { grid-template-columns: 1fr 1fr 1fr; } }
+.form-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+@media (min-width: 1024px) { .form-grid { grid-template-columns: 1fr 1fr; } }
+.two-col { display: grid; grid-template-columns: 1fr; gap: 14px; }
+@media (min-width: 600px) { .two-col { grid-template-columns: 1fr 1fr; } }
+.chip { display: inline-block; border: 1px solid #004A99; background: #fff; color: #004A99; border-radius: 9999px; padding: 6px 12px; margin: 3px; cursor: pointer; font-size: 13px; min-height: 36px; }
+.chip:hover { background: #E6F0FA; }
+.chip[disabled] { border-color: #9ca3af; color: #6b7280; background: #f3f4f6; cursor: default; }
+.stepper { display: inline-flex; align-items: center; border: 1px solid #d1d5db; border-radius: 8px; overflow: hidden; }
+.stepper button { width: 36px; height: 36px; border: 0; background: #fff; cursor: pointer; font-size: 16px; }
+.stepper span { min-width: 36px; text-align: center; font-weight: 700; }
+.row-line { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 8px 0; border-bottom: 1px dashed #e5e7eb; }
+.pill { display: inline-block; font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 9999px; }
+.pill-blue { background: #E6F0FA; color: #004A99; }
+.pill-green { background: #E8F7EC; color: #1E7B34; }
+.pill-gray { background: #eef0f3; color: #374151; }
+.pill-red { background: #fde8e8; color: #991b1b; }
+.report-text { background: #0f172a; color: #e2e8f0; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 13px; padding: 14px; border-radius: 12px; white-space: pre-wrap; word-break: break-word; overflow-x: auto; }
+.hero-out { background: linear-gradient(135deg, #E6F0FA, #ffffff); border: 1px solid #cfe2f5; border-radius: 14px; padding: 18px; margin-bottom: 14px; }
+.hero-out .lbl { font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: #004A99; font-weight: 700; }
+.hero-out .val { font-size: clamp(22px, 5vw, 30px); font-weight: 800; color: #004A99; }
+.stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px; }
+.stat-row .stat { background: #fff; border-radius: 12px; padding: 12px; text-align: center; }
+.stat-row .stat b { display: block; font-size: 20px; color: #004A99; }
+.stat-row .stat small { color: #6b7280; font-size: 11px; }
+.section-head { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; }
+.section-head h1 { font-size: clamp(20px, 4vw, 26px); margin: 0; color: #111827; }
+.action-bar { display: flex; flex-wrap: wrap; gap: 8px; }
+.touch { min-height: 44px; }
+.add-panel { border: 1px dashed #004A99; border-radius: 12px; padding: 12px; margin-top: 8px; background: #f8fbff; }
+.empty-msg { font-size: 13px; color: #6b7280; padding: 8px 0; }
+.admin-tabs { display: flex; gap: 8px; margin-bottom: 14px; }
+.admin-tabs button { border: 1px solid #004A99; background: #fff; color: #004A99; padding: 8px 14px; border-radius: 8px; cursor: pointer; min-height: 44px; }
+.admin-tabs button.active { background: #004A99; color: #fff; }
+.admin-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+@media (min-width: 1024px) { .admin-grid { grid-template-columns: 1fr 1fr; } }
+.role-admin { background: #E6F0FA; color: #004A99; }
+.role-editor { background: #E8F7EC; color: #1E7B34; }
+.role-leitor { background: #eef0f3; color: #374151; }
+.dialog-btn-row { display: flex; gap: 8px; justify-content: flex-end; margin-top: 12px; flex-wrap: wrap; }
+.sec-title { font-size: 15px; font-weight: 700; margin: 14px 0 6px; }
+.err-box { color: #991b1b; background: #fde8e8; padding: 10px; border-radius: 8px; font-size: 13px; margin-top: 10px; display: none; }
+.err-box.show { display: block; }
+.ok-box { color: #1E7B34; background: #E8F7EC; padding: 10px; border-radius: 8px; font-size: 13px; margin-top: 10px; display: none; }
+.ok-box.show { display: block; }
+.link-btn { background: none; border: 0; color: #004A99; cursor: pointer; font-size: 13px; text-decoration: underline; padding: 6px 0; min-height: 44px; }
+.lock-icon { font-size: 52px; text-align: center; }
+.no-scroll-x { overflow-x: hidden; }
+h1, h2, h3 { line-height: 1.2; }
 </style>
 </head>
-<body>
+<body class="no-scroll-x">
 
-<!-- ========================================== -->
-<!-- 1. SCREEN: BOOT SCREEN                    -->
-<!-- ========================================== -->
-<div class="screen active" id="bootScreen" style="justify-content: center; align-items: center; background: #004A99; color: #ffffff;">
-  <div class="stack items-center gap-3 text-center p-4">
-    <div class="logo-plaque" style="background: transparent; box-shadow: none;">
-      <img src="alupar_branco.png" alt="Alupar" class="logo-alupar" style="height: 38px;" onerror="this.outerHTML='<div class=\'logo-fallback\'><span>Alupar</span></div>'">
-    </div>
-    <h1 class="text-xl font-bold m-0" style="letter-spacing: -0.3px;">Informe de Avance Diario</h1>
-    <div class="row items-center gap-2 mt-1">
-      <span class="badge-v9">v9</span>
-      <span class="text-xs text-white opacity-80" id="bootLoadingText">Cargando módulos del sistema...</span>
-    </div>
-    <div class="mt-4" style="width: 160px; height: 4px; background: rgba(255,255,255,0.2); border-radius: 4px; overflow: hidden;">
-      <div id="bootProgress" style="width: 45%; height: 100%; background: #28A745; transition: width 0.3s ease;"></div>
-    </div>
-  </div>
+<!-- BOOT -->
+<div id="bootScreen" class="screen active">
+<div style="text-align:center;">
+<div class="logo-band"><span class="logo-fallback show" style="border-top:0;padding-top:0;">Alupar</span></div>
+<p style="margin-top:14px;" id="bootText">Cargando...</p>
+</div>
 </div>
 
-<!-- ========================================== -->
-<!-- 2. SCREEN: LOGIN SCREEN                    -->
-<!-- ========================================== -->
-<div class="screen" id="loginScreen" style="justify-content: center; align-items: center; padding: 16px; background: linear-gradient(180deg, #EBF3FC 0%, #F4F6F9 100%);">
-  <div style="position: absolute; top: 16px; right: 16px;" class="row gap-2 no-print">
-    <button type="button" class="lang-btn" data-lang="es" title="Español (Perú)" onclick="setIdioma('es')">🇵🇪</button>
-    <button type="button" class="lang-btn" data-lang="pt" title="Português (Brasil)" onclick="setIdioma('pt')">🇧🇷</button>
-  </div>
-
-  <div class="card panel p-0 login-card" style="width: 100%; max-width: 410px; overflow: hidden; border-radius: 16px; box-shadow: 0 10px 30px rgba(0, 74, 153, 0.12);">
-    <!-- Blue band at top with Alupar white logo -->
-    <div style="background: var(--brand-blue); padding: 18px 20px; display: flex; align-items: center; justify-content: space-between;">
-      <div class="logo-plaque" style="padding: 0; background: transparent; box-shadow: none;">
-        <img src="alupar_branco.png" alt="Alupar" class="logo-alupar" style="height: 30px;" onerror="this.outerHTML='<div class=\'logo-fallback\'><span>Alupar</span></div>'">
-      </div>
-      <span class="badge-v9">v9</span>
-    </div>
-
-    <!-- VIEW 1: Login Form -->
-    <div id="viewLogin" class="p-6">
-      <h2 class="text-2xl font-bold m-0" style="color: var(--brand-blue); line-height: 1.25;" data-i18n="app_title">Informe de Avance Diario</h2>
-      <p class="muted text-sm mt-1 mb-4" data-i18n="login_subtitle">Ingrese con su cuenta del equipo</p>
-
-      <form id="formLogin" onsubmit="handleLoginSubmit(event)" class="stack gap-3">
-        <div class="field">
-          <label for="loginEmail" class="text-xs font-semibold uppercase" data-i18n="lbl_email">Correo electrónico</label>
-          <input class="input" type="email" id="loginEmail" required placeholder="nombre@alupar.com.pe" autocomplete="username">
-        </div>
-        <div class="field">
-          <label for="loginPassword" class="text-xs font-semibold uppercase" data-i18n="lbl_password">Contraseña</label>
-          <input class="input" type="password" id="loginPassword" required placeholder="••••••••" autocomplete="current-password">
-        </div>
-
-        <div id="loginErrorBox" class="alert text-xs hidden" style="background:#fee2e2; color:#991b1b; padding:8px 12px; border-radius:8px;"></div>
-
-        <button type="submit" class="btn w-full mt-1" style="background: var(--brand-blue); color: #fff; font-weight: 600; padding: 11px;" id="btnLoginSubmit" data-i18n="btn_enter">
-          Ingresar
-        </button>
-
-        <div class="row between text-xs pt-1">
-          <button type="button" class="btn" data-variant="link" style="padding: 0; font-size: 0.8rem;" onclick="mostrarLoginView('viewRecuperar')" data-i18n="btn_forgot_password">
-            Olvidé mi contraseña
-          </button>
-        </div>
-
-        <p class="text-xs muted text-center mt-2 mb-0" style="font-size: 0.75rem;" data-i18n="access_granted_by_admin">
-          El acceso es otorgado por el administrador.
-        </p>
-
-        <!-- Fast Demo Quick Picks for Reviewers -->
-        <div class="panel p-2 mt-2" style="background: #f1f5f9; border-radius: 8px; border: 1px dashed #cbd5e1;">
-          <div class="text-xs muted font-semibold mb-1" style="font-size: 0.7rem;">DEMO RÁPIDO (Selecione para testar):</div>
-          <div class="row gap-1">
-            <button type="button" class="btn" data-size="sm" data-variant="outline" style="font-size: 0.7rem; padding: 2px 6px;" onclick="quickLoginDemo('admin')">👑 Admin</button>
-            <button type="button" class="btn" data-size="sm" data-variant="outline" style="font-size: 0.7rem; padding: 2px 6px;" onclick="quickLoginDemo('editor')">👷 Editor</button>
-            <button type="button" class="btn" data-size="sm" data-variant="outline" style="font-size: 0.7rem; padding: 2px 6px;" onclick="quickLoginDemo('leitor')">👀 Lector</button>
-            <button type="button" class="btn" data-size="sm" data-variant="ghost" style="font-size: 0.7rem; padding: 2px 6px; color:#b91c1c;" onclick="quickLoginDemo('noaccess')">🔒 Sem Permissão</button>
-          </div>
-        </div>
-      </form>
-    </div>
-
-    <!-- VIEW 2: Password Recovery -->
-    <div id="viewRecuperar" class="p-6 hidden">
-      <h2 class="text-xl font-bold m-0" style="color: var(--brand-blue);" data-i18n="recover_title">Recuperar contraseña</h2>
-      <p class="muted text-sm mt-1 mb-4" data-i18n="recover_subtitle">Ingrese su correo para recibir las instrucciones de restablecimiento.</p>
-
-      <form id="formRecuperar" onsubmit="handleRecuperarSubmit(event)" class="stack gap-3">
-        <div class="field">
-          <label for="recuperarEmail" class="text-xs font-semibold uppercase" data-i18n="lbl_email">Correo electrónico</label>
-          <input class="input" type="email" id="recuperarEmail" required placeholder="nombre@alupar.com.pe">
-        </div>
-
-        <div id="recuperarMsgBox" class="alert text-xs hidden" style="background:#ecfdf5; color:#065f46; padding:8px 12px; border-radius:8px;"></div>
-
-        <button type="submit" class="btn w-full mt-1" style="background: var(--brand-blue); color: #fff; font-weight: 600;" data-i18n="btn_send_link">
-          Enviar enlace
-        </button>
-
-        <div class="text-center pt-2">
-          <button type="button" class="btn" data-variant="link" style="font-size: 0.825rem;" onclick="mostrarLoginView('viewLogin')" data-i18n="btn_back_to_login">
-            ← Volver al ingreso
-          </button>
-        </div>
-      </form>
-    </div>
-
-    <!-- Card Footer -->
-    <div class="p-3 text-center border-t text-xs muted" style="background: #fafbfc; font-size: 11px;">
-      IAD — v9
-    </div>
-  </div>
+<!-- LOGIN -->
+<div id="loginScreen" class="screen">
+<div class="login-card">
+<div class="lang-switch" style="margin-bottom:10px;">
+<button class="flag-btn active" data-lang="es" title="Español (Perú)" aria-label="Español (Perú)">🇵🇪</button>
+<button class="flag-btn" data-lang="pt" title="Português (Brasil)" aria-label="Português (Brasil)">🇧🇷</button>
+</div>
+<div class="logo-band" style="width:100%;justify-content:center;">
+<img class="logo-img" src="https://img.usecurling.com/i?q=alupar&shape=fill&color=white" alt="Alupar" onerror="this.style.display='none';this.nextElementSibling.classList.add('show');">
+<span class="logo-fallback">Alupar</span>
+</div>
+<div id="viewLogin" class="view active" style="margin-top:18px;">
+<h2 style="color:#004A99;font-size:22px;margin:0 0 4px;" data-i18n="loginTitle">Informe de Avance Diario</h2>
+<p class="muted-sm" data-i18n="loginSub">Ingrese con su cuenta del equipo</p>
+<form id="loginForm" autocomplete="off" style="margin-top:12px;">
+<div style="margin-bottom:12px;">
+<label class="field-label" for="loginEmail" data-i18n="lblEmail">Correo electrónico</label>
+<input class="input input-lg" id="loginEmail" type="email" autocomplete="email" placeholder="usuario@alupar.com.pe">
+</div>
+<div style="margin-bottom:6px;">
+<label class="field-label" for="loginPass" data-i18n="lblPass">Contraseña</label>
+<input class="input input-lg" id="loginPass" type="password" autocomplete="current-password" placeholder="••••••">
+</div>
+<div class="err-box" id="loginErr"></div>
+<div class="code-err" id="loginCode"></div>
+<button class="btn btn-full" type="submit" id="btnLogin" style="margin-top:14px;" data-i18n="btnLogin">Ingresar</button>
+</form>
+<div style="text-align:center;margin-top:8px;"><button class="link-btn" id="goRecover" data-i18n="forgot">Olvidé mi contraseña</button></div>
+<p class="muted-sm" style="text-align:center;margin-top:12px;" data-i18n="accessNote">El acceso es otorgado por el administrador.</p>
+</div>
+<div id="viewRecuperar" class="view">
+<h2 style="color:#004A99;font-size:22px;margin:0 0 4px;" data-i18n="recTitle">Recuperar contraseña</h2>
+<p class="muted-sm" data-i18n="recText">Ingrese su correo y le enviaremos un enlace para restablecer su contraseña.</p>
+<form id="recForm" autocomplete="off" style="margin-top:12px;">
+<label class="field-label" for="recEmail" data-i18n="lblEmail">Correo electrónico</label>
+<input class="input input-lg" id="recEmail" type="email" autocomplete="off" placeholder="usuario@alupar.com.pe">
+<div class="ok-box" id="recOk"></div>
+<div class="err-box" id="recErr"></div>
+<div class="code-err" id="recCode"></div>
+<button class="btn btn-full" type="submit" style="margin-top:14px;" data-i18n="btnSend">Enviar enlace</button>
+</form>
+<div style="text-align:center;margin-top:8px;"><button class="link-btn" id="backLogin" data-i18n="backLogin">← Volver al ingreso</button></div>
+</div>
+<div style="text-align:center;margin-top:18px;font-size:11px;color:#6b7280;">IAD — v10</div>
+</div>
 </div>
 
-<!-- ========================================== -->
-<!-- 3. SCREEN: SEM PERMISSÃO SCREEN            -->
-<!-- ========================================== -->
-<div class="screen" id="semPermissaoScreen" style="justify-content: center; align-items: center; padding: 16px; background: #F4F6F9;">
-  <div class="card panel p-6 text-center" style="max-width: 420px; width: 100%; border-radius: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.06);">
-    <div style="font-size: 3rem; margin-bottom: 8px;" aria-hidden="true">🔒</div>
-    <h2 class="text-xl font-bold m-0" style="color: #991b1b;" data-i18n="unauth_title">Acceso no autorizado</h2>
-    <p class="muted text-sm mt-2 mb-3" data-i18n="unauth_desc">
-      Su cuenta no tiene permiso para usar este aplicativo. Solicite acceso al administrador.
-    </p>
-    <div class="panel p-2 mb-4" style="background: #f1f5f9; border-radius: 8px;">
-      <span class="text-xs mono muted" id="semPermissaoUserEmail">usuario@ejemplo.com</span>
-    </div>
-    <button type="button" class="btn w-full" data-variant="destructive" onclick="fazerLogout()" data-i18n="btn_logout">
-      Cerrar sesión
-    </button>
-  </div>
+<!-- SEM PERMISSAO -->
+<div id="semPermissaoScreen" class="screen">
+<div class="card-box" style="max-width:420px;text-align:center;">
+<div class="lock-icon">🔒</div>
+<h2 style="font-size:20px;color:#111827;" data-i18n="noPermTitle">Acceso no autorizado</h2>
+<p class="muted-sm" data-i18n="noPermText">Su cuenta no tiene permiso para usar este aplicativo. Solicite acceso al administrador.</p>
+<p class="muted-sm" id="noPermEmail"></p>
+<button class="btn btn-full" id="btnSignOutNoPerm" data-i18n="btnLogout">Cerrar sesión</button>
+</div>
 </div>
 
-<!-- ========================================== -->
-<!-- 4. SCREEN: APP SHELL (PRINCIPAL)           -->
-<!-- ========================================== -->
-<div class="screen" id="appShell">
+<!-- APP SHELL -->
+<div id="appShell" class="screen">
+<aside class="side-nav" aria-label="Navegación">
+<div class="brand">
+<img class="logo-img" src="https://img.usecurling.com/i?q=alupar&shape=fill&color=white" alt="Alupar" style="height:26px;" onerror="this.style.display='none';this.nextElementSibling.classList.add('show');">
+<span class="logo-fallback" style="font-size:16px;">Alupar</span>
+</div>
+<button data-nav="inicio" class="active" data-i18n="navHome">Inicio</button>
+<button data-nav="formulario" data-i18n="navNew">Nuevo informe</button>
+<button data-nav="admin" id="navAdminDesk" data-i18n="navAdmin">Admin</button>
+<div class="side-foot">
+<div id="sideEmail"></div>
+<button class="btn" data-variant="outline" data-size="sm" id="btnLogoutSide" style="margin-top:8px;width:100%;" data-i18n="btnLogout">Cerrar sesión</button>
+</div>
+</aside>
+<div class="main-wrap" style="flex:1;">
+<header class="topbar">
+<div style="display:flex;align-items:center;gap:10px;">
+<div>
+<div style="font-weight:800;font-size:16px;">IAD <span class="badge-v10">v10</span></div>
+<div style="font-size:11px;opacity:.85;" data-i18n="appFull">Informe de Avance Diario</div>
+</div>
+</div>
+<div class="lang-switch">
+<button class="flag-btn active" data-lang="es" title="Español (Perú)" aria-label="Español (Perú)">🇵🇪</button>
+<button class="flag-btn" data-lang="pt" title="Português (Brasil)" aria-label="Português (Brasil)">🇧🇷</button>
+</div>
+</header>
 
-  <!-- Mobile Top Header -->
-  <header class="app-header header-bar row between items-center">
-    <div class="row items-center">
-      <div class="logo-plaque" style="padding: 4px 8px; background: transparent; box-shadow: none;">
-        <img src="alupar_branco.png" alt="Alupar" class="logo-alupar" onerror="this.outerHTML='<div class=\'logo-fallback\'><span>Alupar</span></div>'">
-      </div>
-      <div class="separator"></div>
-      <div>
-        <div class="row items-center gap-2">
-          <span class="font-bold text-sm tracking-tight">IAD</span>
-          <span class="badge-v9">v9</span>
-        </div>
-      </div>
-    </div>
-    <div class="row items-center gap-1">
-      <button type="button" class="lang-btn header-lang-btn" data-lang="es" title="Español (Perú)" onclick="setIdioma('es')">🇵🇪</button>
-      <button type="button" class="lang-btn header-lang-btn" data-lang="pt" title="Português (Brasil)" onclick="setIdioma('pt')">🇧🇷</button>
-    </div>
-  </header>
+<main class="main-area">
+<!-- INICIO -->
+<section class="view active" id="view-inicio">
+<div class="section-head">
+<div>
+<span class="pill pill-blue" id="homeRole">admin</span>
+<h1 data-i18n="homeTitle">Informes de avance</h1>
+<p class="muted-sm" data-i18n="homeSub">Consulte y gestione los informes diarios de obra del equipo.</p>
+</div>
+<div class="action-bar">
+<button class="btn" id="btnNewReport" data-i18n="btnNewReport">＋ Nuevo informe</button>
+</div>
+</div>
+<div class="stat-row">
+<div class="stat"><b id="statTotal">0</b><small data-i18n="statTotal">Informes</small></div>
+<div class="stat"><b id="statToday">0</b><small data-i18n="statToday">Hoy</small></div>
+<div class="stat"><b id="statPeople">0</b><small data-i18n="statPeople">Personas hoy</small></div>
+</div>
+<div class="card-box">
+<div class="row between" style="margin-bottom:8px;">
+<div>
+<h3 data-i18n="histTitle">Historial de informes</h3>
+<p class="muted-sm" data-i18n="histSub">Los informes más recientes aparecen primero.</p>
+</div>
+<span class="pill pill-green" id="histCount">0</span>
+</div>
+<div class="history-grid" id="historyList"></div>
+</div>
+</section>
 
-  <div class="app-body">
-    <!-- Desktop Sidebar -->
-    <aside class="desktop-sidebar">
-      <div class="sidebar-brand">
-        <div class="logo-plaque" style="padding: 4px 6px;">
-          <img src="alupar_branco.png" alt="Alupar" class="logo-alupar" onerror="this.outerHTML='<div class=\'logo-fallback\'><span>Alupar</span></div>'">
-        </div>
-        <span class="badge-v9">v9</span>
-      </div>
-
-      <div class="sidebar-nav">
-        <button type="button" class="sidebar-link active" data-view-target="inicio" onclick="navegarView('inicio')">
-          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-          <span data-i18n="nav_home">Inicio</span>
-        </button>
-        <button type="button" class="sidebar-link" id="desktopNavAdmin" data-view-target="admin" onclick="navegarView('admin')">
-          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"></path></svg>
-          <span data-i18n="nav_admin">Admin</span>
-        </button>
-      </div>
-
-      <div class="sidebar-footer">
-        <div class="row between items-center mb-2">
-          <span class="text-xs muted font-semibold" data-i18n="lbl_language">Idioma</span>
-          <div class="row gap-1">
-            <button type="button" class="lang-btn" data-lang="es" title="Español (Perú)" onclick="setIdioma('es')">🇵🇪</button>
-            <button type="button" class="lang-btn" data-lang="pt" title="Português (Brasil)" onclick="setIdioma('pt')">🇧🇷</button>
-          </div>
-        </div>
-        <div class="truncate text-xs font-semibold" id="desktopUserNome">Usuario</div>
-        <div class="truncate text-xs muted" id="desktopUserEmail">email@alupar.com.pe</div>
-        <div class="mt-1">
-          <span class="badge" data-variant="secondary" id="desktopUserRole">Admin</span>
-        </div>
-        <button type="button" class="btn w-full mt-3" data-variant="outline" data-size="sm" onclick="fazerLogout()" data-i18n="btn_logout">
-          Cerrar sesión
-        </button>
-      </div>
-    </aside>
-
-    <!-- Main Viewport containing views -->
-    <main class="main-viewport">
-
-      <!-- ===================================== -->
-      <!-- VIEW: INICIO (HISTORIAL DE INFORMES)  -->
-      <!-- ===================================== -->
-      <section id="view-inicio" class="app-view active">
-        <!-- Top bar with greeting & action -->
-        <div class="row between items-center mb-4">
-          <div>
-            <div class="eyebrow" data-i18n="app_title">Informe de Avance Diario</div>
-            <h1 class="text-2xl font-bold m-0 mt-1" data-i18n="home_title">Historial de Informes</h1>
-            <p class="muted text-xs m-0 mt-1" data-i18n="home_subtitle">Registro cronológico de avances de obra en campo</p>
-          </div>
-          <div id="btnNovoInformeWrap">
-            <button type="button" class="btn" style="background: var(--brand-blue); color: #fff;" onclick="abrirNovoInformeForm()">
-              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg>
-              <span data-i18n="btn_new_report">Crear nuevo informe</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- Filter bar -->
-        <div class="panel p-3 mb-4 row between items-center gap-2">
-          <div class="row items-center gap-2 grow">
-            <input type="text" class="input grow" id="searchInformeInput" placeholder="Buscar por obra, proyecto o responsable..." oninput="filtrarInformes()">
-            <select class="input" id="filtroProjetoSelect" onchange="filtrarInformes()" style="max-width: 200px;">
-              <option value="all" data-i18n="opt_all_projects">Todos los proyectos</option>
-            </select>
-          </div>
-          <span class="badge" data-variant="secondary" id="totalInformesBadge">0 informes</span>
-        </div>
-
-        <!-- Cards Grid -->
-        <div class="shell-grid" style="grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px;" id="informesGrid">
-          <!-- Populated by JS -->
-        </div>
-
-        <!-- Empty State -->
-        <div id="informesEmptyState" class="panel p-6 text-center hidden" style="border-radius: 14px;">
-          <div style="font-size: 2.5rem; margin-bottom: 8px;">📋</div>
-          <h3 class="font-bold text-base m-0" data-i18n="empty_reports_title">Aún no hay informes registrados</h3>
-          <p class="muted text-xs mt-1 mb-3" data-i18n="empty_reports_desc">Presione el botón para registrar el primer avance de obra del día.</p>
-        </div>
-      </section>
-
-      <!-- ===================================== -->
-      <!-- VIEW: FORMULARIO (CREAR/EDITAR)      -->
-      <!-- ===================================== -->
-      <section id="view-formulario" class="app-view">
-        <div class="row between items-center mb-4">
-          <div class="row items-center gap-2">
-            <button type="button" class="btn" data-variant="ghost" data-size="sm" onclick="navegarView('inicio')">
-              ← <span data-i18n="btn_back">Volver</span>
-            </button>
-            <div>
-              <h2 class="text-xl font-bold m-0" id="formTituloPrincipal" data-i18n="form_new_title">Nuevo Informe Diario</h2>
-              <p class="muted text-xs m-0" data-i18n="form_new_sub">Complete los datos de la jornada de trabajo</p>
-            </div>
-          </div>
-          <div class="row gap-2">
-            <button type="button" class="btn" data-variant="outline" data-size="sm" onclick="resetFormulario()" data-i18n="btn_clean">Limpiar</button>
-          </div>
-        </div>
-
-        <form id="mainInformeForm" onsubmit="handleSalvarInforme(event)" class="stack gap-4">
-          <!-- 1. IDENTIFICACIÓN & CLIMA (2 col tablet/desktop) -->
-          <div class="shell-grid cols-2 gap-4">
-            <!-- Identificación -->
-            <div class="card panel p-4">
-              <h3 class="text-sm font-bold uppercase muted m-0 mb-3" data-i18n="sec_identification">1. Identificación</h3>
-              <div class="stack gap-3">
-                <div class="field">
-                  <label for="formProjeto" class="text-xs font-semibold" data-i18n="lbl_project">Proyecto</label>
-                  <select class="input" id="formProjeto" required onchange="atualizarSelectObrasForm()">
-                    <option value="" data-i18n="opt_select_project">-- Seleccione proyecto --</option>
-                  </select>
-                </div>
-                <div class="field">
-                  <label for="formObra" class="text-xs font-semibold" data-i18n="lbl_work">Obra / Frente de trabajo</label>
-                  <select class="input" id="formObra" required>
-                    <option value="" data-i18n="opt_select_work">-- Seleccione obra --</option>
-                  </select>
-                </div>
-                <div class="field">
-                  <label for="formData" class="text-xs font-semibold" data-i18n="lbl_date">Fecha de trabajo</label>
-                  <input type="date" class="input" id="formData" required>
-                </div>
-              </div>
-            </div>
-
-            <!-- Clima -->
-            <div class="card panel p-4">
-              <h3 class="text-sm font-bold uppercase muted m-0 mb-3" data-i18n="sec_weather">2. Clima en Obra</h3>
-              <div class="stack gap-3">
-                <div class="field">
-                  <label for="formClimaManana" class="text-xs font-semibold" data-i18n="lbl_weather_morning">Turno Mañana</label>
-                  <select class="input" id="formClimaManana">
-                    <option value="">-- No especificado --</option>
-                    <option value="Bueno ☀️">Bueno ☀️</option>
-                    <option value="Nublado ☁️">Nublado ☁️</option>
-                    <option value="Lluvia ligera 🌦️">Lluvia ligera 🌦️</option>
-                    <option value="Lluvia intensa ⛈️">Lluvia intensa ⛈️</option>
-                  </select>
-                </div>
-                <div class="field">
-                  <label for="formClimaTarde" class="text-xs font-semibold" data-i18n="lbl_weather_afternoon">Turno Tarde</label>
-                  <select class="input" id="formClimaTarde">
-                    <option value="">-- No especificado --</option>
-                    <option value="Bueno ☀️">Bueno ☀️</option>
-                    <option value="Nublado ☁️">Nublado ☁️</option>
-                    <option value="Lluvia ligera 🌦️">Lluvia ligera 🌦️</option>
-                    <option value="Lluvia intensa ⛈️">Lluvia intensa ⛈️</option>
-                  </select>
-                </div>
-                <div class="p-2 panel text-xs muted" style="background: #f8fafc; border-radius: 8px;">
-                  💡 <span data-i18n="weather_tip">Si no se especifica clima en ambos turnos, el bloque se omitirá en el informe.</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- 2. ACTIVIDADES REALIZADAS -->
-          <div class="card panel p-4">
-            <div class="row between items-center mb-3">
-              <div>
-                <h3 class="text-sm font-bold uppercase muted m-0" data-i18n="sec_activities">3. Actividades Ejecutadas</h3>
-                <p class="muted text-xs m-0 mt-1" data-i18n="activities_helper">Describa las tareas clave con cantidades o equipos asociados</p>
-              </div>
-              <button type="button" class="btn" data-variant="secondary" data-size="sm" onclick="adicionarLinhaAtividade()">
-                ＋ <span data-i18n="btn_add_activity">Agregar actividad</span>
-              </button>
-            </div>
-
-            <div id="listaAtividadesContainer" class="stack gap-3">
-              <!-- Rendered items -->
-            </div>
-          </div>
-
-          <!-- 3. MANO DE OBRA (CATÁLOGO POR TOQUE) -->
-          <div class="card panel p-4">
-            <div class="row between items-center mb-2">
-              <div>
-                <h3 class="text-sm font-bold uppercase muted m-0" id="tituloManoObra">👷 Mano de obra — Total: 0 personas</h3>
-                <p class="muted text-xs m-0 mt-1" data-i18n="labor_helper">Personal directo e indirecto presente en el turno</p>
-              </div>
-              <button type="button" class="btn" data-variant="outline" data-size="sm" id="btnToggleLaborPanel" onclick="abrirPainelLabor()">
-                ＋ <span data-i18n="btn_add_position">Agregar cargo</span>
-              </button>
-            </div>
-
-            <!-- List of added roles -->
-            <div id="addedLaborList" class="stack gap-2 mt-2">
-              <div class="text-xs muted p-3 text-center" id="emptyLaborMsg" data-i18n="empty_positions_msg">
-                Aún no hay cargos agregados
-              </div>
-            </div>
-
-            <!-- Inline touch selection panel -->
-            <div id="laborTouchPanel" class="catalog-chip-panel hidden">
-              <div class="row between items-center mb-2">
-                <span class="text-xs font-bold text-uppercase" data-i18n="lbl_select_from_catalog">Seleccionar del catálogo de cargos:</span>
-                <button type="button" class="btn" data-variant="link" data-size="sm" onclick="fecharPainelLabor()" data-i18n="btn_cancel">Cancelar</button>
-              </div>
-              <div id="laborChipsContainer" class="touch-chips-container">
-                <!-- Chips loaded from catalog -->
-              </div>
-              <div class="row gap-2 items-center pt-2 border-t">
-                <input type="text" class="input grow" id="newLaborInput" placeholder="Buscar o nuevo cargo..." data-i18n-ph="ph_new_position">
-                <button type="button" class="btn" data-size="sm" onclick="criarEAdicionarCargo()" data-i18n="btn_create_and_add">＋ Crear y agregar</button>
-              </div>
-            </div>
-          </div>
-
-          <!-- 4. EQUIPOS (CATÁLOGO POR TOQUE) -->
-          <div class="card panel p-4">
-            <div class="row between items-center mb-2">
-              <div>
-                <h3 class="text-sm font-bold uppercase muted m-0" id="tituloEquipos">🚜 Equipos — Total: 0 equipos</h3>
-                <p class="muted text-xs m-0 mt-1" data-i18n="equipment_helper">Maquinaria, vehículos y equipos en operación</p>
-              </div>
-              <button type="button" class="btn" data-variant="outline" data-size="sm" id="btnToggleEquipPanel" onclick="abrirPainelEquipos()">
-                ＋ <span data-i18n="btn_add_equipment">Agregar equipo</span>
-              </button>
-            </div>
-
-            <!-- List of added equipment -->
-            <div id="addedEquipList" class="stack gap-2 mt-2">
-              <div class="text-xs muted p-3 text-center" id="emptyEquipMsg" data-i18n="empty_equipments_msg">
-                Aún no hay equipos agregados
-              </div>
-            </div>
-
-            <!-- Inline touch selection panel -->
-            <div id="equipTouchPanel" class="catalog-chip-panel hidden">
-              <div class="row between items-center mb-2">
-                <span class="text-xs font-bold text-uppercase" data-i18n="lbl_select_from_equip_catalog">Seleccionar del catálogo de equipos:</span>
-                <button type="button" class="btn" data-variant="link" data-size="sm" onclick="fecharPainelEquipos()" data-i18n="btn_cancel">Cancelar</button>
-              </div>
-              <div id="equipChipsContainer" class="touch-chips-container">
-                <!-- Chips loaded from catalog -->
-              </div>
-              <div class="row gap-2 items-center pt-2 border-t">
-                <input type="text" class="input grow" id="newEquipInput" placeholder="Buscar o nuevo equipo..." data-i18n-ph="ph_new_equipment">
-                <button type="button" class="btn" data-size="sm" onclick="criarEAdicionarEquipo()" data-i18n="btn_create_and_add">＋ Crear y agregar</button>
-              </div>
-            </div>
-          </div>
-
-          <!-- 5. OCURRENCIAS, SEGURIDAD & PRÓXIMOS PASOS -->
-          <div class="card panel p-4">
-            <h3 class="text-sm font-bold uppercase muted m-0 mb-3" data-i18n="sec_notes">5. Ocurrencias, Seguridad y Próximos Pasos</h3>
-            <div class="stack gap-3">
-              <div class="field">
-                <label for="formOcurrencias" class="text-xs font-semibold" data-i18n="lbl_occurrences">⚠️ Ocurrencias / Imprevistos / Interferencias</label>
-                <textarea class="input" id="formOcurrencias" rows="2" placeholder="Describa problemas, retrasos o hechos relevantes (opcional)..."></textarea>
-              </div>
-              <div class="field">
-                <label for="formSeguridad" class="text-xs font-semibold" data-i18n="lbl_safety">🦺 Seguridad y Salud en el Trabajo (SST)</label>
-                <textarea class="input" id="formSeguridad" rows="2" placeholder="Charlas de 5 min, incidentes, uso de EPPs (opcional)..."></textarea>
-              </div>
-              <div class="field">
-                <label for="formProximosPasos" class="text-xs font-semibold" data-i18n="lbl_next_steps">📌 Próximos pasos para la siguiente jornada</label>
-                <textarea class="input" id="formProximosPasos" rows="2" placeholder="Programación de tareas para el día siguiente (opcional)..."></textarea>
-              </div>
-            </div>
-          </div>
-
-          <!-- FORM ACTIONS -->
-          <div class="row between items-center pt-2">
-            <button type="button" class="btn" data-variant="ghost" onclick="navegarView('inicio')" data-i18n="btn_cancel">Cancelar</button>
-            <div class="row gap-2">
-              <button type="button" class="btn" data-variant="secondary" onclick="previsualizarDesdeFormulario()" data-i18n="btn_preview">
-                👁️ Vista Previa
-              </button>
-              <button type="submit" class="btn" style="background: var(--brand-blue); color: #fff;" data-i18n="btn_save_report">
-                💾 Guardar Informe
-              </button>
-            </div>
-          </div>
-        </form>
-      </section>
-
-      <!-- ===================================== -->
-      <!-- VIEW: PREVIEW & COMPARTILHAMENTO     -->
-      <!-- ===================================== -->
-      <section id="view-preview" class="app-view">
-        <div class="row between items-center mb-4">
-          <div class="row items-center gap-2">
-            <button type="button" class="btn" data-variant="ghost" data-size="sm" onclick="voltarParaOrigemPreview()">
-              ← <span data-i18n="btn_back">Volver</span>
-            </button>
-            <div>
-              <h2 class="text-xl font-bold m-0" data-i18n="preview_title">Vista Previa del Informe</h2>
-              <p class="muted text-xs m-0" data-i18n="preview_subtitle">Formato listo para WhatsApp, correo o exportación oficial</p>
-            </div>
-          </div>
-          <div class="row gap-2 no-print">
-            <button type="button" class="btn" data-variant="secondary" data-size="sm" onclick="copiarTextoInforme()" data-i18n="btn_copy">
-              📋 Copiar
-            </button>
-            <button type="button" class="btn" data-size="sm" style="background: #25D366; color: #fff;" onclick="compartirWhatsApp()">
-              💬 WhatsApp
-            </button>
-            <button type="button" class="btn" data-variant="outline" data-size="sm" onclick="window.print()" data-i18n="btn_print">
-              🖨️ Imprimir / PDF
-            </button>
-          </div>
-        </div>
-
-        <div class="card panel p-4 mb-4">
-          <div class="row between items-center mb-3">
-            <span class="badge" data-variant="secondary" id="previewMetaBadge">Obra • Fecha</span>
-            <span class="text-xs muted" id="previewResponsableBadge">Responsable: -</span>
-          </div>
-
-          <div class="report-text-preview" id="reporteTextoArea"></div>
-        </div>
-      </section>
-
-      <!-- ===================================== -->
-      <!-- VIEW: ADMIN (OBRAS & USUARIOS)       -->
-      <!-- ===================================== -->
-      <section id="view-admin" class="app-view">
-        <div class="row between items-center mb-4">
-          <div>
-            <span class="badge" data-variant="outline" data-i18n="admin_badge">Panel de Administración</span>
-            <h2 class="text-2xl font-bold m-0 mt-1" data-i18n="admin_title">Gestión de Obras y Usuarios</h2>
-            <p class="muted text-xs m-0 mt-1" data-i18n="admin_subtitle">Configuración global de proyectos, frentes y permisos de acceso</p>
-          </div>
-        </div>
-
-        <!-- Subtabs: Obras / Usuarios -->
-        <div class="tabs mb-4" id="adminTabs">
-          <nav role="tablist" aria-orientation="horizontal">
-            <button type="button" role="tab" aria-controls="admin-tab-obras" aria-selected="true" id="tabBtnObras" onclick="switchAdminTab('obras')" data-i18n="tab_works">
-              🏗️ Proyectos y Obras
-            </button>
-            <button type="button" role="tab" aria-controls="admin-tab-usuarios" aria-selected="false" id="tabBtnUsuarios" onclick="switchAdminTab('usuarios')" data-i18n="tab_users">
-              👥 Usuarios y Permisos
-            </button>
-          </nav>
-        </div>
-
-        <!-- TAB CONTENT: OBRAS -->
-        <div id="admin-tab-obras" class="stack gap-4">
-          <div class="row between items-center">
-            <h3 class="text-base font-bold m-0" data-i18n="sec_projects_works">Estructura de Proyectos y Obras</h3>
-            <button type="button" class="btn" data-size="sm" style="background: var(--brand-blue); color: #fff;" onclick="abrirNovoProjetoPrompt()" data-i18n="btn_new_project">
-              ＋ Nuevo proyecto
-            </button>
-          </div>
-
-          <div class="shell-grid cols-2 gap-4" id="projetosAdminGrid">
-            <!-- Rendered by JS -->
-          </div>
-        </div>
-
-        <!-- TAB CONTENT: USUARIOS -->
-        <div id="admin-tab-usuarios" class="stack gap-4 hidden">
-          <div class="row between items-center">
-            <div>
-              <h3 class="text-base font-bold m-0" data-i18n="sec_users_title">Usuarios Registrados en el Sistema</h3>
-              <p class="muted text-xs m-0" data-i18n="sec_users_subtitle">Controle roles: admin (acceso total), editor (crea/edita), leitor (solo lectura)</p>
-            </div>
-            <button type="button" class="btn" data-size="sm" style="background: var(--brand-blue); color: #fff;" onclick="toggleNovoUsuarioForm()" data-i18n="btn_new_user">
-              ＋ Nuevo usuario
-            </button>
-          </div>
-
-          <!-- Notice banner about password change -->
-          <div class="alert text-xs" style="background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe; border-radius: 8px;">
-            ℹ️ <span data-i18n="notice_pwd_change">El usuario debe cambiar la contraseña en el primer ingreso usando 'Olvidé mi contraseña'.</span>
-          </div>
-
-          <!-- Inline Form: Create User -->
-          <div id="novoUsuarioPanel" class="card panel p-4 hidden" style="border: 2px solid var(--brand-blue);">
-            <div class="row between items-center mb-3">
-              <h4 class="text-sm font-bold m-0" data-i18n="form_new_user_title">Crear Nuevo Acceso</h4>
-              <button type="button" class="btn" data-variant="ghost" data-size="sm" onclick="toggleNovoUsuarioForm()" data-i18n="btn_cancel">Cancelar</button>
-            </div>
-            <form onsubmit="handleCriarNovoUsuario(event)" class="stack gap-3">
-              <div class="shell-grid cols-2 gap-3">
-                <div class="field">
-                  <label for="newUserName" class="text-xs font-semibold" data-i18n="lbl_full_name">Nombre completo</label>
-                  <input type="text" class="input" id="newUserName" required placeholder="Ing. Roberto Quispe">
-                </div>
-                <div class="field">
-                  <label for="newUserEmail" class="text-xs font-semibold" data-i18n="lbl_email">Correo electrónico</label>
-                  <input type="email" class="input" id="newUserEmail" required placeholder="rquispe@alupar.com.pe">
-                </div>
-              </div>
-              <div class="shell-grid cols-2 gap-3">
-                <div class="field">
-                  <label for="newUserPassword" class="text-xs font-semibold" data-i18n="lbl_temp_password">Contraseña provisional (mínimo 6)</label>
-                  <input type="password" class="input" id="newUserPassword" required minlength="6" placeholder="••••••••">
-                </div>
-                <div class="field">
-                  <label for="newUserRole" class="text-xs font-semibold" data-i18n="lbl_role">Papel / Rol de acceso</label>
-                  <select class="input" id="newUserRole" required>
-                    <option value="editor" data-i18n="role_editor">Editor (Crea y edita informes)</option>
-                    <option value="admin" data-i18n="role_admin">Admin (Control total)</option>
-                    <option value="leitor" data-i18n="role_leitor">Lector (Solo visualiza)</option>
-                  </select>
-                </div>
-              </div>
-              <div class="row justify-end gap-2 pt-2">
-                <button type="submit" class="btn" style="background: var(--brand-blue); color: #fff;" data-i18n="btn_create_user">
-                  Crear usuario
-                </button>
-              </div>
-            </form>
-          </div>
-
-          <!-- Table of Users -->
-          <div class="card panel p-0 overflow-hidden">
-            <div id="usuariosTableContainer">
-              <!-- Rendered by window.skipUI.table -->
-            </div>
-          </div>
-        </div>
-      </section>
-
-    </main>
-  </div>
-
-  <!-- Mobile Fixed Bottom Nav -->
-  <nav class="mobile-bottom-nav">
-    <button type="button" class="bottom-nav-item active" data-view-target="inicio" onclick="navegarView('inicio')">
-      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-      <span data-i18n="nav_home">Inicio</span>
-    </button>
-    <button type="button" class="bottom-nav-item" id="mobileNavNovo" onclick="abrirNovoInformeForm()">
-      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
-      <span data-i18n="nav_new">Nuevo</span>
-    </button>
-    <button type="button" class="bottom-nav-item" id="mobileNavAdmin" data-view-target="admin" onclick="navegarView('admin')">
-      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"></path></svg>
-      <span data-i18n="nav_admin">Admin</span>
-    </button>
-    <button type="button" class="bottom-nav-item" onclick="fazerLogout()">
-      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
-      <span data-i18n="btn_logout">Salir</span>
-    </button>
-  </nav>
-
+<!-- FORMULARIO -->
+<section class="view" id="view-formulario">
+<div class="section-head">
+<div>
+<span class="pill pill-blue" data-i18n="pillDraft">Borrador</span>
+<h1 data-i18n="formTitle">Nuevo informe diario</h1>
+<p class="muted-sm" data-i18n="formSub">Complete los datos del día. El texto del informe se genera automáticamente.</p>
+</div>
+<div class="action-bar">
+<button class="btn" data-variant="outline" id="btnResetForm" data-i18n="btnReset">Limpiar</button>
+<button class="btn" data-variant="secondary" id="btnPreview" data-i18n="btnPreview">Vista previa</button>
+</div>
 </div>
 
-<!-- ========================================== -->
-<!-- 5. DIALOGS                                 -->
-<!-- ========================================== -->
-<!-- Dialog: Novo Projeto / Obra -->
-<dialog class="dialog" id="dlgNovoItem">
-  <div>
-    <header>
-      <h3 class="text-base font-bold m-0" id="dlgItemTitulo">Nuevo Registro</h3>
-      <p class="muted text-xs m-0" id="dlgItemSub">Ingrese el nombre correspondiente</p>
-    </header>
-    <section class="mt-3">
-      <div class="field">
-        <label for="dlgItemInput" class="text-xs font-semibold" id="dlgItemLabel">Nombre</label>
-        <input type="text" class="input" id="dlgItemInput" required placeholder="Ej.: Línea 220kV Pachachaca">
-      </div>
-    </section>
-    <footer class="row justify-end gap-2 mt-4">
-      <button type="button" class="btn" data-variant="outline" data-dialog-close data-i18n="btn_cancel">Cancelar</button>
-      <button type="button" class="btn" id="dlgItemBtnConfirmar" style="background: var(--brand-blue); color: #fff;" data-i18n="btn_save">Guardar</button>
-    </footer>
-  </div>
-</dialog>
+<div class="card-box">
+<h3 data-i18n="secId">Identificación</h3>
+<p class="muted-sm" data-i18n="secIdSub">Proyecto, obra, fecha y responsable del informe.</p>
+<div class="two-col">
+<div>
+<label class="field-label" for="fProyecto" data-i18n="lblProyecto">Proyecto</label>
+<select class="input" id="fProyecto"></select>
+<p class="muted-sm" data-i18n="helpProyecto">Seleccione el proyecto donde se realizó el trabajo.</p>
+</div>
+<div>
+<label class="field-label" for="fObra" data-i18n="lblObra">Obra</label>
+<select class="input" id="fObra"></select>
+<p class="muted-sm" data-i18n="helpObra">La lista de obras depende del proyecto elegido.</p>
+</div>
+<div>
+<label class="field-label" for="fFecha" data-i18n="lblFecha">Fecha</label>
+<input class="input" type="date" id="fFecha">
+</div>
+<div>
+<label class="field-label" for="fResp" data-i18n="lblResp">Responsable</label>
+<input class="input" id="fResp" placeholder="Ej.: Carlos Quispe">
+<p class="muted-sm" data-i18n="helpResp">Si queda vacío, se usará su nombre de usuario.</p>
+</div>
+</div>
+</div>
 
-<!-- ========================================== -->
-<!-- APPLICATION LOGIC                         -->
-<!-- ========================================== -->
+<div class="card-box">
+<h3 data-i18n="secAct">Actividades</h3>
+<p class="muted-sm" data-i18n="secActSub">Registre cada frente de trabajo con su avance del día y el acumulado.</p>
+<div id="activitiesBox"></div>
+<button class="btn" data-variant="outline" id="btnAddAct" style="margin-top:8px;" data-i18n="btnAddAct">＋ Agregar actividad</button>
+</div>
+
+<div class="card-box">
+<h3 data-i18n="secLabor">👷 Mano de obra</h3>
+<p class="muted-sm" data-i18n="secLaborSub">Cargos y cantidad de personas presentes hoy.</p>
+<div id="laborBox"></div>
+<div id="laborTotal" class="sec-title"></div>
+<button class="btn" data-variant="outline" id="btnToggleLabor" data-i18n="btnAddRole">＋ Agregar cargo</button>
+<div class="add-panel" id="laborPanel" style="display:none;"></div>
+</div>
+
+<div class="card-box">
+<h3 data-i18n="secEquip">🚜 Equipos</h3>
+<p class="muted-sm" data-i18n="secEquipSub">Equipos y máquinas utilizados en la jornada.</p>
+<div id="equipBox"></div>
+<div id="equipTotal" class="sec-title"></div>
+<button class="btn" data-variant="outline" id="btnToggleEquip" data-i18n="btnAddEquip">＋ Agregar equipo</button>
+<div class="add-panel" id="equipPanel" style="display:none;"></div>
+</div>
+
+<div class="card-box">
+<h3 data-i18n="secClima">🌤️ Clima</h3>
+<p class="muted-sm" data-i18n="secClimaSub">Condición del tiempo durante la mañana y la tarde.</p>
+<div class="two-col">
+<div>
+<label class="field-label" for="fClimaM" data-i18n="lblMorning">Mañana</label>
+<select class="input" id="fClimaM">
+<option value="" data-i18n="optNone">—</option>
+<option value="Bueno ☀️" data-i18n="cBueno">Bueno ☀️</option>
+<option value="Nublado ☁️" data-i18n="cNublado">Nublado ☁️</option>
+<option value="Lluvia 🌧️" data-i18n="cLluvia">Lluvia 🌧️</option>
+</select>
+</div>
+<div>
+<label class="field-label" for="fClimaT" data-i18n="lblAfternoon">Tarde</label>
+<select class="input" id="fClimaT">
+<option value="" data-i18n="optNone">—</option>
+<option value="Bueno ☀️" data-i18n="cBueno">Bueno ☀️</option>
+<option value="Nublado ☁️" data-i18n="cNublado">Nublado ☁️</option>
+<option value="Lluvia 🌧️" data-i18n="cLluvia">Lluvia 🌧️</option>
+</select>
+</div>
+</div>
+</div>
+
+<div class="card-box">
+<h3 data-i18n="secText">📝 Textos del informe</h3>
+<p class="muted-sm" data-i18n="secTextSub">Ocurrencias, seguridad y próximos pasos.</p>
+<label class="field-label" for="fOcur" data-i18n="lblOcur">⚠️ Ocurrencias</label>
+<textarea class="input" id="fOcur" rows="3" placeholder="Ej.: Retraso por lluvia de 1 hora."></textarea>
+<label class="field-label" for="fSeg" style="margin-top:10px;" data-i18n="lblSeg">🦺 Seguridad</label>
+<textarea class="input" id="fSeg" rows="2" placeholder="Ej.: Charla de 5 min sobre uso de EPP."></textarea>
+<label class="field-label" for="fProx" style="margin-top:10px;" data-i18n="lblProx">📌 Próximos pasos</label>
+<textarea class="input" id="fProx" rows="2" placeholder="Ej.: Vaciado de losa programado para mañana."></textarea>
+</div>
+
+<div class="card-box">
+<div class="row between">
+<div>
+<h3 data-i18n="secProgress">Avance del formulario</h3>
+<p class="muted-sm" data-i18n="secProgressSub">Campos principales completados antes de guardar.</p>
+</div>
+<span class="pill pill-green" id="progressPill">0%</span>
+</div>
+<div style="height:8px;background:#e5e7eb;border-radius:9999px;overflow:hidden;">
+<div id="progressBar" style="height:8px;width:0%;background:#28A745;transition:width .3s;"></div>
+</div>
+<div class="action-bar" style="margin-top:14px;">
+<button class="btn" id="btnSave" data-i18n="btnSave">Guardar informe</button>
+<button class="btn" data-variant="outline" id="btnCopyForm" data-i18n="btnCopy">Copiar texto</button>
+</div>
+</div>
+</section>
+
+<!-- PREVIEW -->
+<section class="view" id="view-preview">
+<div class="section-head">
+<div>
+<span class="pill pill-green" data-i18n="pillText">Texto listo</span>
+<h1 data-i18n="prevTitle">Vista previa del informe</h1>
+<p class="muted-sm" data-i18n="prevSub">Así se verá el texto que puede copiar o compartir.</p>
+</div>
+<div class="action-bar">
+<button class="btn" data-variant="outline" id="btnBackForm" data-i18n="btnBack">← Volver al formulario</button>
+</div>
+</div>
+<div class="hero-out">
+<div class="lbl" data-i18n="heroLbl">Total del día</div>
+<div class="val" id="heroVal">0 personas · 0 equipos</div>
+<div class="muted-sm" data-i18n="heroCap">Se calcula con mano de obra y equipos registrados.</div>
+</div>
+<div class="card-box">
+<div class="report-text" id="reportText"></div>
+<div class="action-bar" style="margin-top:12px;">
+<button class="btn" id="btnCopyPrev" data-i18n="btnCopy">Copiar texto</button>
+<button class="btn" data-variant="secondary" id="btnShareWa">WhatsApp</button>
+<button class="btn" data-variant="outline" id="btnPrint" data-i18n="btnPrint">Imprimir / PDF</button>
+</div>
+</div>
+</section>
+
+<!-- ADMIN -->
+<section class="view" id="view-admin">
+<div class="section-head">
+<div>
+<span class="pill pill-blue" data-i18n="pillAdmin">Solo administrador</span>
+<h1 data-i18n="admTitle">Administración</h1>
+<p class="muted-sm" data-i18n="admSub">Gestione proyectos, obras y los usuarios con acceso.</p>
+</div>
+</div>
+<div class="admin-tabs">
+<button class="active" data-atab="obras" data-i18n="tabObras">Obras</button>
+<button data-atab="usuarios" data-i18n="tabUsers">Usuarios</button>
+</div>
+
+<div id="atab-obras">
+<div class="action-bar" style="margin-bottom:12px;">
+<button class="btn" id="btnNewProj" data-i18n="btnNewProj">＋ Nuevo proyecto</button>
+<button class="btn" data-variant="outline" id="btnNewObra" data-i18n="btnNewObra">＋ Nueva obra</button>
+</div>
+<div class="add-panel" id="projPanel" style="display:none;">
+<label class="field-label" for="inpProj" data-i18n="lblProjName">Nombre del proyecto</label>
+<input class="input" id="inpProj" placeholder="Ej.: Subestación Chilca">
+<div class="dialog-btn-row"><button class="btn" data-variant="ghost" id="cancelProj" data-i18n="btnCancel">Cancelar</button><button class="btn" id="saveProj" data-i18n="btnSave">Guardar</button></div>
+</div>
+<div class="add-panel" id="obraPanel" style="display:none;">
+<label class="field-label" for="selProjObra" data-i18n="lblProyecto">Proyecto</label>
+<select class="input" id="selProjObra"></select>
+<label class="field-label" for="inpObra" style="margin-top:8px;" data-i18n="lblObraName">Nombre de la obra</label>
+<input class="input" id="inpObra" placeholder="Ej.: Línea de transmisión 220 kV">
+<div class="dialog-btn-row"><button class="btn" data-variant="ghost" id="cancelObra" data-i18n="btnCancel">Cancelar</button><button class="btn" id="saveObra" data-i18n="btnSave">Guardar</button></div>
+</div>
+<div class="admin-grid" id="projectsGrid" style="margin-top:12px;"></div>
+</div>
+
+<div id="atab-usuarios" style="display:none;">
+<div class="action-bar" style="margin-bottom:12px;">
+<button class="btn" id="btnNewUser" data-i18n="btnNewUser">＋ Nuevo usuario</button>
+</div>
+<div class="add-panel" id="userPanel" style="display:none;">
+<label class="field-label" for="uNombre" data-i18n="lblNombre">Nombre completo</label>
+<input class="input" id="uNombre" placeholder="Ej.: María Huamán">
+<label class="field-label" for="uEmail" style="margin-top:8px;" data-i18n="lblEmail">Correo electrónico</label>
+<input class="input" id="uEmail" type="email" placeholder="maria@alupar.com.pe">
+<label class="field-label" for="uPass" style="margin-top:8px;" data-i18n="lblProvPass">Contraseña provisional (mínimo 6)</label>
+<input class="input" id="uPass" type="password" placeholder="••••••">
+<label class="field-label" for="uPapel" style="margin-top:8px;" data-i18n="lblRole">Papel</label>
+<select class="input" id="uPapel">
+<option value="admin">admin</option>
+<option value="editor" selected>editor</option>
+<option value="leitor">leitor</option>
+</select>
+<p class="muted-sm" style="margin-top:8px;" data-i18n="userWarn">El usuario debe cambiar la contraseña en el primer ingreso usando 'Olvidé mi contraseña'.</p>
+<div class="dialog-btn-row"><button class="btn" data-variant="ghost" id="cancelUser" data-i18n="btnCancel">Cancelar</button><button class="btn" id="saveUser" data-i18n="btnCreateUser">Crear usuario</button></div>
+</div>
+<div id="usersList" style="margin-top:12px;"></div>
+</div>
+</section>
+</main>
+
+<nav class="bottom-nav" aria-label="Navegación inferior">
+<button data-nav="inicio" class="active" data-i18n="navHome">Inicio</button>
+<button data-nav="formulario" data-i18n="navNew">Nuevo</button>
+<button data-nav="admin" id="navAdminMob" data-i18n="navAdmin">Admin</button>
+</nav>
+
+<footer class="shell-footer" style="text-align:center;font-size:12px;color:#6b7280;padding:12px;">IAD — v10 · Informe de Avance Diario</footer>
+</div>
+</div>
+
 <script>
-/**
- * Informe de Avance Diario (IAD) — v9
- * Alupar Perú & Brasil
- */
-const APP_VERSION = "v9";
-console.log(`[APP] versão ${APP_VERSION} carregada`);
+document.addEventListener('DOMContentLoaded', function () {
+var APP_VERSION = "v10";
+console.log("[APP] versión v10 carregada");
 
-const ADMIN_UID = "gc143acuOyeFIXpe2efFI1uZ1NB3";
-const firebaseConfig = {
-  apiKey: "AIzaSyAhaLq3IJ67CpkHEG1-8rtCYSNtFARs5uk",
-  authDomain: "informe-diario-de-obra.firebaseapp.com",
-  projectId: "informe-diario-de-obra",
-  storageBucket: "informe-diario-de-obra.firebasestorage.app",
-  messagingSenderId: "647398384847",
-  appId: "1:647398384847:web:8f585e9daf71e311f603ba"
-};
-
-// ----------------------------------------------------
-// I18N DICTIONARY (Spanish Peru / Portuguese Brazil)
-// ----------------------------------------------------
-let idiomaAtual = 'es'; // default per request
-
-const DICT = {
-  es: {
-    app_title: "Informe de Avance Diario",
-    login_subtitle: "Ingrese con su cuenta del equipo",
-    lbl_email: "Correo electrónico",
-    lbl_password: "Contraseña",
-    btn_enter: "Ingresar",
-    btn_forgot_password: "Olvidé mi contraseña",
-    access_granted_by_admin: "El acceso es otorgado por el administrador.",
-    recover_title: "Recuperar contraseña",
-    recover_subtitle: "Ingrese su correo para recibir las instrucciones de restablecimiento.",
-    btn_send_link: "Enviar enlace",
-    btn_back_to_login: "← Volver al ingreso",
-    unauth_title: "Acceso no autorizado",
-    unauth_desc: "Su cuenta no tiene permiso para usar este aplicativo. Solicite acceso al administrador.",
-    btn_logout: "Cerrar sesión",
-    nav_home: "Inicio",
-    nav_new: "Nuevo",
-    nav_admin: "Admin",
-    lbl_language: "Idioma",
-    home_title: "Historial de Informes",
-    home_subtitle: "Registro cronológico de avances de obra en campo",
-    btn_new_report: "Crear nuevo informe",
-    opt_all_projects: "Todos los proyectos",
-    empty_reports_title: "Aún no hay informes registrados",
-    empty_reports_desc: "Presione el botón para registrar el primer avance de obra del día.",
-    btn_back: "Volver",
-    btn_clean: "Limpiar",
-    form_new_title: "Nuevo Informe Diario",
-    form_edit_title: "Editar Informe Diario",
-    form_new_sub: "Complete los datos de la jornada de trabajo",
-    sec_identification: "1. Identificación",
-    lbl_project: "Proyecto",
-    opt_select_project: "-- Seleccione proyecto --",
-    lbl_work: "Obra / Frente de trabajo",
-    opt_select_work: "-- Seleccione obra --",
-    lbl_date: "Fecha de trabajo",
-    sec_weather: "2. Clima en Obra",
-    lbl_weather_morning: "Turno Mañana",
-    lbl_weather_afternoon: "Turno Tarde",
-    weather_tip: "Si no se especifica clima en ambos turnos, el bloque se omitirá en el informe.",
-    sec_activities: "3. Actividades Ejecutadas",
-    activities_helper: "Describa las tareas clave con cantidades o equipos asociados",
-    btn_add_activity: "Agregar actividad",
-    labor_helper: "Personal directo e indirecto presente en el turno",
-    btn_add_position: "Agregar cargo",
-    empty_positions_msg: "Aún no hay cargos agregados",
-    lbl_select_from_catalog: "Seleccionar del catálogo de cargos:",
-    btn_cancel: "Cancelar",
-    ph_new_position: "Buscar o nuevo cargo...",
-    btn_create_and_add: "＋ Crear y agregar",
-    equipment_helper: "Maquinaria, vehículos y equipos en operación",
-    btn_add_equipment: "Agregar equipo",
-    empty_equipments_msg: "Aún no hay equipos agregados",
-    lbl_select_from_equip_catalog: "Seleccionar del catálogo de equipos:",
-    ph_new_equipment: "Buscar o nuevo equipo...",
-    sec_notes: "5. Ocurrencias, Seguridad y Próximos Pasos",
-    lbl_occurrences: "⚠️ Ocurrencias / Imprevistos / Interferencias",
-    lbl_safety: "🦺 Seguridad y Salud en el Trabajo (SST)",
-    lbl_next_steps: "📌 Próximos pasos para la siguiente jornada",
-    btn_preview: "👁️ Vista Previa",
-    btn_save_report: "💾 Guardar Informe",
-    preview_title: "Vista Previa del Informe",
-    preview_subtitle: "Formato listo para WhatsApp, correo o exportación oficial",
-    btn_copy: "📋 Copiar",
-    btn_print: "🖨️ Imprimir / PDF",
-    admin_badge: "Panel de Administración",
-    admin_title: "Gestión de Obras y Usuarios",
-    admin_subtitle: "Configuración global de proyectos, frentes y permisos de acceso",
-    tab_works: "🏗️ Proyectos y Obras",
-    tab_users: "👥 Usuarios y Permisos",
-    sec_projects_works: "Estructura de Proyectos y Obras",
-    btn_new_project: "＋ Nuevo proyecto",
-    sec_users_title: "Usuarios Registrados en el Sistema",
-    sec_users_subtitle: "Controle roles: admin (acceso total), editor (crea/edita), leitor (solo lectura)",
-    btn_new_user: "＋ Nuevo usuario",
-    notice_pwd_change: "El usuario debe cambiar la contraseña en el primer ingreso usando 'Olvidé mi contraseña'.",
-    form_new_user_title: "Crear Nuevo Acceso",
-    lbl_full_name: "Nombre completo",
-    lbl_temp_password: "Contraseña provisional (mínimo 6)",
-    lbl_role: "Papel / Rol de acceso",
-    role_editor: "Editor (Crea y edita informes)",
-    role_admin: "Admin (Control total)",
-    role_leitor: "Lector (Solo visualiza)",
-    btn_create_user: "Crear usuario",
-    btn_save: "Guardar",
-    err_user_not_found: "Correo o contraseña incorrectos.",
-    err_invalid_email: "Correo electrónico inválido.",
-    err_weak_password: "La contraseña debe tener al menos 6 caracteres.",
-    err_email_in_use: "El correo ya se encuentra registrado.",
-    err_no_connection: "Sin conexión con la base. Los datos aparecerán cuando vuelva la internet.",
-    err_permission_denied: "Permiso insuficiente para esta operación."
-  },
-  pt: {
-    app_title: "Informe de Avance Diario",
-    login_subtitle: "Entre com sua conta da equipe",
-    lbl_email: "E-mail institucional",
-    lbl_password: "Senha",
-    btn_enter: "Entrar",
-    btn_forgot_password: "Esqueci a senha",
-    access_granted_by_admin: "O acesso é concedido pelo administrador.",
-    recover_title: "Recuperar senha",
-    recover_subtitle: "Informe seu e-mail para receber as instruções de redefinição.",
-    btn_send_link: "Enviar link",
-    btn_back_to_login: "← Voltar para o login",
-    unauth_title: "Acesso não autorizado",
-    unauth_desc: "Sua conta não tem permissão para usar este aplicativo. Solicite acesso ao administrador.",
-    btn_logout: "Sair",
-    nav_home: "Início",
-    nav_new: "Novo",
-    nav_admin: "Admin",
-    lbl_language: "Idioma",
-    home_title: "Histórico de Informes",
-    home_subtitle: "Registro cronológico de avanços de obra em campo",
-    btn_new_report: "Criar novo informe",
-    opt_all_projects: "Todos os projetos",
-    empty_reports_title: "Nenhum informe registrado ainda",
-    empty_reports_desc: "Pressione o botão para registrar o primeiro avanço de obra do dia.",
-    btn_back: "Voltar",
-    btn_clean: "Limpar",
-    form_new_title: "Novo Informe Diário",
-    form_edit_title: "Editar Informe Diário",
-    form_new_sub: "Preencha os dados da jornada de trabalho",
-    sec_identification: "1. Identificação",
-    lbl_project: "Projeto",
-    opt_select_project: "-- Selecione o projeto --",
-    lbl_work: "Obra / Frente de trabalho",
-    opt_select_work: "-- Selecione a obra --",
-    lbl_date: "Data de trabalho",
-    sec_weather: "2. Clima na Obra",
-    lbl_weather_morning: "Turno Manhã",
-    lbl_weather_afternoon: "Turno Tarde",
-    weather_tip: "Se o clima não for informado em nenhum turno, o bloco será omitido no informe.",
-    sec_activities: "3. Atividades Executadas",
-    activities_helper: "Descreva as tarefas chave com quantidades ou equipamentos associados",
-    btn_add_activity: "Adicionar atividade",
-    labor_helper: "Pessoal direto e indireto presente no turno",
-    btn_add_position: "Adicionar cargo",
-    empty_positions_msg: "Nenhum cargo adicionado ainda",
-    lbl_select_from_catalog: "Selecionar do catálogo de cargos:",
-    btn_cancel: "Cancelar",
-    ph_new_position: "Buscar ou novo cargo...",
-    btn_create_and_add: "＋ Criar e adicionar",
-    equipment_helper: "Maquinários, veículos e equipamentos em operação",
-    btn_add_equipment: "Adicionar equipamento",
-    empty_equipments_msg: "Nenhum equipamento adicionado ainda",
-    lbl_select_from_equip_catalog: "Selecionar do catálogo de equipamentos:",
-    ph_new_equipment: "Buscar ou novo equipamento...",
-    sec_notes: "5. Ocorrências, Segurança e Próximos Passos",
-    lbl_occurrences: "⚠️ Ocorrências / Imprevistos / Interferências",
-    lbl_safety: "🦺 Segurança e Saúde no Trabalho (SST)",
-    lbl_next_steps: "📌 Próximos passos para a jornada seguinte",
-    btn_preview: "👁️ Pré-visualizar",
-    btn_save_report: "💾 Salvar Informe",
-    preview_title: "Pré-visualização do Informe",
-    preview_subtitle: "Formato pronto para WhatsApp, e-mail ou exportação oficial",
-    btn_copy: "📋 Copiar",
-    btn_print: "🖨️ Imprimir / PDF",
-    admin_badge: "Painel de Administração",
-    admin_title: "Gestão de Obras e Usuários",
-    admin_subtitle: "Configuração global de projetos, frentes e permissões de acesso",
-    tab_works: "🏗️ Projetos e Obras",
-    tab_users: "👥 Usuários e Permissões",
-    sec_projects_works: "Estrutura de Projetos e Obras",
-    btn_new_project: "＋ Novo projeto",
-    sec_users_title: "Usuários Cadastrados no Sistema",
-    sec_users_subtitle: "Controle de papéis: admin (acesso total), editor (cria/edita), leitor (somente leitura)",
-    btn_new_user: "＋ Novo usuário",
-    notice_pwd_change: "O usuário deve trocar a senha no primeiro acesso usando 'Esqueci a senha'.",
-    form_new_user_title: "Criar Novo Acesso",
-    lbl_full_name: "Nome completo",
-    lbl_temp_password: "Senha provisória (mínimo 6)",
-    lbl_role: "Papel / Nível de acesso",
-    role_editor: "Editor (Cria e edita informes)",
-    role_admin: "Admin (Controle total)",
-    role_leitor: "Leitor (Apenas visualiza)",
-    btn_create_user: "Criar usuário",
-    btn_save: "Salvar",
-    err_user_not_found: "E-mail ou senha incorretos.",
-    err_invalid_email: "E-mail inválido.",
-    err_weak_password: "A senha deve ter pelo menos 6 caracteres.",
-    err_email_in_use: "O e-mail já está cadastrado.",
-    err_no_connection: "Sem conexão com a base. Os dados aparecerão quando a internet voltar.",
-    err_permission_denied: "Permissão insuficiente para esta operação."
-  }
-};
-
-function t(key) {
-  return (DICT[idiomaAtual] && DICT[idiomaAtual][key]) || key;
+var DICT = {
+es: {
+loginTitle: "Informe de Avance Diario", loginSub: "Ingrese con su cuenta del equipo",
+lblEmail: "Correo electrónico", lblPass: "Contraseña", btnLogin: "Ingresar", btnLogging: "Ingresando...",
+forgot: "Olvidé mi contraseña", accessNote: "El acceso es otorgado por el administrador.",
+recTitle: "Recuperar contraseña", recText: "Ingrese su correo y le enviaremos un enlace para restablecer su contraseña.",
+btnSend: "Enviar enlace", backLogin: "← Volver al ingreso", recSent: "Enlace enviado a su correo.",
+noPermTitle: "Acceso no autorizado", noPermText: "Su cuenta no tiene permiso para usar este aplicativo. Solicite acceso al administrador.",
+btnLogout: "Cerrar sesión", navHome: "Inicio", navNew: "Nuevo informe", navAdmin: "Admin", appFull: "Informe de Avance Diario",
+homeTitle: "Informes de avance", homeSub: "Consulte y gestione los informes diarios de obra del equipo.",
+btnNewReport: "＋ Nuevo informe", statTotal: "Informes", statToday: "Hoy", statPeople: "Personas hoy",
+histTitle: "Historial de informes", histSub: "Los informes más recientes aparecen primero.", histEmpty: "Aún no hay informes guardados.",
+pillDraft: "Borrador", formTitle: "Nuevo informe diario", formSub: "Complete los datos del día. El texto del informe se genera automáticamente.",
+btnReset: "Limpiar", btnPreview: "Vista previa", secId: "Identificación", secIdSub: "Proyecto, obra, fecha y responsable del informe.",
+lblProyecto: "Proyecto", lblObra: "Obra", lblFecha: "Fecha", lblResp: "Responsable",
+helpProyecto: "Seleccione el proyecto donde se realizó el trabajo.", helpObra: "La lista de obras depende del proyecto elegido.",
+helpResp: "Si queda vacío, se usará su nombre de usuario.",
+secAct: "Actividades", secActSub: "Registre cada frente de trabajo con su avance del día y el acumulado.",
+btnAddAct: "＋ Agregar actividad", actName: "Nombre de la actividad", actEquip: "Equipo / Máquina", noEquip: "Sin equipo",
+actHours: "Horas trabajadas", actUnit: "Unidad", actQtyDay: "Cantidad del día", actPctDay: "% del día",
+actQtyAcc: "Cantidad acumulada", actPctAcc: "% acumulado", btnRemove: "Quitar",
+secLabor: "👷 Mano de obra", secLaborSub: "Cargos y cantidad de personas presentes hoy.",
+btnAddRole: "＋ Agregar cargo", noRoles: "Aún no hay cargos agregados", catEmptyLabor: "No hay cargos en el catálogo",
+catEmptyEquip: "No hay equipos en el catálogo", searchRole: "Buscar o nuevo cargo...", searchEquip: "Buscar o nuevo equipo...",
+btnCreateAdd: "＋ Crear y agregar", btnCancelLink: "Cancelar", laborTitle: "👷 Mano de obra — Total:",
+laborOne: "1 persona", laborMany: "personas", secEquip: "🚜 Equipos", secEquipSub: "Equipos y máquinas utilizados en la jornada.",
+btnAddEquip: "＋ Agregar equipo", noEquips: "Aún no hay equipos agregados", equipTitle: "🚜 Equipamentos — Total:",
+equipOne: "1 equipo", equipMany: "equipos",
+secClima: "🌤️ Clima", secClimaSub: "Condición del tiempo durante la mañana y la tarde.",
+lblMorning: "Mañana", lblAfternoon: "Tarde", optNone: "—", cBueno: "Bueno ☀️", cNublado: "Nublado ☁️", cLluvia: "Lluvia 🌧️",
+secText: "📝 Textos del informe", secTextSub: "Ocurrencias, seguridad y próximos pasos.",
+lblOcur: "⚠️ Ocurrencias", lblSeg: "🦺 Seguridad", lblProx: "📌 Próximos pasos",
+secProgress: "Avance del formulario", secProgressSub: "Campos principales completados antes de guardar.",
+btnSave: "Guardar informe", btnCopy: "Copiar texto", pillText: "Texto listo", prevTitle: "Vista previa del informe",
+prevSub: "Así se verá el texto que puede copiar o compartir.", btnBack: "← Volver al formulario", heroLbl: "Total del día",
+heroCap: "Se calcula con mano de obra y equipos registrados.", btnPrint: "Imprimir / PDF",
+pillAdmin: "Solo administrador", admTitle: "Administración", admSub: "Gestione proyectos, obras y los usuarios con acceso.",
+tabObras: "Obras", tabUsers: "Usuarios", btnNewProj: "＋ Nuevo proyecto", btnNewObra: "＋ Nueva obra",
+lblProjName: "Nombre del proyecto", lblObraName: "Nombre de la obra", btnCancel: "Cancelar",
+btnNewUser: "＋ Nuevo usuario", lblNombre: "Nombre completo", lblProvPass: "Contraseña provisional (mínimo 6)",
+lblRole: "Papel", userWarn: "El usuario debe cambiar la contraseña en el primer ingreso usando 'Olvidé mi contraseña'.",
+btnCreateUser: "Crear usuario", userCreated: "Usuario creado", removeAccess: "Excluir acceso", changeRole: "Cambiar papel",
+confirmDel: "¿Confirmar eliminación?", noProjects: "Aún no hay proyectos.", addObraInline: "＋ Obra",
+noObras: "Sin obras", delProject: "Eliminar", editObra: "Editar", delObra: "Eliminar",
+toastSaved: "Informe guardado", toastCopied: "Texto copiado", toastRemoved: "Eliminado", toastProj: "Proyecto creado",
+toastObra: "Obra creada", toastCatAdd: "Agregado al informe", toastCatNew: "Creado en el catálogo",
+toastReset: "Formulario limpio", toastLogout: "Sesión cerrada", toastRole: "Papel actualizado",
+errFill: "Complete proyecto, obra y fecha.", errPass: "La contraseña debe tener al menos 6 caracteres.",
+errEmailReq: "Ingrese un correo válido.", errLogin: "Correo o contraseña incorrectos.",
+personas: "personas", equipos: "equipos", cargo: "cargo", equipo: "equipo", autorLbl: "Responsable",
+noPermHint: "Solo el administrador puede usar esta sección.", noActivities: "Aún no hay actividades agregadas.",
+yes: "Sí", no: "No", reportTitle: "AVANCE DIARIO DE OBRA", hoy: "Hoy", acumulado: "Acumulado",
+equipoLbl: "Equipo", horasLbl: "Horas", proyectoLbl: "Proyecto", obraLbl: "Obra", actLbl: "ACTIVIDADES",
+manoLbl: "MANO DE OBRA", equipLbl: "EQUIPOS", climaLbl: "CLIMA", ocurLbl: "OCURRENCIAS", segLbl: "SEGURIDAD",
+proxLbl: "PRÓXIMOS PASOS", mañana: "Mañana", tarde: "Tarde", unidad: "Unidad", shareText: "Compartir por WhatsApp"
+},
+pt: {
+loginTitle: "Informe de Avanço Diário", loginSub: "Entre com sua conta da equipe",
+lblEmail: "E-mail", lblPass: "Senha", btnLogin: "Entrar", btnLogging: "Entrando...",
+forgot: "Esqueci a senha", accessNote: "O acesso é concedido pelo administrador.",
+recTitle: "Recuperar senha", recText: "Informe seu e-mail e enviaremos um link para redefinir sua senha.",
+btnSend: "Enviar link", backLogin: "← Voltar ao login", recSent: "Link enviado para o seu e-mail.",
+noPermTitle: "Acesso não autorizado", noPermText: "Sua conta não tem permissão para usar este aplicativo. Solicite acesso ao administrador.",
+btnLogout: "Sair", navHome: "Início", navNew: "Novo informe", navAdmin: "Admin", appFull: "Informe de Avanço Diário",
+homeTitle: "Informes de avanço", homeSub: "Consulte e gerencie os informes diários de obra da equipe.",
+btnNewReport: "＋ Novo informe", statTotal: "Informes", statToday: "Hoje", statPeople: "Pessoas hoje",
+histTitle: "Histórico de informes", histSub: "Os informes mais recentes aparecem primeiro.", histEmpty: "Ainda não há informes salvos.",
+pillDraft: "Rascunho", formTitle: "Novo informe diário", formSub: "Preencha os dados do dia. O texto do informe é gerado automaticamente.",
+btnReset: "Limpar", btnPreview: "Pré-visualizar", secId: "Identificação", secIdSub: "Projeto, obra, data e responsável do informe.",
+lblProyecto: "Projeto", lblObra: "Obra", lblFecha: "Data", lblResp: "Responsável",
+helpProyecto: "Selecione o projeto onde o trabalho foi realizado.", helpObra: "A lista de obras depende do projeto escolhido.",
+helpResp: "Se ficar vazio, será usado seu nome de usuário.",
+secAct: "Atividades", secActSub: "Registre cada frente de trabalho com o avanço do dia e o acumulado.",
+btnAddAct: "＋ Adicionar atividade", actName: "Nome da atividade", actEquip: "Equipamento / Máquina", noEquip: "Sem equipamento",
+actHours: "Horas trabalhadas", actUnit: "Unidade", actQtyDay: "Quantidade do dia", actPctDay: "% do dia",
+actQtyAcc: "Quantidade acumulada", actPctAcc: "% acumulado", btnRemove: "Remover",
+secLabor: "👷 Mão de obra", secLaborSub: "Cargos e quantidade de pessoas presentes hoje.",
+btnAddRole: "＋ Adicionar cargo", noRoles: "Ainda não há cargos adicionados", catEmptyLabor: "Não há cargos no catálogo",
+catEmptyEquip: "Não há equipamentos no catálogo", searchRole: "Buscar ou novo cargo...", searchEquip: "Buscar ou novo equipamento...",
+btnCreateAdd: "＋ Criar e adicionar", btnCancelLink: "Cancelar", laborTitle: "👷 Mão de obra — Total:",
+laborOne: "1 pessoa", laborMany: "pessoas", secEquip: "🚜 Equipamentos", secEquipSub: "Equipamentos e máquinas usados na jornada.",
+btnAddEquip: "＋ Adicionar equipamento", noEquips: "Ainda não há equipamentos adicionados", equipTitle: "🚜 Equipamentos — Total:",
+equipOne: "1 equipamento", equipMany: "equipamentos",
+secClima: "🌤️ Clima", secClimaSub: "Condição do tempo durante a manhã e a tarde.",
+lblMorning: "Manhã", lblAfternoon: "Tarde", optNone: "—", cBueno: "Bom ☀️", cNublado: "Nublado ☁️", cLluvia: "Chuva 🌧️",
+secText: "📝 Textos do informe", secTextSub: "Ocorrências, segurança e próximos passos.",
+lblOcur: "⚠️ Ocorrências", lblSeg: "🦺 Segurança", lblProx: "📌 Próximos passos",
+secProgress: "Avanço do formulário", secProgressSub: "Campos principais preenchidos antes de salvar.",
+btnSave: "Salvar informe", btnCopy: "Copiar texto", pillText: "Texto pronto", prevTitle: "Pré-visualização do informe",
+prevSub: "Assim ficará o texto que você pode copiar ou compartilhar.", btnBack: "← Voltar ao formulário", heroLbl: "Total do dia",
+heroCap: "Calculado com mão de obra e equipamentos registrados.", btnPrint: "Imprimir / PDF",
+pillAdmin: "Somente administrador", admTitle: "Administração", admSub: "Gerencie projetos, obras e os usuários com acesso.",
+tabObras: "Obras", tabUsers: "Usuários", btnNewProj: "＋ Novo projeto", btnNewObra: "＋ Nova obra",
+lblProjName: "Nome do projeto", lblObraName: "Nome da obra", btnCancel: "Cancelar",
+btnNewUser: "＋ Novo usuário", lblNombre: "Nome completo", lblProvPass: "Senha provisória (mínimo 6)",
+lblRole: "Papel", userWarn: "O usuário deve trocar a senha no primeiro acesso usando 'Esqueci a senha'.",
+btnCreateUser: "Criar usuário", userCreated: "Usuário criado", removeAccess: "Excluir acesso", changeRole: "Alterar papel",
+confirmDel: "Confirmar exclusão?", noProjects: "Ainda não há projetos.", addObraInline: "＋ Obra",
+noObras: "Sem obras", delProject: "Excluir", editObra: "Editar", delObra: "Excluir",
+toastSaved: "Informe salvo", toastCopied: "Texto copiado", toastRemoved: "Removido", toastProj: "Projeto criado",
+toastObra: "Obra criada", toastCatAdd: "Adicionado ao informe", toastCatNew: "Criado no catálogo",
+toastReset: "Formulário limpo", toastLogout: "Sessão encerrada", toastRole: "Papel atualizado",
+errFill: "Preencha projeto, obra e data.", errPass: "A senha deve ter pelo menos 6 caracteres.",
+errEmailReq: "Informe um e-mail válido.", errLogin: "E-mail ou senha incorretos.",
+personas: "pessoas", equipos: "equipamentos", cargo: "cargo", equipo: "equipamento", autorLbl: "Responsável",
+noPermHint: "Somente o administrador pode usar esta seção.", noActivities: "Ainda não há atividades adicionadas.",
+yes: "Sim", no: "Não", reportTitle: "AVANÇO DIÁRIO DE OBRA", hoy: "Hoje", acumulado: "Acumulado",
+equipoLbl: "Equipamento", horasLbl: "Horas", proyectoLbl: "Projeto", obraLbl: "Obra", actLbl: "ATIVIDADES",
+manoLbl: "MÃO DE OBRA", equipLbl: "EQUIPAMENTOS", climaLbl: "CLIMA", ocurLbl: "OCORRÊNCIAS", segLbl: "SEGURANÇA",
+proxLbl: "PRÓXIMOS PASSOS", mañana: "Manhã", tarde: "Tarde", unidad: "Unidade", shareText: "Compartilhar pelo WhatsApp"
 }
-
-function setIdioma(lang) {
-  idiomaAtual = lang;
-  aplicarIdioma();
-}
+};
+var idiomaAtual = 'es';
+function t(k) { return (DICT[idiomaAtual] && DICT[idiomaAtual][k]) || DICT.es[k] || k; }
 
 function aplicarIdioma() {
-  document.documentElement.lang = idiomaAtual;
-  document.querySelectorAll('[data-i18n]').forEach(el => {
-    const k = el.getAttribute('data-i18n');
-    if (DICT[idiomaAtual] && DICT[idiomaAtual][k]) {
-      el.textContent = DICT[idiomaAtual][k];
-    }
-  });
-  document.querySelectorAll('[data-i18n-ph]').forEach(el => {
-    const k = el.getAttribute('data-i18n-ph');
-    if (DICT[idiomaAtual] && DICT[idiomaAtual][k]) {
-      el.placeholder = DICT[idiomaAtual][k];
-    }
-  });
+document.documentElement.lang = idiomaAtual === 'es' ? 'es' : 'pt-BR';
+document.querySelectorAll('[data-i18n]').forEach(function (el) {
+var k = el.getAttribute('data-i18n');
+if (DICT[idiomaAtual][k] !== undefined) el.textContent = DICT[idiomaAtual][k];
+});
+document.querySelectorAll('.flag-btn').forEach(function (b) {
+b.classList.toggle('active', b.getAttribute('data-lang') === idiomaAtual);
+});
+document.getElementById('fResp').placeholder = idiomaAtual === 'es' ? 'Ej.: Carlos Quispe' : 'Ex.: Carlos Quispe';
+document.getElementById('btnLogin').textContent = t('btnLogin');
+renderAll();
+}
+document.querySelectorAll('.flag-btn').forEach(function (b) {
+b.addEventListener('click', function () { idiomaAtual = b.getAttribute('data-lang'); aplicarIdioma(); });
+});
 
-  // Update language buttons active state
-  document.querySelectorAll('.lang-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.getAttribute('data-lang') === idiomaAtual);
-  });
+// ---- Data models ----
+var STORE = window.skipStore('iad_v10_state', null);
+var DEFAULT_STATE = {
+usuarios: [
+{ uid: 'u-admin', email: 'admin@alupar.com.pe', nome: 'Administrador', papel: 'admin', senha: 'admin123' },
+{ uid: 'u-editor', email: 'editor@alupar.com.pe', nome: 'Carlos Quispe', papel: 'editor', senha: 'editor123' },
+{ uid: 'u-leitor', email: 'leitor@alupar.com.pe', nome: 'Ana Ríos', papel: 'leitor', senha: 'leitor123' }
+],
+sessao: null,
+projetos: [
+{ id: 'p1', nome: 'Subestación Chilca' },
+{ id: 'p2', nome: 'Línea de transmisión Pachachaca' }
+],
+obras: [
+{ id: 'o1', projetoId: 'p1', nome: 'Cimentación subestación 220 kV' },
+{ id: 'o2', projetoId: 'p1', nome: 'Muro perimétrico' },
+{ id: 'o3', projetoId: 'p2', nome: 'Torres T-14 a T-22' }
+],
+catalogos: {
+u_editor_cat: {}
+},
+catFuncoes: ['Ingeniero Residente', 'Capataz', 'Operario', 'Oficial', 'Ayudante', 'Topógrafo', 'Electricista', 'Soldador'],
+catEquip: ['Retroexcavadora', 'Volquete', 'Grúa móvil', 'Compactadora', 'Camión mixer', 'Tractor de orugas'],
+informes: [
+{ id: 'i1', autorId: 'u-editor', autorNome: 'Carlos Quispe', autorEmail: 'editor@alupar.com.pe', projeto: 'Subestación Chilca', obra: 'Cimentación subestación 220 kV', dataISO: '2025-05-12', dataBR: '12/05/2025', atividades: [{ nome: 'Excavación de zapatas', equipo: 'Retroexcavadora', horas: 6, unidade: 'm³', qtdDia: 14, pctDia: 8, qtdAcc: 62, pctAcc: 35 }], maoDeObra: [{ nome: 'Capataz', qtd: 2 }, { nome: 'Operario', qtd: 8 }], equipamentos: [{ nome: 'Retroexcavadora', qtd: 1 }], clima: { manha: 'Bueno ☀️', tarde: 'Nublado ☁️' }, ocorrencias: 'Retraso de 1 hora por falta de energía en el frente norte.', seguranca: 'Charla de 5 min sobre uso de EPP.', proximosPassos: 'Iniciar armado de zapatas Z-4 a Z-7.', criadoEm: '2025-05-12T18:10:00' },
+{ id: 'i2', autorId: 'u-admin', autorNome: 'Administrador', autorEmail: 'admin@alupar.com.pe', projeto: 'Línea de transmisión Pachachaca', obra: 'Torres T-14 a T-22', dataISO: '2025-05-13', dataBR: '13/05/2025', atividades: [{ nome: 'Izaje de torre T-15', equipo: 'Grúa móvil', horas: 5, unidade: 'un', qtdDia: 1, pctDia: 12, qtdAcc: 6, pctAcc: 40 }], maoDeObra: [{ nome: 'Ingeniero Residente', qtd: 1 }, { nome: 'Soldador', qtd: 3 }], equipamentos: [{ nome: 'Grúa móvil', qtd: 1 }, { nome: 'Camión mixer', qtd: 1 }], clima: { manha: 'Bueno ☀️', tarde: 'Bueno ☀️' }, ocorrencias: '', seguranca: 'Inspección de arnés antes del izaje.', proximosPassos: 'Montaje de cruceta de T-16.', criadoEm: '2025-05-13T17:40:00' }
+]
+};
+var state = STORE.get() || DEFAULT_STATE;
+if (!state.catalogos) state.catalogos = {};
+function save() { STORE.set(state); }
 
-  // Update dynamic titles
-  atualizarTitulosContadores();
-  if (currentPreviewData) {
-    document.getElementById('reporteTextoArea').textContent = gerarTextoFormatadoInforme(currentPreviewData);
-  }
+// Mock session: only persisted through shell store, not auth-based
+var session = { user: null };
+
+function currentUser() {
+return state.usuarios.find(function (u) { return u.uid === (state.sessao || null); }) || null;
 }
 
-// ----------------------------------------------------
-// CLIENT-SIDE PERSISTED EMULATION / FIREBASE BRIDGE
-// ----------------------------------------------------
-// Pre-seeded Demo Data for immediate, end-to-end functionality
-const SEED_USERS = [
-  {
-    uid: ADMIN_UID,
-    email: "admin@alupar.com.pe",
-    nome: "Ing. Carlos Mendoza (Admin)",
-    papel: "admin",
-    criadoEm: "2025-01-10T08:00:00Z"
-  },
-  {
-    uid: "usr-editor-001",
-    email: "residente@alupar.com.pe",
-    nome: "Ing. Patricia Valdivia (Residente)",
-    papel: "editor",
-    criadoEm: "2025-01-15T09:30:00Z"
-  },
-  {
-    uid: "usr-leitor-001",
-    email: "fiscal@alupar.com.pe",
-    nome: "Lic. Fernando Ruiz (Auditor)",
-    papel: "leitor",
-    criadoEm: "2025-02-01T10:00:00Z"
-  }
+// ---- Screens ----
+function mostrarTela(id) {
+document.querySelectorAll('.screen').forEach(function (s) { s.classList.remove('active'); });
+document.getElementById(id).classList.add('active');
+}
+function mostrarView(id) {
+document.querySelectorAll('#appShell .view').forEach(function (v) { v.classList.remove('active'); });
+document.getElementById('view-' + id).classList.add('active');
+document.querySelectorAll('[data-nav]').forEach(function (b) {
+b.classList.toggle('active', b.getAttribute('data-nav') === id);
+});
+window.scrollTo(0, 0);
+if (id === 'admin') renderAdmin();
+if (id === 'inicio') renderHome();
+}
+document.querySelectorAll('[data-nav]').forEach(function (b) {
+b.addEventListener('click', function () {
+var id = b.getAttribute('data-nav');
+var u = currentUser();
+if (id === 'admin' && (!u || u.papel !== 'admin')) { window.skipUI.toast(t('noPermHint'), { type: 'error' }); return; }
+mostrarView(id);
+});
+});
+
+// ---- Toast wrapper ----
+function toast(msg) { window.skipUI.toast(msg); }
+
+// ---- Login ----
+function setLoginErr(msg, code) {
+var e = document.getElementById('loginErr'), c = document.getElementById('loginCode');
+e.textContent = msg || ''; e.classList.toggle('show', !!msg);
+c.textContent = code ? 'Erro: ' + code : '';
+}
+document.getElementById('loginForm').addEventListener('submit', function (ev) {
+ev.preventDefault();
+setLoginErr('', '');
+var email = document.getElementById('loginEmail').value.trim();
+var pass = document.getElementById('loginPass').value;
+var btn = document.getElementById('btnLogin');
+if (!email || !pass) { setLoginErr(t('errFill'), 'auth/missing-fields'); return; }
+var u = state.usuarios.find(function (x) { return x.email === email && x.senha === pass; });
+btn.disabled = true; btn.textContent = t('btnLogging');
+setTimeout(function () {
+btn.disabled = false; btn.textContent = t('btnLogin');
+if (!u) { setLoginErr(t('errLogin'), 'auth/invalid-credential'); console.log('[auth] auth/invalid-credential'); return; }
+state.sessao = u.uid; save(); entrarApp(u);
+}, 350);
+});
+document.getElementById('goRecover').addEventListener('click', function () {
+document.getElementById('viewLogin').classList.remove('active');
+document.getElementById('viewRecuperar').classList.add('active');
+setLoginErr('', '');
+});
+document.getElementById('backLogin').addEventListener('click', function () {
+document.getElementById('viewRecuperar').classList.remove('active');
+document.getElementById('viewLogin').classList.add('active');
+document.getElementById('recErr').classList.remove('show');
+document.getElementById('recOk').classList.remove('show');
+document.getElementById('recCode').textContent = '';
+});
+document.getElementById('recForm').addEventListener('submit', function (ev) {
+ev.preventDefault();
+var email = document.getElementById('recEmail').value.trim();
+var ok = document.getElementById('recOk'), er = document.getElementById('recErr'), c = document.getElementById('recCode');
+ok.classList.remove('show'); er.classList.remove('show'); c.textContent = '';
+var u = state.usuarios.find(function (x) { return x.email === email; });
+if (!u) { er.textContent = t('errEmailReq'); er.classList.add('show'); c.textContent = 'Erro: auth/user-not-found'; return; }
+ok.textContent = t('recSent'); ok.classList.add('show');
+});
+document.getElementById('loginEmail').addEventListener('input', function () { setLoginErr('', ''); });
+document.getElementById('loginPass').addEventListener('input', function () { setLoginErr('', ''); });
+
+function entrarApp(u) {
+mostrarTela('appShell');
+document.getElementById('sideEmail').textContent = u.email;
+document.getElementById('homeRole').textContent = u.papel;
+var isAdmin = u.papel === 'admin';
+document.getElementById('navAdminDesk').style.display = isAdmin ? '' : 'none';
+document.getElementById('navAdminMob').style.display = isAdmin ? '' : 'none';
+mostrarView('inicio');
+renderHome();
+renderForm();
+}
+
+function sair() {
+state.sessao = null; save();
+toast(t('toastLogout'));
+document.getElementById('loginEmail').value = '';
+document.getElementById('loginPass').value = '';
+mostrarTela('loginScreen');
+}
+document.getElementById('btnLogoutSide').addEventListener('click', sair);
+document.getElementById('btnSignOutNoPerm').addEventListener('click', sair);
+
+// ---- Home ----
+function renderHome() {
+var list = state.informes.slice().sort(function (a, b) { return b.criadoEm.localeCompare(a.criadoEm); }).slice(0, 300);
+var hoje = new Date().toISOString().slice(0, 10);
+var todayList = state.informes.filter(function (i) { return i.dataISO === hoje; });
+document.getElementById('statTotal').textContent = state.informes.length;
+document.getElementById('statToday').textContent = todayList.length;
+document.getElementById('statPeople').textContent = todayList.reduce(function (s, i) { return s + sumPeople(i.maoDeObra); }, 0);
+document.getElementById('histCount').textContent = list.length + ' ' + (idiomaAtual === 'es' ? 'informes' : 'informes');
+var box = document.getElementById('historyList');
+box.innerHTML = '';
+if (!list.length) { box.innerHTML = '<p class="empty-msg">' + t('histEmpty') + '</p>'; return; }
+list.forEach(function (i) {
+var u = currentUser();
+var card = document.createElement('div');
+card.className = 'card-box';
+card.style.margin = '0';
+card.innerHTML =
+'<div class="row between"><span class="pill pill-blue">' + escapeHtml(i.dataBR) + '</span>' +
+'<span class="pill pill-gray">' + escapeHtml(i.autorNome) + '</span></div>' +
+'<h3 style="margin-top:8px;">' + escapeHtml(i.obra) + '</h3>' +
+'<p class="muted-sm">' + escapeHtml(i.projeto) + '</p>' +
+'<div class="row between"><span class="pill pill-green">' + sumPeople(i.maoDeObra) + ' ' + t('personas') + '</span>' +
+'<span class="pill pill-gray">' + sumEquip(i.equipamentos) + ' ' + t('equipos') + '</span></div>' +
+'<div class="action-bar" style="margin-top:10px;">' +
+'<button class="btn" data-variant="outline" data-size="sm" data-view="' + i.id + '">' + (idiomaAtual === 'es' ? 'Ver' : 'Ver') + '</button>' +
+((u && (u.papel === 'admin' || i.autorId === u.uid)) ? '<button class="btn" data-variant="ghost" data-size="sm" data-del="' + i.id + '">' + t('btnRemove') + '</button>' : '') +
+'</div>';
+box.appendChild(card);
+});
+box.querySelectorAll('[data-view]').forEach(function (b) {
+b.addEventListener('click', function () {
+var inf = state.informes.find(function (x) { return x.id === b.getAttribute('data-view'); });
+if (inf) { currentReport = inf; renderPreviewFor(inf); mostrarView('preview'); }
+});
+});
+box.querySelectorAll('[data-del]').forEach(function (b) {
+b.addEventListener('click', function () {
+if (!window.confirm(t('confirmDel'))) return;
+state.informes = state.informes.filter(function (x) { return x.id !== b.getAttribute('data-del'); });
+save(); renderHome(); toast(t('toastRemoved'));
+});
+});
+}
+
+function sumPeople(arr) { return (arr || []).reduce(function (s, x) { return s + (Number(x.qtd) || 0); }, 0); }
+function sumEquip(arr) { return (arr || []).reduce(function (s, x) { return s + (Number(x.qtd) || 0); }, 0); }
+function escapeHtml(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]; }); }
+
+document.getElementById('btnNewReport').addEventListener('click', function () { mostrarView('formulario'); });
+
+// ---- Form state ----
+var form = { atividades: [], maoDeObra: [], equipamentos: [] };
+var currentReport = null;
+
+function renderForm() {
+var projSel = document.getElementById('fProyecto');
+projSel.innerHTML = state.projetos.map(function (p) { return '<option value="' + p.id + '">' + escapeHtml(p.nome) + '</option>'; }).join('');
+if (!projSel.value && state.projetos[0]) projSel.value = state.projetos[0].id;
+refreshObraSelect();
+if (!document.getElementById('fFecha').value) document.getElementById('fFecha').value = new Date().toISOString().slice(0, 10);
+renderActivities(); renderLabor(); renderEquip(); updateProgress();
+}
+function refreshObraSelect() {
+var pid = document.getElementById('fProyecto').value;
+var obras = state.obras.filter(function (o) { return o.projetoId === pid; });
+var sel = document.getElementById('fObra');
+sel.innerHTML = obras.length ? obras.map(function (o) { return '<option value="' + o.id + '">' + escapeHtml(o.nome) + '</option>'; }).join('') : '<option value="">' + t('noObras') + '</option>';
+}
+document.getElementById('fProyecto').addEventListener('change', function () { refreshObraSelect(); updateProgress(); });
+
+['fObra', 'fFecha', 'fResp', 'fOcur', 'fSeg', 'fProx', 'fClimaM', 'fClimaT'].forEach(function (id) {
+document.getElementById(id).addEventListener('input', updateProgress);
+document.getElementById(id).addEventListener('change', updateProgress);
+});
+
+function updateProgress() {
+var checks = [
+document.getElementById('fProyecto').value,
+document.getElementById('fObra').value,
+document.getElementById('fFecha').value,
+document.getElementById('fResp').value.trim(),
+form.atividades.length,
+sumPeople(form.maoDeObra),
+document.getElementById('fClimaM').value || document.getElementById('fClimaT').value,
+(document.getElementById('fOcur').value || document.getElementById('fSeg').value || document.getElementById('fProx').value)
 ];
-
-const SEED_PROJECTS = [
-  { id: "proj-1", nome: "LT 500kV Mantaro — Nueva Yanango", criadoPor: "Carlos Mendoza" },
-  { id: "proj-2", nome: "SE 220kV Pachachaca Ampliación", criadoPor: "Carlos Mendoza" },
-  { id: "proj-3", nome: "Línea de Transmisión Alupar Norte", criadoPor: "Carlos Mendoza" }
-];
-
-const SEED_OBRAS = [
-  { id: "obra-1", projetoId: "proj-1", nome: "Frente 1: Cimentación Torre T-142 a T-158" },
-  { id: "obra-2", projetoId: "proj-1", nome: "Frente 2: Montaje de Estructuras y Aisladores" },
-  { id: "obra-3", projetoId: "proj-2", nome: "Bahía de Transformador AT-02 220/60kV" },
-  { id: "obra-4", projetoId: "proj-3", nome: "Tendido de Conductor Acsr Curlew Km 45" }
-];
-
-const DEFAULT_CATALOG_LABOR = [
-  "Ingeniero Residente",
-  "Supervisor SST",
-  "Maestro de Obra",
-  "Topógrafo",
-  "Operador de Retroexcavadora",
-  "Operador de Grúa",
-  "Oficial Fierrero",
-  "Oficial Encofrador",
-  "Peón / Ayudante",
-  "Liniero Especialista",
-  "Técnico Electricista"
-];
-
-const DEFAULT_CATALOG_EQUIP = [
-  "Retroexcavadora CAT 420F",
-  "Excavadora sobre orugas 20T",
-  "Camión Grúa 12 Ton",
-  "Camión Volquete 15m³",
-  "Grupo Electrógeno 65kVA",
-  "Torre de Iluminación LED",
-  "Mezcladora de Concreto 11p³",
-  "Vibrador de Concreto a gasolina",
-  "Camioneta 4x4 de Supervisión",
-  "Winche de Tendido Hidráulico"
-];
-
-const SEED_INFORMES = [
-  {
-    id: "inf-101",
-    autorId: ADMIN_UID,
-    autorEmail: "admin@alupar.com.pe",
-    autorNome: "Ing. Carlos Mendoza (Admin)",
-    projeto: "LT 500kV Mantaro — Nueva Yanango",
-    obra: "Frente 1: Cimentación Torre T-142 a T-158",
-    dataISO: "2025-05-12",
-    dataBR: "12/05/2025",
-    clima: { manana: "Bueno ☀️", tarde: "Nublado ☁️" },
-    atividades: [
-      {
-        nome: "Excavación masiva en pata C torre T-144 con suelo tipo semirrocoso",
-        equipo: "Retroexcavadora CAT 420F",
-        horas: 4,
-        hoy: "6 m³",
-        acumulado: "16 m³",
-        pct: "45%"
-      },
-      {
-        nome: "Vaciado de solado f'c=100 kg/cm² e instalación de pernos de anclaje",
-        equipo: "Mezcladora de Concreto 11p³",
-        horas: 3,
-        hoy: "3.5 m³",
-        acumulado: "10 m³",
-        pct: "65%"
-      }
-    ],
-    maoDeObra: [
-      { cargo: "Ingeniero Residente", qtd: 1 },
-      { cargo: "Supervisor SST", qtd: 1 },
-      { cargo: "Maestro de Obra", qtd: 1 },
-      { cargo: "Operador de Retroexcavadora", qtd: 1 },
-      { cargo: "Oficial Fierrero", qtd: 4 },
-      { cargo: "Peón / Ayudante", qtd: 6 }
-    ],
-    equipamentos: [
-      { nome: "Retroexcavadora CAT 420F", qtd: 1 },
-      { nome: "Mezcladora de Concreto 11p³", qtd: 1 },
-      { nome: "Camioneta 4x4 de Supervisión", qtd: 2 }
-    ],
-    ocorrencias: "Retraso de 40 min por tránsito en desvío de quebrada. Sin mayor afectación al cronograma.",
-    seguranca: "Charla de 5 minutos sobre 'Prevención de atrapamientos y delimitación de radio de giro de maquinaria'. 14 participantes. Cero incidentes.",
-    proximosPassos: "Continuar con armado de parrilla de acero y colocación de encofrado metálico para zapata T-144.",
-    criadoEm: "2025-05-12T18:30:00Z"
-  },
-  {
-    id: "inf-102",
-    autorId: "usr-editor-001",
-    autorEmail: "residente@alupar.com.pe",
-    autorNome: "Ing. Patricia Valdivia (Residente)",
-    projeto: "SE 220kV Pachachaca Ampliación",
-    obra: "Bahía de Transformador AT-02 220/60kV",
-    dataISO: "2025-05-11",
-    dataBR: "11/05/2025",
-    clima: { manana: "Bueno ☀️", tarde: "Bueno ☀️" },
-    atividades: [
-      {
-        nome: "Tendido de ductos subterráneos de control 4'' PVC-P y zanja de cableado",
-        equipo: "",
-        horas: 0,
-        hoy: "45 m",
-        acumulado: "180 m",
-        pct: "75%"
-      }
-    ],
-    maoDeObra: [
-      { cargo: "Ingeniero Residente", qtd: 1 },
-      { cargo: "Técnico Electricista", qtd: 3 },
-      { cargo: "Peón / Ayudante", qtd: 4 }
-    ],
-    equipamentos: [
-      { nome: "Camión Grúa 12 Ton", qtd: 1 },
-      { nome: "Torre de Iluminación LED", qtd: 1 }
-    ],
-    ocorrencias: "",
-    seguranca: "Verificación de permisos de trabajo en caliente y bloqueo LOTO de celda vecina.",
-    proximosPassos: "Ensayos de aislamiento y conexionado de borneras en tablero TCC-01.",
-    criadoEm: "2025-05-11T17:45:00Z"
-  }
-];
-
-// Persistent Stores via window.skipStore
-const storeUsers = window.skipStore("iad_v9_usuarios", SEED_USERS);
-const storeProjects = window.skipStore("iad_v9_projetos", SEED_PROJECTS);
-const storeObras = window.skipStore("iad_v9_obras", SEED_OBRAS);
-const storeCatalogLabor = window.skipStore("iad_v9_cat_labor", DEFAULT_CATALOG_LABOR);
-const storeCatalogEquip = window.skipStore("iad_v9_cat_equip", DEFAULT_CATALOG_EQUIP);
-const storeInformes = window.skipStore("iad_v9_informes", SEED_INFORMES);
-
-// Session State
-// Seed with Admin by default per Product Standard
-const sessionStore = window.skipStore("iad-session", { user: ADMIN_UID });
-
-let currentUser = null;
-let meuPapel = "leitor";
-let meuNome = "";
-let currentEditId = null; // null = novo, string = editando
-let currentPreviewData = null;
-let previewOrigem = "inicio"; // "inicio" ou "formulario"
-
-// Form dynamic collections
-let formAtividades = [];
-let formManoDeObra = []; // array of { cargo, qtd }
-let formEquipamentos = []; // array of { nome, qtd }
-
-// ----------------------------------------------------
-// AUTHENTICATION & PERMISSIONS LIFECYCLE
-// ----------------------------------------------------
-function checkAuthState() {
-  const session = sessionStore.get();
-  if (!session || !session.user) {
-    mostrarTela("loginScreen");
-    return;
-  }
-
-  const uid = session.user;
-  const users = storeUsers.get() || [];
-  let userDoc = users.find(u => u.uid === uid);
-
-  // If user is ADMIN_UID and doc doesn't exist, auto create per spec #3
-  if (!userDoc && uid === ADMIN_UID) {
-    userDoc = {
-      uid: ADMIN_UID,
-      email: "admin@alupar.com.pe",
-      nome: "Administrador Alupar",
-      papel: "admin",
-      criadoEm: new Date().toISOString()
-    };
-    storeUsers.update(list => [...list, userDoc]);
-  }
-
-  // If user doc not found and not ADMIN_UID, unauthorized per spec #3
-  if (!userDoc) {
-    document.getElementById("semPermissaoUserEmail").textContent = uid;
-    mostrarTela("semPermissaoScreen");
-    return;
-  }
-
-  // Document exists! Validate role
-  currentUser = userDoc;
-  meuPapel = (userDoc.papel === "admin" || userDoc.papel === "editor" || userDoc.papel === "leitor") ? userDoc.papel : "leitor";
-  meuNome = userDoc.nome || userDoc.email;
-
-  // Configure UI according to permissions
-  aplicarPermissoesUI();
-  mostrarTela("appShell");
-  navegarView("inicio");
-  renderizarInformesGrid();
+var done = checks.filter(function (x) { return !!x; }).length;
+var pct = Math.round(done / checks.length * 100);
+document.getElementById('progressBar').style.width = pct + '%';
+document.getElementById('progressPill').textContent = pct + '%';
 }
 
-function aplicarPermissoesUI() {
-  // Desktop Sidebar User Info
-  document.getElementById("desktopUserNome").textContent = meuNome;
-  document.getElementById("desktopUserEmail").textContent = currentUser.email;
-  const roleEl = document.getElementById("desktopUserRole");
-  roleEl.textContent = meuPapel.toUpperCase();
-  if (meuPapel === "admin") {
-    roleEl.setAttribute("data-variant", "");
-    roleEl.style.backgroundColor = "var(--brand-blue)";
-    roleEl.style.color = "#fff";
-  } else if (meuPapel === "editor") {
-    roleEl.setAttribute("data-variant", "secondary");
-  } else {
-    roleEl.setAttribute("data-variant", "outline");
-  }
+// ---- Activities ----
+function renderActivities() {
+var box = document.getElementById('activitiesBox');
+box.innerHTML = '';
+if (!form.atividades.length) { box.innerHTML = '<p class="empty-msg">' + t('noActivities') + '</p>'; return; }
+form.atividades.forEach(function (a, idx) {
+var card = document.createElement('div');
+card.className = 'act-card';
+card.innerHTML =
+'<div class="grid-act">' +
+'<div><label class="field-label">' + t('actName') + '</label><input class="input" data-k="nome" value="' + escapeHtml(a.nome) + '" placeholder="Ej.: Vaciado de losa"></div>' +
+'<div><label class="field-label">' + t('actEquip') + '</label><select class="input" data-k="equipo">' +
+'<option value="">' + t('noEquip') + '</option>' +
+state.catEquip.map(function (e) { return '<option value="' + escapeHtml(e) + '"' + (a.equipo === e ? ' selected' : '') + '>' + escapeHtml(e) + '</option>'; }).join('') +
+'</select></div>' +
+'<div><label class="field-label">' + t('actHours') + '</label><div style="display:flex;align-items:center;gap:4px;"><input class="input" type="number" step="0.5" min="0" data-k="horas" value="' + (a.horas || 0) + '"><span>h</span></div></div>' +
+'<div><label class="field-label">' + t('actUnit') + '</label><select class="input" data-k="unidade">' +
+['m³', 'm²', 'ml', 'un', 'kg', 't'].map(function (u) { return '<option' + (a.unidade === u ? ' selected' : '') + '>' + u + '</option>'; }).join('') +
+'</select></div>' +
+'<div><label class="field-label">' + t('actQtyDay') + '</label><input class="input" type="number" min="0" data-k="qtdDia" value="' + (a.qtdDia || 0) + '"></div>' +
+'<div><label class="field-label">' + t('actPctDay') + '</label><input class="input" type="number" min="0" max="100" data-k="pctDia" value="' + (a.pctDia || 0) + '"></div>' +
+'<div><label class="field-label">' + t('actQtyAcc') + '</label><input class="input" type="number" min="0" data-k="qtdAcc" value="' + (a.qtdAcc || 0) + '"></div>' +
+'<div><label class="field-label">' + t('actPctAcc') + '</label><input class="input" type="number" min="0" max="100" data-k="pctAcc" value="' + (a.pctAcc || 0) + '"></div>' +
+'</div>' +
+'<div style="text-align:right;margin-top:8px;"><button class="btn" data-variant="ghost" data-size="sm" data-rm="' + idx + '">' + t('btnRemove') + '</button></div>';
+box.appendChild(card);
+card.querySelectorAll('[data-k]').forEach(function (inp) {
+inp.addEventListener('input', function () {
+var k = inp.getAttribute('data-k');
+a[k] = (k === 'nome' || k === 'equipo' || k === 'unidade') ? inp.value : Number(inp.value) || 0;
+});
+inp.addEventListener('change', function () {
+var k = inp.getAttribute('data-k');
+a[k] = (k === 'nome' || k === 'equipo' || k === 'unidade') ? inp.value : Number(inp.value) || 0;
+updateProgress();
+});
+});
+});
+box.querySelectorAll('[data-rm]').forEach(function (b) {
+b.addEventListener('click', function () {
+form.atividades.splice(Number(b.getAttribute('data-rm')), 1);
+renderActivities(); updateProgress(); toast(t('toastRemoved'));
+});
+});
+}
+document.getElementById('btnAddAct').addEventListener('click', function () {
+form.atividades.push({ nome: '', equipo: '', horas: 0, unidade: 'm³', qtdDia: 0, pctDia: 0, qtdAcc: 0, pctAcc: 0 });
+renderActivities(); updateProgress();
+});
 
-  // Admin access
-  const isAdm = meuPapel === "admin";
-  const deskNavAdmin = document.getElementById("desktopNavAdmin");
-  const mobNavAdmin = document.getElementById("mobileNavAdmin");
-  if (deskNavAdmin) deskNavAdmin.style.display = isAdm ? "flex" : "none";
-  if (mobNavAdmin) mobNavAdmin.style.display = isAdm ? "flex" : "none";
-
-  // Create report button: hidden for "leitor"
-  const podeCriar = meuPapel === "admin" || meuPapel === "editor";
-  const btnNovoWrap = document.getElementById("btnNovoInformeWrap");
-  const mobNavNovo = document.getElementById("mobileNavNovo");
-  if (btnNovoWrap) btnNovoWrap.style.display = podeCriar ? "block" : "none";
-  if (mobNavNovo) mobNavNovo.style.display = podeCriar ? "flex" : "none";
+// ---- Labor & equipment catalog chips ----
+function renderLabor() {
+var box = document.getElementById('laborBox');
+box.innerHTML = '';
+if (!form.maoDeObra.length) box.innerHTML = '<p class="empty-msg">' + t('noRoles') + '</p>';
+form.maoDeObra.forEach(function (m, idx) { box.appendChild(stepperRow(m, idx, 'maoDeObra', renderLabor)); });
+var total = sumPeople(form.maoDeObra);
+var txt = total === 1 ? t('laborOne') : (total + ' ' + t('laborMany'));
+document.getElementById('laborTotal').textContent = t('laborTitle') + ' ' + txt;
+}
+function renderEquip() {
+var box = document.getElementById('equipBox');
+box.innerHTML = '';
+if (!form.equipamentos.length) box.innerHTML = '<p class="empty-msg">' + t('noEquips') + '</p>';
+form.equipamentos.forEach(function (m, idx) { box.appendChild(stepperRow(m, idx, 'equipamentos', renderEquip)); });
+var total = sumEquip(form.equipamentos);
+var txt = total === 1 ? t('equipOne') : (total + ' ' + t('equipMany'));
+document.getElementById('equipTotal').textContent = t('equipTitle') + ' ' + txt;
+}
+function stepperRow(item, idx, key, rerender) {
+var row = document.createElement('div');
+row.className = 'row-line';
+row.innerHTML =
+'<span style="flex:1;">' + escapeHtml(item.nome) + '</span>' +
+'<div class="stepper"><button type="button" data-d="-1">−</button><span>' + (Number(item.qtd) || 1) + '</span><button type="button" data-d="1">+</button></div>' +
+'<button class="btn" data-variant="ghost" data-size="sm" type="button">✕</button>';
+row.querySelectorAll('.stepper button').forEach(function (b) {
+b.addEventListener('click', function () {
+var nv = Math.max(1, (Number(item.qtd) || 1) + Number(b.getAttribute('data-d')));
+item.qtd = nv; rerender(); updateProgress();
+});
+});
+row.querySelector('button[data-variant="ghost"]').addEventListener('click', function () {
+form[key].splice(idx, 1); rerender(); updateProgress(); toast(t('toastRemoved'));
+});
+return row;
 }
 
-function handleLoginSubmit(e) {
-  e.preventDefault();
-  const email = document.getElementById("loginEmail").value.trim().toLowerCase();
-  const password = document.getElementById("loginPassword").value;
-  const errBox = document.getElementById("loginErrorBox");
-  errBox.classList.add("hidden");
+function catalogPanel(panelId, catKey, listKey, catEmptyKey, searchKey, addedKey) {
+var panel = document.getElementById(panelId);
+panel.style.display = 'block';
+var list = state[catKey];
+var added = form[listKey].map(function (x) { return x.nome; });
+var chips = list.length ? list.map(function (n) {
+var dis = added.indexOf(n) >= 0;
+return '<button class="chip" type="button" data-pick="' + escapeHtml(n) + '"' + (dis ? ' disabled' : '') + '>' + (dis ? '✓ ' : '') + escapeHtml(n) + '</button>';
+}).join('') : '<p class="empty-msg"><strong>' + t(catEmptyKey) + '</strong></p>';
+panel.innerHTML =
+'<div>' + chips + '</div>' +
+'<label class="field-label" style="margin-top:10px;">' + t(searchKey) + '</label>' +
+'<div style="display:flex;gap:8px;flex-wrap:wrap;"><input class="input" id="' + panelId + 'Inp" style="flex:1;min-width:160px;"><button class="btn" type="button" id="' + panelId + 'Create">' + t('btnCreateAdd') + '</button></div>' +
+'<div style="margin-top:8px;"><button class="link-btn" type="button" id="' + panelId + 'Cancel">' + t('btnCancelLink') + '</button></div>';
+panel.querySelectorAll('[data-pick]').forEach(function (b) {
+b.addEventListener('click', function () {
+var name = b.getAttribute('data-pick');
+form[listKey].push({ nome: name, qtd: 1 });
+panel.style.display = 'none';
+toast(t('toastCatAdd'));
+if (listKey === 'maoDeObra') renderLabor(); else renderEquip();
+updateProgress();
+});
+});
+document.getElementById(panelId + 'Create').addEventListener('click', function () {
+var name = document.getElementById(panelId + 'Inp').value.trim();
+if (!name) return;
+if (list.indexOf(name) < 0) list.push(name);
+form[listKey].push({ nome: name, qtd: 1 });
+save(); panel.style.display = 'none';
+toast(t('toastCatNew'));
+if (listKey === 'maoDeObra') renderLabor(); else renderEquip();
+updateProgress();
+});
+document.getElementById(panelId + 'Cancel').addEventListener('click', function () { panel.style.display = 'none'; });
+}
+document.getElementById('btnToggleLabor').addEventListener('click', function () {
+var p = document.getElementById('laborPanel');
+if (p.style.display === 'block') { p.style.display = 'none'; return; }
+catalogPanel('laborPanel', 'catFuncoes', 'maoDeObra', 'catEmptyLabor', 'searchRole', 'addedRole');
+});
+document.getElementById('btnToggleEquip').addEventListener('click', function () {
+var p = document.getElementById('equipPanel');
+if (p.style.display === 'block') { p.style.display = 'none'; return; }
+catalogPanel('equipPanel', 'catEquip', 'equipamentos', 'catEmptyEquip', 'searchEquip', 'addedEquip');
+});
 
-  if (password.length < 6) {
-    errBox.textContent = t("err_weak_password");
-    errBox.classList.remove("hidden");
-    return;
-  }
-
-  const users = storeUsers.get() || [];
-  const found = users.find(u => u.email.toLowerCase() === email);
-
-  if (found) {
-    sessionStore.set({ user: found.uid });
-    window.skipUI.toast(`${t("btn_enter")}: ${found.nome || found.email}`, { type: "success" });
-    checkAuthState();
-  } else {
-    // If entered admin email on fresh setup
-    if (email === "admin@alupar.com.pe") {
-      sessionStore.set({ user: ADMIN_UID });
-      checkAuthState();
-    } else {
-      errBox.textContent = t("err_user_not_found");
-      errBox.classList.remove("hidden");
-    }
-  }
+// ---- Save / reset / preview ----
+function buildReport(inf) {
+var lines = [];
+var resp = inf.autorNome || inf.autorEmail || '';
+var es = idiomaAtual === 'es';
+lines.push('*' + t('reportTitle') + ' (' + inf.dataBR + ')*');
+lines.push('*' + t('proyectoLbl') + ':* ' + inf.projeto);
+lines.push('*' + t('obraLbl') + ':* ' + inf.obra);
+lines.push('*' + (es ? 'Responsable' : 'Responsável') + ':* ' + resp);
+lines.push('');
+if (inf.atividades && inf.atividades.length) {
+lines.push('⏳ *' + t('actLbl') + '*');
+inf.atividades.forEach(function (a, i) {
+lines.push((i + 1) + '. ' + (a.nome || ''));
+var extra = [];
+if (a.equipo && a.equipo !== '') extra.push('🔧 ' + t('equipoLbl') + ': ' + a.equipo);
+if (Number(a.horas) > 0) extra.push('⏱️ ' + t('horasLbl') + ': ' + a.horas + ' h');
+if (extra.length) lines.push('   ' + extra.join(' | '));
+if (Number(a.qtdDia) > 0) lines.push('   🗓️ ' + t('hoy') + ': ' + a.qtdDia + ' ' + a.unidade);
+if (Number(a.qtdAcc) > 0 || Number(a.pctAcc) > 0) {
+var acc = [];
+if (Number(a.qtdAcc) > 0) acc.push(a.qtdAcc + ' ' + a.unidade);
+if (Number(a.pctAcc) > 0) acc.push(a.pctAcc + '%');
+lines.push('   📊 ' + t('acumulado') + ': ' + acc.join(' | '));
+}
+});
+lines.push('');
+}
+var people = sumPeople(inf.maoDeObra);
+if (people > 0) {
+lines.push('👷 *' + t('manoLbl') + '* — Total: ' + people + ' ' + (people === 1 ? (es ? 'persona' : 'pessoa') : t('personas')));
+inf.maoDeObra.forEach(function (m) { if (Number(m.qtd) > 0) lines.push('• ' + m.qtd + ' ' + m.nome); });
+lines.push('');
+}
+var eq = sumEquip(inf.equipamentos);
+if (eq > 0) {
+lines.push('🚜 *' + t('equipLbl') + '* — Total: ' + eq + ' ' + (eq === 1 ? (es ? 'equipo' : 'equipamento') : t('equipos')));
+inf.equipamentos.forEach(function (m) { if (Number(m.qtd) > 0) lines.push('• ' + m.qtd + ' ' + m.nome); });
+lines.push('');
+}
+if (inf.clima && (inf.clima.manha || inf.clima.tarde)) {
+lines.push('🌤️ *' + t('climaLbl') + '*');
+var c = [];
+if (inf.clima.manha) c.push(t('mañana') + ': ' + inf.clima.manha);
+if (inf.clima.tarde) c.push(t('tarde') + ': ' + inf.clima.tarde);
+lines.push(c.join(' | '));
+lines.push('');
+}
+if (inf.ocorrencias) { lines.push('⚠️ *' + t('ocurLbl') + '*'); lines.push(inf.ocorrencias); lines.push(''); }
+if (inf.seguranca) { lines.push('🦺 *' + t('segLbl') + '*'); lines.push(inf.seguranca); lines.push(''); }
+if (inf.proximosPassos) { lines.push('📌 *' + t('proxLbl') + '*'); lines.push(inf.proximosPassos); }
+return lines.join('\n').replace(/\n+$/, '');
 }
 
-function quickLoginDemo(role) {
-  if (role === "admin") {
-    sessionStore.set({ user: ADMIN_UID });
-  } else if (role === "editor") {
-    sessionStore.set({ user: "usr-editor-001" });
-  } else if (role === "leitor") {
-    sessionStore.set({ user: "usr-leitor-001" });
-  } else if (role === "noaccess") {
-    sessionStore.set({ user: "usr-unauthorized-999" });
-  }
-  checkAuthState();
+function coletarFormulario() {
+var pid = document.getElementById('fProyecto').value;
+var proj = state.projetos.find(function (p) { return p.id === pid; });
+var obraId = document.getElementById('fObra').value;
+var obra = state.obras.find(function (o) { return o.id === obraId; });
+var fecha = document.getElementById('fFecha').value;
+var br = fecha ? fecha.split('-').reverse().join('/') : '';
+var u = currentUser();
+var autorNome = (u && u.nome) ? u.nome : (u ? u.email : '');
+var resp = document.getElementById('fResp').value.trim() || autorNome;
+return {
+id: 'i' + Date.now(),
+autorId: u ? u.uid : '',
+autorEmail: u ? u.email : '',
+autorNome: resp,
+projeto: proj ? proj.nome : '',
+obra: obra ? obra.nome : '',
+dataISO: fecha,
+dataBR: br,
+atividades: form.atividades.map(function (a) { return JSON.parse(JSON.stringify(a)); }),
+maoDeObra: form.maoDeObra.map(function (m) { return { nome: m.nome, qtd: Number(m.qtd) || 1 }; }),
+equipamentos: form.equipamentos.map(function (m) { return { nome: m.nome, qtd: Number(m.qtd) || 1 }; }),
+clima: { manha: document.getElementById('fClimaM').value, tarde: document.getElementById('fClimaT').value },
+ocorrencias: document.getElementById('fOcur').value.trim(),
+seguranca: document.getElementById('fSeg').value.trim(),
+proximosPassos: document.getElementById('fProx').value.trim(),
+criadoEm: new Date().toISOString()
+};
 }
 
-function fazerLogout() {
-  sessionStore.set(null);
-  currentUser = null;
-  meuPapel = "leitor";
-  mostrarTela("loginScreen");
-  mostrarLoginView("viewLogin");
-  window.skipUI.toast(t("btn_logout"), { type: "info" });
+document.getElementById('btnSave').addEventListener('click', function () {
+var inf = coletarFormulario();
+if (!inf.projeto || !inf.obra || !inf.dataISO) { toast(t('errFill')); return; }
+state.informes.unshift(inf); save();
+currentReport = inf;
+toast(t('toastSaved'));
+renderHome();
+});
+document.getElementById('btnResetForm').addEventListener('click', function () {
+form = { atividades: [], maoDeObra: [], equipamentos: [] };
+document.getElementById('fResp').value = '';
+document.getElementById('fOcur').value = ''; document.getElementById('fSeg').value = ''; document.getElementById('fProx').value = '';
+document.getElementById('fClimaM').value = ''; document.getElementById('fClimaT').value = '';
+renderActivities(); renderLabor(); renderEquip(); updateProgress();
+toast(t('toastReset'));
+});
+function previewFromForm() {
+var inf = coletarFormulario();
+currentReport = inf;
+renderPreviewFor(inf);
+}
+function renderPreviewFor(inf) {
+document.getElementById('reportText').textContent = buildReport(inf);
+document.getElementById('heroVal').textContent = sumPeople(inf.maoDeObra) + ' ' + t('personas') + ' · ' + sumEquip(inf.equipamentos) + ' ' + t('equipos');
+}
+document.getElementById('btnPreview').addEventListener('click', function () { previewFromForm(); mostrarView('preview'); });
+document.getElementById('btnBackForm').addEventListener('click', function () { mostrarView('formulario'); });
+document.getElementById('btnCopyForm').addEventListener('click', function () {
+previewFromForm();
+navigator.clipboard.writeText(document.getElementById('reportText').textContent).then(function () { toast(t('toastCopied')); }).catch(function () { toast(t('toastCopied')); });
+});
+document.getElementById('btnCopyPrev').addEventListener('click', function () {
+navigator.clipboard.writeText(document.getElementById('reportText').textContent).then(function () { toast(t('toastCopied')); }).catch(function () { toast(t('toastCopied')); });
+});
+document.getElementById('btnShareWa').addEventListener('click', function () {
+window.open('https://wa.me/?text=' + encodeURIComponent(document.getElementById('reportText').textContent), '_blank');
+});
+document.getElementById('btnPrint').addEventListener('click', function () { window.print(); });
+
+// ---- Admin ----
+document.querySelectorAll('[data-atab]').forEach(function (b) {
+b.addEventListener('click', function () {
+document.querySelectorAll('[data-atab]').forEach(function (x) { x.classList.toggle('active', x === b); });
+document.getElementById('atab-obras').style.display = b.getAttribute('data-atab') === 'obras' ? '' : 'none';
+document.getElementById('atab-usuarios').style.display = b.getAttribute('data-atab') === 'usuarios' ? '' : 'none';
+renderAdmin();
+});
+});
+function renderAdmin() {
+var u = currentUser();
+if (!u || u.papel !== 'admin') return;
+renderProjectsGrid();
+renderUsers();
+var sel = document.getElementById('selProjObra');
+sel.innerHTML = state.projetos.map(function (p) { return '<option value="' + p.id + '">' + escapeHtml(p.nome) + '</option>'; }).join('');
+}
+function renderProjectsGrid() {
+var grid = document.getElementById('projectsGrid');
+grid.innerHTML = '';
+if (!state.projetos.length) { grid.innerHTML = '<p class="empty-msg">' + t('noProjects') + '</p>'; return; }
+state.projetos.forEach(function (p) {
+var card = document.createElement('div');
+card.className = 'card-box';
+card.style.margin = '0';
+var obras = state.obras.filter(function (o) { return o.projetoId === p.id; });
+card.innerHTML =
+'<div class="row between"><h3>' + escapeHtml(p.nome) + '</h3><span class="pill pill-blue">' + obras.length + '</span></div>' +
+'<p class="muted-sm">' + (obras.length ? '' : t('noObras')) + '</p>' +
+obras.map(function (o) {
+return '<div class="row-line"><span style="flex:1;">' + escapeHtml(o.nome) + '</span>' +
+'<button class="btn" data-variant="ghost" data-size="sm" data-eo="' + o.id + '">' + t('editObra') + '</button>' +
+'<button class="btn" data-variant="ghost" data-size="sm" data-do="' + o.id + '">' + t('delObra') + '</button></div>';
+}).join('') +
+'<div class="action-bar" style="margin-top:10px;"><button class="btn" data-variant="outline" data-size="sm" data-ap="' + p.id + '">' + t('addObraInline') + '</button>' +
+'<button class="btn" data-variant="ghost" data-size="sm" data-dp="' + p.id + '">' + t('delProject') + '</button></div>';
+grid.appendChild(card);
+});
+grid.querySelectorAll('[data-dp]').forEach(function (b) {
+b.addEventListener('click', function () {
+if (!window.confirm(t('confirmDel'))) return;
+var pid = b.getAttribute('data-dp');
+state.obras = state.obras.filter(function (o) { return o.projetoId !== pid; });
+state.projetos = state.projetos.filter(function (p) { return p.id !== pid; });
+save(); renderAdmin(); renderForm(); toast(t('toastRemoved'));
+});
+});
+grid.querySelectorAll('[data-do]').forEach(function (b) {
+b.addEventListener('click', function () {
+if (!window.confirm(t('confirmDel'))) return;
+state.obras = state.obras.filter(function (o) { return o.id !== b.getAttribute('data-do'); });
+save(); renderAdmin(); renderForm(); toast(t('toastRemoved'));
+});
+});
+grid.querySelectorAll('[data-eo]').forEach(function (b) {
+b.addEventListener('click', function () {
+var o = state.obras.find(function (x) { return x.id === b.getAttribute('data-eo'); });
+var n = window.prompt(t('lblObraName'), o.nome);
+if (n && n.trim()) { o.nome = n.trim(); save(); renderAdmin(); renderForm(); }
+});
+});
+grid.querySelectorAll('[data-ap]').forEach(function (b) {
+b.addEventListener('click', function () {
+document.getElementById('selProjObra').value = b.getAttribute('data-ap');
+document.getElementById('obraPanel').style.display = 'block';
+});
+});
+}
+document.getElementById('btnNewProj').addEventListener('click', function () { document.getElementById('projPanel').style.display = 'block'; });
+document.getElementById('cancelProj').addEventListener('click', function () { document.getElementById('projPanel').style.display = 'none'; });
+document.getElementById('saveProj').addEventListener('click', function () {
+var n = document.getElementById('inpProj').value.trim();
+if (!n) return;
+state.projetos.push({ id: 'p' + Date.now(), nome: n }); save();
+document.getElementById('inpProj').value = ''; document.getElementById('projPanel').style.display = 'none';
+toast(t('toastProj')); renderAdmin(); renderForm();
+});
+document.getElementById('btnNewObra').addEventListener('click', function () { document.getElementById('obraPanel').style.display = 'block'; });
+document.getElementById('cancelObra').addEventListener('click', function () { document.getElementById('obraPanel').style.display = 'none'; });
+document.getElementById('saveObra').addEventListener('click', function () {
+var n = document.getElementById('inpObra').value.trim();
+var pid = document.getElementById('selProjObra').value;
+if (!n || !pid) return;
+state.obras.push({ id: 'o' + Date.now(), projetoId: pid, nome: n }); save();
+document.getElementById('inpObra').value = ''; document.getElementById('obraPanel').style.display = 'none';
+toast(t('toastObra')); renderAdmin(); renderForm();
+});
+
+function renderUsers() {
+var box = document.getElementById('usersList');
+var me = currentUser();
+var list = state.usuarios.slice().sort(function (a, b) { return a.nome.localeCompare(b.nome); });
+box.innerHTML = list.map(function (u) {
+var isMe = me && me.uid === u.uid;
+var roleCls = u.papel === 'admin' ? 'role-admin' : (u.papel === 'editor' ? 'role-editor' : 'role-leitor');
+return '<div class="card-box" style="margin-bottom:10px;"><div class="row between">' +
+'<div><strong>' + escapeHtml(u.nome) + '</strong><div class="muted-sm" style="margin:0;">' + escapeHtml(u.email) + '</div></div>' +
+'<span class="pill ' + roleCls + '">' + u.papel + '</span></div>' +
+(isMe ? '' : '<div class="row" style="gap:8px;margin-top:8px;"><select class="input" data-role="' + u.uid + '" style="max-width:160px;"><option' + (u.papel === 'admin' ? ' selected' : '') + '>admin</option><option' + (u.papel === 'editor' ? ' selected' : '') + '>editor</option><option' + (u.papel === 'leitor' ? ' selected' : '') + '>leitor</option></select>' +
+'<button class="btn" data-variant="ghost" data-size="sm" data-deluser="' + u.uid + '">' + t('removeAccess') + '</button></div>') +
+'</div>';
+}).join('');
+box.querySelectorAll('[data-role]').forEach(function (s) {
+s.addEventListener('change', function () {
+var u = state.usuarios.find(function (x) { return x.uid === s.getAttribute('data-role'); });
+u.papel = s.value; save(); toast(t('toastRole')); renderUsers();
+});
+});
+box.querySelectorAll('[data-deluser]').forEach(function (b) {
+b.addEventListener('click', function () {
+if (!window.confirm(t('confirmDel'))) return;
+state.usuarios = state.usuarios.filter(function (x) { return x.uid !== b.getAttribute('data-deluser'); });
+save(); renderUsers(); toast(t('toastRemoved'));
+});
+});
+}
+document.getElementById('btnNewUser').addEventListener('click', function () { document.getElementById('userPanel').style.display = 'block'; });
+document.getElementById('cancelUser').addEventListener('click', function () { document.getElementById('userPanel').style.display = 'none'; });
+document.getElementById('saveUser').addEventListener('click', function () {
+var nome = document.getElementById('uNombre').value.trim();
+var email = document.getElementById('uEmail').value.trim();
+var pass = document.getElementById('uPass').value;
+var papel = document.getElementById('uPapel').value;
+if (!nome) { toast(t('errFill')); return; }
+if (!email || email.indexOf('@') < 0) { toast(t('errEmailReq')); return; }
+if (pass.length < 6) { toast(t('errPass')); return; }
+state.usuarios.push({ uid: 'u' + Date.now(), email: email, nome: nome, papel: papel, senha: pass });
+save();
+document.getElementById('uNombre').value = ''; document.getElementById('uEmail').value = ''; document.getElementById('uPass').value = '';
+document.getElementById('userPanel').style.display = 'none';
+toast(t('userCreated')); renderUsers();
+});
+
+// ---- Global render ----
+function renderAll() {
+renderHome();
+renderForm();
+var p = document.getElementById('view-preview');
+if (p.classList.contains('active') && currentReport) renderPreviewFor(currentReport);
+if (document.getElementById('view-admin').classList.contains('active')) renderAdmin();
 }
 
-function mostrarLoginView(viewId) {
-  document.getElementById("viewLogin").classList.toggle("hidden", viewId !== "viewLogin");
-  document.getElementById("viewRecuperar").classList.toggle("hidden", viewId !== "viewRecuperar");
-  document.getElementById("loginErrorBox").classList.add("hidden");
-  document.getElementById("recuperarMsgBox").classList.add("hidden");
-}
-
-function handleRecuperarSubmit(e) {
-  e.preventDefault();
-  const email = document.getElementById("recuperarEmail").value.trim();
-  const msgBox = document.getElementById("recuperarMsgBox");
-  msgBox.textContent = `${t("btn_send_link")}: ${email}. Verifique su bandeja de entrada.`;
-  msgBox.classList.remove("hidden");
-  window.skipUI.toast(t("btn_send_link"), { type: "success" });
-  setTimeout(() => {
-    mostrarLoginView("viewLogin");
-  }, 2400);
-}
-
-// ----------------------------------------------------
-// NAVIGATION ENGINE (Sibling screens & internal views)
-// ----------------------------------------------------
-function mostrarTela(screenId) {
-  document.querySelectorAll(".screen").forEach(sc => sc.classList.remove("active"));
-  const target = document.getElementById(screenId);
-  if (target) target.classList.add("active");
-}
-
-function navegarView(viewId) {
-  if (viewId === "admin" && meuPapel !== "admin") {
-    window.skipUI.toast(t("err_permission_denied"), { type: "error" });
-    return;
-  }
-
-  document.querySelectorAll(".app-view").forEach(v => v.classList.remove("active"));
-  const target = document.getElementById(`view-${viewId}`);
-  if (target) target.classList.add("active");
-
-  // Sync sidebar active links
-  document.querySelectorAll(".sidebar-link").forEach(btn => {
-    btn.classList.toggle("active", btn.getAttribute("data-view-target") === viewId);
-  });
-  // Sync mobile bottom nav
-  document.querySelectorAll(".bottom-nav-item").forEach(btn => {
-    btn.classList.toggle("active", btn.getAttribute("data-view-target") === viewId);
-  });
-
-  window.scrollTo({ top: 0, behavior: "smooth" });
-
-  if (viewId === "inicio") {
-    renderizarInformesGrid();
-  } else if (viewId === "admin") {
-    renderizarAdminObras();
-    renderizarAdminUsuarios();
-  }
-}
-
-// ----------------------------------------------------
-// INFORME FORM MANAGEMENT
-// ----------------------------------------------------
-function abrirNovoInformeForm() {
-  if (meuPapel === "leitor") {
-    window.skipUI.toast(t("err_permission_denied"), { type: "error" });
-    return;
-  }
-  currentEditId = null;
-  resetFormulario();
-  document.getElementById("formTituloPrincipal").textContent = t("form_new_title");
-  povoarSelectProjetosForm();
-  navegarView("formulario");
-}
-
-function abrirEdicaoInforme(id) {
-  const inf = (storeInformes.get() || []).find(i => i.id === id);
-  if (!inf) return;
-
-  // Only admin or owner can edit
-  const canEdit = meuPapel === "admin" || (meuPapel === "editor" && inf.autorId === currentUser.uid);
-  if (!canEdit) {
-    window.skipUI.toast(t("err_permission_denied"), { type: "error" });
-    return;
-  }
-
-  currentEditId = id;
-  document.getElementById("formTituloPrincipal").textContent = t("form_edit_title");
-  povoarSelectProjetosForm();
-
-  document.getElementById("formProjeto").value = inf.projeto;
-  atualizarSelectObrasForm(inf.obra);
-  document.getElementById("formData").value = inf.dataISO;
-  document.getElementById("formClimaManana").value = (inf.clima && inf.clima.manana) || "";
-  document.getElementById("formClimaTarde").value = (inf.clima && inf.clima.tarde) || "";
-  document.getElementById("formOcurrencias").value = inf.ocorrencias || "";
-  document.getElementById("formSeguridad").value = inf.seguranca || "";
-  document.getElementById("formProximosPasos").value = inf.proximosPassos || "";
-
-  formAtividades = JSON.parse(JSON.stringify(inf.atividades || []));
-  formManoDeObra = JSON.parse(JSON.stringify(inf.maoDeObra || []));
-  formEquipamentos = JSON.parse(JSON.stringify(inf.equipamentos || []));
-
-  renderizarAtividadesForm();
-  renderizarManoDeObraAdicionada();
-  renderizarEquiposAdicionados();
-
-  navegarView("formulario");
-}
-
-function resetFormulario() {
-  document.getElementById("mainInformeForm").reset();
-  document.getElementById("formData").value = new Date().toISOString().split("T")[0];
-  formAtividades = [
-    { nome: "", equipo: "", horas: 0, hoy: "", acumulado: "", pct: "" }
-  ];
-  formManoDeObra = [];
-  formEquipamentos = [];
-  renderizarAtividadesForm();
-  renderizarManoDeObraAdicionada();
-  renderizarEquiposAdicionados();
-  fecharPainelLabor();
-  fecharPainelEquipos();
-}
-
-function povoarSelectProjetosForm() {
-  const select = document.getElementById("formProjeto");
-  const filtroSelect = document.getElementById("filtroProjetoSelect");
-  const projetos = storeProjects.get() || [];
-
-  select.innerHTML = `<option value="">${t("opt_select_project")}</option>` +
-    projetos.map(p => `<option value="${escapeHtml(p.nome)}">${escapeHtml(p.nome)}</option>`).join("");
-
-  filtroSelect.innerHTML = `<option value="all">${t("opt_all_projects")}</option>` +
-    projetos.map(p => `<option value="${escapeHtml(p.nome)}">${escapeHtml(p.nome)}</option>`).join("");
-}
-
-function atualizarSelectObrasForm(selectedVal = "") {
-  const projNome = document.getElementById("formProjeto").value;
-  const selectObra = document.getElementById("formObra");
-  selectObra.innerHTML = `<option value="">${t("opt_select_work")}</option>`;
-
-  if (!projNome) return;
-  const projetos = storeProjects.get() || [];
-  const proj = projetos.find(p => p.nome === projNome);
-  if (!proj) return;
-
-  const obras = (storeObras.get() || []).filter(o => o.projetoId === proj.id);
-  obras.forEach(o => {
-    const opt = document.createElement("option");
-    opt.value = o.nome;
-    opt.textContent = o.nome;
-    if (o.nome === selectedVal) opt.selected = true;
-    selectObra.appendChild(opt);
-  });
-}
-
-// ----------------------------------------------------
-// ATIVIDADES HANDLERS
-// ----------------------------------------------------
-function adicionarLinhaAtividade() {
-  formAtividades.push({ nome: "", equipo: "", horas: 0, hoy: "", acumulado: "", pct: "" });
-  renderizarAtividadesForm();
-}
-
-function removerLinhaAtividade(idx) {
-  formAtividades.splice(idx, 1);
-  if (formAtividades.length === 0) {
-    adicionarLinhaAtividade();
-  } else {
-    renderizarAtividadesForm();
-  }
-}
-
-function atualizarCampoAtividade(idx, campo, valor) {
-  if (formAtividades[idx]) {
-    formAtividades[idx][campo] = valor;
-  }
-}
-
-function renderizarAtividadesForm() {
-  const container = document.getElementById("listaAtividadesContainer");
-  container.innerHTML = "";
-
-  formAtividades.forEach((item, idx) => {
-    const div = document.createElement("div");
-    div.className = "panel p-3 stack gap-2";
-    div.style.background = "#fbfcfe";
-    div.style.borderRadius = "10px";
-    div.style.border = "1px solid var(--border)";
-
-    div.innerHTML = `
-      <div class="row between items-center">
-        <span class="text-xs font-bold muted">Actividad #${idx + 1}</span>
-        <button type="button" class="btn" data-variant="ghost" data-size="sm" style="color:#ef4444; padding:2px 6px;" onclick="removerLinhaAtividade(${idx})">✕ Eliminar</button>
-      </div>
-      <div class="field">
-        <input type="text" class="input w-full" placeholder="Descripción de la actividad realizada..." value="${escapeHtml(item.nome)}" oninput="atualizarCampoAtividade(${idx}, 'nome', this.value)" required>
-      </div>
-      <div class="shell-grid cols-2 gap-2">
-        <div class="field">
-          <label class="text-xs muted">🔧 Equipo de apoyo</label>
-          <input type="text" class="input" placeholder="Ej.: Retroexcavadora" value="${escapeHtml(item.equipo || '')}" oninput="atualizarCampoAtividade(${idx}, 'equipo', this.value)">
-        </div>
-        <div class="field">
-          <label class="text-xs muted">⏱️ Horas equipo</label>
-          <input type="number" step="0.5" min="0" class="input" placeholder="0" value="${item.horas || 0}" oninput="atualizarCampoAtividade(${idx}, 'horas', parseFloat(this.value) || 0)">
-        </div>
-      </div>
-      <div class="shell-grid cols-3 gap-2">
-        <div class="field">
-          <label class="text-xs muted">🗓️ Avance hoy</label>
-          <input type="text" class="input" placeholder="Ej.: 6 m³" value="${escapeHtml(item.hoy || '')}" oninput="atualizarCampoAtividade(${idx}, 'hoy', this.value)">
-        </div>
-        <div class="field">
-          <label class="text-xs muted">📊 Acumulado</label>
-          <input type="text" class="input" placeholder="Ej.: 16 m³" value="${escapeHtml(item.acumulado || '')}" oninput="atualizarCampoAtividade(${idx}, 'acumulado', this.value)">
-        </div>
-        <div class="field">
-          <label class="text-xs muted">📈 % Avance</label>
-          <input type="text" class="input" placeholder="Ej.: 45%" value="${escapeHtml(item.pct || '')}" oninput="atualizarCampoAtividade(${idx}, 'pct', this.value)">
-        </div>
-      </div>
-    `;
-    container.appendChild(div);
-  });
-}
-
-// ----------------------------------------------------
-// MANO DE OBRA (TOUCH CATALOG PANEL)
-// ----------------------------------------------------
-function abrirPainelLabor() {
-  const panel = document.getElementById("laborTouchPanel");
-  panel.classList.remove("hidden");
-  renderizarChipsLabor();
-  document.getElementById("newLaborInput").focus();
-}
-
-function fecharPainelLabor() {
-  document.getElementById("laborTouchPanel").classList.add("hidden");
-}
-
-function renderizarChipsLabor() {
-  const container = document.getElementById("laborChipsContainer");
-  const catalog = storeCatalogLabor.get() || [];
-  container.innerHTML = "";
-
-  if (catalog.length === 0) {
-    container.innerHTML = `<span class="text-xs muted">No hay cargos en el catálogo</span>`;
-    return;
-  }
-
-  catalog.forEach(cargo => {
-    const isAdded = formManoDeObra.some(i => i.cargo.toLowerCase() === cargo.toLowerCase());
-    const btn = document.createElement("button");
-    btn.type = "button";
-    btn.className = "touch-chip";
-    if (isAdded) {
-      btn.disabled = true;
-      btn.innerHTML = `✓ ${escapeHtml(cargo)}`;
-    } else {
-      btn.innerHTML = `＋ ${escapeHtml(cargo)}`;
-      btn.onclick = () => {
-        formManoDeObra.push({ cargo: cargo, qtd: 1 });
-        renderizarManoDeObraAdicionada();
-        fecharPainelLabor();
-        window.skipUI.toast(`${cargo} +1`, { type: "info" });
-      };
-    }
-    container.appendChild(btn);
-  });
-}
-
-function criarEAdicionarCargo() {
-  const input = document.getElementById("newLaborInput");
-  const novoCargo = input.value.trim();
-  if (!novoCargo) return;
-
-  // Add to catalog if not exists
-  storeCatalogLabor.update(cat => {
-    if (!cat.some(c => c.toLowerCase() === novoCargo.toLowerCase())) {
-      return [...cat, novoCargo];
-    }
-    return cat;
-  });
-
-  // Add to current form if not added
-  if (!formManoDeObra.some(i => i.cargo.toLowerCase() === novoCargo.toLowerCase())) {
-    formManoDeObra.push({ cargo: novoCargo, qtd: 1 });
-  }
-
-  input.value = "";
-  renderizarManoDeObraAdicionada();
-  fecharPainelLabor();
-  window.skipUI.toast(`Cargo agregado: ${novoCargo}`, { type: "success" });
-}
-
-function alterarQtdLabor(idx, delta) {
-  if (formManoDeObra[idx]) {
-    const nova = Math.max(1, (formManoDeObra[idx].qtd || 1) + delta);
-    formManoDeObra[idx].qtd = nova;
-    renderizarManoDeObraAdicionada();
-  }
-}
-
-function removerLaborDoInforme(idx) {
-  formManoDeObra.splice(idx, 1);
-  renderizarManoDeObraAdicionada();
-}
-
-function renderizarManoDeObraAdicionada() {
-  const list = document.getElementById("addedLaborList");
-  list.innerHTML = "";
-
-  if (formManoDeObra.length === 0) {
-    list.innerHTML = `<div class="text-xs muted p-3 text-center" id="emptyLaborMsg">${t("empty_positions_msg")}</div>`;
-  } else {
-    formManoDeObra.forEach((item, idx) => {
-      const row = document.createElement("div");
-      row.className = "row between items-center p-2 panel";
-      row.style.background = "#ffffff";
-      row.style.borderRadius = "8px";
-      row.style.border = "1px solid var(--border)";
-
-      row.innerHTML = `
-        <span class="font-medium text-sm">${escapeHtml(item.cargo)}</span>
-        <div class="row items-center gap-3">
-          <div class="stepper-wrap">
-            <button type="button" class="stepper-btn" onclick="alterarQtdLabor(${idx}, -1)">−</button>
-            <span class="stepper-val">${Number(item.qtd) || 0}</span>
-            <button type="button" class="stepper-btn" onclick="alterarQtdLabor(${idx}, 1)">＋</button>
-          </div>
-          <button type="button" class="btn" data-variant="ghost" data-size="sm" style="color:#ef4444; padding:2px 6px;" onclick="removerLaborDoInforme(${idx})" title="Remover del informe">✕</button>
-        </div>
-      `;
-      list.appendChild(row);
-    });
-  }
-  atualizarTitulosContadores();
-}
-
-// ----------------------------------------------------
-// EQUIPOS (TOUCH CATALOG PANEL)
-// ----------------------------------------------------
-function abrirPainelEquipos() {
-  const panel = document.getElementById("equipTouchPanel");
-  panel.classList.remove("hidden");
-  renderizarChipsEquip();
-  document.getElementById("newEquipInput").focus();
-}
-
-function fecharPainelEquipos() {
-  document.getElementById("equipTouchPanel").classList.add("hidden");
-}
-
-function renderizarChipsEquip() {
-  const container = document.getElementById("equipChipsContainer");
-  const catalog = storeCatalogEquip.get() || [];
-  container.innerHTML = "";
-
-  if (catalog.length === 0) {
-    container.innerHTML = `<span class="text-xs muted">No hay equipos en el catálogo</span>`;
-    return;
-  }
-
-  catalog.forEach(equip => {
-    const isAdded = formEquipamentos.some(i => i.nome.toLowerCase() === equip.toLowerCase());
-    const btn = document.createElement("button");
-    btn.type = "button";
-    btn.className = "touch-chip";
-    if (isAdded) {
-      btn.disabled = true;
-      btn.innerHTML = `✓ ${escapeHtml(equip)}`;
-    } else {
-      btn.innerHTML = `＋ ${escapeHtml(equip)}`;
-      btn.onclick = () => {
-        formEquipamentos.push({ nome: equip, qtd: 1 });
-        renderizarEquiposAdicionados();
-        fecharPainelEquipos();
-        window.skipUI.toast(`${equip} +1`, { type: "info" });
-      };
-    }
-    container.appendChild(btn);
-  });
-}
-
-function criarEAdicionarEquipo() {
-  const input = document.getElementById("newEquipInput");
-  const novoEquip = input.value.trim();
-  if (!novoEquip) return;
-
-  // Add to catalog if not exists
-  storeCatalogEquip.update(cat => {
-    if (!cat.some(c => c.toLowerCase() === novoEquip.toLowerCase())) {
-      return [...cat, novoEquip];
-    }
-    return cat;
-  });
-
-  // Add to current form if not added
-  if (!formEquipamentos.some(i => i.nome.toLowerCase() === novoEquip.toLowerCase())) {
-    formEquipamentos.push({ nome: novoEquip, qtd: 1 });
-  }
-
-  input.value = "";
-  renderizarEquiposAdicionados();
-  fecharPainelEquipos();
-  window.skipUI.toast(`Equipo agregado: ${novoEquip}`, { type: "success" });
-}
-
-function alterarQtdEquip(idx, delta) {
-  if (formEquipamentos[idx]) {
-    const nova = Math.max(1, (formEquipamentos[idx].qtd || 1) + delta);
-    formEquipamentos[idx].qtd = nova;
-    renderizarEquiposAdicionados();
-  }
-}
-
-function removerEquipDoInforme(idx) {
-  formEquipamentos.splice(idx, 1);
-  renderizarEquiposAdicionados();
-}
-
-function renderizarEquiposAdicionados() {
-  const list = document.getElementById("addedEquipList");
-  list.innerHTML = "";
-
-  if (formEquipamentos.length === 0) {
-    list.innerHTML = `<div class="text-xs muted p-3 text-center" id="emptyEquipMsg">${t("empty_equipments_msg")}</div>`;
-  } else {
-    formEquipamentos.forEach((item, idx) => {
-      const row = document.createElement("div");
-      row.className = "row between items-center p-2 panel";
-      row.style.background = "#ffffff";
-      row.style.borderRadius = "8px";
-      row.style.border = "1px solid var(--border)";
-
-      row.innerHTML = `
-        <span class="font-medium text-sm">${escapeHtml(item.nome)}</span>
-        <div class="row items-center gap-3">
-          <div class="stepper-wrap">
-            <button type="button" class="stepper-btn" onclick="alterarQtdEquip(${idx}, -1)">−</button>
-            <span class="stepper-val">${Number(item.qtd) || 0}</span>
-            <button type="button" class="stepper-btn" onclick="alterarQtdEquip(${idx}, 1)">＋</button>
-          </div>
-          <button type="button" class="btn" data-variant="ghost" data-size="sm" style="color:#ef4444; padding:2px 6px;" onclick="removerEquipDoInforme(${idx})" title="Remover del informe">✕</button>
-        </div>
-      `;
-      list.appendChild(row);
-    });
-  }
-  atualizarTitulosContadores();
-}
-
-function atualizarTitulosContadores() {
-  // Labor total
-  const totalPessoas = formManoDeObra.reduce((acc, curr) => acc + (Number(curr.qtd) || 0), 0);
-  const laborSingular = idiomaAtual === "es" ? "1 persona" : "1 pessoa";
-  const laborPlural = idiomaAtual === "es" ? `${totalPessoas} personas` : `${totalPessoas} pessoas`;
-  const laborLabel = idiomaAtual === "es" ? "👷 Mano de obra — Total:" : "👷 Mão de obra — Total:";
-  const laborTitleEl = document.getElementById("tituloManoObra");
-  if (laborTitleEl) {
-    laborTitleEl.textContent = `${laborLabel} ${totalPessoas === 1 ? laborSingular : laborPlural}`;
-  }
-
-  // Equipment total
-  const totalEquipos = formEquipamentos.reduce((acc, curr) => acc + (Number(curr.qtd) || 0), 0);
-  const equipSingular = idiomaAtual === "es" ? "1 equipo" : "1 equipamento";
-  const equipPlural = idiomaAtual === "es" ? `${totalEquipos} equipos` : `${totalEquipos} equipamentos`;
-  const equipLabel = idiomaAtual === "es" ? "🚜 Equipos — Total:" : "🚜 Equipamentos — Total:";
-  const equipTitleEl = document.getElementById("tituloEquipos");
-  if (equipTitleEl) {
-    equipTitleEl.textContent = `${equipLabel} ${totalEquipos === 1 ? equipSingular : equipPlural}`;
-  }
-}
-
-// ----------------------------------------------------
-// SAVE REPORT (CREATE / UPDATE)
-// ----------------------------------------------------
-function coletarDadosFormulario() {
-  const projeto = document.getElementById("formProjeto").value.trim();
-  const obra = document.getElementById("formObra").value.trim();
-  const dataISO = document.getElementById("formData").value;
-  const parts = dataISO.split("-");
-  const dataBR = parts.length === 3 ? `${parts[2]}/${parts[1]}/${parts[0]}` : dataISO;
-
-  const manana = document.getElementById("formClimaManana").value;
-  const tarde = document.getElementById("formClimaTarde").value;
-  const ocorrencias = document.getElementById("formOcurrencias").value.trim();
-  const seguranca = document.getElementById("formSeguridad").value.trim();
-  const proximosPassos = document.getElementById("formProximosPasos").value.trim();
-
-  // Clean empty activities
-  const ativs = formAtividades.filter(a => a.nome && a.nome.trim().length > 0);
-
-  return {
-    id: currentEditId || `inf-${Date.now()}`,
-    autorId: currentUser.uid,
-    autorEmail: currentUser.email,
-    autorNome: meuNome || currentUser.email,
-    projeto,
-    obra,
-    dataISO,
-    dataBR,
-    clima: { manana, tarde },
-    atividades: ativs,
-    maoDeObra: formManoDeObra.filter(m => (Number(m.qtd) || 0) > 0),
-    equipamentos: formEquipamentos.filter(e => (Number(e.qtd) || 0) > 0),
-    ocorrencias,
-    seguranca,
-    proximosPassos,
-    criadoEm: new Date().toISOString()
-  };
-}
-
-function handleSalvarInforme(e) {
-  e.preventDefault();
-  const report = coletarDadosFormulario();
-
-  if (!report.projeto || !report.obra) {
-    window.skipUI.toast("Seleccione el proyecto y la obra.", { type: "error" });
-    return;
-  }
-
-  storeInformes.update(list => {
-    if (currentEditId) {
-      return list.map(i => i.id === currentEditId ? report : i);
-    } else {
-      return [report, ...list];
-    }
-  });
-
-  window.skipUI.toast(t("btn_save_report"), { type: "success" });
-  currentPreviewData = report;
-  previewOrigem = "inicio";
-  abrirPreview(report);
-}
-
-// ----------------------------------------------------
-// PREVIEW & TEXT FORMATTER (Exact Spec Format)
-// ----------------------------------------------------
-function previsualizarDesdeFormulario() {
-  const data = coletarDadosFormulario();
-  currentPreviewData = data;
-  previewOrigem = "formulario";
-  abrirPreview(data);
-}
-
-function abrirPreview(report) {
-  currentPreviewData = report;
-  document.getElementById("previewMetaBadge").textContent = `${report.obra} • ${report.dataBR}`;
-  document.getElementById("previewResponsableBadge").textContent = `${idiomaAtual === 'es' ? 'Responsable' : 'Responsável'}: ${report.autorNome}`;
-  document.getElementById("reporteTextoArea").textContent = gerarTextoFormatadoInforme(report);
-  navegarView("preview");
-}
-
-function voltarParaOrigemPreview() {
-  navegarView(previewOrigem);
-}
-
-function gerarTextoFormatadoInforme(inf) {
-  const es = idiomaAtual === "es";
-  const lines = [];
-
-  // Header
-  const tituloHeader = es ? `*AVANCE DIARIO DE OBRA (${inf.dataBR})*` : `*AVANÇO DIÁRIO DE OBRA (${inf.dataBR})*`;
-  lines.push(tituloHeader);
-  lines.push(`*${es ? 'Proyecto' : 'Projeto'}:* ${inf.projeto}`);
-  lines.push(`*${es ? 'Obra' : 'Obra'}:* ${inf.obra}`);
-  // Section 8 & 9: RESPONSIBLE LINE IS ALWAYS PRESENT!
-  lines.push(`*${es ? 'Responsable' : 'Responsável'}:* ${inf.autorNome}`);
-
-  // Actividades
-  if (inf.atividades && inf.atividades.length > 0) {
-    lines.push("");
-    lines.push(es ? "⏳ *ACTIVIDADES*" : "⏳ *ATIVIDADES*");
-    inf.atividades.forEach((a, i) => {
-      lines.push(`${i + 1}. ${a.nome}`);
-      // Equipo / Horas line if specified
-      const hasEq = a.equipo && a.equipo.trim().length > 0;
-      const hasH = a.horas && Number(a.horas) > 0;
-      if (hasEq || hasH) {
-        const eqLabel = es ? "🔧 Equipo" : "🔧 Equipamento";
-        const hLabel = es ? "⏱️ Horas" : "⏱️ Horas";
-        const eqPart = hasEq ? `${eqLabel}: ${a.equipo}` : "";
-        const hPart = hasH ? `${hLabel}: ${a.horas} h` : "";
-        lines.push(`   ${[eqPart, hPart].filter(Boolean).join(" | ")}`);
-      }
-      // Hoy
-      if (a.hoy && a.hoy.trim().length > 0) {
-        lines.push(`   🗓️ ${es ? 'Hoy' : 'Hoje'}: ${a.hoy}`);
-      }
-      // Acumulado / %
-      const hasAcum = a.acumulado && a.acumulado.trim().length > 0;
-      const hasPct = a.pct && a.pct.trim().length > 0 && a.pct !== "0%";
-      if (hasAcum || hasPct) {
-        const acumPart = hasAcum ? `📊 Acumulado: ${a.acumulado}` : "";
-        const pctPart = hasPct ? `${a.pct}` : "";
-        lines.push(`   ${[acumPart, pctPart].filter(Boolean).join(" | ")}`);
-      }
-    });
-  }
-
-  // Mano de Obra (Omit if total 0)
-  const totalMano = (inf.maoDeObra || []).reduce((acc, c) => acc + (Number(c.qtd) || 0), 0);
-  if (totalMano > 0) {
-    lines.push("");
-    const persWord = totalMano === 1 ? (es ? "1 persona" : "1 pessoa") : (es ? `${totalMano} personas` : `${totalMano} pessoas`);
-    lines.push(`${es ? '👷 *MANO DE OBRA*' : '👷 *MÃO DE OBRA*'} — Total: ${persWord}`);
-    inf.maoDeObra.forEach(m => {
-      if (Number(m.qtd) > 0) {
-        lines.push(`• ${m.qtd} ${m.cargo}`);
-      }
-    });
-  }
-
-  // Equipos (Omit if total 0)
-  const totalEq = (inf.equipamentos || []).reduce((acc, c) => acc + (Number(c.qtd) || 0), 0);
-  if (totalEq > 0) {
-    lines.push("");
-    const eqWord = totalEq === 1 ? (es ? "1 equipo" : "1 equipamento") : (es ? `${totalEq} equipos` : `${totalEq} equipamentos`);
-    lines.push(`${es ? '🚜 *EQUIPOS*' : '🚜 *EQUIPAMENTOS*'} — Total: ${eqWord}`);
-    inf.equipamentos.forEach(e => {
-      if (Number(e.qtd) > 0) {
-        lines.push(`• ${e.qtd} ${e.nome}`);
-      }
-    });
-  }
-
-  // Clima (Omit if empty)
-  const hasManana = inf.clima && inf.clima.manana;
-  const hasTarde = inf.clima && inf.clima.tarde;
-  if (hasManana || hasTarde) {
-    lines.push("");
-    lines.push("🌤️ *CLIMA*");
-    const mLabel = es ? "Mañana" : "Manhã";
-    const tLabel = es ? "Tarde" : "Tarde";
-    const parts = [];
-    if (hasManana) parts.push(`${mLabel}: ${inf.clima.manana}`);
-    if (hasTarde) parts.push(`${tLabel}: ${inf.clima.tarde}`);
-    lines.push(parts.join(" | "));
-  }
-
-  // Ocurrencias
-  if (inf.ocorrencias && inf.ocorrencias.trim().length > 0) {
-    lines.push("");
-    lines.push(es ? "⚠️ *OCURRENCIAS*" : "⚠️ *OCORRÊNCIAS*");
-    lines.push(inf.ocorrencias.trim());
-  }
-
-  // Seguridad
-  if (inf.seguranca && inf.seguranca.trim().length > 0) {
-    lines.push("");
-    lines.push(es ? "🦺 *SEGURIDAD*" : "🦺 *SEGURANÇA*");
-    lines.push(inf.seguranca.trim());
-  }
-
-  // Próximos Pasos
-  if (inf.proximosPassos && inf.proximosPassos.trim().length > 0) {
-    lines.push("");
-    lines.push(es ? "📌 *PRÓXIMOS PASOS*" : "📌 *PRÓXIMOS PASSOS*");
-    lines.push(inf.proximosPassos.trim());
-  }
-
-  return lines.join("\n");
-}
-
-function copiarTextoInforme() {
-  const txt = document.getElementById("reporteTextoArea").textContent;
-  navigator.clipboard.writeText(txt).then(() => {
-    window.skipUI.toast(t("btn_copy"), { type: "success" });
-  }).catch(() => {
-    window.skipUI.toast("Copiado!", { type: "success" });
-  });
-}
-
-function compartirWhatsApp() {
-  const txt = document.getElementById("reporteTextoArea").textContent;
-  const url = `https://wa.me/?text=${encodeURIComponent(txt)}`;
-  window.open(url, "_blank");
-}
-
-// ----------------------------------------------------
-// HISTORIAL DE INFORMES (INICIO VIEW)
-// ----------------------------------------------------
-function renderizarInformesGrid() {
-  povoarSelectProjetosForm();
-  filtrarInformes();
-}
-
-function filtrarInformes() {
-  const query = (document.getElementById("searchInformeInput").value || "").toLowerCase();
-  const filtroProj = document.getElementById("filtroProjetoSelect").value;
-  const list = storeInformes.get() || [];
-  const container = document.getElementById("informesGrid");
-  const emptyState = document.getElementById("informesEmptyState");
-  container.innerHTML = "";
-
-  const filtered = list.filter(inf => {
-    const matchProj = (filtroProj === "all") || (inf.projeto === filtroProj);
-    const textTarget = `${inf.projeto} ${inf.obra} ${inf.autorNome} ${inf.autorEmail} ${inf.dataBR}`.toLowerCase();
-    const matchQuery = textTarget.includes(query);
-    return matchProj && matchQuery;
-  });
-
-  document.getElementById("totalInformesBadge").textContent = `${filtered.length} informe${filtered.length === 1 ? '' : 's'}`;
-
-  if (filtered.length === 0) {
-    emptyState.classList.remove("hidden");
-    return;
-  }
-  emptyState.classList.add("hidden");
-
-  filtered.forEach(inf => {
-    const card = document.createElement("div");
-    card.className = "report-card";
-
-    // Permission to edit & delete
-    const isOwner = currentUser && inf.autorId === currentUser.uid;
-    const canDelete = meuPapel === "admin" || (meuPapel === "editor" && isOwner);
-    const canEdit = meuPapel === "admin" || (meuPapel === "editor" && isOwner);
-
-    const totalPers = (inf.maoDeObra || []).reduce((a, b) => a + (Number(b.qtd) || 0), 0);
-    const totalEq = (inf.equipamentos || []).reduce((a, b) => a + (Number(b.qtd) || 0), 0);
-
-    card.innerHTML = `
-      <div class="row between items-start mb-2">
-        <span class="badge" data-variant="secondary" style="font-size:0.75rem;">${escapeHtml(inf.dataBR)}</span>
-        <div class="row gap-1">
-          ${canEdit ? `<button type="button" class="btn" data-variant="ghost" data-size="sm" style="padding:2px 8px; font-size:0.75rem;" onclick="abrirEdicaoInforme('${inf.id}')">✏️ Editar</button>` : ''}
-          ${canDelete ? `<button type="button" class="btn" data-variant="ghost" data-size="sm" style="color:#ef4444; padding:2px 8px; font-size:0.75rem;" onclick="excluirInforme('${inf.id}')">🗑️</button>` : ''}
-        </div>
-      </div>
-
-      <h4 class="font-bold text-base m-0 text-truncate" style="color:var(--brand-blue);">${escapeHtml(inf.obra)}</h4>
-      <div class="text-xs muted mt-1 font-medium">${escapeHtml(inf.projeto)}</div>
-
-      <!-- Responsible name and email per spec #8 -->
-      <div class="row items-center gap-2 mt-3 pt-2 border-t text-xs">
-        <span style="font-size: 1.1rem;">👤</span>
-        <div class="grow truncate">
-          <strong class="block">${escapeHtml(inf.autorNome)}</strong>
-          <span class="muted text-xs">${escapeHtml(inf.autorEmail)}</span>
-        </div>
-      </div>
-
-      <div class="row gap-2 mt-3 text-xs muted">
-        <span>👷 ${totalPers} pers.</span>
-        <span>•</span>
-        <span>🚜 ${totalEq} eq.</span>
-        <span>•</span>
-        <span>⏳ ${(inf.atividades || []).length} activ.</span>
-      </div>
-
-      <div class="row gap-2 mt-4 pt-2 border-t">
-        <button type="button" class="btn grow" data-variant="outline" data-size="sm" onclick="visualizarInformePorId('${inf.id}')">
-          👁️ Ver informe completo
-        </button>
-      </div>
-    `;
-    container.appendChild(card);
-  });
-}
-
-function visualizarInformePorId(id) {
-  const inf = (storeInformes.get() || []).find(i => i.id === id);
-  if (inf) {
-    previewOrigem = "inicio";
-    abrirPreview(inf);
-  }
-}
-
-function excluirInforme(id) {
-  if (!confirm("¿Está seguro de eliminar este informe diario? Esta acción no se puede deshacer.")) return;
-  storeInformes.update(list => list.filter(i => i.id !== id));
-  window.skipUI.toast("Informe eliminado", { type: "info" });
-  renderizarInformesGrid();
-}
-
-// ----------------------------------------------------
-// ADMIN TAB: OBRAS & USUARIOS
-// ----------------------------------------------------
-function switchAdminTab(subtab) {
-  const isObras = subtab === "obras";
-  document.getElementById("admin-tab-obras").classList.toggle("hidden", !isObras);
-  document.getElementById("admin-tab-usuarios").classList.toggle("hidden", isObras);
-  document.getElementById("tabBtnObras").setAttribute("aria-selected", isObras ? "true" : "false");
-  document.getElementById("tabBtnUsuarios").setAttribute("aria-selected", isObras ? "false" : "true");
-}
-
-function renderizarAdminObras() {
-  const container = document.getElementById("projetosAdminGrid");
-  const projetos = storeProjects.get() || [];
-  const obras = storeObras.get() || [];
-  container.innerHTML = "";
-
-  projetos.forEach(proj => {
-    const card = document.createElement("div");
-    card.className = "card panel p-4 stack gap-3";
-
-    const obrasDoProj = obras.filter(o => o.projetoId === proj.id);
-
-    const obrasHtml = obrasDoProj.map(o => `
-      <div class="row between items-center p-2 panel" style="background:#f8fafc; border-radius:6px; font-size:0.85rem;">
-        <span>🏗️ ${escapeHtml(o.nome)}</span>
-        <button type="button" class="btn" data-variant="ghost" data-size="sm" style="color:#ef4444; padding:2px 6px;" onclick="excluirObraAdmin('${o.id}')">✕</button>
-      </div>
-    `).join("");
-
-    card.innerHTML = `
-      <div class="row between items-start">
-        <div>
-          <span class="badge" data-variant="outline" style="font-size:0.7rem;">Proyecto</span>
-          <h4 class="font-bold text-base m-0 mt-1">${escapeHtml(proj.nome)}</h4>
-        </div>
-        <button type="button" class="btn" data-variant="ghost" data-size="sm" style="color:#ef4444;" onclick="excluirProjetoAdmin('${proj.id}')" title="Eliminar proyecto">🗑️</button>
-      </div>
-
-      <div class="stack gap-1">
-        <div class="text-xs font-semibold muted">Obras y Frentes vinculados (${obrasDoProj.length}):</div>
-        ${obrasDoProj.length > 0 ? obrasHtml : '<div class="text-xs muted">Sin obras creadas.</div>'}
-      </div>
-
-      <div class="pt-2 border-t">
-        <button type="button" class="btn w-full" data-variant="secondary" data-size="sm" onclick="abrirNovaObraPrompt('${proj.id}')">
-          ＋ Nueva obra en este proyecto
-        </button>
-      </div>
-    `;
-    container.appendChild(card);
-  });
-}
-
-function abrirNovoProjetoPrompt() {
-  const dlg = document.getElementById("dlgNovoItem");
-  document.getElementById("dlgItemTitulo").textContent = "Nuevo Proyecto";
-  document.getElementById("dlgItemSub").textContent = "Cree un nuevo proyecto de transmisión o subestación";
-  document.getElementById("dlgItemLabel").textContent = "Nombre del Proyecto";
-  const input = document.getElementById("dlgItemInput");
-  input.value = "";
-  input.placeholder = "Ej.: LT 220kV Carhuaquero";
-
-  const btnConfirmar = document.getElementById("dlgItemBtnConfirmar");
-  btnConfirmar.onclick = () => {
-    const nome = input.value.trim();
-    if (!nome) return;
-    const newProj = {
-      id: `proj-${Date.now()}`,
-      nome,
-      criadoPor: meuNome
-    };
-    storeProjects.update(list => [...list, newProj]);
-    dlg.close();
-    window.skipUI.toast("Proyecto creado", { type: "success" });
-    renderizarAdminObras();
-    povoarSelectProjetosForm();
-  };
-  dlg.showModal();
-}
-
-function abrirNovaObraPrompt(projId) {
-  const dlg = document.getElementById("dlgNovoItem");
-  document.getElementById("dlgItemTitulo").textContent = "Nueva Obra / Frente";
-  document.getElementById("dlgItemSub").textContent = "Asigne un tramo o frente de trabajo";
-  document.getElementById("dlgItemLabel").textContent = "Nombre de la Obra";
-  const input = document.getElementById("dlgItemInput");
-  input.value = "";
-  input.placeholder = "Ej.: Frente Cimentaciones Torre 20 a 35";
-
-  const btnConfirmar = document.getElementById("dlgItemBtnConfirmar");
-  btnConfirmar.onclick = () => {
-    const nome = input.value.trim();
-    if (!nome) return;
-    const newObra = {
-      id: `obra-${Date.now()}`,
-      projetoId: projId,
-      nome,
-      criadoPor: meuNome
-    };
-    storeObras.update(list => [...list, newObra]);
-    dlg.close();
-    window.skipUI.toast("Obra creada", { type: "success" });
-    renderizarAdminObras();
-  };
-  dlg.showModal();
-}
-
-function excluirProjetoAdmin(projId) {
-  if (!confirm("¿Eliminar este proyecto y todas sus obras asociadas?")) return;
-  storeProjects.update(list => list.filter(p => p.id !== projId));
-  storeObras.update(list => list.filter(o => o.projetoId !== projId));
-  window.skipUI.toast("Proyecto eliminado", { type: "info" });
-  renderizarAdminObras();
-  povoarSelectProjetosForm();
-}
-
-function excluirObraAdmin(obraId) {
-  if (!confirm("¿Eliminar esta obra?")) return;
-  storeObras.update(list => list.filter(o => o.id !== obraId));
-  window.skipUI.toast("Obra eliminada", { type: "info" });
-  renderizarAdminObras();
-}
-
-// ----------------------------------------------------
-// ADMIN TAB: USUARIOS & PERMISOS
-// ----------------------------------------------------
-function toggleNovoUsuarioForm() {
-  const panel = document.getElementById("novoUsuarioPanel");
-  panel.classList.toggle("hidden");
-  if (!panel.classList.contains("hidden")) {
-    document.getElementById("newUserName").focus();
-  }
-}
-
-function handleCriarNovoUsuario(e) {
-  e.preventDefault();
-  const nome = document.getElementById("newUserName").value.trim();
-  const email = document.getElementById("newUserEmail").value.trim().toLowerCase();
-  const password = document.getElementById("newUserPassword").value;
-  const papel = document.getElementById("newUserRole").value;
-
-  const users = storeUsers.get() || [];
-  if (users.some(u => u.email.toLowerCase() === email)) {
-    window.skipUI.toast(t("err_email_in_use"), { type: "error" });
-    return;
-  }
-
-  // Simulated creation: generates user document in "usuarios"
-  const newUser = {
-    uid: `usr-${Date.now()}`,
-    email,
-    nome,
-    papel,
-    criadoEm: new Date().toISOString()
-  };
-
-  storeUsers.update(list => [...list, newUser]);
-  toggleNovoUsuarioForm();
-  document.getElementById("newUserName").value = "";
-  document.getElementById("newUserEmail").value = "";
-  document.getElementById("newUserPassword").value = "";
-  window.skipUI.toast("Usuario creado con éxito", { type: "success" });
-  renderizarAdminUsuarios();
-}
-
-function alterarPapelUsuario(uid, novoPapel) {
-  if (uid === ADMIN_UID || uid === currentUser.uid) {
-    window.skipUI.toast("No puede cambiar su propio rol", { type: "error" });
-    return;
-  }
-  storeUsers.update(list => list.map(u => u.uid === uid ? { ...u, papel: novoPapel } : u));
-  window.skipUI.toast("Rol actualizado", { type: "success" });
-  renderizarAdminUsuarios();
-}
-
-function excluirUsuarioAdmin(uid) {
-  if (uid === ADMIN_UID || uid === currentUser.uid) {
-    window.skipUI.toast("No puede eliminar su propio acceso", { type: "error" });
-    return;
-  }
-  if (!confirm("¿Eliminar el acceso de este usuario?")) return;
-  storeUsers.update(list => list.filter(u => u.uid !== uid));
-  window.skipUI.toast("Acceso revocado", { type: "info" });
-  renderizarAdminUsuarios();
-}
-
-function renderizarAdminUsuarios() {
-  const container = document.getElementById("usuariosTableContainer");
-  const users = storeUsers.get() || [];
-  container.innerHTML = "";
-
-  const columns = [
-    {
-      key: "nome",
-      label: "Nombre completo",
-      sortable: true,
-      render: (val, row) => `
-        <div>
-          <div class="font-bold text-sm">${escapeHtml(val)}</div>
-          <div class="text-xs muted">${escapeHtml(row.email)}</div>
-        </div>
-      `
-    },
-    {
-      key: "papel",
-      label: "Rol actual",
-      sortable: true,
-      render: (val) => {
-        if (val === "admin") return `<span class="badge" style="background:var(--brand-blue); color:#fff;">Admin</span>`;
-        if (val === "editor") return `<span class="badge" data-variant="secondary">Editor</span>`;
-        return `<span class="badge" data-variant="outline">Lector</span>`;
-      }
-    },
-    {
-      key: "actions",
-      label: "Acciones de permiso",
-      align: "right",
-      render: (_, row) => {
-        const isSelf = row.uid === ADMIN_UID || (currentUser && row.uid === currentUser.uid);
-        if (isSelf) {
-          return `<span class="badge" data-variant="outline" style="font-size:0.7rem;">Su cuenta</span>`;
-        }
-        return `
-          <div class="row justify-end items-center gap-2">
-            <select class="input" style="padding:2px 6px; font-size:0.75rem; height:28px;" onchange="alterarPapelUsuario('${row.uid}', this.value)">
-              <option value="editor" ${row.papel === 'editor' ? 'selected' : ''}>Editor</option>
-              <option value="admin" ${row.papel === 'admin' ? 'selected' : ''}>Admin</option>
-              <option value="leitor" ${row.papel === 'leitor' ? 'selected' : ''}>Lector</option>
-            </select>
-            <button type="button" class="btn" data-variant="ghost" data-size="sm" style="color:#ef4444; padding:2px 6px;" onclick="excluirUsuarioAdmin('${row.uid}')" title="Revocar acceso">🗑️</button>
-          </div>
-        `;
-      }
-    }
-  ];
-
-  window.skipUI.table(container, {
-    columns,
-    rows: users,
-    pageSize: 10,
-    search: "Buscar usuario..."
-  });
-}
-
-function escapeHtml(str) {
-  if (typeof str !== "string") return str;
-  return str.replace(/[&<>'"]/g, tag => ({
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    "'": '&#39;',
-    '"': '&quot;'
-  }[tag] || tag));
-}
-
-// ----------------------------------------------------
-// INITIALIZATION ON DOM READY
-// ----------------------------------------------------
-document.addEventListener("DOMContentLoaded", () => {
-  aplicarIdioma();
-
-  // Boot animation simulation
-  const bootProg = document.getElementById("bootProgress");
-  const bootTxt = document.getElementById("bootLoadingText");
-
-  setTimeout(() => {
-    bootProg.style.width = "85%";
-    bootTxt.textContent = "Verificando autenticación y permisos...";
-  }, 200);
-
-  setTimeout(() => {
-    bootProg.style.width = "100%";
-    checkAuthState();
-  }, 450);
+// ---- Boot ----
+document.getElementById('bootText').textContent = idiomaAtual === 'es' ? 'Cargando...' : 'Carregando...';
+aplicarIdioma();
+setTimeout(function () {
+var u = currentUser();
+if (u) { entrarApp(u); }
+else { mostrarTela('loginScreen'); }
+}, 300);
 });
 </script>
 </body>
