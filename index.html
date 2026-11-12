@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Reporte de Obra — v8.3</title>
+<title>Reporte de Obra — v8.4</title>
 <style>
 /* Skip artifact shell — fixed styles served beside every artifact.
    Tokens, utilities and components (basecoat 1.0 markup, no CDN); artifacts
@@ -1071,6 +1071,8 @@ table.shell-table td.skip-table-empty { color: var(--text-muted); text-align: ce
 </style>
 </head>
 <body>
+<div id="jsAlive" style="position:fixed;bottom:6px;right:6px;z-index:99999;background:#0B5FFF;color:#fff;font:600 10px/1 monospace;padding:4px 7px;border-radius:5px;pointer-events:none;">JS OK · v8.4</div>
+<div id="jsDead" style="display:none;position:fixed;bottom:6px;right:6px;z-index:99999;background:#B71C1C;color:#fff;font:600 10px/1 monospace;padding:4px 7px;border-radius:5px;">JS FALHOU · v8.4</div>
 
 <div id="screen-login" class="login-wrap">
 <div class="login-card">
@@ -1084,19 +1086,19 @@ table.shell-table td.skip-table-empty { color: var(--text-muted); text-align: ce
 <h1>Reporte de Obra</h1>
 <p class="sub">Ingrese con su cuenta del equipo</p>
 <div id="loginErro" class="login-erro" style="display:none"></div>
-<form id="loginForm" class="stack gap-3" onsubmit="event.preventDefault(); executarLogin(); return false;">
+<form id="loginForm" class="stack gap-3" onsubmit="return window.iadLogin()">
 <div class="field">
-<label for="login-email">E-mail</label>
-<input class="input" id="loginEmail" name="iad-u" type="email" required placeholder="seu@email.com" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false">
+<label for="loginEmail">E-mail</label>
+<input class="input" id="loginEmail" name="iad_user_field" type="email" required placeholder="seu@email.com" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false">
 </div>
 <div class="field">
-<label for="login-senha">Senha</label>
-<input class="input" id="loginSenha" name="iad-p" type="password" required placeholder="••••••••" autocomplete="new-password" autocorrect="off" autocapitalize="none" spellcheck="false">
+<label for="loginSenha">Senha</label>
+<input class="input" id="loginSenha" name="iad_pass_field" type="password" required placeholder="••••••••" autocomplete="new-password" autocorrect="off" autocapitalize="none" spellcheck="false">
 </div>
-<button id="btnEntrar" class="btn w-full" type="submit" onclick="event.preventDefault(); executarLogin(); return false;">Ingresar</button>
+<button id="btnEntrar" class="btn w-full" type="button" onclick="return window.iadLogin()">Ingresar</button>
 <button type="button" class="btn" data-variant="link" id="btn-esqueci">Olvidé mi contraseña</button>
 </form>
-<p class="text-xs muted mt-3">Reporte de Obra — v8.3</p>
+<p class="text-xs muted mt-3">Reporte de Obra — v8.4</p>
 </div>
 </div>
 
@@ -1121,7 +1123,7 @@ table.shell-table td.skip-table-empty { color: var(--text-muted); text-align: ce
 </div>
 <div class="row items-center gap-2">
 <span class="text-xs" id="header-user"></span>
-<span class="eyebrow">v8.3</span>
+<span class="eyebrow">v8.4</span>
 <button class="btn" data-variant="outline" data-size="sm" id="btn-logout">Cerrar sesión</button>
 </div>
 </header>
@@ -1239,52 +1241,72 @@ table.shell-table td.skip-table-empty { color: var(--text-muted); text-align: ce
 </dialog>
 
 <script>
+window.addEventListener("error", function (ev) {
+var d = document.getElementById("jsDead");
+var a = document.getElementById("jsAlive");
+if (a) { a.style.display = "none"; }
+if (d) { d.style.display = "block"; d.textContent = "JS FALHOU · v8.4 · " + (ev.message || "erro"); }
+console.error("[IAD] erro de script:", ev.message, ev.filename, ev.lineno);
+});
+
+window.iadLogin = function () {
+try {
+var e = document.getElementById("loginEmail");
+var s = document.getElementById("loginSenha");
+var b = document.getElementById("btnEntrar");
+var box = document.getElementById("loginErro");
+
+function err(m) {
+if (box) { box.textContent = m; box.style.display = "block"; }
+else { alert(m); }
+}
+
+if (box) { box.style.display = "none"; box.textContent = ""; }
+
+if (!window.firebase || typeof firebase.auth !== "function") {
+err("Firebase no cargó. Recargue la página.");
+return false;
+}
+
+var email = (e && e.value ? e.value : "").trim();
+var senha = (s && s.value ? s.value : "");
+
+if (!email) { err("Ingrese el correo."); return false; }
+if (!senha) { err("Ingrese la contraseña."); return false; }
+
+if (b) { b.disabled = true; b.textContent = "Ingresando..."; }
+
+firebase.auth().signInWithEmailAndPassword(email, senha)
+.then(function (cred) {
+console.log("[IAD] login OK:", cred && cred.user && cred.user.email);
+})
+.catch(function (ex) {
+var c = (ex && ex.code) || "";
+console.warn("[IAD] login erro:", c);
+var m = "Correo o contraseña incorrectos.";
+if (c === "auth/too-many-requests") { m = "Demasiados intentos. Espere un momento."; }
+if (c === "auth/network-request-failed") { m = "Sin conexión. Verifique su internet."; }
+if (c === "auth/user-not-found") { m = "Correo no registrado."; }
+if (c === "auth/invalid-email") { m = "Correo inválido."; }
+err(m);
+})
+.then(function () {
+if (b) { b.disabled = false; b.textContent = "Ingresar"; }
+});
+
+return false;
+} catch (ex) {
+console.error("[IAD] exceção no login:", ex);
+var d = document.getElementById("jsDead");
+if (d) { d.style.display = "block"; d.textContent = "JS FALHOU · v8.4 · " + (ex && ex.message); }
+return false;
+}
+};
+
 var ADMIN_UID = "gc143acuOyeFIXpe2efFI1uZ1NB3";
 var ADMIN_EMAILS = ["balvernaz@alupar.com.pe", "admin@alupar.com.pe"];
 
 function normalizar(v) { return String(v == null ? "" : v).trim().toLowerCase(); }
-
-function executarLogin() {
-var inEmail = document.getElementById("loginEmail");
-var inSenha = document.getElementById("loginSenha");
-var btn = document.getElementById("btnEntrar");
-var caixaErro = document.getElementById("loginErro");
-
-function mostrarErro(msg) {
-if (caixaErro) { caixaErro.textContent = msg; caixaErro.style.display = "block"; }
-else { alert(msg); }
-}
-
-if (caixaErro) { caixaErro.style.display = "none"; caixaErro.textContent = ""; }
-
-var email = String(inEmail && inEmail.value ? inEmail.value : "").trim();
-var senha = String(inSenha && inSenha.value ? inSenha.value : "");
-
-if (!email || !senha) {
-mostrarErro(t("Ingrese correo y contraseña."));
-return;
-}
-
-if (btn) { btn.disabled = true; btn.textContent = t("Ingresando..."); }
-
-auth.signInWithEmailAndPassword(email, senha)
-.then(function (cred) {
-console.log("[login] OK", cred && cred.user && cred.user.email);
-})
-.catch(function (e) {
-var code = (e && e.code) ? e.code : "";
-console.warn("[login] erro", code, e && e.message);
-var msg = t("Correo o contraseña incorrectos.");
-if (code === "auth/too-many-requests") { msg = t("Demasiados intentos. Espere un momento."); }
-if (code === "auth/network-request-failed") { msg = t("Sin conexión. Verifique su internet."); }
-if (code === "auth/user-not-found") { msg = t("Correo no registrado."); }
-if (code === "auth/invalid-email") { msg = t("Correo inválido."); }
-mostrarErro(msg);
-})
-.then(function () {
-if (btn) { btn.disabled = false; btn.textContent = t("Ingresar"); }
-});
-}
 
 function ehAdmin(user) {
 var uid = String(user && user.uid ? user.uid : "").trim();
@@ -1825,10 +1847,9 @@ if (inSenha) { inSenha.value = ""; }
 
 document.addEventListener("DOMContentLoaded", () => {
 limparCamposLogin();
-setTimeout(limparCamposLogin, 300);
-setTimeout(limparCamposLogin, 800);
-var f = document.getElementById("loginForm");
-if (f) { f.addEventListener("submit", function (ev) { ev.preventDefault(); executarLogin(); }); }
+setTimeout(limparCamposLogin, 0);
+setTimeout(limparCamposLogin, 400);
+setTimeout(limparCamposLogin, 1200);
 console.log("[login] tela exibida | firebase:", typeof firebase, "| auth:", typeof (window.firebase && firebase.auth));
 bind();
 const session = STORE.session.get();
