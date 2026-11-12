@@ -1066,6 +1066,30 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
 .hero-card { background: linear-gradient(135deg, #e6f0fb, #ffffff); border: 1px solid #bfdbfe; border-radius: var(--radius); padding: 20px; }
 .hero-card .value { color: var(--accent-text, #003a7a); font-size: 32px; font-weight: 700; }
 .hide { display: none !important; }
+.logo-login { height: 34px; width: auto; display: block; margin: 0 auto 14px auto; }
+.logo-login-fallback { display: none; text-align: center; font-weight: 800; font-size: 22px; color: #004a99; letter-spacing: .5px; margin-bottom: 14px; }
+.perm-scope { border: 1px solid var(--border); border-radius: var(--radius); padding: 12px; margin-top: 8px; }
+.perm-scope-list { max-height: 160px; overflow-y: auto; border: 1px solid var(--border); border-radius: 8px; padding: 8px; margin-top: 6px; }
+.perm-scope-list label { display: flex; gap: 6px; align-items: center; font-size: 13px; padding: 2px 0; }
+.perm-scope-tools { display: flex; gap: 8px; margin-top: 6px; }
+.scope-proj-head { font-weight: 600; font-size: 12px; margin: 6px 0 2px; }
+.lang-switch { display: flex; gap: 4px; align-items: center; }
+.lang-switch button { background: none; border: 1px solid rgba(255,255,255,.5); border-radius: 8px; padding: 2px 6px; cursor: pointer; font-size: 15px; }
+.lang-switch button.on { border-color: #fff; box-shadow: 0 0 0 2px rgba(255,255,255,.35); }
+.copy-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+.copy-row button { cursor: pointer; border-radius: 8px; padding: 8px 14px; font: inherit; }
+.copy-primary { background: #004a99; color: #fff; border: 1px solid #004a99; }
+.copy-secondary { background: #fff; color: #004a99; border: 1px solid #004a99; }
+.copy-row .copy-msg { font-size: 12px; color: #991b1b; align-self: center; }
+.lang-menu { position: relative; }
+.lang-menu-btn { display: none; }
+@media (max-width: 520px) {
+  .lang-switch { display: none; }
+  .lang-menu-btn { display: inline-block; background: none; border: 1px solid rgba(255,255,255,.5); border-radius: 8px; padding: 2px 6px; color: #fff; cursor: pointer; font-size: 15px; }
+  .lang-menu-pop { position: absolute; right: 0; top: 36px; background: #fff; border: 1px solid #cbd5e1; border-radius: 8px; padding: 4px; display: flex; flex-direction: column; gap: 4px; z-index: 50; }
+  .lang-menu-pop.hide { display: none; }
+  .lang-menu-pop button { background: none; border: 0; cursor: pointer; font-size: 18px; padding: 4px; }
+}
 .list-item { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); }
 .list-item:last-child { border-bottom: 0; }
 .sticky-bottom-nav { display: none; }
@@ -1099,7 +1123,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
       <button type="button" id="flagPE" class="on" aria-label="Español" title="Español" onclick="setLang('es')">🇵🇪</button>
       <button type="button" id="flagBR" aria-label="Português" title="Português" onclick="setLang('pt')">🇧🇷</button>
     </div>
-    <div class="login-logo" aria-label="Alupar">ALUPAR</div>
+    <img src="alupar.png" alt="Alupar" class="logo-login" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="logo-login-fallback">ALUPAR</span>
     <h1 id="loginTitle">Informe de Avance de Obra</h1>
     <p class="muted text-sm" id="loginSub">Ingrese con su cuenta del equipo</p>
     <div id="loginErro" class="err-box hide" role="alert"></div>
@@ -1115,7 +1139,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
       <button type="button" class="btn w-full" id="btnIngresar" onclick="return iadLogin()">Ingresar</button>
     </form>
     <p class="text-sm mt-3 text-center"><a href="#" onclick="event.preventDefault(); window.skipUI.toast(t('forgot'));" id="lnkForgot">Olvidé mi contraseña</a></p>
-    <p class="muted text-xs mt-4 text-center">Informe de Avance de Obra — v9.1</p>
+    <p class="muted text-xs mt-4 text-center">Informe de Avance de Obra — v9.2</p>
   </div>
 </section>
 
@@ -1130,6 +1154,17 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
         </div>
       </div>
       <div class="row items-center gap-3">
+        <div class="lang-switch" aria-label="Idioma">
+          <button type="button" id="hFlagPE" aria-label="Español" title="Español" onclick="setLang('es')">🇵🇪</button>
+          <button type="button" id="hFlagBR" aria-label="Português" title="Português" onclick="setLang('pt')">🇧🇷</button>
+        </div>
+        <div class="lang-menu">
+          <button type="button" class="lang-menu-btn" id="hFlagMenu" aria-label="Idioma" onclick="toggleLangMenu()">🌐</button>
+          <div class="lang-menu-pop hide" id="hLangPop">
+            <button type="button" onclick="setLang('es')" aria-label="Español">🇵🇪</button>
+            <button type="button" onclick="setLang('pt')" aria-label="Português">🇧🇷</button>
+          </div>
+        </div>
         <span class="text-sm" id="userName"></span>
         <button class="btn" data-variant="outline" data-size="sm" id="btnSalir" onclick="logout()">Salir</button>
       </div>
@@ -1242,6 +1277,22 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
                   <legend class="text-sm font-semibold">Permisos de acceso</legend>
                   <div class="perm-grid" id="uPerms"></div>
                 </fieldset>
+                <fieldset class="perm-scope">
+                  <legend class="text-sm font-semibold">Obras y proyectos permitidos</legend>
+                  <p class="muted text-xs">Si no selecciona ninguno, el usuario accede a todos.</p>
+                  <div class="row gap-3 mt-2">
+                    <label class="text-sm"><input type="radio" name="uScope" value="todos" checked onchange="setScopeMode('uScope','todos')"> Todos</label>
+                    <label class="text-sm"><input type="radio" name="uScope" value="sel" onchange="setScopeMode('uScope','sel')"> Seleccionar</label>
+                  </div>
+                  <div id="uScopeBox" class="hide">
+                    <div class="font-semibold text-sm mt-2">Proyectos</div>
+                    <div class="perm-scope-tools"><button type="button" class="btn" data-variant="ghost" data-size="sm" onclick="scopeAll('uScopeProj',true)">Selecionar todos</button><button type="button" class="btn" data-variant="ghost" data-size="sm" onclick="scopeAll('uScopeProj',false)">Limpiar</button></div>
+                    <div class="perm-scope-list" id="uScopeProj"></div>
+                    <div class="font-semibold text-sm mt-2">Obras</div>
+                    <div class="perm-scope-tools"><button type="button" class="btn" data-variant="ghost" data-size="sm" onclick="scopeAll('uScopeObra',true)">Selecionar todos</button><button type="button" class="btn" data-variant="ghost" data-size="sm" onclick="scopeAll('uScopeObra',false)">Limpiar</button></div>
+                    <div class="perm-scope-list" id="uScopeObra"></div>
+                  </div>
+                </fieldset>
                 <button class="btn" onclick="criarUsuario()">Crear usuario</button>
               </form>
               <div id="listaUsuarios"></div>
@@ -1323,7 +1374,14 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
 
         <div class="card mb-4">
           <header><div class="row between items-center"><h3>Texto generado</h3><span class="badge" data-variant="outline" id="pillTexto">Vista previa</span></div><p class="muted text-xs">Pronto para copiar y enviar por WhatsApp.</p></header>
-          <section><pre class="preview" id="previewTexto"></pre></section>
+          <section>
+            <div class="copy-row">
+              <button type="button" class="copy-primary" id="btnCopiarA" onclick="copiarTexto()">📋 Copiar texto</button>
+              <button type="button" class="copy-secondary" id="btnCompartirA" onclick="compartirTexto(ultimoTexto)">Compartir</button>
+              <span class="copy-msg hide" id="copyMsgA"></span>
+            </div>
+            <pre class="preview" id="previewTexto"></pre>
+          </section>
         </div>
       </section>
 
@@ -1335,7 +1393,8 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
             <p class="muted text-sm" id="detSub"></p>
           </div>
           <div class="row gap-2 no-print">
-            <button class="btn" data-variant="outline" data-size="sm" onclick="copiarDetalhe()">Copiar texto</button>
+            <button class="btn" data-variant="outline" data-size="sm" onclick="copiarDetalhe()">📋 Copiar texto</button>
+            <button class="btn" data-variant="outline" data-size="sm" id="btnCompartirB" onclick="compartirTexto(ultimoTexto)">Compartir</button>
             <button class="btn" data-variant="secondary" data-size="sm" onclick="window.print()">Imprimir / PDF</button>
             <button class="btn" data-variant="ghost" data-size="sm" onclick="go('inicio')">Volver</button>
           </div>
@@ -1357,7 +1416,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
   </nav>
 </div>
 
-<div class="seal">JS OK · v9.1</div>
+<div class="seal">JS OK · v9.2</div>
 
 <script>
 (function () {
@@ -1560,6 +1619,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
     document.documentElement.lang = l === 'pt' ? 'pt-BR' : 'es';
     document.getElementById('flagPE').classList.toggle('on', l === 'es');
     document.getElementById('flagBR').classList.toggle('on', l === 'pt');
+    syncHeaderFlags();
     applyLang();
     renderAll();
   };
@@ -1604,7 +1664,9 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
   function renderInformes() {
     var lista = document.getElementById('listaInformes');
     var q = (document.getElementById('busca').value || '').toLowerCase();
+    var scope = scopeAtual();
     var items = db.informes.filter(function (i) {
+      if (scope && scope.obras.indexOf(i.obraId) === -1 && scope.projetos.indexOf(i.projetoId) === -1) return false;
       if (filtro === 'mios' && i.autorEmail !== (sessao && sessao.email)) return false;
       var txt = (i.obra + ' ' + i.projeto).toLowerCase();
       return !q || txt.indexOf(q) !== -1;
@@ -1643,8 +1705,86 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
 
   window.copiarDetalhe = function () { copiarPara(ultimoTexto); };
   function copiarPara(txt) {
-    if (navigator.clipboard) navigator.clipboard.writeText(txt).catch(function () {});
-    window.skipUI.toast(t('copiado'), { type: 'success' });
+    function ok() {
+      window.skipUI.toast(t('copiado'), { type: 'success' });
+      var btns = document.querySelectorAll('.copy-primary, #vDetalhe [onclick="copiarDetalhe()"]');
+      btns.forEach(function (b) {
+        var orig = b.getAttribute('data-orig') || b.textContent;
+        b.setAttribute('data-orig', orig);
+        b.textContent = '✓ ' + (lang === 'pt' ? 'Copiado' : 'Copiado');
+        setTimeout(function () { b.textContent = orig; }, 2000);
+      });
+    }
+    function fail() {
+      var m = document.getElementById('copyMsgA');
+      if (m) { m.textContent = lang === 'pt' ? 'Não foi possível copiar. Selecione e copie manualmente.' : 'No se pudo copiar. Seleccione y copie manualmente.'; m.classList.remove('hide'); }
+      window.skipUI.toast(lang === 'pt' ? 'Não foi possível copiar.' : 'No se pudo copiar.', { type: 'error' });
+    }
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(txt).then(ok, function () { fallbackCopy(txt) ? ok() : fail(); });
+    } else {
+      fallbackCopy(txt) ? ok() : fail();
+    }
+  }
+  function fallbackCopy(txt) {
+    var ta = document.createElement('textarea');
+    ta.value = txt; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    var r = false;
+    try { r = document.execCommand('copy'); } catch (e) { r = false; }
+    document.body.removeChild(ta);
+    return r;
+  }
+  window.compartirTexto = function (txt) {
+    if (!navigator.share) return;
+    navigator.share({ text: txt }).catch(function (e) { if (e && e.name !== 'AbortError') window.skipUI.toast(lang === 'pt' ? 'Erro ao compartilhar' : 'Error al compartir', { type: 'error' }); });
+  };
+  window.toggleLangMenu = function () {
+    document.getElementById('hLangPop').classList.toggle('hide');
+  };
+  function syncHeaderFlags() {
+    document.getElementById('hFlagPE').classList.toggle('on', lang === 'es');
+    document.getElementById('hFlagBR').classList.toggle('on', lang === 'pt');
+    var sh = document.getElementById('btnCompartirA');
+    if (sh) sh.style.display = navigator.share ? '' : 'none';
+    var shb = document.getElementById('btnCompartirB');
+    if (shb) shb.style.display = navigator.share ? '' : 'none';
+  }
+  window.setScopeMode = function (name, mode) {
+    document.getElementById('uScopeBox').classList.toggle('hide', mode !== 'sel');
+  };
+  window.scopeAll = function (listId, on) {
+    document.querySelectorAll('#' + listId + ' input[type=checkbox]').forEach(function (c) { c.checked = on; });
+  };
+  function renderScopeLists(projId, obraId, projetosSel, obrasSel) {
+    var pl = document.getElementById(projId);
+    var ol = document.getElementById(obraId);
+    if (!db.projetos.length) pl.innerHTML = '<p class="muted text-xs">No hay proyectos registrados. Cree uno en Admin.</p>';
+    else pl.innerHTML = db.projetos.map(function (p) {
+      return '<label><input type="checkbox" value="' + p.id + '"' + (projetosSel.indexOf(p.id) !== -1 ? ' checked' : '') + '> ' + esc(p.nome) + '</label>';
+    }).join('');
+    if (!db.obras.length) { ol.innerHTML = '<p class="muted text-xs">No hay obras registradas. Cree una en Admin.</p>'; return; }
+    ol.innerHTML = db.projetos.map(function (p) {
+      var obras = db.obras.filter(function (o) { return o.projetoId === p.id; });
+      if (!obras.length) return '';
+      return '<div class="scope-proj-head">' + esc(p.nome) + '</div>' + obras.map(function (o) {
+        return '<label><input type="checkbox" value="' + o.id + '"' + (obrasSel.indexOf(o.id) !== -1 ? ' checked' : '') + '> ' + esc(o.nome) + '</label>';
+      }).join('');
+    }).join('') || '<p class="muted text-xs">No hay obras registradas. Cree una en Admin.</p>';
+  }
+  function checkedIds(containerId) {
+    var out = [];
+    document.querySelectorAll('#' + containerId + ' input[type=checkbox]').forEach(function (c) { if (c.checked) out.push(c.value); });
+    return out;
+  }
+  function userScope(u) {
+    if (!u || u.acessoTotal !== false) return null;
+    return { projetos: Array.isArray(u.projetos) ? u.projetos : [], obras: Array.isArray(u.obras) ? u.obras : [] };
+  }
+  function scopeAtual() {
+    if (!sessao || sessao.email && ADMIN_EMAILS.indexOf(sessao.email) !== -1) return null;
+    var u = db.usuarios.filter(function (x) { return x.email === sessao.email; })[0];
+    return userScope(u);
   }
 
   // ---------- Catálogo ----------
@@ -1687,6 +1827,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
         '</select>';
       var del = (x.email === (sessao && sessao.email)) ? '' : '<button class="btn" data-variant="ghost" data-size="sm" onclick="excluirUsuario(\'' + x.id + '\')">' + t('excluir') + '</button>';
       var perms = permsDe(x, x.papel, false);
+      var scopeTxt = x.acessoTotal === false ? ('· ' + (x.projetos || []).length + ' proy. / ' + (x.obras || []).length + ' obras') : '· Todos';
       var permTxt = perms.length ? perms.map(function (k) { return PERM_LABELS[k]; }).join(' · ') : t('semPermNada');
       return '<div class="list-item"><div><strong>' + esc(x.nome) + '</strong><div class="text-xs muted">' + esc(x.email) + '</div>' +
         '<span class="badge badge-' + x.papel + '">' + x.papel + '</span><div class="perm-list">' + esc(permTxt) + '</div>' +
@@ -1694,7 +1835,13 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
         PERM_KEYS.map(function (k) {
           return '<label><input type="checkbox" class="pp-' + x.id + '" value="' + k + '"' + (perms.indexOf(k) !== -1 ? ' checked' : '') + '> ' + PERM_LABELS[k] + '</label>';
         }).join('') +
-        '</div><button class="btn mt-2" data-size="sm" onclick="guardarPermisos(\'' + x.id + '\')">Guardar permisos</button></div></div>' +
+        '</div>' +
+        '<div class="perm-scope"><div class="text-sm font-semibold">Obras y proyectos permitidos</div><div class="text-xs muted">' + esc(scopeTxt) + '</div>' +
+        '<div class="row gap-3 mt-2"><label class="text-sm"><input type="radio" name="sc-' + x.id + '" value="todos"' + (x.acessoTotal !== false ? ' checked' : '') + ' onchange="setScopeMode(\'sc-' + x.id + '\',\'todos\');document.getElementById(\'sb-' + x.id + '\').classList.add(\'hide\')"> Todos</label>' +
+        '<label class="text-sm"><input type="radio" name="sc-' + x.id + '" value="sel"' + (x.acessoTotal === false ? ' checked' : '') + ' onchange="document.getElementById(\'sb-' + x.id + '\').classList.remove(\'hide\')"> Seleccionar</label></div>' +
+        '<div id="sb-' + x.id + '" class="' + (x.acessoTotal === false ? '' : 'hide') + '"><div class="perm-scope-tools"><button type="button" class="btn" data-variant="ghost" data-size="sm" onclick="scopeAll(\'sp-' + x.id + '\',true)">Selecionar todos</button><button type="button" class="btn" data-variant="ghost" data-size="sm" onclick="scopeAll(\'sp-' + x.id + '\',false)">Limpiar</button></div><div class="perm-scope-list" id="sp-' + x.id + '"></div>' +
+        '<div class="perm-scope-tools"><button type="button" class="btn" data-variant="ghost" data-size="sm" onclick="scopeAll(\'so-' + x.id + '\',true)">Selecionar todos</button><button type="button" class="btn" data-variant="ghost" data-size="sm" onclick="scopeAll(\'so-' + x.id + '\',false)">Limpiar</button></div><div class="perm-scope-list" id="so-' + x.id + '"></div></div></div>' +
+        '<button class="btn mt-2" data-size="sm" onclick="guardarPermisos(\'' + x.id + '\')">Guardar permisos</button></div></div>' +
         '<div class="row gap-2">' + selectHtml +
         '<button class="btn" data-variant="outline" data-size="sm" onclick="togglePerms(\'' + x.id + '\')">Permisos</button>' + del + '</div></div>';
     }).join('');
@@ -1708,7 +1855,11 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
     if (!u) return;
     var marcadas = [];
     document.querySelectorAll('.pp-' + id).forEach(function (c) { if (c.checked) marcadas.push(c.value); });
-    u.permissoes = marcadas; persist(); renderAdmin();
+    u.permissoes = marcadas;
+    u.acessoTotal = document.querySelector('input[name="sc-' + id + '"]:checked').value === 'todos';
+    u.projetos = u.acessoTotal ? [] : checkedIds('sp-' + id);
+    u.obras = u.acessoTotal ? [] : checkedIds('so-' + id);
+    persist(); renderAdmin();
     window.skipUI.toast(t('salvar'), { type: 'success' });
   };
 
@@ -1779,7 +1930,11 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
     }).join('') || '<p class="muted text-sm">Aún no hay obras registradas.</p>';
   }
   window.toggleNovoUsuario = function () {
-    document.getElementById('formUsuario').classList.toggle('hide');
+    var f = document.getElementById('formUsuario');
+    f.classList.toggle('hide');
+    if (!f.classList.contains('hide')) {
+      renderScopeLists('uScopeProj', 'uScopeObra', [], []);
+    }
   };
   window.criarUsuario = function () {
     var nome = document.getElementById('uNome').value.trim();
@@ -1791,10 +1946,15 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
       window.skipUI.toast(t('emailExiste'), { type: 'error' }); return;
     }
     var permissoes = permsMarcadas(document.getElementById('uPerms'));
-    db.usuarios.push({ id: uid(), nome: nome, email: email, papel: papel, permissoes: permissoes, criadoEm: new Date().toISOString() });
+    var acessoTotal = document.querySelector('input[name=uScope]:checked').value === 'todos';
+    var projetos = acessoTotal ? [] : checkedIds('uScopeProj');
+    var obras = acessoTotal ? [] : checkedIds('uScopeObra');
+    db.usuarios.push({ id: uid(), nome: nome, email: email, papel: papel, permissoes: permissoes, projetos: projetos, obras: obras, acessoTotal: acessoTotal, criadoEm: new Date().toISOString() });
     persist();
     ['uNome', 'uEmail', 'uSenha'].forEach(function (id) { document.getElementById(id).value = ''; });
     aplicarPadraoPapel();
+    document.querySelector('input[name=uScope][value=todos]').checked = true;
+    setScopeMode('uScope', 'todos');
     document.getElementById('formUsuario').classList.add('hide');
     renderAdmin(); window.skipUI.toast(t('usuarioCriado'), { type: 'success' });
   };
@@ -1823,14 +1983,29 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
 
   function popularProjetos() {
     var sel = document.getElementById('fProjeto');
-    sel.innerHTML = db.projetos.length ? db.projetos.map(function (p) {
+    var scope = scopeAtual();
+    var projs = db.projetos.filter(function (p) { return !scope || scope.projetos.indexOf(p.id) !== -1; });
+    sel.innerHTML = projs.length ? projs.map(function (p) {
       return '<option value="' + p.id + '">' + esc(p.nome) + '</option>';
-    }).join('') : '<option value="">Cree primero un proyecto.</option>';
+    }).join('') : '<option value="">—</option>';
+    document.getElementById('btnSalvarInf') && (document.getElementById('btnSalvarInf').disabled = !projs.length);
+    var msgP = document.getElementById('msgSemProjAsg');
+    if (!projs.length) {
+      if (!msgP) {
+        msgP = document.createElement('p');
+        msgP.id = 'msgSemProjAsg'; msgP.className = 'text-xs muted';
+        sel.parentNode.appendChild(msgP);
+      }
+      msgP.textContent = 'No tiene proyectos asignados. Solicite acceso al administrador.';
+    } else if (msgP) msgP.remove();
   }
   window.popularObras = function () {
     var p = document.getElementById('fProjeto').value;
     var sel = document.getElementById('fObra');
-    var obras = db.obras.filter(function (o) { return o.projetoId === p; });
+    var scope = scopeAtual();
+    var obras = db.obras.filter(function (o) {
+      return o.projetoId === p && (!scope || scope.obras.indexOf(o.id) !== -1);
+    });
     sel.innerHTML = obras.length ? obras.map(function (o) { return '<option value="' + o.id + '">' + esc(o.nome) + '</option>'; }).join('')
       : '<option value="">—</option>';
     document.getElementById('msgSemObras').classList.toggle('hide', obras.length > 0);
@@ -2040,6 +2215,8 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
   window.salvarInforme = function () {
     if (!document.getElementById('fProjeto').value) { window.skipUI.toast(t('nenhumProjeto'), { type: 'error' }); return; }
     var inf = coletarInforme();
+    inf.projetoId = document.getElementById('fProjeto').value;
+    inf.obraId = document.getElementById('fObra').value;
     var idx = db.informes.findIndex(function (i) { return i.id === inf.id; });
     if (idx >= 0) db.informes[idx] = inf; else db.informes.push(inf);
     persist();
@@ -2073,6 +2250,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
     document.getElementById('flagPE').classList.toggle('on', lang === 'es');
     document.getElementById('flagBR').classList.toggle('on', lang === 'pt');
     applyLang();
+    syncHeaderFlags();
     document.getElementById('loginSenha').value = '';
     document.getElementById('loginEmail').value = '';
     if (sessao && sessao.expira > Date.now()) { if (!sessao.permissoes) sessao.permissoes = permsDe(null, sessao.papel, ADMIN_EMAILS.indexOf(sessao.email) !== -1); aplicarAcesso(); }
