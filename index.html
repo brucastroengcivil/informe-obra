@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Informe de Avance de Obra · v9.4 · Alupar</title>
+<title>Informe de Avance de Obra · v9.5 · Alupar</title>
 <style>
 /* Skip artifact shell — fixed styles served beside every artifact.
    Tokens, utilities and components (basecoat 1.0 markup, no CDN); artifacts
@@ -1141,7 +1141,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
       <button type="button" class="btn w-full" id="btnIngresar" onclick="return iadLogin()">Ingresar</button>
     </form>
     <p class="text-sm mt-3 text-center"><a href="#" onclick="event.preventDefault(); window.skipUI.toast(t('forgot'));" id="lnkForgot">Olvidé mi contraseña</a></p>
-    <div class="rodape-versao">v9.4</div>
+    <div class="rodape-versao">v9.5</div>
   </div>
 </section>
 
@@ -1152,7 +1152,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
       <div class="row items-center gap-2">
         <img class="brand-logo" src="alupar_branco.png" alt="Alupar">
         <div>
-          <div class="font-bold" id="appTitle">Informe de Avance de Obra · v9.4</div>
+          <div class="font-bold" id="appTitle">Informe de Avance de Obra · v9.5</div>
         </div>
       </div>
       <div class="row items-center gap-3">
@@ -1379,6 +1379,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
               <span class="copy-msg hide" id="copyMsgA"></span>
             </div>
             <pre class="preview" id="previewTexto"></pre>
+            <p class="muted text-xs mt-2" id="diagAtiv">Atividades lidas: 0</p>
           </section>
         </div>
       </section>
@@ -2118,7 +2119,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
   window.rmMO = function (i) { mo.splice(i, 1); renderMO(); };
 
   // ---------- Texto gerado ----------
-  function gerarTexto(inf) {
+  function gerarTextoInforme(inf) {
     var PT = lang === 'pt';
     var L = PT ? {
       head: 'AVANÇO DA OBRA', proj: 'Projeto', obra: 'Obra', resp: 'Responsável', ativ: 'ATIVIDADES',
@@ -2208,41 +2209,164 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
     };
   }
 
-  function atualizarPreview() {
-    var inf = coletarInforme();
-    ultimoTexto = gerarTexto(inf);
-    document.getElementById('previewTexto').textContent = ultimoTexto;
-  }
-  document.addEventListener('input', function (e) {
-    if (document.getElementById('vNovo') && !document.getElementById('vNovo').classList.contains('hide')) atualizarPreview();
+  window.lerAtividades = function () {
+    var out = [];
+    document.querySelectorAll("#listaAtividades .ativ-card").forEach(function (card) {
+      function v(c) { var el = card.querySelector('[data-campo="' + c + '"]'); return el ? String(el.value || "").trim() : ""; }
+      function t2(c) { var el = card.querySelector('[data-campo="' + c + '"]'); if (!el) return ""; return String(el.options && el.options[el.selectedIndex] ? el.options[el.selectedIndex].text : "").trim(); }
+      var eqs = [];
+      card.querySelectorAll(".ativ-eq").forEach(function (row) {
+        var s = row.querySelector('[data-campo="equipId"]');
+        var h = row.querySelector('[data-campo="horas"]');
+        var nome = (s && s.selectedIndex >= 1 && s.options[s.selectedIndex]) ? String(s.options[s.selectedIndex].text || "").trim() : "";
+        if (nome === "—") { nome = ""; }
+        var horas = h ? String(h.value || "").trim() : "";
+        if (nome) { eqs.push({ nome: nome, horas: horas }); }
+      });
+      out.push({ nome: v("nome"), unidade: t2("unidade") || v("unidade"), qtdDia: v("qtdDia"), pctDia: v("pctDia"), qtdAcum: v("qtdAcum"), pctAcum: v("pctAcum"), equipamentos: eqs });
+    });
+    return out;
+  };
+  window.lerEquipos = function () {
+    var out = [];
+    document.querySelectorAll("#listaEquipos .equipo-card").forEach(function (card) {
+      var s = card.querySelector('[data-campo="equipId"]');
+      var q = card.querySelector('[data-campo="qtd"]');
+      var nome = (s && s.selectedIndex >= 1 && s.options[s.selectedIndex]) ? String(s.options[s.selectedIndex].text || "").trim() : "";
+      var qtd = q ? String(q.value || "").trim() : "";
+      if (nome) { out.push({ nome: nome, qtd: qtd }); }
+    });
+    return out;
+  };
+  window.lerMao = function () {
+    var out = [];
+    document.querySelectorAll("#listaMao .mao-card").forEach(function (card) {
+      var s = card.querySelector('[data-campo="cargoId"]');
+      var q = card.querySelector('[data-campo="qtd"]');
+      var nome = (s && s.selectedIndex >= 1 && s.options[s.selectedIndex]) ? String(s.options[s.selectedIndex].text || "").trim() : "";
+      var qtd = q ? String(q.value || "").trim() : "";
+      if (nome) { out.push({ nome: nome, qtd: qtd }); }
+    });
+    return out;
+  };
+
+  window.gerarTexto = function () {
+    var ativs = window.lerAtividades();
+    var PT = lang === 'pt';
+    var linhas = [];
+    var n = 0;
+    ativs.forEach(function (a) {
+      if (!a.nome) { return; }
+      n++;
+      var b = n + ". " + a.nome;
+      if (a.equipamentos.length) {
+        b += "\n   🔧 " + (PT ? "Equipamento" : "Equipo") + ": " + a.equipamentos.map(function (e) { return e.nome + (e.horas ? " " + e.horas + " h" : ""); }).join(" | ");
+      }
+      if (a.qtdDia) { b += "\n   🗓️ " + (PT ? "Hoje" : "Hoy") + ": " + a.qtdDia + " " + a.unidade; }
+      if (a.qtdAcum || a.pctAcum) {
+        b += "\n   📊 " + (PT ? "Acumulado" : "Acumulado") + ": " + (a.qtdAcum ? a.qtdAcum + " " + a.unidade : "") + (a.qtdAcum && a.pctAcum ? " | " : "") + (a.pctAcum ? a.pctAcum + "%" : "");
+      }
+      linhas.push(b);
+    });
+    var out = [];
+    var proj = document.getElementById('fProjeto');
+    var obra = document.getElementById('fObra');
+    var projTxt = proj && proj.options[proj.selectedIndex] ? proj.options[proj.selectedIndex].text : "";
+    var obraTxt = obra && obra.options[obra.selectedIndex] ? obra.options[obra.selectedIndex].text : "";
+    var data = document.getElementById('fData').value;
+    out.push('*' + (PT ? 'AVANÇO DA OBRA' : 'AVANCE DE OBRA') + (data ? ' (' + fmtData(data) + ')' : '') + '*');
+    out.push('*' + (PT ? 'Projeto' : 'Proyecto') + ':* ' + projTxt);
+    out.push('*' + (PT ? 'Obra' : 'Obra') + ':* ' + obraTxt);
+    out.push('*' + (PT ? 'Responsável' : 'Responsable') + ':* ' + (sessao ? sessao.nome : ''));
+    out.push('');
+    if (linhas.length) {
+      out.push('⏳ *' + (PT ? 'ATIVIDADES' : 'ACTIVIDADES') + '*');
+      out.push(linhas.join('\n'));
+      out.push('');
+    }
+    var mo = window.lerMao().filter(function (m) { return Number(m.qtd) > 0; });
+    if (mo.length) {
+      var totalMO = mo.reduce(function (s, m) { return s + Number(m.qtd); }, 0);
+      out.push('👷 *' + (PT ? 'MÃO DE OBRA' : 'MANO DE OBRA') + '* — Total: ' + totalMO);
+      mo.forEach(function (m) { out.push('• ' + m.qtd + ' ' + m.nome); });
+      out.push('');
+    }
+    var eqG = window.lerEquipos().filter(function (e) { return Number(e.qtd) > 0; });
+    if (eqG.length) {
+      var totalEq = eqG.reduce(function (s, e) { return s + Number(e.qtd); }, 0);
+      out.push('🚜 *' + (PT ? 'EQUIPAMENTOS' : 'EQUIPOS') + '* — Total: ' + totalEq);
+      eqG.forEach(function (e) { out.push('• ' + e.qtd + ' ' + e.nome); });
+      out.push('');
+    }
+    var cm = document.getElementById('selClimaManha') || document.getElementById('climaM');
+    var ct = document.getElementById('selClimaTarde') || document.getElementById('climaT');
+    if (cm && ct) {
+      out.push('🌤️ *' + (PT ? 'CLIMA' : 'CLIMA') + '*');
+      out.push((PT ? 'Manhã' : 'Mañana') + ': ' + cm.value + ' | ' + (PT ? 'Tarde' : 'Tarde') + ': ' + ct.value);
+      out.push('');
+    }
+    var oc = document.getElementById('fOcor').value.trim();
+    var sg = document.getElementById('fSeg').value.trim();
+    var px = document.getElementById('fProx').value.trim();
+    if (oc) out.push('⚠️ *' + (PT ? 'OCORRÊNCIAS' : 'OCURRENCIAS') + '*\n' + oc + '\n');
+    if (sg) out.push('🦺 *' + (PT ? 'SEGURANÇA' : 'SEGURIDAD') + '*\n' + sg + '\n');
+    if (px) out.push('📌 *' + (PT ? 'PRÓXIMOS PASSOS' : 'PRÓXIMOS PASOS') + '*\n' + px);
+    return out.join('\n').replace(/\n{3,}/g, '\n\n').trim();
+  };
+
+  window.atualizarPreview = function () {
+    var ativs = window.lerAtividades();
+    var nomes = ativs.map(function (a) { return a.nome; }).filter(function (n) { return n; });
+    console.log("[IAD] atividades lidas:", ativs);
+    var txt = window.gerarTexto();
+    ultimoTexto = txt;
+    var area = document.getElementById('previewTexto');
+    if (area) area.textContent = txt;
+    var diag = document.getElementById('diagAtiv');
+    if (diag) diag.textContent = "Atividades lidas: " + nomes.length + " · nomes: " + nomes.join(", ");
+  };
+  document.addEventListener('input', function () {
+    var vn = document.getElementById('vNovo');
+    if (vn && !vn.classList.contains('hide')) window.atualizarPreview();
   });
-  document.addEventListener('change', function (e) {
-    if (document.getElementById('vNovo') && !document.getElementById('vNovo').classList.contains('hide')) atualizarPreview();
+  document.addEventListener('change', function () {
+    var vn = document.getElementById('vNovo');
+    if (vn && !vn.classList.contains('hide')) window.atualizarPreview();
   });
 
-  window.copiarTexto = function () { sincronizarDoDOM(); atualizarPreview(); copiarPara(ultimoTexto); };
-  function sincronizarDoDOM() {
-    formState.data = document.getElementById('fData').value;
-    formState.climaManha = document.getElementById('climaM').value;
-    formState.climaTarde = document.getElementById('climaT').value;
-    formState.ocorrencias = document.getElementById('fOcor').value;
-    formState.seguranca = document.getElementById('fSeg').value;
-    formState.proximos = document.getElementById('fProx').value;
-    formState.atividades = editAtiv;
-    formState.equipos = equipoGeral;
-    formState.manoObra = mo;
-  }
+  window.copiarTexto = function () { window.atualizarPreview(); copiarPara(ultimoTexto); };
 
   window.salvarInforme = function () {
-    if (!document.getElementById('fProjeto').value) { window.skipUI.toast(t('nenhumProjeto'), { type: 'error' }); return; }
-    var inf = coletarInforme();
-    inf.projetoId = document.getElementById('fProjeto').value;
-    inf.obraId = document.getElementById('fObra').value;
-    var idx = db.informes.findIndex(function (i) { return i.id === inf.id; });
-    if (idx >= 0) db.informes[idx] = inf; else db.informes.push(inf);
-    persist();
-    window.skipUI.toast(t('guardado'), { type: 'success' });
-    go('inicio');
+    var projId = document.getElementById('fProjeto').value;
+    if (!projId) { window.skipUI.toast(t('nenhumProjeto'), { type: 'error' }); return; }
+    try {
+      var projSel = document.getElementById('fProjeto');
+      var obraSel = document.getElementById('fObra');
+      var inf = {
+        id: editId || uid(),
+        data: document.getElementById('fData').value,
+        projetoId: projId,
+        projeto: projSel.options[projSel.selectedIndex] ? projSel.options[projSel.selectedIndex].text : "",
+        obraId: obraSel.value,
+        obra: obraSel.options[obraSel.selectedIndex] ? obraSel.options[obraSel.selectedIndex].text : "",
+        responsavel: sessao.nome, autorNome: sessao.nome, autorEmail: sessao.email, autorId: sessao.uid,
+        atividades: window.lerAtividades(),
+        equipos: window.lerEquipos(),
+        manoObra: window.lerMao(),
+        clima: { manha: document.getElementById('climaM').value, tarde: document.getElementById('climaT').value },
+        ocorrencias: document.getElementById('fOcor').value.trim(),
+        seguranca: document.getElementById('fSeg').value.trim(),
+        proximos: document.getElementById('fProx').value.trim(),
+        criadoEm: new Date().toISOString()
+      };
+      var idx = db.informes.findIndex(function (i) { return i.id === inf.id; });
+      if (idx >= 0) db.informes[idx] = inf; else db.informes.push(inf);
+      persist();
+      window.skipUI.toast(t('guardado'), { type: 'success' });
+      go('inicio');
+    } catch (e) {
+      window.skipUI.toast('Erro: ' + (e && e.message ? e.message : e), { type: 'error' });
+    }
   };
 
   // ---------- Render geral ----------
@@ -2276,16 +2400,6 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
     if (sessao && sessao.expira > Date.now()) { if (!sessao.permissoes) sessao.permissoes = permsDe(null, sessao.papel, ADMIN_EMAILS.indexOf(sessao.email) !== -1); aplicarAcesso(); }
     else { sessao = null; localStorage.removeItem('iad_sessao_v90'); }
   });
-  // expõe lista de equipos para edição inline
-  window.editAtiv = editAtiv;
-  window.equipoGeral = equipoGeral;
-  window.mo = mo;
-  window.formState = {
-    data: "", projetoId: "", projetoNome: "", obraId: "", obraNome: "",
-    atividades: [], equipos: [], manoObra: [],
-    climaManha: "", climaTarde: "",
-    ocorrencias: "", seguranca: "", proximos: ""
-  };
 })();
 </script>
 </body>
