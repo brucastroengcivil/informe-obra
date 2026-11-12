@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Reporte de Obra · Alupar</title>
+<title>Informe de Avance de Obra · Alupar</title>
 <style>
 /* Skip artifact shell — fixed styles served beside every artifact.
    Tokens, utilities and components (basecoat 1.0 markup, no CDN); artifacts
@@ -1032,7 +1032,12 @@ table.shell-table td.skip-table-empty { color: var(--text-muted); text-align: ce
 body { background: var(--bg); }
 .app-header { background: #004a99; color: #fff; position: sticky; top: 0; z-index: 30; }
 .app-header .muted { color: #cfe3ff; }
-.brand-mark { width: 40px; height: 40px; border-radius: var(--radius); background: #fff; display: grid; place-items: center; color: #004a99; font-weight: 700; }
+.brand-logo { height: 28px; width: auto; display: block; mix-blend-mode: screen; }
+.perm-list { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+.perm-panel { border: 1px solid var(--border); border-radius: var(--radius); padding: 12px; margin-top: 8px; }
+.perm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.perm-grid label { font-size: 13px; display: flex; gap: 6px; align-items: center; }
+.perm-msg { padding: 24px; text-align: center; }
 .login-wrap { min-height: 100vh; display: grid; place-items: center; background: #004a99; padding: 24px; }
 .login-card { background: #fff; color: #0f172a; border-radius: 16px; padding: 32px; width: 100%; max-width: 400px; box-shadow: 0 24px 60px rgba(0,0,0,.3); position: relative; }
 .login-card h1 { color: #004a99; font-size: 26px; margin: 12px 0 4px; }
@@ -1095,7 +1100,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
       <button type="button" id="flagBR" aria-label="Português" title="Português" onclick="setLang('pt')">🇧🇷</button>
     </div>
     <div class="login-logo" aria-label="Alupar">ALUPAR</div>
-    <h1 id="loginTitle">Reporte de Obra</h1>
+    <h1 id="loginTitle">Informe de Avance de Obra</h1>
     <p class="muted text-sm" id="loginSub">Ingrese con su cuenta del equipo</p>
     <div id="loginErro" class="err-box hide" role="alert"></div>
     <form onsubmit="return iadLogin()" autocomplete="off">
@@ -1110,7 +1115,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
       <button type="button" class="btn w-full" id="btnIngresar" onclick="return iadLogin()">Ingresar</button>
     </form>
     <p class="text-sm mt-3 text-center"><a href="#" onclick="event.preventDefault(); window.skipUI.toast(t('forgot'));" id="lnkForgot">Olvidé mi contraseña</a></p>
-    <p class="muted text-xs mt-4 text-center">Reporte de Obra — v9.0</p>
+    <p class="muted text-xs mt-4 text-center">Informe de Avance de Obra — v9.1</p>
   </div>
 </section>
 
@@ -1119,10 +1124,9 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
   <header class="app-header">
     <div class="shell-container row between items-center p-3">
       <div class="row items-center gap-2">
-        <div class="brand-mark">A</div>
+        <img class="brand-logo" src="alupar_branco.png" alt="Alupar">
         <div>
-          <div class="font-bold" id="appTitle">Reporte de Obra</div>
-          <div class="text-xs muted" id="appSub">Alupar · Obras</div>
+          <div class="font-bold" id="appTitle">Informe de Avance de Obra</div>
         </div>
       </div>
       <div class="row items-center gap-3">
@@ -1198,13 +1202,24 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
         <h2 class="text-2xl font-bold mb-1">Administración</h2>
         <p class="muted text-sm mb-4">Obras, proyectos y usuarios del equipo.</p>
         <div class="shell-grid cols-2 gap-4">
-          <div class="card">
-            <header><h3>Obras</h3><p class="muted text-xs">Cada obra pertenece a un proyecto.</p></header>
+          <div class="card" id="secProjetos">
+            <header><h3>Proyectos</h3><p class="muted text-xs">Registre los proyectos de la empresa.</p></header>
             <section>
               <div class="inline-form mb-2">
-                <input class="input" id="novoProjeto" placeholder="Proyecto (ej.: LT 220 kV Norte)">
+                <input class="input" id="novoProjeto" placeholder="Nombre del proyecto">
+                <button class="btn" data-size="sm" onclick="addProjeto()">+ Agregar proyecto</button>
+              </div>
+              <div id="listaProjetos"></div>
+            </section>
+          </div>
+          <div class="card" id="secObras">
+            <header><h3>Obras</h3><p class="muted text-xs">Cada obra pertenece a un proyecto.</p></header>
+            <section>
+              <p class="muted text-sm mb-2 hide" id="msgSemProj">Cree primero un proyecto.</p>
+              <div class="stack gap-2 mb-2">
+                <div class="field"><label for="obraProj">Proyecto</label><select class="input" id="obraProj"></select></div>
                 <input class="input" id="novaObra" placeholder="Nombre de la obra">
-                <button class="btn" data-size="sm" onclick="addObra()">＋ Agregar obra</button>
+                <button class="btn" data-size="sm" onclick="addObra()" id="btnAddObra">+ Agregar obra</button>
               </div>
               <div id="listaObras"></div>
             </section>
@@ -1222,7 +1237,11 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
                 <input class="input" id="uNome" placeholder="Nombre">
                 <input class="input" id="uEmail" type="email" placeholder="correo@alupar.com.pe">
                 <input class="input" id="uSenha" type="password" placeholder="Contraseña provisional (mín. 6)">
-                <select class="input" id="uPapel"><option value="leitor">leitor</option><option value="editor">editor</option><option value="admin">admin</option></select>
+                <select class="input" id="uPapel" onchange="aplicarPadraoPapel()"><option value="leitor">leitor</option><option value="editor">editor</option><option value="admin">admin</option></select>
+                <fieldset class="perm-panel">
+                  <legend class="text-sm font-semibold">Permisos de acceso</legend>
+                  <div class="perm-grid" id="uPerms"></div>
+                </fieldset>
                 <button class="btn" onclick="criarUsuario()">Crear usuario</button>
               </form>
               <div id="listaUsuarios"></div>
@@ -1250,7 +1269,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
           <section class="shell-grid cols-3 gap-3">
             <div class="field"><label for="fData">Fecha</label><input class="input" type="date" id="fData"></div>
             <div class="field"><label for="fProjeto">Proyecto</label><select class="input" id="fProjeto" onchange="popularObras()"></select></div>
-            <div class="field"><label for="fObra">Obra</label><select class="input" id="fObra"></select></div>
+            <div class="field"><label for="fObra">Obra</label><select class="input" id="fObra"></select><p class="text-xs muted hide" id="msgSemObras">Este proyecto no tiene obras.</p></div>
           </section>
         </div>
 
@@ -1287,8 +1306,8 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
           <div class="card">
             <header><h3>Clima</h3><p class="muted text-xs">Condición del tiempo en la obra.</p></header>
             <section class="stack gap-2">
-              <div class="field"><label for="climaM">Mañana</label><select class="input" id="climaM"><option>Despejado</option><option>Nublado</option><option>Lluvia leve</option><option>Lluvia fuerte</option></select></div>
-              <div class="field"><label for="climaT">Tarde</label><select class="input" id="climaT"><option>Despejado</option><option>Nublado</option><option>Lluvia leve</option><option>Lluvia fuerte</option></select></div>
+              <div class="field"><label for="climaM">Mañana</label><select class="input" id="climaM"><option>Despejado ☀️</option><option>Nublado ☁️</option><option>Lluvia leve 🌦️</option><option>Lluvia fuerte 🌧️</option></select></div>
+              <div class="field"><label for="climaT">Tarde</label><select class="input" id="climaT"><option>Despejado ☀️</option><option>Nublado ☁️</option><option>Lluvia leve 🌦️</option><option>Lluvia fuerte 🌧️</option></select></div>
             </section>
           </div>
         </div>
@@ -1338,7 +1357,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
   </nav>
 </div>
 
-<div class="seal">JS OK · v9.0</div>
+<div class="seal">JS OK · v9.1</div>
 
 <script>
 (function () {
@@ -1349,10 +1368,11 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
     es: {
       forgot: 'Contacte al administrador para restablecer su contraseña.',
       login: 'Ingresar', salir: 'Salir', inicio: 'Inicio', catalogo: 'Catálogo', admin: 'Admin',
+      semPerm: 'No tiene permiso para ver informes.', semPermNada: 'Sin permisos',
       crear: '＋ Crear informe', vazio: 'Aún no hay informes', mios: 'Míos', todos: 'Todos',
       guardado: 'Informe guardado', copiado: 'Texto copiado', erroLogin: 'Ingrese correo y contraseña.',
       credenciais: 'Correo o contraseña incorrectos.', lblEmail: 'Correo', lblSenha: 'Contraseña',
-      sub: 'Ingrese con su cuenta del equipo', titulo: 'Reporte de Obra',
+      sub: 'Ingrese con su cuenta del equipo', titulo: 'Informe de Avance de Obra',
       avance: 'Avance medio', autor: 'Autor', obra: 'Obra', proyecto: 'Proyecto',
       vazioCargo: 'Aún no hay cargos registrados', vazioEquipo: 'Aún no hay equipos registrados',
       addAtiv: '＋ Agregar actividad', addEq: '＋ Agregar equipo', criarEq: '＋ Crear equipo',
@@ -1375,10 +1395,11 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
     pt: {
       forgot: 'Contate o administrador para redefinir sua senha.',
       login: 'Entrar', salir: 'Sair', inicio: 'Início', catalogo: 'Catálogo', admin: 'Admin',
+      semPerm: 'Sem permissão para ver relatórios.', semPermNada: 'Sem permissões',
       crear: '＋ Criar relatório', vazio: 'Ainda não há relatórios', mios: 'Meus', todos: 'Todos',
       guardado: 'Relatório salvo', copiado: 'Texto copiado', erroLogin: 'Informe e-mail e senha.',
       credenciais: 'E-mail ou senha incorretos.', lblEmail: 'E-mail', lblSenha: 'Senha',
-      sub: 'Entre com sua conta da equipe', titulo: 'Reporte de Obra',
+      sub: 'Entre com sua conta da equipe', titulo: 'Informe de Avance de Obra',
       avance: 'Avanço médio', autor: 'Autor', obra: 'Obra', proyecto: 'Projeto',
       vazioCargo: 'Ainda não há cargos cadastrados', vazioEquipo: 'Ainda não há equipamentos cadastrados',
       addAtiv: '＋ Adicionar atividade', addEq: '＋ Adicionar equipamento', criarEq: '＋ Criar equipamento',
@@ -1414,6 +1435,9 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
 
   var sessao = load('iad_sessao_v90', null);
   var db = load('iad_db_v90', { usuarios: [], informes: [], projetos: [], obras: [], catalogos: { funcoes: [], equipamentos: [] } });
+  if (!Array.isArray(db.projetos)) db.projetos = [];
+  if (!Array.isArray(db.obras)) db.obras = [];
+  db.projetos = db.projetos.map(function (p) { return typeof p === 'string' ? { id: uid(), nome: p } : p; });
   var filtro = 'todos';
   var editAtiv = [];   // atividades em edição
   var equipoGeral = [];
@@ -1441,8 +1465,9 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
         erro.textContent = t('credenciais'); erro.classList.remove('hide'); return;
       }
       var papel = ADMIN_EMAILS.indexOf(email) !== -1 ? 'admin' : (usr.papel || 'leitor');
-      var nome = usr ? usr.nome : 'Administrador';
-      sessao = { uid: usr ? usr.id : 'adm-' + email, email: email, nome: nome, papel: papel, expira: Date.now() + 3600000 };
+      var isAdminMail = ADMIN_EMAILS.indexOf(email) !== -1;
+      var nome = isAdminMail ? 'Bruno Alvernaz' : usr.nome;
+      sessao = { uid: usr ? usr.id : 'adm-' + email, email: email, nome: nome, papel: papel, permissoes: permsDe(usr, papel, isAdminMail), expira: Date.now() + 3600000 };
       save('iad_sessao_v90', sessao);
       aplicarAcesso();
     }, 400);
@@ -1466,14 +1491,67 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
     go('inicio');
   }
 
+  var PERM_KEYS = ['ver_informes', 'criar_informes', 'editar_informes', 'gerir_catalogo', 'gerir_obras', 'gerir_usuarios'];
+  var PERM_LABELS = {
+    ver_informes: 'Ver informes', criar_informes: 'Crear informes', editar_informes: 'Editar informes',
+    gerir_catalogo: 'Gestionar catálogo', gerir_obras: 'Gestionar obras y proyectos', gerir_usuarios: 'Gestionar usuarios'
+  };
+  var PERM_PADRAO = {
+    admin: PERM_KEYS.slice(),
+    editor: ['ver_informes', 'criar_informes', 'editar_informes', 'gerir_catalogo'],
+    leitor: ['ver_informes']
+  };
+
+  function permsDe(usr, papel, isAdminMail) {
+    if (isAdminMail) return PERM_KEYS.slice();
+    if (usr && Array.isArray(usr.permissoes)) return usr.permissoes.slice();
+    return (PERM_PADRAO[papel] || []).slice();
+  }
+  function temPerm(p) {
+    if (!sessao) return false;
+    if (sessao.papel === 'admin' && sessao.email && ADMIN_EMAILS.indexOf(sessao.email) !== -1) return true;
+    return (sessao.permissoes || []).indexOf(p) !== -1;
+  }
+
+  function renderPermCheckboxes(marcadas) {
+    document.getElementById('uPerms').innerHTML = PERM_KEYS.map(function (k) {
+      return '<label><input type="checkbox" class="uPerm" value="' + k + '"' +
+        (marcadas.indexOf(k) !== -1 ? ' checked' : '') + '> ' + PERM_LABELS[k] + '</label>';
+    }).join('');
+  }
+  window.aplicarPadraoPapel = function () {
+    renderPermCheckboxes(PERM_PADRAO[document.getElementById('uPapel').value] || []);
+  };
+  function permsMarcadas(container) {
+    var out = [];
+    container.querySelectorAll('.uPerm').forEach(function (c) { if (c.checked) out.push(c.value); });
+    return out;
+  }
+
   function aplicarPermissoes() {
     var isAdmin = sessao && sessao.papel === 'admin';
-    var isLeitor = sessao && sessao.papel === 'leitor';
+    var podeVer = temPerm('ver_informes');
+    document.querySelectorAll('[data-nav="inicio"]').forEach(function (b) { b.classList.toggle('hide', !podeVer); });
+    document.querySelectorAll('[data-nav="catalogo"]').forEach(function (b) { b.classList.toggle('hide', !temPerm('gerir_catalogo')); });
     ['navAdmin', 'navAdminM', 'navAdminB'].forEach(function (id) {
       var el = document.getElementById(id); if (el) el.classList.toggle('hide', !isAdmin);
     });
-    document.getElementById('secUsuarios').classList.toggle('hide', !isAdmin);
-    document.getElementById('btnNovo').classList.toggle('hide', isLeitor);
+    document.getElementById('btnNovo').classList.toggle('hide', !temPerm('criar_informes'));
+    document.getElementById('secUsuarios').classList.toggle('hide', !(isAdmin && temPerm('gerir_usuarios')));
+    document.getElementById('secProjetos').classList.toggle('hide', !temPerm('gerir_obras'));
+    document.getElementById('secObras').classList.toggle('hide', !temPerm('gerir_obras'));
+    document.getElementById('vInicio').querySelector('.row.gap-2.mb-3').classList.toggle('hide', !podeVer);
+    document.getElementById('listaInformes').classList.toggle('hide', !podeVer);
+    document.getElementById('vazioInformes').classList.toggle('hide', true);
+    var msg = document.getElementById('msgPermInicio');
+    if (!msg) {
+      msg = document.createElement('p');
+      msg.id = 'msgPermInicio';
+      msg.className = 'muted perm-msg hide';
+      document.getElementById('vInicio').appendChild(msg);
+    }
+    msg.textContent = t('semPerm');
+    msg.classList.toggle('hide', podeVer);
   }
 
   // ---------- Idioma ----------
@@ -1598,12 +1676,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
 
   // ---------- Admin ----------
   function renderAdmin() {
-    var o = document.getElementById('listaObras');
-    if (!db.obras.length) o.innerHTML = '<p class="muted text-sm">' + t('nenhumProjeto') + '</p>';
-    else o.innerHTML = db.obras.map(function (ob, idx) {
-      return '<div class="list-item"><div><strong>' + esc(ob.nome) + '</strong><div class="text-xs muted">' + esc(ob.projeto) + '</div></div>' +
-        '<button class="btn" data-variant="ghost" data-size="sm" onclick="removeObra(' + idx + ')">✕</button></div>';
-    }).join('');
+    renderProjetosObras();
 
     var u = document.getElementById('listaUsuarios');
     if (!db.usuarios.length) { u.innerHTML = '<p class="muted text-sm">—</p>'; return; }
@@ -1613,26 +1686,98 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
         PAPEIS.map(function (p) { return '<option value="' + p + '"' + (x.papel === p ? ' selected' : '') + '>' + p + '</option>'; }).join('') +
         '</select>';
       var del = (x.email === (sessao && sessao.email)) ? '' : '<button class="btn" data-variant="ghost" data-size="sm" onclick="excluirUsuario(\'' + x.id + '\')">' + t('excluir') + '</button>';
+      var perms = permsDe(x, x.papel, false);
+      var permTxt = perms.length ? perms.map(function (k) { return PERM_LABELS[k]; }).join(' · ') : t('semPermNada');
       return '<div class="list-item"><div><strong>' + esc(x.nome) + '</strong><div class="text-xs muted">' + esc(x.email) + '</div>' +
-        '<span class="badge badge-' + x.papel + '">' + x.papel + '</span></div><div class="row gap-2">' + selectHtml + del + '</div></div>';
+        '<span class="badge badge-' + x.papel + '">' + x.papel + '</span><div class="perm-list">' + esc(permTxt) + '</div>' +
+        '<div class="perm-panel hide" id="pp-' + x.id + '"><div class="perm-grid">' +
+        PERM_KEYS.map(function (k) {
+          return '<label><input type="checkbox" class="pp-' + x.id + '" value="' + k + '"' + (perms.indexOf(k) !== -1 ? ' checked' : '') + '> ' + PERM_LABELS[k] + '</label>';
+        }).join('') +
+        '</div><button class="btn mt-2" data-size="sm" onclick="guardarPermisos(\'' + x.id + '\')">Guardar permisos</button></div></div>' +
+        '<div class="row gap-2">' + selectHtml +
+        '<button class="btn" data-variant="outline" data-size="sm" onclick="togglePerms(\'' + x.id + '\')">Permisos</button>' + del + '</div></div>';
     }).join('');
     if (!isAdmin) u.innerHTML = '';
   }
+  window.togglePerms = function (id) {
+    document.getElementById('pp-' + id).classList.toggle('hide');
+  };
+  window.guardarPermisos = function (id) {
+    var u = db.usuarios.filter(function (x) { return x.id === id; })[0];
+    if (!u) return;
+    var marcadas = [];
+    document.querySelectorAll('.pp-' + id).forEach(function (c) { if (c.checked) marcadas.push(c.value); });
+    u.permissoes = marcadas; persist(); renderAdmin();
+    window.skipUI.toast(t('salvar'), { type: 'success' });
+  };
 
-  window.addObra = function () {
-    var p = document.getElementById('novoProjeto').value.trim();
-    var n = document.getElementById('novaObra').value.trim();
-    if (!p || !n) { window.skipUI.toast(lang === 'pt' ? 'Preencha projeto e obra' : 'Complete proyecto y obra', { type: 'error' }); return; }
-    db.obras.push({ id: uid(), nome: n, projeto: p });
-    if (db.projetos.indexOf(p) === -1) db.projetos.push(p);
-    persist();
-    document.getElementById('novoProjeto').value = ''; document.getElementById('novaObra').value = '';
-    renderAdmin(); window.skipUI.toast(t('obraCriada'), { type: 'success' });
+  window.addProjeto = function () {
+    var inp = document.getElementById('novoProjeto');
+    var nome = inp.value.trim();
+    if (!nome) return;
+    fsAdd('projetos', { nome: nome, criadoEm: new Date().toISOString() });
+    inp.value = '';
+    renderAdmin();
   };
-  window.removeObra = function (idx) {
+  window.removeProjeto = function (id) {
     if (!confirm(t('removerConf'))) return;
-    db.obras.splice(idx, 1); persist(); renderAdmin();
+    fsDel('projetos', id); renderAdmin();
   };
+  window.addObra = function () {
+    var projSel = document.getElementById('obraProj');
+    var nome = document.getElementById('novaObra').value.trim();
+    var projId = projSel.value;
+    if (!projId || !nome) return;
+    var proj = db.projetos.filter(function (p) { return p.id === projId; })[0];
+    fsAdd('obras', { nome: nome, projetoId: projId, projetoNome: proj ? proj.nome : '', criadoEm: new Date().toISOString() });
+    document.getElementById('novaObra').value = '';
+    renderAdmin();
+  };
+  window.removeObra = function (id) {
+    if (!confirm(t('removerConf'))) return;
+    fsDel('obras', id); renderAdmin();
+  };
+  function fsAdd(col, data) {
+    var id = uid();
+    db[col].push(Object.assign({ id: id }, data));
+    persist();
+    return id;
+  }
+  function fsDel(col, id) {
+    db[col] = db[col].filter(function (x) { return x.id !== id; });
+    persist();
+  }
+  function renderProjetosObras() {
+    var lp = document.getElementById('listaProjetos');
+    lp.innerHTML = db.projetos.length ? db.projetos.map(function (p) {
+      return '<div class="list-item"><strong>' + esc(p.nome) + '</strong>' +
+        '<button class="btn" data-variant="ghost" data-size="sm" aria-label="' + t('excluir') + '" onclick="removeProjeto(\'' + p.id + '\')">✕</button></div>';
+    }).join('') : '<p class="muted text-sm">Aún no hay proyectos registrados.</p>';
+
+    var sel = document.getElementById('obraProj');
+    var prev = sel.value;
+    sel.innerHTML = db.projetos.map(function (p) {
+      return '<option value="' + p.id + '"' + (p.id === prev ? ' selected' : '') + '>' + esc(p.nome) + '</option>';
+    }).join('');
+    var semProj = !db.projetos.length;
+    sel.disabled = semProj;
+    document.getElementById('novaObra').disabled = semProj;
+    document.getElementById('msgSemProj').classList.toggle('hide', !semProj);
+    document.getElementById('btnAddObra').disabled = semProj;
+
+    var lo = document.getElementById('listaObras');
+    if (!db.obras.length) { lo.innerHTML = '<p class="muted text-sm">Aún no hay obras registradas.</p>'; return; }
+    lo.innerHTML = db.projetos.map(function (p) {
+      var obras = db.obras.filter(function (o) { return o.projetoId === p.id; });
+      if (!obras.length) return '';
+      return '<div class="mb-3"><div class="font-semibold text-sm">' + esc(p.nome) + '</div>' +
+        obras.map(function (o) {
+          return '<div class="list-item"><span>' + esc(o.nome) + '</span>' +
+            '<button class="btn" data-variant="ghost" data-size="sm" aria-label="' + t('excluir') + '" onclick="removeObra(\'' + o.id + '\')">✕</button></div>';
+        }).join('') + '</div>';
+    }).join('') || '<p class="muted text-sm">Aún no hay obras registradas.</p>';
+  }
   window.toggleNovoUsuario = function () {
     document.getElementById('formUsuario').classList.toggle('hide');
   };
@@ -1645,9 +1790,11 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
     if (db.usuarios.some(function (u) { return u.email === email; }) || ADMIN_EMAILS.indexOf(email) !== -1) {
       window.skipUI.toast(t('emailExiste'), { type: 'error' }); return;
     }
-    db.usuarios.push({ id: uid(), nome: nome, email: email, papel: papel, criadoEm: new Date().toISOString() });
+    var permissoes = permsMarcadas(document.getElementById('uPerms'));
+    db.usuarios.push({ id: uid(), nome: nome, email: email, papel: papel, permissoes: permissoes, criadoEm: new Date().toISOString() });
     persist();
     ['uNome', 'uEmail', 'uSenha'].forEach(function (id) { document.getElementById(id).value = ''; });
+    aplicarPadraoPapel();
     document.getElementById('formUsuario').classList.add('hide');
     renderAdmin(); window.skipUI.toast(t('usuarioCriado'), { type: 'success' });
   };
@@ -1676,16 +1823,17 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
 
   function popularProjetos() {
     var sel = document.getElementById('fProjeto');
-    var projs = db.projetos.slice();
-    sel.innerHTML = projs.length ? projs.map(function (p) { return '<option>' + esc(p) + '</option>'; }).join('')
-      : '<option value="">' + t('nenhumProjeto') + '</option>';
+    sel.innerHTML = db.projetos.length ? db.projetos.map(function (p) {
+      return '<option value="' + p.id + '">' + esc(p.nome) + '</option>';
+    }).join('') : '<option value="">Cree primero un proyecto.</option>';
   }
   window.popularObras = function () {
     var p = document.getElementById('fProjeto').value;
     var sel = document.getElementById('fObra');
-    var obras = db.obras.filter(function (o) { return o.projeto === p; });
-    sel.innerHTML = obras.length ? obras.map(function (o) { return '<option>' + esc(o.nome) + '</option>'; }).join('')
+    var obras = db.obras.filter(function (o) { return o.projetoId === p; });
+    sel.innerHTML = obras.length ? obras.map(function (o) { return '<option value="' + o.id + '">' + esc(o.nome) + '</option>'; }).join('')
       : '<option value="">—</option>';
+    document.getElementById('msgSemObras').classList.toggle('hide', obras.length > 0);
   };
 
   function renderEditor() {
@@ -1853,12 +2001,16 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
   }
 
   function coletarInforme() {
-    var projeto = document.getElementById('fProjeto').value;
-    var obra = document.getElementById('fObra').value;
+    var projId = document.getElementById('fProjeto').value;
+    var obraId = document.getElementById('fObra').value;
+    var proj = db.projetos.filter(function (p) { return p.id === projId; })[0];
+    var obra = db.obras.filter(function (o) { return o.id === obraId; })[0];
+    var projeto = proj ? proj.nome : '';
+    var obraNome = obra ? obra.nome : '';
     return {
       id: editId || uid(),
       data: document.getElementById('fData').value,
-      projeto: projeto, obra: obra,
+      projeto: projeto, obra: obraNome,
       responsavel: sessao.nome, autorNome: sessao.nome, autorEmail: sessao.email, autorId: sessao.uid,
       atividades: editAtiv.map(function (a) { return JSON.parse(JSON.stringify(a)); }),
       equipos: equipoGeral.filter(function (e) { return e.nome; }),
@@ -1886,7 +2038,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
   window.copiarTexto = function () { atualizarPreview(); copiarPara(ultimoTexto); };
 
   window.salvarInforme = function () {
-    if (!document.getElementById('fObra').value) { window.skipUI.toast(t('nenhumProjeto'), { type: 'error' }); return; }
+    if (!document.getElementById('fProjeto').value) { window.skipUI.toast(t('nenhumProjeto'), { type: 'error' }); return; }
     var inf = coletarInforme();
     var idx = db.informes.findIndex(function (i) { return i.id === inf.id; });
     if (idx >= 0) db.informes[idx] = inf; else db.informes.push(inf);
@@ -1898,9 +2050,15 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
   // ---------- Render geral ----------
   function renderAll() {
     renderInformes();
+    renderPermCheckboxesInit();
     renderCatalogo();
     renderAdmin();
     if (!document.getElementById('vNovo').classList.contains('hide')) renderEditor();
+  }
+
+  function renderPermCheckboxesInit() {
+    var el = document.getElementById('uPerms');
+    if (el && !el.children.length) aplicarPadraoPapel();
   }
 
   function esc(s) {
@@ -1917,7 +2075,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
     applyLang();
     document.getElementById('loginSenha').value = '';
     document.getElementById('loginEmail').value = '';
-    if (sessao && sessao.expira > Date.now()) aplicarAcesso();
+    if (sessao && sessao.expira > Date.now()) { if (!sessao.permissoes) sessao.permissoes = permsDe(null, sessao.papel, ADMIN_EMAILS.indexOf(sessao.email) !== -1); aplicarAcesso(); }
     else { sessao = null; localStorage.removeItem('iad_sessao_v90'); }
   });
   // expõe lista de equipos para edição inline
