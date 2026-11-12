@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es-PE" data-theme="light">
+<html lang="es" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Reporte de Obra — v8.5</title>
+<title>Reporte de Obra · Alupar</title>
 <style>
 /* Skip artifact shell — fixed styles served beside every artifact.
    Tokens, utilities and components (basecoat 1.0 markup, no CDN); artifacts
@@ -1028,841 +1028,903 @@ table.shell-table td.skip-table-empty { color: var(--text-muted); text-align: ce
 
 </script>
 <style>
-:root {
---accent: #004A99;
---accent-contrast: #ffffff;
+:root { --accent: #004a99; }
+body { background: var(--bg); }
+.app-header { background: #004a99; color: #fff; position: sticky; top: 0; z-index: 30; }
+.app-header .muted { color: #cfe3ff; }
+.brand-mark { width: 40px; height: 40px; border-radius: var(--radius); background: #fff; display: grid; place-items: center; color: #004a99; font-weight: 700; }
+.login-wrap { min-height: 100vh; display: grid; place-items: center; background: #004a99; padding: 24px; }
+.login-card { background: #fff; color: #0f172a; border-radius: 16px; padding: 32px; width: 100%; max-width: 400px; box-shadow: 0 24px 60px rgba(0,0,0,.3); position: relative; }
+.login-card h1 { color: #004a99; font-size: 26px; margin: 12px 0 4px; }
+.login-card .muted { color: #475569; }
+.flags { position: absolute; top: 14px; right: 14px; display: flex; gap: 6px; }
+.flags button { background: none; border: 1px solid #cbd5e1; border-radius: 8px; padding: 2px 6px; cursor: pointer; font-size: 16px; }
+.flags button.on { border-color: #004a99; box-shadow: 0 0 0 2px rgba(0,74,153,.2); }
+.login-logo { font-weight: 800; font-size: 22px; color: #004a99; letter-spacing: .5px; }
+.err-box { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; border-radius: 8px; padding: 8px 12px; margin-bottom: 12px; }
+.badge-admin { background: #dbeafe; color: #1e3a8a; }
+.badge-editor { background: #dcfce7; color: #14532d; }
+.badge-leitor { background: #f1f5f9; color: #334155; }
+.seal { position: fixed; bottom: 8px; right: 8px; font-size: 10px; color: #004a99; pointer-events: none; z-index: 99; background: #fff; padding: 2px 6px; border-radius: 6px; border: 1px solid #cbd5e1; }
+.nav-bar { display: flex; gap: 6px; background: #fff; border-bottom: 1px solid var(--border); padding: 8px 12px; position: sticky; top: 56px; z-index: 20; }
+.nav-bar button { border: 0; background: transparent; padding: 8px 12px; border-radius: 8px; cursor: pointer; color: var(--text); font: inherit; }
+.nav-bar button.active { background: #004a99; color: #fff; }
+.nav-bar button:focus-visible { outline: 2px solid #004a99; outline-offset: 2px; }
+.act-block { border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; background: var(--surface); }
+.eq-row { display: grid; grid-template-columns: 2fr 1fr auto; gap: 8px; align-items: end; }
+.hour-wrap { position: relative; }
+.hour-wrap span { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 13px; }
+.hour-wrap input { padding-right: 28px; }
+.inline-form { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.inline-form .input { flex: 1; min-width: 160px; }
+pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 13px; line-height: 1.5; max-height: 420px; overflow: auto; }
+.hero-card { background: linear-gradient(135deg, #e6f0fb, #ffffff); border: 1px solid #bfdbfe; border-radius: var(--radius); padding: 20px; }
+.hero-card .value { color: var(--accent-text, #003a7a); font-size: 32px; font-weight: 700; }
+.hide { display: none !important; }
+.list-item { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+.list-item:last-child { border-bottom: 0; }
+.sticky-bottom-nav { display: none; }
+@media (min-width: 900px) {
+  .app-main-wrap { display: grid; grid-template-columns: 220px 1fr; min-height: calc(100vh - 56px); }
+  .side-nav { display: flex; flex-direction: column; gap: 6px; padding: 16px; background: #fff; border-right: 1px solid var(--border); }
+  .nav-bar { display: none; }
 }
-.login-wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: #004A99; padding: 24px; }
-.login-card { background: #fff; color: #1f2937; border-radius: 14px; padding: 32px; width: 100%; max-width: 400px; box-shadow: 0 20px 50px rgba(0,0,0,.25); }
-.login-card h1 { font-size: 1.5rem; margin: 16px 0 4px; color: #004A99; }
-.login-card .sub { color: #4b5563; font-size: .9rem; margin-bottom: 20px; }
-.flags { font-size: 1.4rem; display: flex; gap: 8px; justify-content: center; }
-.logo-alupar { height: 26px; width: auto; display: block; mix-blend-mode: screen; }
-.logo-plate { background: #004A99; border-radius: 10px; padding: 8px 14px; display: inline-block; }
-.logo-plate .logo-alupar { mix-blend-mode: normal; }
-.logo-fallback { display: none; color: #fff; font-weight: 700; }
-.app-header { background: #004A99; color: #fff; padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
-.app-header .eyebrow { background: rgba(255,255,255,.15); color: #fff; }
-.app-shell { display: grid; grid-template-columns: 220px 1fr; min-height: calc(100vh - 56px); }
-.app-nav { background: var(--surface); border-right: 1px solid var(--border); padding: 16px; display: flex; flex-direction: column; gap: 6px; }
-.app-nav button { text-align: left; }
-.app-main { padding: 20px; }
-.view { display: none; }
-.view.active { display: block; }
-.act-card { border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; margin-bottom: 12px; }
-.eq-row { display: grid; grid-template-columns: 1fr 120px auto; gap: 8px; align-items: end; margin-top: 8px; }
-.inline-form { display: none; gap: 8px; margin-top: 8px; }
-.inline-form.open { display: flex; }
-.role-badge { padding: 2px 10px; border-radius: 999px; font-size: .75rem; font-weight: 600; }
-.role-admin { background: #fde68a; color: #78350f; }
-.role-editor { background: #bfdbfe; color: #1e3a8a; }
-.role-leitor { background: #d1d5db; color: #111827; }
-.bloqueio-wrap { min-height: 100vh; display: none; align-items: center; justify-content: center; background: #004A99; padding: 24px; }
-.bloqueio-card { background: #fff; color: #1f2937; border-radius: 14px; padding: 32px; max-width: 420px; text-align: center; }
-.bloqueio-card h2 { color: #004A99; margin: 0 0 8px; }
-.report-box { white-space: pre-wrap; font-family: ui-monospace, monospace; font-size: .85rem; background: var(--bg); padding: 16px; border-radius: var(--radius); border: 1px solid var(--border); }
-.hidden { display: none !important; }
-.login-erro { background:#FDECEA; color:#B71C1C; border:1px solid #F5C6C2; border-radius:8px; padding:10px 12px; font-size:13px; margin-bottom:12px; }
-@media (max-width: 760px) {
-.app-shell { grid-template-columns: 1fr; }
-.app-nav { flex-direction: row; overflow-x: auto; }
-.eq-row { grid-template-columns: 1fr 90px auto; }
+@media (max-width: 899px) {
+  .side-nav { display: none; }
+  .sticky-bottom-nav { display: flex; position: fixed; bottom: 0; left: 0; right: 0; background: #fff; border-top: 1px solid var(--border); z-index: 40; justify-content: space-around; padding: 6px; }
+  .sticky-bottom-nav button { border: 0; background: transparent; font: inherit; padding: 6px 10px; border-radius: 8px; cursor: pointer; color: var(--text); }
+  .sticky-bottom-nav button.active { color: #004a99; font-weight: 600; background: #e6f0fb; }
+  main { padding-bottom: 80px; }
+}
+.side-nav button { text-align: left; border: 0; background: transparent; padding: 10px 12px; border-radius: 8px; cursor: pointer; font: inherit; color: var(--text); }
+.side-nav button.active { background: #004a99; color: #fff; }
+.side-nav button:focus-visible, .sticky-bottom-nav button:focus-visible { outline: 2px solid #004a99; outline-offset: 2px; }
+@media print {
+  .app-header, .nav-bar, .side-nav, .sticky-bottom-nav, .seal, button, .no-print { display: none !important; }
+  body { background: #fff; }
 }
 </style>
 </head>
 <body>
-<div id="jsAlive" style="position:fixed;bottom:6px;right:6px;z-index:99999;background:#0B5FFF;color:#fff;font:600 10px/1 monospace;padding:4px 7px;border-radius:5px;pointer-events:none;">JS OK · v8.5</div>
-<div id="jsDead" style="display:none;position:fixed;bottom:6px;right:6px;z-index:99999;background:#B71C1C;color:#fff;font:600 10px/1 monospace;padding:4px 7px;border-radius:5px;">JS FALHOU · v8.5</div>
 
-<div id="screen-login" class="login-wrap">
-<div class="login-card">
-<div class="row between items-center">
-<div class="logo-plate">
-<img src="alupar_branco.png" alt="Alupar" class="logo-alupar" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
-<span class="logo-fallback">Alupar</span>
-</div>
-<div class="flags" aria-label="Idioma"><span title="Português">🇧🇷</span><span title="Español">🇵🇪</span></div>
-</div>
-<h1>Reporte de Obra</h1>
-<p class="sub">Ingrese con su cuenta del equipo</p>
-<div id="fbDiag" style="display:none;background:#0B1B33;color:#9FD3FF;border:1px solid #1E4E8C;border-radius:8px;padding:10px 12px;font:12px/1.5 monospace;margin-bottom:12px;white-space:normal;word-break:break-all;max-height:220px;overflow:auto;"></div>
-<div id="loginErro" class="login-erro" style="display:none"></div>
-<form id="loginForm" class="stack gap-3" onsubmit="return window.iadLogin()">
-<div class="field">
-<label for="loginEmail">E-mail</label>
-<input class="input" id="loginEmail" name="iad_user_field" type="email" required placeholder="seu@email.com" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false">
-</div>
-<div class="field">
-<label for="loginSenha">Senha</label>
-<input class="input" id="loginSenha" name="iad_pass_field" type="password" required placeholder="••••••••" autocomplete="new-password" autocorrect="off" autocapitalize="none" spellcheck="false">
-</div>
-<button id="btnEntrar" class="btn w-full" type="button" onclick="return window.iadLogin()">Ingresar</button>
-<button type="button" class="btn" data-variant="link" id="btn-esqueci">Olvidé mi contraseña</button>
-</form>
-<p class="text-xs muted mt-3">Reporte de Obra — v8.5</p>
-</div>
-</div>
-
-<div id="screen-bloqueio" class="bloqueio-wrap">
-<div class="bloqueio-card">
-<h2>Acceso no autorizado</h2>
-<p id="bloqueio-texto" class="muted text-sm"></p>
-<p class="text-xs muted"><span id="bloqueioEmail"></span></p>
-<p class="text-xs muted"><span id="bloqueioUid"></span></p>
-<button class="btn mt-3" id="btn-logout-bloqueio">Cerrar sesión</button>
-</div>
-</div>
-
-<div id="screen-app" class="hidden">
-<header class="app-header">
-<div class="row items-center gap-3">
-<div class="logo-plate">
-<img src="alupar_branco.png" alt="Alupar" class="logo-alupar" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
-<span class="logo-fallback">Alupar</span>
-</div>
-<span class="eyebrow">Reporte de Obra</span>
-</div>
-<div class="row items-center gap-2">
-<span class="text-xs" id="header-user"></span>
-<span class="eyebrow">v8.5</span>
-<button class="btn" data-variant="outline" data-size="sm" id="btn-logout">Cerrar sesión</button>
-</div>
-</header>
-
-<div class="app-shell">
-<nav class="app-nav" aria-label="Navegación">
-<button class="btn" data-variant="ghost" data-nav="informe">📝 Informe</button>
-<button class="btn" data-variant="ghost" data-nav="obras">🏗️ Obras</button>
-<button class="btn" data-variant="ghost" data-nav="catalogo">📚 Catálogo</button>
-<button class="btn" data-variant="ghost" data-nav="preview">👁️ Preview</button>
-<button class="btn" data-variant="ghost" data-nav="historico">🗂️ Histórico</button>
-<button class="btn admin-only hidden" data-variant="ghost" data-nav="admin">🛡️ Admin</button>
-</nav>
-
-<main class="app-main">
-
-<section class="view" id="view-informe">
-<h2 class="text-xl font-bold">Nuevo informe diario</h2>
-<p class="muted text-sm">Complete los campos del día. El texto se genera automáticamente.</p>
-<div class="card mt-3"><section class="stack gap-3">
-<div class="cols-2 gap-3">
-<div class="field"><label for="f-data">Fecha</label><input class="input" type="date" id="f-data"></div>
-<div class="field"><label for="f-proyecto">Proyecto</label><input class="input" id="f-proyecto" placeholder="Ej.: Línea de transmisión 220 kV"></div>
-<div class="field"><label for="f-obra">Obra</label><input class="input" id="f-obra" placeholder="Ej.: Subestación Pariñas"></div>
-<div class="field"><label for="f-resp">Responsable</label><input class="input" id="f-resp" readonly><span class="text-xs muted">Se toma del usuario logueado.</span></div>
-</div>
-<div class="row between items-center"><h3 class="text-base font-semibold">Actividades</h3><button class="btn" data-variant="secondary" data-size="sm" id="btn-add-atividade">＋ Agregar actividad</button></div>
-<div id="atividades-wrap" class="stack gap-2"></div>
-<div class="cols-2 gap-3">
-<div class="field"><label for="f-mo-total">Mano de obra (personas)</label><input class="input" type="number" min="0" id="f-mo-total" placeholder="0"></div>
-<div class="field"><label for="f-mo-detalhe">Detalle mano de obra</label><input class="input" id="f-mo-detalhe" placeholder="1 Ingeniero Residente"></div>
-<div class="field"><label for="f-eq-total">Equipos (cantidad)</label><input class="input" type="number" min="0" id="f-eq-total" placeholder="0"></div>
-<div class="field"><label for="f-eq-detalhe">Detalle equipos</label><input class="input" id="f-eq-detalhe" placeholder="1 Retroexcavadora"></div>
-<div class="field"><label for="f-clima-m">Clima mañana</label><input class="input" id="f-clima-m" placeholder="Bueno ☀️"></div>
-<div class="field"><label for="f-clima-t">Clima tarde</label><input class="input" id="f-clima-t" placeholder="Nublado ☁️"></div>
-</div>
-<div class="field"><label for="f-ocorrencias">Ocurrencias</label><textarea class="input" id="f-ocorrencias" rows="2"></textarea></div>
-<div class="field"><label for="f-seguridad">Seguridad</label><textarea class="input" id="f-seguridad" rows="2"></textarea></div>
-<div class="field"><label for="f-proximos">Próximos pasos</label><textarea class="input" id="f-proximos" rows="2"></textarea></div>
-<div class="row gap-2">
-<button class="btn" id="btn-salvar">Guardar informe</button>
-<button class="btn" data-variant="outline" id="btn-copiar">Copiar texto</button>
-<button class="btn" data-variant="ghost" id="btn-limpar">Limpiar</button>
-</div>
-</section></div>
+<!-- LOGIN -->
+<section id="viewLogin" class="login-wrap">
+  <div class="login-card">
+    <div class="flags">
+      <button type="button" id="flagPE" class="on" aria-label="Español" title="Español" onclick="setLang('es')">🇵🇪</button>
+      <button type="button" id="flagBR" aria-label="Português" title="Português" onclick="setLang('pt')">🇧🇷</button>
+    </div>
+    <div class="login-logo" aria-label="Alupar">ALUPAR</div>
+    <h1 id="loginTitle">Reporte de Obra</h1>
+    <p class="muted text-sm" id="loginSub">Ingrese con su cuenta del equipo</p>
+    <div id="loginErro" class="err-box hide" role="alert"></div>
+    <form onsubmit="return iadLogin()" autocomplete="off">
+      <div class="field mb-3">
+        <label for="loginEmail" id="lblEmail">Correo</label>
+        <input class="input" id="loginEmail" type="email" name="iad_user_field" autocomplete="off" placeholder="nombre@alupar.com.pe">
+      </div>
+      <div class="field mb-3">
+        <label for="loginSenha" id="lblSenha">Contraseña</label>
+        <input class="input" id="loginSenha" type="password" name="iad_pass_field" autocomplete="new-password" placeholder="••••••••">
+      </div>
+      <button type="button" class="btn w-full" id="btnIngresar" onclick="return iadLogin()">Ingresar</button>
+    </form>
+    <p class="text-sm mt-3 text-center"><a href="#" onclick="event.preventDefault(); window.skipUI.toast(t('forgot'));" id="lnkForgot">Olvidé mi contraseña</a></p>
+    <p class="muted text-xs mt-4 text-center">Reporte de Obra — v9.0</p>
+  </div>
 </section>
 
-<section class="view" id="view-obras">
-<h2 class="text-xl font-bold">Obras</h2>
-<p class="muted text-sm">Obras registradas en el informe. Se alimentan al guardar informes.</p>
-<div class="card mt-3"><div id="obras-lista" class="stack gap-2"></div></div>
-</section>
+<!-- APP -->
+<div id="viewApp" class="hide">
+  <header class="app-header">
+    <div class="shell-container row between items-center p-3">
+      <div class="row items-center gap-2">
+        <div class="brand-mark">A</div>
+        <div>
+          <div class="font-bold" id="appTitle">Reporte de Obra</div>
+          <div class="text-xs muted" id="appSub">Alupar · Obras</div>
+        </div>
+      </div>
+      <div class="row items-center gap-3">
+        <span class="text-sm" id="userName"></span>
+        <button class="btn" data-variant="outline" data-size="sm" id="btnSalir" onclick="logout()">Salir</button>
+      </div>
+    </div>
+  </header>
 
-<section class="view" id="view-catalogo">
-<h2 class="text-xl font-bold">Catálogo</h2>
-<p class="muted text-sm">Cada usuario tiene su propio catálogo de cargos y equipos.</p>
-<div class="cols-2 gap-3 mt-3">
-<div class="card">
-<h3 class="text-base font-semibold">Cargos</h3>
-<p class="text-xs muted">Funciones de la mano de obra.</p>
-<div id="cat-funcoes-lista" class="stack gap-1 mt-2"></div>
-<button class="btn mt-2" data-variant="secondary" data-size="sm" data-add="funcoes">＋ Agregar cargo</button>
-<div class="inline-form" id="form-funcoes"><input class="input" id="in-funcoes" placeholder="Nombre del cargo"><button class="btn" data-size="sm" data-save="funcoes">Guardar</button></div>
-</div>
-<div class="card">
-<h3 class="text-base font-semibold">Equipos</h3>
-<p class="text-xs muted">Equipos disponibles para las actividades.</p>
-<div id="cat-equipamentos-lista" class="stack gap-1 mt-2"></div>
-<button class="btn mt-2" data-variant="secondary" data-size="sm" data-add="equipamentos">＋ Agregar equipo</button>
-<div class="inline-form" id="form-equipamentos"><input class="input" id="in-equipamentos" placeholder="Nombre del equipo"><button class="btn" data-size="sm" data-save="equipamentos">Guardar</button></div>
-</div>
-</div>
-</section>
+  <div class="app-main-wrap">
+    <nav class="side-nav" aria-label="Navegación">
+      <button type="button" data-nav="inicio" onclick="go('inicio')">Inicio</button>
+      <button type="button" data-nav="catalogo" onclick="go('catalogo')">Catálogo</button>
+      <button type="button" data-nav="admin" onclick="go('admin')" id="navAdmin">Admin</button>
+    </nav>
+    <nav class="nav-bar" aria-label="Navegación">
+      <button type="button" data-nav="inicio" onclick="go('inicio')">Inicio</button>
+      <button type="button" data-nav="catalogo" onclick="go('catalogo')">Catálogo</button>
+      <button type="button" data-nav="admin" onclick="go('admin')" id="navAdminM">Admin</button>
+    </nav>
 
-<section class="view" id="view-preview">
-<h2 class="text-xl font-bold">Preview del texto</h2>
-<p class="muted text-sm">Así se verá el informe en WhatsApp.</p>
-<div class="card mt-3"><div class="row gap-2 mb-2"><button class="btn" data-variant="outline" id="btn-lang-es" data-size="sm">Español</button><button class="btn" data-variant="ghost" id="btn-lang-pt" data-size="sm">Português</button></div>
-<div class="report-box" id="preview-texto"></div></div>
-</section>
+    <main class="shell-container p-4" style="width:100%;">
 
-<section class="view" id="view-historico">
-<h2 class="text-xl font-bold">Histórico</h2>
-<p class="muted text-sm">Informes guardados.</p>
-<div id="historico-lista" class="stack gap-2 mt-3"></div>
-</section>
+      <!-- INICIO -->
+      <section id="vInicio">
+        <div class="row between items-center mb-4">
+          <div>
+            <span class="badge" data-variant="secondary" id="pillInf">0 informes</span>
+            <h2 class="text-2xl font-bold mt-2 mb-0" id="tInicio">Informes de obra</h2>
+            <p class="muted text-sm" id="sInicio">Avance diario por obra y proyecto.</p>
+          </div>
+          <button class="btn" onclick="novoInforme()" id="btnNovo">＋ Crear informe</button>
+        </div>
+        <div class="row gap-2 mb-3">
+          <button class="btn" data-variant="outline" data-size="sm" id="fTodos" onclick="setFiltro('todos')">Todos</button>
+          <button class="btn" data-variant="outline" data-size="sm" id="fMios" onclick="setFiltro('mios')">Míos</button>
+          <input class="input grow" id="busca" placeholder="Buscar por obra o proyecto" oninput="renderInformes()">
+        </div>
+        <div id="listaInformes" class="shell-grid cols-2 gap-3"></div>
+        <p id="vazioInformes" class="muted text-center p-4 hide">Aún no hay informes</p>
+      </section>
 
-<section class="view" id="view-admin">
-<h2 class="text-xl font-bold">Administración</h2>
-<div class="card mt-3">
-<h3 class="text-base font-semibold">Usuarios</h3>
-<p class="text-xs muted">Gestione el acceso y los papeles de cada usuario.</p>
-<div id="usuarios-lista" class="stack gap-2 mt-2"></div>
-<button class="btn mt-2" data-variant="secondary" data-size="sm" id="btn-novo-usuario">＋ Nuevo usuario</button>
-<div class="stack gap-2 mt-2 hidden" id="form-novo-usuario">
-<div class="field"><label for="nu-nome">Nombre completo</label><input class="input" id="nu-nome"></div>
-<div class="field"><label for="nu-email">Correo electrónico</label><input class="input" type="email" id="nu-email"></div>
-<div class="field"><label for="nu-senha">Contraseña provisional (mín. 6)</label><input class="input" type="password" id="nu-senha"></div>
-<div class="field"><label for="nu-papel">Papel</label><select class="input" id="nu-papel"><option value="admin">admin</option><option value="editor" selected>editor</option><option value="leitor">leitor</option></select></div>
-<button class="btn" id="btn-criar-usuario">Crear usuario</button>
-</div>
-</div>
-</section>
+      <!-- CATÁLOGO -->
+      <section id="vCatalogo" class="hide">
+        <h2 class="text-2xl font-bold mb-1">Catálogo</h2>
+        <p class="muted text-sm mb-4">Cargos y equipos reutilizables en todos tus informes.</p>
+        <div class="shell-grid cols-2 gap-4">
+          <div class="card">
+            <header><h3>Cargos</h3><p class="muted text-xs">Funciones de la mano de obra.</p></header>
+            <section>
+              <div class="inline-form mb-2">
+                <input class="input" id="novoCargo" placeholder="Ej.: Capataz">
+                <button class="btn" data-size="sm" onclick="addCatItem('funcoes','novoCargo')">＋ Agregar cargo</button>
+              </div>
+              <div id="listaCargos"></div>
+            </section>
+          </div>
+          <div class="card">
+            <header><h3>Equipos</h3><p class="muted text-xs">Equipos y maquinaria disponibles.</p></header>
+            <section>
+              <div class="inline-form mb-2">
+                <input class="input" id="novoEquipo" placeholder="Ej.: Retroexcavadora">
+                <button class="btn" data-size="sm" onclick="addCatItem('equipamentos','novoEquipo')">＋ Agregar equipo</button>
+              </div>
+              <div id="listaEquipos"></div>
+            </section>
+          </div>
+        </div>
+      </section>
 
-</main>
-</div>
+      <!-- ADMIN -->
+      <section id="vAdmin" class="hide">
+        <h2 class="text-2xl font-bold mb-1">Administración</h2>
+        <p class="muted text-sm mb-4">Obras, proyectos y usuarios del equipo.</p>
+        <div class="shell-grid cols-2 gap-4">
+          <div class="card">
+            <header><h3>Obras</h3><p class="muted text-xs">Cada obra pertenece a un proyecto.</p></header>
+            <section>
+              <div class="inline-form mb-2">
+                <input class="input" id="novoProjeto" placeholder="Proyecto (ej.: LT 220 kV Norte)">
+                <input class="input" id="novaObra" placeholder="Nombre de la obra">
+                <button class="btn" data-size="sm" onclick="addObra()">＋ Agregar obra</button>
+              </div>
+              <div id="listaObras"></div>
+            </section>
+          </div>
+          <div class="card" id="secUsuarios">
+            <header>
+              <div class="row between items-center">
+                <h3>Usuarios</h3>
+                <button class="btn" data-size="sm" onclick="toggleNovoUsuario()">＋ Nuevo usuario</button>
+              </div>
+              <p class="muted text-xs">Asigna el papel de cada miembro del equipo.</p>
+            </header>
+            <section>
+              <form id="formUsuario" class="hide stack gap-2 mb-3" onsubmit="return false;">
+                <input class="input" id="uNome" placeholder="Nombre">
+                <input class="input" id="uEmail" type="email" placeholder="correo@alupar.com.pe">
+                <input class="input" id="uSenha" type="password" placeholder="Contraseña provisional (mín. 6)">
+                <select class="input" id="uPapel"><option value="leitor">leitor</option><option value="editor">editor</option><option value="admin">admin</option></select>
+                <button class="btn" onclick="criarUsuario()">Crear usuario</button>
+              </form>
+              <div id="listaUsuarios"></div>
+            </section>
+          </div>
+        </div>
+      </section>
+
+      <!-- NOVO INFORME -->
+      <section id="vNovo" class="hide">
+        <div class="row between items-center mb-3">
+          <div>
+            <h2 class="text-2xl font-bold mb-0">Nuevo informe</h2>
+            <p class="muted text-sm">Completa el avance del día y genera el texto para enviar.</p>
+          </div>
+          <div class="row gap-2">
+            <button class="btn" data-variant="outline" data-size="sm" onclick="limparForm()">Limpiar</button>
+            <button class="btn" data-variant="secondary" data-size="sm" onclick="copiarTexto()">Copiar texto</button>
+            <button class="btn" data-size="sm" onclick="salvarInforme()">Guardar informe</button>
+          </div>
+        </div>
+
+        <div class="card mb-4">
+          <header><h3>Datos generales</h3><p class="muted text-xs">Fecha, proyecto y obra del informe.</p></header>
+          <section class="shell-grid cols-3 gap-3">
+            <div class="field"><label for="fData">Fecha</label><input class="input" type="date" id="fData"></div>
+            <div class="field"><label for="fProjeto">Proyecto</label><select class="input" id="fProjeto" onchange="popularObras()"></select></div>
+            <div class="field"><label for="fObra">Obra</label><select class="input" id="fObra"></select></div>
+          </section>
+        </div>
+
+        <div class="card mb-4">
+          <header><h3>Equipos generales</h3><p class="muted text-xs">Cantidad de cada tipo de equipo presente hoy.</p></header>
+          <section>
+            <div id="listaEquiposGeral" class="stack gap-2 mb-2"></div>
+            <button class="btn" data-variant="outline" data-size="sm" onclick="addEquipoGeral()">＋ Agregar equipo</button>
+          </section>
+        </div>
+
+        <div class="card mb-4">
+          <header>
+            <div class="row between items-center"><h3>Actividades</h3><button class="btn" data-size="sm" onclick="addAtividade()">＋ Agregar actividad</button></div>
+            <p class="muted text-xs">Cada actividad registra cantidades, porcentajes y los equipos que trabajaron.</p>
+          </header>
+          <section>
+            <div id="listaAtividades" class="stack gap-3"></div>
+            <p class="muted text-sm" id="vazioAtividades">Agrega la primera actividad del día.</p>
+          </section>
+        </div>
+
+        <div class="shell-grid cols-2 gap-4 mb-4">
+          <div class="card">
+            <header><h3>Mano de obra</h3><p class="muted text-xs">Personal por cargo.</p></header>
+            <section>
+              <div id="listaMO" class="stack gap-2 mb-2"></div>
+              <div class="row gap-2">
+                <button class="btn" data-variant="outline" data-size="sm" onclick="addMO()">＋ Agregar cargo</button>
+                <button class="btn" data-variant="ghost" data-size="sm" onclick="criarCargoRapido()">＋ Crear cargo</button>
+              </div>
+            </section>
+          </div>
+          <div class="card">
+            <header><h3>Clima</h3><p class="muted text-xs">Condición del tiempo en la obra.</p></header>
+            <section class="stack gap-2">
+              <div class="field"><label for="climaM">Mañana</label><select class="input" id="climaM"><option>Despejado</option><option>Nublado</option><option>Lluvia leve</option><option>Lluvia fuerte</option></select></div>
+              <div class="field"><label for="climaT">Tarde</label><select class="input" id="climaT"><option>Despejado</option><option>Nublado</option><option>Lluvia leve</option><option>Lluvia fuerte</option></select></div>
+            </section>
+          </div>
+        </div>
+
+        <div class="card mb-4">
+          <header><h3>Notas del día</h3><p class="muted text-xs">Ocurrencias, seguridad y próximos pasos.</p></header>
+          <section class="stack gap-3">
+            <div class="field"><label for="fOcor">Ocurrencias</label><textarea class="input" id="fOcor" rows="2" placeholder="Ej.: Demora por cambio de cuadrilla"></textarea></div>
+            <div class="field"><label for="fSeg">Seguridad</label><textarea class="input" id="fSeg" rows="2" placeholder="Ej.: Charla diaria de seguridad realizada"></textarea></div>
+            <div class="field"><label for="fProx">Próximos pasos</label><textarea class="input" id="fProx" rows="2" placeholder="Ej.: Iniciar tendido del cable mañana"></textarea></div>
+          </section>
+        </div>
+
+        <div class="card mb-4">
+          <header><div class="row between items-center"><h3>Texto generado</h3><span class="badge" data-variant="outline" id="pillTexto">Vista previa</span></div><p class="muted text-xs">Pronto para copiar y enviar por WhatsApp.</p></header>
+          <section><pre class="preview" id="previewTexto"></pre></section>
+        </div>
+      </section>
+
+      <!-- DETALHE INFORME -->
+      <section id="vDetalhe" class="hide">
+        <div class="row between items-center mb-3">
+          <div>
+            <h2 class="text-2xl font-bold mb-0" id="detTitulo"></h2>
+            <p class="muted text-sm" id="detSub"></p>
+          </div>
+          <div class="row gap-2 no-print">
+            <button class="btn" data-variant="outline" data-size="sm" onclick="copiarDetalhe()">Copiar texto</button>
+            <button class="btn" data-variant="secondary" data-size="sm" onclick="window.print()">Imprimir / PDF</button>
+            <button class="btn" data-variant="ghost" data-size="sm" onclick="go('inicio')">Volver</button>
+          </div>
+        </div>
+        <div class="hero-card mb-4">
+          <div class="text-xs muted uppercase">Avance medio del día</div>
+          <div class="value" id="detAvance">0%</div>
+          <div class="text-xs muted">Promedio de % del día de todas las actividades.</div>
+        </div>
+        <pre class="preview" id="detTexto"></pre>
+      </section>
+    </main>
+  </div>
+
+  <nav class="sticky-bottom-nav" aria-label="Navegación móvil">
+    <button type="button" data-nav="inicio" onclick="go('inicio')">Inicio</button>
+    <button type="button" data-nav="catalogo" onclick="go('catalogo')">Catálogo</button>
+    <button type="button" data-nav="admin" onclick="go('admin')" id="navAdminB">Admin</button>
+  </nav>
 </div>
 
-<dialog class="dialog" id="dlg-confirm">
-<div>
-<header><h2 class="text-base font-semibold" id="dlg-titulo">Confirmar</h2></header>
-<section><p class="text-sm" id="dlg-texto"></p></section>
-<footer class="row gap-2"><button class="btn" data-variant="outline" data-dialog-close>Cancelar</button><button class="btn" id="dlg-ok">Confirmar</button></footer>
-</div>
-</dialog>
+<div class="seal">JS OK · v9.0</div>
 
 <script>
-window.addEventListener("error", function (ev) {
-var d = document.getElementById("jsDead");
-var a = document.getElementById("jsAlive");
-if (a) { a.style.display = "none"; }
-if (d) { d.style.display = "block"; d.textContent = "JS FALHOU · v8.5 · " + (ev.message || "erro"); }
-console.error("[IAD] erro de script:", ev.message, ev.filename, ev.lineno);
-});
+(function () {
+  'use strict';
 
-window.iadLogin = function () {
-try {
-var e = document.getElementById("loginEmail");
-var s = document.getElementById("loginSenha");
-var b = document.getElementById("btnEntrar");
-var box = document.getElementById("loginErro");
+  // ---------- i18n ----------
+  var DICT = {
+    es: {
+      forgot: 'Contacte al administrador para restablecer su contraseña.',
+      login: 'Ingresar', salir: 'Salir', inicio: 'Inicio', catalogo: 'Catálogo', admin: 'Admin',
+      crear: '＋ Crear informe', vazio: 'Aún no hay informes', mios: 'Míos', todos: 'Todos',
+      guardado: 'Informe guardado', copiado: 'Texto copiado', erroLogin: 'Ingrese correo y contraseña.',
+      credenciais: 'Correo o contraseña incorrectos.', lblEmail: 'Correo', lblSenha: 'Contraseña',
+      sub: 'Ingrese con su cuenta del equipo', titulo: 'Reporte de Obra',
+      avance: 'Avance medio', autor: 'Autor', obra: 'Obra', proyecto: 'Proyecto',
+      vazioCargo: 'Aún no hay cargos registrados', vazioEquipo: 'Aún no hay equipos registrados',
+      addAtiv: '＋ Agregar actividad', addEq: '＋ Agregar equipo', criarEq: '＋ Crear equipo',
+      criarCargo: '＋ Crear cargo', addMO: '＋ Agregar cargo', removerConf: '¿Eliminar este elemento?',
+      atividade: 'Actividad', nome: 'Nombre', unidade: 'Unidad', qtdDia: 'Cantidad del día', pctDia: '% del día',
+      qtdAcum: 'Cantidad acumulada', pctAcum: '% acumulado', equipos: 'Equipos', horas: 'Horas trabajadas',
+      equipo: 'Equipo', cargo: 'Cargo', quantidade: 'Cantidad', mano: 'Mano de obra', equipos2: 'Equipos generales',
+      clima: 'Clima', manha: 'Mañana', tarde: 'Tarde', ocor: 'Ocurrencias', seg: 'Seguridad', prox: 'Próximos pasos',
+      usuarios: 'Usuarios', obras: 'Obras', novoUsuario: '＋ Nuevo usuario', criarUsuario: 'Crear usuario',
+      usuarioCriado: 'Usuario creado', emailExiste: 'Este correo ya está registrado.',
+      excluir: 'Eliminar', papel: 'Papel', salvar: 'Guardar', proj: 'Proyecto (ej.: LT 220 kV Norte)',
+      nomeObra: 'Nombre de la obra', addObra: '＋ Agregar obra', obraCriada: 'Obra agregada',
+      limpar: 'Limpiar', copiarTexto: 'Copiar texto', imprimir: 'Imprimir / PDF', voltar: 'Volver',
+      vista: 'Vista previa', pronto: 'Pronto para copiar y enviar por WhatsApp.',
+      nenhumProjeto: 'Cree un proyecto y una obra en Admin.', semAtiv: 'Agrega la primera actividad del día.',
+      sair: 'Cerrar sesión', subInicio: 'Avance diario por obra y proyecto.',
+      subCatalogo: 'Cargos y equipos reutilizables en todos tus informes.',
+      subAdmin: 'Obras, proyectos y usuarios del equipo.'
+    },
+    pt: {
+      forgot: 'Contate o administrador para redefinir sua senha.',
+      login: 'Entrar', salir: 'Sair', inicio: 'Início', catalogo: 'Catálogo', admin: 'Admin',
+      crear: '＋ Criar relatório', vazio: 'Ainda não há relatórios', mios: 'Meus', todos: 'Todos',
+      guardado: 'Relatório salvo', copiado: 'Texto copiado', erroLogin: 'Informe e-mail e senha.',
+      credenciais: 'E-mail ou senha incorretos.', lblEmail: 'E-mail', lblSenha: 'Senha',
+      sub: 'Entre com sua conta da equipe', titulo: 'Reporte de Obra',
+      avance: 'Avanço médio', autor: 'Autor', obra: 'Obra', proyecto: 'Projeto',
+      vazioCargo: 'Ainda não há cargos cadastrados', vazioEquipo: 'Ainda não há equipamentos cadastrados',
+      addAtiv: '＋ Adicionar atividade', addEq: '＋ Adicionar equipamento', criarEq: '＋ Criar equipamento',
+      criarCargo: '＋ Criar cargo', addMO: '＋ Adicionar cargo', removerConf: 'Excluir este item?',
+      atividade: 'Atividade', nome: 'Nome', unidade: 'Unidade', qtdDia: 'Quantidade do dia', pctDia: '% do dia',
+      qtdAcum: 'Quantidade acumulada', pctAcum: '% acumulado', equipos: 'Equipamentos', horas: 'Horas trabalhadas',
+      equipo: 'Equipamento', cargo: 'Cargo', quantidade: 'Quantidade', mano: 'Mão de obra', equipos2: 'Equipamentos gerais',
+      clima: 'Clima', manha: 'Manhã', tarde: 'Tarde', ocor: 'Ocorrências', seg: 'Segurança', prox: 'Próximos passos',
+      usuarios: 'Usuários', obras: 'Obras', novoUsuario: '＋ Novo usuário', criarUsuario: 'Criar usuário',
+      usuarioCriado: 'Usuário criado', emailExiste: 'Este e-mail já está cadastrado.',
+      excluir: 'Excluir', papel: 'Papel', salvar: 'Salvar', proj: 'Projeto (ex.: LT 220 kV Norte)',
+      nomeObra: 'Nome da obra', addObra: '＋ Adicionar obra', obraCriada: 'Obra adicionada',
+      limpar: 'Limpar', copiarTexto: 'Copiar texto', imprimir: 'Imprimir / PDF', voltar: 'Voltar',
+      vista: 'Pré-visualização', pronto: 'Pronto para copiar e enviar pelo WhatsApp.',
+      nenhumProjeto: 'Crie um projeto e uma obra em Admin.', semAtiv: 'Adicione a primeira atividade do dia.',
+      sair: 'Sair da conta', subInicio: 'Avanço diário por obra e projeto.',
+      subCatalogo: 'Cargos e equipamentos reutilizáveis em todos os relatórios.',
+      subAdmin: 'Obras, projetos e usuários da equipe.'
+    }
+  };
+  var lang = localStorage.getItem('iad_lang') || 'es';
+  function t(k) { return (DICT[lang] && DICT[lang][k]) || DICT.es[k] || k; }
 
-function err(m) {
-if (box) { box.textContent = m; box.style.display = "block"; }
-else { alert(m); }
-}
+  var UNIDADES = ['m³', 'm²', 'ml', 'un', 'kg', 't'];
+  var PAPEIS = ['admin', 'editor', 'leitor'];
+  var ADMIN_EMAILS = ['balvernaz@alupar.com.pe', 'admin@alupar.com.pe'];
 
-if (box) { box.style.display = "none"; box.textContent = ""; }
+  // ---------- Estado (localStorage) ----------
+  function load(key, def) {
+    try { var v = JSON.parse(localStorage.getItem(key)); return v === null ? def : v; } catch (e) { return def; }
+  }
+  function save(key, v) { localStorage.setItem(key, JSON.stringify(v)); }
 
-if (!window.firebase || typeof firebase.auth !== "function") {
-err("Firebase no cargó. Ver el diagnóstico abajo y recargar.");
-return false;
-}
+  var sessao = load('iad_sessao_v90', null);
+  var db = load('iad_db_v90', { usuarios: [], informes: [], projetos: [], obras: [], catalogos: { funcoes: [], equipamentos: [] } });
+  var filtro = 'todos';
+  var editAtiv = [];   // atividades em edição
+  var equipoGeral = [];
+  var mo = [];
+  var editId = null;
+  var ultimoTexto = '';
 
-var email = (e && e.value ? e.value : "").trim();
-var senha = (s && s.value ? s.value : "");
+  function persist() { save('iad_db_v90', db); }
+  function uid() { return 'id' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
 
-if (!email) { err("Ingrese el correo."); return false; }
-if (!senha) { err("Ingrese la contraseña."); return false; }
+  // ---------- Login (mock) ----------
+  window.iadLogin = function () {
+    var email = document.getElementById('loginEmail').value.trim().toLowerCase();
+    var senha = document.getElementById('loginSenha').value;
+    var erro = document.getElementById('loginErro');
+    var btn = document.getElementById('btnIngresar');
+    erro.classList.add('hide');
+    if (!email || !senha) { erro.textContent = t('erroLogin'); erro.classList.remove('hide'); return false; }
+    btn.disabled = true; btn.textContent = '...';
+    setTimeout(function () {
+      var usr = db.usuarios.filter(function (u) { return u.email === email; })[0];
+      var ok = ADMIN_EMAILS.indexOf(email) !== -1 || usr;
+      btn.disabled = false; btn.textContent = t('login');
+      if (!ok || senha.length < 4) {
+        erro.textContent = t('credenciais'); erro.classList.remove('hide'); return;
+      }
+      var papel = ADMIN_EMAILS.indexOf(email) !== -1 ? 'admin' : (usr.papel || 'leitor');
+      var nome = usr ? usr.nome : 'Administrador';
+      sessao = { uid: usr ? usr.id : 'adm-' + email, email: email, nome: nome, papel: papel, expira: Date.now() + 3600000 };
+      save('iad_sessao_v90', sessao);
+      aplicarAcesso();
+    }, 400);
+    return false;
+  };
 
-if (b) { b.disabled = true; b.textContent = "Ingresando..."; }
+  window.logout = function () {
+    localStorage.removeItem('iad_sessao_v90');
+    sessao = null;
+    document.getElementById('viewApp').classList.add('hide');
+    document.getElementById('viewLogin').classList.remove('hide');
+    document.getElementById('loginSenha').value = '';
+  };
 
-firebase.auth().signInWithEmailAndPassword(email, senha)
-.then(function (cred) {
-console.log("[IAD] login OK:", cred && cred.user && cred.user.email);
-})
-.catch(function (ex) {
-var c = (ex && ex.code) || "";
-console.warn("[IAD] login erro:", c);
-var m = "Correo o contraseña incorrectos.";
-if (c === "auth/too-many-requests") { m = "Demasiados intentos. Espere un momento."; }
-if (c === "auth/network-request-failed") { m = "Sin conexión. Verifique su internet."; }
-if (c === "auth/user-not-found") { m = "Correo no registrado."; }
-if (c === "auth/invalid-email") { m = "Correo inválido."; }
-err(m);
-})
-.then(function () {
-if (b) { b.disabled = false; b.textContent = "Ingresar"; }
-});
+  function aplicarAcesso() {
+    if (!sessao) return;
+    document.getElementById('viewLogin').classList.add('hide');
+    document.getElementById('viewApp').classList.remove('hide');
+    document.getElementById('userName').textContent = sessao.nome + ' · ' + sessao.papel;
+    aplicarPermissoes();
+    go('inicio');
+  }
 
-return false;
-} catch (ex) {
-console.error("[IAD] exceção no login:", ex);
-var d = document.getElementById("jsDead");
-if (d) { d.style.display = "block"; d.textContent = "JS FALHOU · v8.5 · " + (ex && ex.message); }
-return false;
-}
-};
+  function aplicarPermissoes() {
+    var isAdmin = sessao && sessao.papel === 'admin';
+    var isLeitor = sessao && sessao.papel === 'leitor';
+    ['navAdmin', 'navAdminM', 'navAdminB'].forEach(function (id) {
+      var el = document.getElementById(id); if (el) el.classList.toggle('hide', !isAdmin);
+    });
+    document.getElementById('secUsuarios').classList.toggle('hide', !isAdmin);
+    document.getElementById('btnNovo').classList.toggle('hide', isLeitor);
+  }
 
-var ADMIN_UID = "gc143acuOyeFIXpe2efFI1uZ1NB3";
-var ADMIN_EMAILS = ["balvernaz@alupar.com.pe", "admin@alupar.com.pe"];
+  // ---------- Idioma ----------
+  window.setLang = function (l) {
+    lang = l; localStorage.setItem('iad_lang', l);
+    document.documentElement.lang = l === 'pt' ? 'pt-BR' : 'es';
+    document.getElementById('flagPE').classList.toggle('on', l === 'es');
+    document.getElementById('flagBR').classList.toggle('on', l === 'pt');
+    applyLang();
+    renderAll();
+  };
 
-function normalizar(v) { return String(v == null ? "" : v).trim().toLowerCase(); }
+  function applyLang() {
+    document.getElementById('loginSub').textContent = t('sub');
+    document.getElementById('lblEmail').textContent = t('lblEmail');
+    document.getElementById('lblSenha').textContent = t('lblSenha');
+    document.getElementById('btnIngresar').textContent = t('login');
+    document.getElementById('btnSalir').textContent = t('salir');
+    document.getElementById('btnNovo').textContent = t('crear');
+    document.getElementById('fTodos').textContent = t('todos');
+    document.getElementById('fMios').textContent = t('mios');
+    document.getElementById('busca').placeholder = lang === 'pt' ? 'Buscar por obra ou projeto' : 'Buscar por obra o proyecto';
+    document.getElementById('sInicio').textContent = t('subInicio');
+    document.getElementById('navAdmin').textContent = t('admin');
+    document.getElementById('navAdminM').textContent = t('admin');
+    document.getElementById('navAdminB').textContent = t('admin');
+    document.querySelectorAll('[data-nav="inicio"]').forEach(function (b) { b.textContent = t('inicio'); });
+    document.querySelectorAll('[data-nav="catalogo"]').forEach(function (b) { b.textContent = t('catalogo'); });
+    document.getElementById('vazioInformes').textContent = t('vazio');
+  }
 
-function ehAdmin(user) {
-var uid = String(user && user.uid ? user.uid : "").trim();
-var email = normalizar(user && user.email ? user.email : "");
-if (uid !== "" && uid === ADMIN_UID) { return true; }
-if (email !== "" && ADMIN_EMAILS.indexOf(email) !== -1) { return true; }
-return false;
-}
+  // ---------- Navegação ----------
+  window.go = function (v) {
+    ['vInicio', 'vCatalogo', 'vAdmin', 'vNovo', 'vDetalhe'].forEach(function (id) {
+      document.getElementById(id).classList.add('hide');
+    });
+    var map = { inicio: 'vInicio', catalogo: 'vCatalogo', admin: 'vAdmin', novo: 'vNovo', detalhe: 'vDetalhe' };
+    document.getElementById(map[v]).classList.remove('hide');
+    document.querySelectorAll('[data-nav]').forEach(function (b) {
+      b.classList.toggle('active', b.getAttribute('data-nav') === v);
+    });
+    if (v === 'inicio') renderInformes();
+    if (v === 'catalogo') renderCatalogo();
+    if (v === 'admin') renderAdmin();
+  };
 
-function liberarApp(papel, nome, email) {
-meuPapel = papel;
-meuNome = nome || email || "Administrador";
-mostrarTela("appShell");
-if (typeof aplicarPermissoes === "function") { aplicarPermissoes(); }
-}
+  // ---------- Início ----------
+  window.setFiltro = function (f) { filtro = f; renderInformes(); };
 
-function mostrarBloqueio(user) {
-var alvo = document.getElementById("bloqueioEmail");
-if (alvo) { alvo.textContent = (user && user.email) ? user.email : ""; }
-var alvoUid = document.getElementById("bloqueioUid");
-if (alvoUid) { alvoUid.textContent = "UID: " + ((user && user.uid) ? user.uid : "desconhecido"); }
-mostrarTela("semPermissaoScreen");
-}
-const ROLES = ["admin", "editor", "leitor"];
+  function renderInformes() {
+    var lista = document.getElementById('listaInformes');
+    var q = (document.getElementById('busca').value || '').toLowerCase();
+    var items = db.informes.filter(function (i) {
+      if (filtro === 'mios' && i.autorEmail !== (sessao && sessao.email)) return false;
+      var txt = (i.obra + ' ' + i.projeto).toLowerCase();
+      return !q || txt.indexOf(q) !== -1;
+    }).slice().sort(function (a, b) { return b.data.localeCompare(a.data); });
+    document.getElementById('pillInf').textContent = db.informes.length + ' ' + (lang === 'pt' ? 'relatórios' : 'informes');
+    document.getElementById('vazioInformes').classList.toggle('hide', items.length > 0);
+    lista.innerHTML = items.map(function (i) {
+      return '<div class="card" style="cursor:pointer" onclick="verInforme(\'' + i.id + '\')">' +
+        '<div class="p-4"><div class="row between items-center mb-2"><span class="badge" data-variant="outline">' + esc(i.data) + '</span>' +
+        '<span class="text-xs muted">' + esc(i.autorNome) + ' · ' + esc(i.autorEmail) + '</span></div>' +
+        '<h3 class="font-bold m-0">' + esc(i.obra) + '</h3>' +
+        '<p class="muted text-sm mb-2">' + esc(i.projeto) + '</p>' +
+        '<div class="text-xs muted">' + t('avance') + ': <strong>' + avanceMedio(i) + '%</strong></div></div></div>';
+    }).join('');
+  }
 
-const STORE = {
-session: window.skipStore("reporte-obra-session", { uid: null }),
-usuarios: window.skipStore("reporte-obra-usuarios", []),
-catalogos: window.skipStore("reporte-obra-catalogos", {}),
-informes: window.skipStore("reporte-obra-informes", [])
-};
+  function avanceMedio(i) {
+    var acts = i.atividades || [];
+    if (!acts.length) return 0;
+    var s = acts.reduce(function (a, x) { return a + (Number(x.pctDia) || 0); }, 0);
+    return Math.round(s / acts.length);
+  }
 
-const state = {
-user: null,
-papel: null,
-meuNome: "",
-lang: "es",
-atividades: [],
-pendingConfirm: null
-};
+  window.verInforme = function (id) {
+    var inf = db.informes.filter(function (i) { return i.id === id; })[0];
+    if (!inf) return;
+    editId = id;
+    document.getElementById('detTitulo').textContent = inf.obra;
+    document.getElementById('detSub').textContent = inf.projeto + ' · ' + inf.data;
+    document.getElementById('detAvance').textContent = avanceMedio(inf) + '%';
+    var txt = gerarTexto(inf);
+    ultimoTexto = txt;
+    document.getElementById('detTexto').textContent = txt;
+    go('detalhe');
+  };
 
-const UID_DEMO = {
-"gc143acuOyeFIXpe2efFI1uZ1NB3": { email: "admin@alupar.com.pe", nome: "Administrador", papel: "admin" }
-};
+  window.copiarDetalhe = function () { copiarPara(ultimoTexto); };
+  function copiarPara(txt) {
+    if (navigator.clipboard) navigator.clipboard.writeText(txt).catch(function () {});
+    window.skipUI.toast(t('copiado'), { type: 'success' });
+  }
 
-const backend = {
-signIn(email, senha) {
-if (!email || senha.length < 6) return Promise.reject(new Error("credenciales"));
-const uid = Object.keys(UID_DEMO).find(k => UID_DEMO[k].email === email) || ("uid-" + btoa(email).replace(/=/g, "").slice(0, 16));
-return Promise.resolve({ uid, email });
-},
-signOut() { return Promise.resolve(); },
-getUsuario(uid) {
-const local = STORE.usuarios.get().find(u => u.uid === uid);
-if (local) return Promise.resolve(local);
-if (UID_DEMO[uid]) return Promise.resolve({ uid, ...UID_DEMO[uid] });
-return Promise.resolve(null);
-},
-setUsuario(doc) {
-const list = STORE.usuarios.get().filter(u => u.uid !== doc.uid);
-list.push(doc);
-STORE.usuarios.set(list);
-return Promise.resolve();
-},
-deleteUsuario(uid) {
-STORE.usuarios.set(STORE.usuarios.get().filter(u => u.uid !== uid));
-return Promise.resolve();
-},
-listUsuarios() { return Promise.resolve(STORE.usuarios.get()); }
-};
+  // ---------- Catálogo ----------
+  function renderCatalogo() {
+    renderCatList('listaCargos', db.catalogos.funcoes, 'funcoes', t('vazioCargo'));
+    renderCatList('listaEquipos', db.catalogos.equipamentos, 'equipamentos', t('vazioEquipo'));
+  }
+  function renderCatList(elId, arr, key, vazio) {
+    var el = document.getElementById(elId);
+    if (!arr.length) { el.innerHTML = '<p class="muted text-sm">' + vazio + '</p>'; return; }
+    el.innerHTML = arr.map(function (x, idx) {
+      return '<div class="list-item"><span>' + esc(x.nome) + '</span>' +
+        '<button class="btn" data-variant="ghost" data-size="sm" aria-label="' + t('excluir') + '" onclick="removeCat(\'' + key + '\',' + idx + ')">✕</button></div>';
+    }).join('');
+  }
+  window.addCatItem = function (key, inputId) {
+    var inp = document.getElementById(inputId);
+    var nome = inp.value.trim();
+    if (!nome) return;
+    db.catalogos[key].push({ nome: nome, criadoEm: new Date().toISOString() });
+    persist(); inp.value = '';
+    renderAll();
+    window.skipUI.toast(lang === 'pt' ? 'Adicionado' : 'Agregado', { type: 'success' });
+  };
+  window.removeCat = function (key, idx) {
+    if (!confirm(t('removerConf'))) return;
+    db.catalogos[key].splice(idx, 1); persist(); renderAll();
+  };
 
-function escHtml(s) {
-return String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-}
+  // ---------- Admin ----------
+  function renderAdmin() {
+    var o = document.getElementById('listaObras');
+    if (!db.obras.length) o.innerHTML = '<p class="muted text-sm">' + t('nenhumProjeto') + '</p>';
+    else o.innerHTML = db.obras.map(function (ob, idx) {
+      return '<div class="list-item"><div><strong>' + esc(ob.nome) + '</strong><div class="text-xs muted">' + esc(ob.projeto) + '</div></div>' +
+        '<button class="btn" data-variant="ghost" data-size="sm" onclick="removeObra(' + idx + ')">✕</button></div>';
+    }).join('');
 
-function mostrarTela(id) {
-["screen-login", "screen-bloqueio", "screen-app"].forEach(s => {
-document.getElementById(s).classList.toggle("hidden", s !== id);
-});
-document.getElementById("screen-login").style.display = id === "screen-login" ? "flex" : "none";
-document.getElementById("screen-bloqueio").style.display = id === "screen-bloqueio" ? "flex" : "none";
-}
+    var u = document.getElementById('listaUsuarios');
+    if (!db.usuarios.length) { u.innerHTML = '<p class="muted text-sm">—</p>'; return; }
+    var isAdmin = sessao && sessao.papel === 'admin';
+    u.innerHTML = db.usuarios.map(function (x) {
+      var selectHtml = '<select class="input" style="width:auto" onchange="mudarPapel(\'' + x.id + '\',this.value)">' +
+        PAPEIS.map(function (p) { return '<option value="' + p + '"' + (x.papel === p ? ' selected' : '') + '>' + p + '</option>'; }).join('') +
+        '</select>';
+      var del = (x.email === (sessao && sessao.email)) ? '' : '<button class="btn" data-variant="ghost" data-size="sm" onclick="excluirUsuario(\'' + x.id + '\')">' + t('excluir') + '</button>';
+      return '<div class="list-item"><div><strong>' + esc(x.nome) + '</strong><div class="text-xs muted">' + esc(x.email) + '</div>' +
+        '<span class="badge badge-' + x.papel + '">' + x.papel + '</span></div><div class="row gap-2">' + selectHtml + del + '</div></div>';
+    }).join('');
+    if (!isAdmin) u.innerHTML = '';
+  }
 
-function onAuthState(user) {
-if (!user) { mostrarTela("screen-login"); return Promise.resolve(); }
-const uidAtual = String(user.uid || "").trim();
-state.user = { uid: uidAtual, email: user.email };
+  window.addObra = function () {
+    var p = document.getElementById('novoProjeto').value.trim();
+    var n = document.getElementById('novaObra').value.trim();
+    if (!p || !n) { window.skipUI.toast(lang === 'pt' ? 'Preencha projeto e obra' : 'Complete proyecto y obra', { type: 'error' }); return; }
+    db.obras.push({ id: uid(), nome: n, projeto: p });
+    if (db.projetos.indexOf(p) === -1) db.projetos.push(p);
+    persist();
+    document.getElementById('novoProjeto').value = ''; document.getElementById('novaObra').value = '';
+    renderAdmin(); window.skipUI.toast(t('obraCriada'), { type: 'success' });
+  };
+  window.removeObra = function (idx) {
+    if (!confirm(t('removerConf'))) return;
+    db.obras.splice(idx, 1); persist(); renderAdmin();
+  };
+  window.toggleNovoUsuario = function () {
+    document.getElementById('formUsuario').classList.toggle('hide');
+  };
+  window.criarUsuario = function () {
+    var nome = document.getElementById('uNome').value.trim();
+    var email = document.getElementById('uEmail').value.trim().toLowerCase();
+    var senha = document.getElementById('uSenha').value;
+    var papel = document.getElementById('uPapel').value;
+    if (!nome || !email || senha.length < 6) { window.skipUI.toast(lang === 'pt' ? 'Dados inválidos' : 'Datos inválidos', { type: 'error' }); return; }
+    if (db.usuarios.some(function (u) { return u.email === email; }) || ADMIN_EMAILS.indexOf(email) !== -1) {
+      window.skipUI.toast(t('emailExiste'), { type: 'error' }); return;
+    }
+    db.usuarios.push({ id: uid(), nome: nome, email: email, papel: papel, criadoEm: new Date().toISOString() });
+    persist();
+    ['uNome', 'uEmail', 'uSenha'].forEach(function (id) { document.getElementById(id).value = ''; });
+    document.getElementById('formUsuario').classList.add('hide');
+    renderAdmin(); window.skipUI.toast(t('usuarioCriado'), { type: 'success' });
+  };
+  window.mudarPapel = function (id, papel) {
+    var u = db.usuarios.filter(function (x) { return x.id === id; })[0];
+    if (u) { u.papel = papel; persist(); renderAdmin(); }
+  };
+  window.excluirUsuario = function (id) {
+    if (!confirm(t('removerConf'))) return;
+    db.usuarios = db.usuarios.filter(function (x) { return x.id !== id; }); persist(); renderAdmin();
+  };
 
-if (ehAdmin(user)) {
-state.papel = "admin";
-state.meuNome = "Administrador";
-STORE.session.set({ uid: uidAtual });
-liberarApp();
-backend.setUsuario({ uid: uidAtual, email: user.email || "", nome: "Administrador", papel: "admin" }).catch(e => console.warn("[admin sync]", e && e.code));
-return Promise.resolve();
-}
+  // ---------- Novo informe ----------
+  window.novoInforme = function () {
+    editId = null; editAtiv = []; equipoGeral = []; mo = [];
+    document.getElementById('fData').value = new Date().toISOString().slice(0, 10);
+    ['fOcor', 'fSeg', 'fProx'].forEach(function (id) { document.getElementById(id).value = ''; });
+    document.getElementById('climaM').value = 'Despejado';
+    document.getElementById('climaT').value = 'Despejado';
+    popularProjetos();
+    popularObras();
+    renderEditor();
+    go('novo');
+  };
+  window.limparForm = function () { novoInforme(); };
 
-return backend.getUsuario(uidAtual)
-.then(doc => {
-if (doc) {
-state.papel = doc.papel || "leitor";
-state.meuNome = doc.nome || user.email;
-STORE.session.set({ uid: uidAtual });
-liberarApp();
-} else {
-mostrarBloqueio(user);
-}
-})
-.catch(e => {
-console.warn("[permissao]", e && e.code, e && e.message);
-mostrarBloqueio(user);
-});
-}
+  function popularProjetos() {
+    var sel = document.getElementById('fProjeto');
+    var projs = db.projetos.slice();
+    sel.innerHTML = projs.length ? projs.map(function (p) { return '<option>' + esc(p) + '</option>'; }).join('')
+      : '<option value="">' + t('nenhumProjeto') + '</option>';
+  }
+  window.popularObras = function () {
+    var p = document.getElementById('fProjeto').value;
+    var sel = document.getElementById('fObra');
+    var obras = db.obras.filter(function (o) { return o.projeto === p; });
+    sel.innerHTML = obras.length ? obras.map(function (o) { return '<option>' + esc(o.nome) + '</option>'; }).join('')
+      : '<option value="">—</option>';
+  };
 
-function mostrarBloqueio(user) {
-const alvo = document.getElementById("bloqueioEmail");
-if (alvo) { alvo.textContent = (user && user.email) ? user.email : ""; }
-const alvoUid = document.getElementById("bloqueioUid");
-if (alvoUid) { alvoUid.textContent = "UID: " + ((user && user.uid) ? user.uid : "desconhecido"); }
-document.getElementById("bloqueio-texto").textContent =
-`Su correo ${user.email} no tiene permisos en esta aplicación. Solicite acceso al administrador.`;
-mostrarTela("screen-bloqueio");
-}
+  function renderEditor() {
+    renderEquipoGeral();
+    renderAtividades();
+    renderMO();
+    document.getElementById('fData').readOnly = false;
+  }
 
-function liberarApp() {
-mostrarTela("screen-app");
-document.getElementById("header-user").textContent = `${state.meuNome} · ${state.papel}`;
-document.querySelectorAll(".admin-only").forEach(el => el.classList.toggle("hidden", state.papel !== "admin"));
-document.getElementById("f-resp").value = state.meuNome;
-document.getElementById("f-data").value = new Date().toISOString().slice(0, 10);
-if (state.atividades.length === 0) addAtividade();
-mostrarView("informe");
-renderCatalogo();
-renderHistorico();
-renderObras();
-renderUsuarios();
-}
+  function renderEquipoGeral() {
+    var el = document.getElementById('listaEquiposGeral');
+    el.innerHTML = equipoGeral.map(function (e, i) {
+      return '<div class="inline-form">' +
+        '<select class="input" onchange="equipoGeral[' + i + '].nome=this.value">' + optEquip(e.nome) + '</select>' +
+        '<input class="input" type="number" min="0" style="max-width:120px" value="' + (e.qtd || '') + '" oninput="equipoGeral[' + i + '].qtd=Number(this.value)||0" placeholder="' + t('quantidade') + '">' +
+        '<button class="btn" data-variant="ghost" data-size="sm" onclick="rmEqGeral(' + i + ')">✕</button></div>';
+    }).join('') || '<p class="muted text-sm">—</p>';
+  }
+  function optEquip(sel) {
+    var list = db.catalogos.equipamentos;
+    return '<option value="">—</option>' + list.map(function (x) {
+      return '<option' + (x.nome === sel ? ' selected' : '') + '>' + esc(x.nome) + '</option>';
+    }).join('');
+  }
+  window.addEquipoGeral = function () { equipoGeral.push({ nome: '', qtd: 0 }); renderEquipoGeral(); };
+  window.rmEqGeral = function (i) { equipoGeral.splice(i, 1); renderEquipoGeral(); };
 
-function signOut() {
-backend.signOut();
-STORE.session.set({ uid: null });
-state.user = null;
-mostrarTela("screen-login");
-}
+  window.addAtividade = function () {
+    editAtiv.push({ nome: '', unidade: 'm³', qtdDia: 0, pctDia: 0, qtdAcum: 0, pctAcum: 0, equipos: [] });
+    renderAtividades();
+  };
+  window.rmAtiv = function (i) { editAtiv.splice(i, 1); renderAtividades(); };
 
-function mostrarView(nome) {
-document.querySelectorAll(".view").forEach(v => v.classList.toggle("active", v.id === "view-" + nome));
-if (nome === "preview") renderPreview();
-if (nome === "admin") renderUsuarios();
-}
+  function renderAtividades() {
+    var el = document.getElementById('listaAtividades');
+    document.getElementById('vazioAtividades').classList.toggle('hide', editAtiv.length > 0);
+    el.innerHTML = editAtiv.map(function (a, i) {
+      var eqs = a.equipos.map(function (e, j) {
+        return '<div class="eq-row">' +
+          '<select class="input" onchange="editAtiv[' + i + '].equipos[' + j + '].nome=this.value">' + optEquip(e.nome) + '</select>' +
+          '<div class="hour-wrap"><input class="input" type="number" step="0.5" min="0" value="' + (e.horas || '') + '" oninput="editAtiv[' + i + '].equipos[' + j + '].horas=Number(this.value)||0;renderAtividades()" aria-label="' + t('horas') + '"><span>h</span></div>' +
+          '<button class="btn" data-variant="ghost" data-size="sm" onclick="rmEqAtiv(' + i + ',' + j + ')">✕</button></div>';
+      }).join('');
+      var totalH = a.equipos.reduce(function (s, e) { return s + (Number(e.horas) || 0); }, 0);
+      return '<div class="act-block">' +
+        '<div class="row between items-center mb-2"><strong>' + t('atividade') + ' ' + (i + 1) + '</strong>' +
+        '<button class="btn" data-variant="ghost" data-size="sm" onclick="rmAtiv(' + i + ')">✕</button></div>' +
+        '<div class="shell-grid cols-3 gap-2">' +
+        '<div class="field"><label>' + t('nome') + '</label><input class="input" value="' + esc(a.nome) + '" oninput="editAtiv[' + i + '].nome=this.value"></div>' +
+        '<div class="field"><label>' + t('unidade') + '</label><select class="input" onchange="editAtiv[' + i + '].unidade=this.value">' +
+        UNIDADES.map(function (u) { return '<option' + (u === a.unidade ? ' selected' : '') + '>' + u + '</option>'; }).join('') + '</select></div>' +
+        '<div class="field"><label>' + t('qtdDia') + '</label><input class="input" type="number" min="0" value="' + (a.qtdDia || '') + '" oninput="editAtiv[' + i + '].qtdDia=Number(this.value)||0"></div>' +
+        '<div class="field"><label>' + t('pctDia') + '</label><input class="input" type="number" min="0" max="100" value="' + (a.pctDia || '') + '" oninput="editAtiv[' + i + '].pctDia=Number(this.value)||0"></div>' +
+        '<div class="field"><label>' + t('qtdAcum') + '</label><input class="input" type="number" min="0" value="' + (a.qtdAcum || '') + '" oninput="editAtiv[' + i + '].qtdAcum=Number(this.value)||0"></div>' +
+        '<div class="field"><label>' + t('pctAcum') + '</label><input class="input" type="number" min="0" max="100" value="' + (a.pctAcum || '') + '" oninput="editAtiv[' + i + '].pctAcum=Number(this.value)||0"></div>' +
+        '</div>' +
+        '<div class="mt-3"><div class="row between items-center mb-1"><span class="text-sm font-semibold">' + t('equipos') + '</span><span class="badge" data-variant="secondary">' + totalH + ' h</span></div>' +
+        '<div class="stack gap-2">' + eqs + '</div>' +
+        '<div class="row gap-2 mt-2"><button class="btn" data-variant="outline" data-size="sm" onclick="addEqAtiv(' + i + ')">' + t('addEq') + '</button>' +
+        '<button class="btn" data-variant="ghost" data-size="sm" onclick="criarEquipoRapido(' + i + ')">' + t('criarEq') + '</button></div></div>' +
+        '</div>';
+    }).join('');
+  }
+  window.addEqAtiv = function (i) { editAtiv[i].equipos.push({ nome: '', horas: 0 }); renderAtividades(); };
+  window.rmEqAtiv = function (i, j) { editAtiv[i].equipos.splice(j, 1); renderAtividades(); };
 
-function catalogo() {
-const key = state.user.uid;
-if (!STORE.catalogos.get()[key]) {
-const all = STORE.catalogos.get();
-all[key] = { funcoes: [], equipamentos: [] };
-STORE.catalogos.set(all);
-}
-return STORE.catalogos.get()[key];
-}
+  window.criarEquipoRapido = function (ativIdx) {
+    var nome = prompt(lang === 'pt' ? 'Nome do equipamento' : 'Nombre del equipo');
+    if (!nome || !nome.trim()) return;
+    db.catalogos.equipamentos.push({ nome: nome.trim(), criadoEm: new Date().toISOString() });
+    persist();
+    if (ativIdx !== undefined) editAtiv[ativIdx].equipos.push({ nome: nome.trim(), horas: 0 });
+    renderAtividades();
+    window.skipUI.toast(t('criarEq'), { type: 'success' });
+  };
+  window.criarCargoRapido = function () {
+    var nome = prompt(lang === 'pt' ? 'Nome do cargo' : 'Nombre del cargo');
+    if (!nome || !nome.trim()) return;
+    db.catalogos.funcoes.push({ nome: nome.trim(), criadoEm: new Date().toISOString() });
+    persist();
+    mo.push({ nome: nome.trim(), qtd: 0 }); renderMO();
+    window.skipUI.toast(t('criarCargo'), { type: 'success' });
+  };
 
-function salvarCatalogo(cat) {
-const all = STORE.catalogos.get();
-all[state.user.uid] = cat;
-STORE.catalogos.set(all);
-}
+  function renderMO() {
+    var el = document.getElementById('listaMO');
+    el.innerHTML = mo.map(function (m, i) {
+      return '<div class="inline-form"><select class="input" onchange="mo[' + i + '].nome=this.value">' +
+        '<option value="">—</option>' + db.catalogos.funcoes.map(function (x) {
+          return '<option' + (x.nome === m.nome ? ' selected' : '') + '>' + esc(x.nome) + '</option>';
+        }).join('') + '</select>' +
+        '<input class="input" type="number" min="0" style="max-width:110px" value="' + (m.qtd || '') + '" oninput="mo[' + i + '].qtd=Number(this.value)||0" placeholder="' + t('quantidade') + '">' +
+        '<button class="btn" data-variant="ghost" data-size="sm" onclick="rmMO(' + i + ')">✕</button></div>';
+    }).join('') || '<p class="muted text-sm">—</p>';
+  }
+  window.addMO = function () { mo.push({ nome: '', qtd: 0 }); renderMO(); };
+  window.rmMO = function (i) { mo.splice(i, 1); renderMO(); };
 
-function confirmar(titulo, texto, fn) {
-document.getElementById("dlg-titulo").textContent = titulo;
-document.getElementById("dlg-texto").textContent = texto;
-state.pendingConfirm = fn;
-document.getElementById("dlg-confirm").showModal();
-}
+  // ---------- Texto gerado ----------
+  function gerarTexto(inf) {
+    var PT = lang === 'pt';
+    var L = PT ? {
+      head: 'AVANÇO DA OBRA', proj: 'Projeto', obra: 'Obra', resp: 'Responsável', ativ: 'ATIVIDADES',
+      eq: 'Equipamento', hoje: 'Hoje', acum: 'Acumulado', mo: 'MÃO DE OBRA', total: 'Total', pessoas: 'pessoas',
+      equips: 'EQUIPAMENTOS', equipos: 'equipamentos', clima: 'CLIMA', manha: 'Manhã', tarde: 'Tarde',
+      ocor: 'OCORRÊNCIAS', seg: 'SEGURANÇA', prox: 'PRÓXIMOS PASSOS'
+    } : {
+      head: 'AVANCE DE OBRA', proj: 'Proyecto', obra: 'Obra', resp: 'Responsable', ativ: 'ACTIVIDADES',
+      eq: 'Equipo', hoje: 'Hoy', acum: 'Acumulado', mo: 'MANO DE OBRA', total: 'Total', pessoas: 'personas',
+      equips: 'EQUIPOS', equipos: 'equipos', clima: 'CLIMA', manha: 'Mañana', tarde: 'Tarde',
+      ocor: 'OCURRENCIAS', seg: 'SEGURIDAD', prox: 'PRÓXIMOS PASOS'
+    };
+    var out = [];
+    out.push('*' + L.head + ' (' + fmtData(inf.data) + ')*');
+    out.push('*' + L.proj + ':* ' + inf.projeto);
+    out.push('*' + L.obra + ':* ' + inf.obra);
+    out.push('*' + L.resp + ':* ' + inf.autorNome);
+    out.push('');
+    if (inf.atividades && inf.atividades.length) {
+      out.push('⏳ *' + L.ativ + '*');
+      inf.atividades.forEach(function (a, i) {
+        out.push((i + 1) + '. ' + a.nome);
+        var eqs = (a.equipos || []).filter(function (e) { return e.nome; })
+          .map(function (e) { return e.nome + ' ' + e.horas + ' h'; });
+        if (eqs.length) out.push('   🔧 ' + L.eq + ': ' + eqs.join(' | '));
+        if (a.qtdDia) out.push('   🗓️ ' + L.hoje + ': ' + a.qtdDia + ' ' + a.unidade);
+        if (a.qtdAcum || a.pctAcum) {
+          var linha = '   📊 ' + L.acum + ': ' + (a.qtdAcum ? a.qtdAcum + ' ' + a.unidade : '');
+          if (a.pctAcum) linha += (a.qtdAcum ? ' | ' : '') + a.pctAcum + '%';
+          out.push(linha);
+        }
+      });
+      out.push('');
+    }
+    var moValidos = (inf.manoObra || []).filter(function (m) { return m.nome && m.qtd > 0; });
+    if (moValidos.length) {
+      var totalMO = moValidos.reduce(function (s, m) { return s + m.qtd; }, 0);
+      out.push('👷 *' + L.mo + '* — ' + L.total + ': ' + totalMO + ' ' + L.pessoas);
+      moValidos.forEach(function (m) { out.push('• ' + m.qtd + ' ' + m.nome); });
+      out.push('');
+    }
+    var eqGeral = (inf.equipos || []).filter(function (e) { return e.nome && e.qtd > 0; });
+    if (eqGeral.length) {
+      var totalEq = eqGeral.reduce(function (s, e) { return s + e.qtd; }, 0);
+      out.push('🚜 *' + L.equips + '* — ' + L.total + ': ' + totalEq + ' ' + L.equipos);
+      eqGeral.forEach(function (e) { out.push('• ' + e.qtd + ' ' + e.nome); });
+      out.push('');
+    }
+    var cm = inf.clima || {};
+    if (cm.manha || cm.tarde) {
+      out.push('🌤️ *' + L.clima + '*');
+      out.push(L.manha + ': ' + (cm.manha || '—') + ' | ' + L.tarde + ': ' + (cm.tarde || '—'));
+      out.push('');
+    }
+    if (inf.ocorrencias) out.push('⚠️ *' + L.ocor + '*\n' + inf.ocorrencias + '\n');
+    if (inf.seguranca) out.push('🦺 *' + L.seg + '*\n' + inf.seguranca + '\n');
+    if (inf.proximos) out.push('📌 *' + L.prox + '*\n' + inf.proximos);
+    return out.join('\n').replace(/\n{3,}/g, '\n\n').trim();
+  }
 
-function renderCatalogo() {
-const cat = catalogo();
-const pintar = (lista, tipo) => {
-const el = document.getElementById(tipo === "funcoes" ? "cat-funcoes-lista" : "cat-equipamentos-lista");
-const items = cat[tipo];
-if (items.length === 0) {
-el.innerHTML = `<p class="text-xs muted">Aún no hay ${tipo === "funcoes" ? "cargos" : "equipos"} registrados</p>`;
-return;
-}
-el.innerHTML = items.map((it, i) =>
-`<div class="row between items-center"><span class="text-sm">${escHtml(it.nome)}</span><button class="btn" data-variant="ghost" data-size="sm" data-del="${tipo}" data-idx="${i}" aria-label="Eliminar">✕</button></div>`
-).join("");
-};
-pintar(cat.funcoes, "funcoes");
-pintar(cat.equipamentos, "equipamentos");
-}
+  function fmtData(iso) {
+    if (!iso) return '';
+    var p = iso.split('-');
+    return p[2] + '/' + p[1] + '/' + p[0];
+  }
 
-function addAtividade() {
-state.atividades.push({ nome: "", unidade: "m³", qtdDia: "", pctDia: "", qtdAcum: "", pctAcum: "", equipos: [{ equipamento: "", horas: "" }] });
-renderAtividades();
-}
+  function coletarInforme() {
+    var projeto = document.getElementById('fProjeto').value;
+    var obra = document.getElementById('fObra').value;
+    return {
+      id: editId || uid(),
+      data: document.getElementById('fData').value,
+      projeto: projeto, obra: obra,
+      responsavel: sessao.nome, autorNome: sessao.nome, autorEmail: sessao.email, autorId: sessao.uid,
+      atividades: editAtiv.map(function (a) { return JSON.parse(JSON.stringify(a)); }),
+      equipos: equipoGeral.filter(function (e) { return e.nome; }),
+      manoObra: mo.filter(function (m) { return m.nome; }),
+      clima: { manha: document.getElementById('climaM').value, tarde: document.getElementById('climaT').value },
+      ocorrencias: document.getElementById('fOcor').value.trim(),
+      seguranca: document.getElementById('fSeg').value.trim(),
+      proximos: document.getElementById('fProx').value.trim(),
+      criadoEm: new Date().toISOString()
+    };
+  }
 
-function renderAtividades() {
-const wrap = document.getElementById("atividades-wrap");
-const eqOpts = (sel) => catalogo().equipamentos.map(e => `<option ${e.nome === sel ? "selected" : ""}>${escHtml(e.nome)}</option>`).join("");
-wrap.innerHTML = state.atividades.map((a, i) => `
-<div class="act-card" data-act="${i}">
-<div class="row between items-center"><strong class="text-sm">Actividad ${i + 1}</strong><button class="btn" data-variant="ghost" data-size="sm" data-act-del="${i}">✕</button></div>
-<div class="cols-2 gap-2 mt-2">
-<div class="field"><label>Nombre</label><input class="input" data-field="nome" data-i="${i}" value="${escHtml(a.nome)}" placeholder="Ej.: Excavación de zanja"></div>
-<div class="field"><label>Unidad</label><select class="input" data-field="unidade" data-i="${i}">${UNIDADES.map(u => `<option ${u === a.unidade ? "selected" : ""}>${u}</option>`).join("")}</select></div>
-<div class="field"><label>Cantidad del día</label><input class="input" type="number" min="0" step="0.5" data-field="qtdDia" data-i="${i}" value="${a.qtdDia}"></div>
-<div class="field"><label>% del día</label><input class="input" type="number" min="0" step="0.5" data-field="pctDia" data-i="${i}" value="${a.pctDia}"></div>
-<div class="field"><label>Cantidad acumulada</label><input class="input" type="number" min="0" step="0.5" data-field="qtdAcum" data-i="${i}" value="${a.qtdAcum}"></div>
-<div class="field"><label>% acumulado</label><input class="input" type="number" min="0" step="0.5" data-field="pctAcum" data-i="${i}" value="${a.pctAcum}"></div>
-</div>
-<p class="text-xs muted mt-2">Equipos usados en la actividad</p>
-${a.equipos.map((eq, j) => `
-<div class="eq-row" data-eq="${i}-${j}">
-<div class="field"><label>Equipo</label><select class="input" data-eq-field="equipamento" data-i="${i}" data-j="${j}"><option value="">—</option>${eqOpts(eq.equipamento)}</select></div>
-<div class="field"><label>Horas trabajadas</label><input class="input" type="number" min="0" step="0.5" data-eq-field="horas" data-i="${i}" data-j="${j}" value="${eq.horas}"></div>
-<button class="btn" data-variant="ghost" data-size="sm" data-eq-del="${i}-${j}">✕</button>
-</div>`).join("")}
-<div class="row gap-2 mt-2">
-<button class="btn" data-variant="secondary" data-size="sm" data-eq-add="${i}">＋ Agregar equipo</button>
-<button class="btn" data-variant="ghost" data-size="sm" data-eq-create="${i}">＋ Crear equipo</button>
-</div>
-</div>`).join("");
-}
+  function atualizarPreview() {
+    var inf = coletarInforme();
+    ultimoTexto = gerarTexto(inf);
+    document.getElementById('previewTexto').textContent = ultimoTexto;
+  }
+  document.addEventListener('input', function (e) {
+    if (document.getElementById('vNovo') && !document.getElementById('vNovo').classList.contains('hide')) atualizarPreview();
+  });
+  document.addEventListener('change', function (e) {
+    if (document.getElementById('vNovo') && !document.getElementById('vNovo').classList.contains('hide')) atualizarPreview();
+  });
 
-function lerFormulario() {
-return {
-data: document.getElementById("f-data").value,
-proyecto: document.getElementById("f-proyecto").value.trim(),
-obra: document.getElementById("f-obra").value.trim(),
-responsavel: state.meuNome,
-atividades: state.atividades.map(a => ({
-...a,
-equipos: a.equipos.filter(e => e.equipamento)
-})),
-moTotal: document.getElementById("f-mo-total").value,
-moDetalhe: document.getElementById("f-mo-detalhe").value.trim(),
-eqTotal: document.getElementById("f-eq-total").value,
-eqDetalhe: document.getElementById("f-eq-detalhe").value.trim(),
-climaM: document.getElementById("f-clima-m").value.trim(),
-climaT: document.getElementById("f-clima-t").value.trim(),
-ocorrencias: document.getElementById("f-ocorrencias").value.trim(),
-seguranca: document.getElementById("f-seguridad").value.trim(),
-proximos: document.getElementById("f-proximos").value.trim()
-};
-}
+  window.copiarTexto = function () { atualizarPreview(); copiarPara(ultimoTexto); };
 
-function fmtData(iso, lang) {
-if (!iso) return "";
-const [y, m, d] = iso.split("-");
-return `${d}/${m}/${y}`;
-}
+  window.salvarInforme = function () {
+    if (!document.getElementById('fObra').value) { window.skipUI.toast(t('nenhumProjeto'), { type: 'error' }); return; }
+    var inf = coletarInforme();
+    var idx = db.informes.findIndex(function (i) { return i.id === inf.id; });
+    if (idx >= 0) db.informes[idx] = inf; else db.informes.push(inf);
+    persist();
+    window.skipUI.toast(t('guardado'), { type: 'success' });
+    go('inicio');
+  };
 
-function gerarTexto(r, lang) {
-const L = lang === "pt"
-? { titulo: "AVANÇO DA OBRA", proj: "Projeto:", obra: "Obra:", resp: "Responsável:", ativ: "ATIVIDADES", eq: "🔧 Equipamento:", hoje: "🗓️ Hoje:", acum: "📊 Acumulado:", mo: "MÃO DE OBRA", equip: "EQUIPAMENTOS", clima: "CLIMA", man: "Manhã", tar: "Tarde", ocor: "OCORRÊNCIAS", seg: "SEGURANÇA", prox: "PRÓXIMOS PASSOS", total: "Total", pess: "pessoas", eqs: "equipamentos" }
-: { titulo: "AVANCE DE OBRA", proj: "Proyecto:", obra: "Obra:", resp: "Responsable:", ativ: "ACTIVIDADES", eq: "🔧 Equipo:", hoje: "🗓️ Hoy:", acum: "📊 Acumulado:", mo: "MANO DE OBRA", equip: "EQUIPOS", clima: "CLIMA", man: "Mañana", tar: "Tarde", ocor: "OCURRENCIAS", seg: "SEGURIDAD", prox: "PRÓXIMOS PASOS", total: "Total", pess: "personas", eqs: "equipos" };
+  // ---------- Render geral ----------
+  function renderAll() {
+    renderInformes();
+    renderCatalogo();
+    renderAdmin();
+    if (!document.getElementById('vNovo').classList.contains('hide')) renderEditor();
+  }
 
-const linhas = [];
-linhas.push(`*${L.titulo} (${fmtData(r.data)})*`);
-if (r.proyecto) linhas.push(`*${L.proj}* ${r.proyecto}`);
-if (r.obra) linhas.push(`*${L.obra}* ${r.obra}`);
-linhas.push(`*${L.resp}* ${r.responsavel}`);
-linhas.push("");
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
 
-const atividadesValidas = r.atividades.filter(a => a.nome);
-if (atividadesValidas.length) {
-linhas.push(`⏳ *${L.ativ}*`);
-atividadesValidas.forEach((a, i) => {
-linhas.push(`${i + 1}. ${a.nome}`);
-if (a.equipos.length) {
-const partes = a.equipos.map(e => `${e.equipamento} ${e.horas || 0} h`);
-linhas.push(`   ${L.eq} ${partes.join(" | ")}`);
-}
-if (a.qtdDia) linhas.push(`   ${L.hoje} ${a.qtdDia} ${a.unidade}${a.pctDia ? ` (${a.pctDia}%)` : ""}`);
-if (a.qtdAcum || a.pctAcum) {
-const acum = [a.qtdAcum ? `${a.qtdAcum} ${a.unidade}` : null, a.pctAcum ? `${a.pctAcum}%` : null].filter(Boolean).join(" | ");
-linhas.push(`   ${L.acum} ${acum}`);
-}
-});
-linhas.push("");
-}
-
-if (Number(r.moTotal) > 0) {
-linhas.push(`👷 *${L.mo}* — ${L.total}: ${r.moTotal} ${L.pess}`);
-if (r.moDetalhe) linhas.push(`• ${r.moDetalhe}`);
-linhas.push("");
-}
-
-const eqTotalCalc = Number(r.eqTotal) || 0;
-if (eqTotalCalc > 0) {
-linhas.push(`🚜 *${L.equip}* — ${L.total}: ${eqTotalCalc} ${L.eqs}`);
-if (r.eqDetalhe) linhas.push(`• ${r.eqDetalhe}`);
-linhas.push("");
-}
-
-if (r.climaM || r.climaT) {
-linhas.push(`🌤️ *${L.clima}*`);
-const c = [r.climaM ? `${L.man}: ${r.climaM}` : null, r.climaT ? `${L.tar}: ${r.climaT}` : null].filter(Boolean).join(" | ");
-linhas.push(c);
-linhas.push("");
-}
-if (r.ocorrencias) { linhas.push(`⚠️ *${L.ocor}*`); linhas.push(r.ocorrencias); linhas.push(""); }
-if (r.seguranca) { linhas.push(`🦺 *${L.seg}*`); linhas.push(r.seguranca); linhas.push(""); }
-if (r.proximos) { linhas.push(`📌 *${L.prox}*`); linhas.push(r.proximos); }
-
-return linhas.join("\n").replace(/\n+$/, "");
-}
-
-function renderPreview() {
-const r = lerFormulario();
-document.getElementById("preview-texto").textContent = gerarTexto(r, state.lang);
-}
-
-function renderObras() {
-const obras = [...new Set(STORE.informes.get().map(i => i.obra).filter(Boolean))];
-const el = document.getElementById("obras-lista");
-if (!obras.length) { el.innerHTML = '<p class="text-sm muted">Aún no hay informes</p>'; return; }
-el.innerHTML = obras.map(o => {
-const count = STORE.informes.get().filter(i => i.obra === o).length;
-return `<div class="row between"><span>${escHtml(o)}</span><span class="badge">${count} informes</span></div>`;
-}).join("");
-}
-
-function renderHistorico() {
-const list = STORE.informes.get();
-const el = document.getElementById("historico-lista");
-if (!list.length) { el.innerHTML = '<p class="text-sm muted">Aún no hay informes</p>'; return; }
-el.innerHTML = list.map(i => `
-<div class="card">
-<div class="row between"><strong>${fmtData(i.data)} — ${escHtml(i.obra || i.proyecto || "Sin obra")}</strong><span class="badge">${escHtml(i.autorEmail)} · ${escHtml(i.autorNome)}</span></div>
-<p class="text-xs muted">${escHtml(i.proyecto || "")}</p>
-</div>`).join("");
-}
-
-function renderUsuarios() {
-if (state.papel !== "admin") return;
-const el = document.getElementById("usuarios-lista");
-const list = STORE.usuarios.get();
-el.innerHTML = list.map(u => {
-const isSelf = u.uid === state.user.uid;
-return `
-<div class="row between items-center">
-<div><strong>${escHtml(u.nome)}</strong><div class="text-xs muted">${escHtml(u.email)}</div></div>
-<div class="row gap-2 items-center">
-<span class="role-badge role-${u.papel}">${u.papel}</span>
-<select class="input" data-role-uid="${u.uid}" ${isSelf ? "disabled" : ""}>${ROLES.map(r => `<option ${r === u.papel ? "selected" : ""}>${r}</option>`).join("")}</select>
-<button class="btn" data-variant="destructive" data-size="sm" data-del-user="${u.uid}" ${isSelf ? "disabled" : ""}>Eliminar acceso</button>
-</div>
-</div>`;
-}).join("") || '<p class="text-sm muted">Aún no hay usuarios</p>';
-}
-
-async function criarUsuario() {
-const nome = document.getElementById("nu-nome").value.trim();
-const email = document.getElementById("nu-email").value.trim();
-const senha = document.getElementById("nu-senha").value;
-const papel = document.getElementById("nu-papel").value;
-if (!nome || !email || senha.length < 6) {
-window.skipUI.toast("Complete todos los campos (contraseña mínimo 6)", { type: "error" });
-return;
-}
-const uid = "uid-" + btoa(email).replace(/=/g, "").slice(0, 16);
-await backend.setUsuario({ uid, email, nome, papel });
-window.skipUI.toast("Usuario creado", { type: "success" });
-document.getElementById("form-novo-usuario").classList.add("hidden");
-["nu-nome", "nu-email", "nu-senha"].forEach(id => document.getElementById(id).value = "");
-renderUsuarios();
-}
-
-function bind() {
-
-document.getElementById("btn-esqueci").addEventListener("click", () => window.skipUI.toast("Revise su correo para restablecer la contraseña"));
-document.getElementById("btn-logout").addEventListener("click", signOut);
-document.getElementById("btn-logout-bloqueio").addEventListener("click", signOut);
-
-document.querySelectorAll("[data-nav]").forEach(b => b.addEventListener("click", () => mostrarView(b.dataset.nav)));
-
-document.getElementById("btn-add-atividade").addEventListener("click", addAtividade);
-
-document.getElementById("atividades-wrap").addEventListener("input", e => {
-const t = e.target;
-const i = Number(t.dataset.i);
-if (t.dataset.field) state.atividades[i][t.dataset.field] = t.value;
-if (t.dataset.eqField) {
-const j = Number(t.dataset.j);
-state.atividades[i].equipos[j][t.dataset.eqField] = t.value;
-}
-});
-document.getElementById("atividades-wrap").addEventListener("change", e => {
-const t = e.target;
-const i = Number(t.dataset.i);
-if (t.dataset.field) state.atividades[i][t.dataset.field] = t.value;
-if (t.dataset.eqField) {
-const j = Number(t.dataset.j);
-state.atividades[i].equipos[j][t.dataset.eqField] = t.value;
-}
-});
-document.getElementById("atividades-wrap").addEventListener("click", e => {
-const t = e.target.closest("button");
-if (!t) return;
-if (t.dataset.actDel !== undefined) {
-state.atividades.splice(Number(t.dataset.actDel), 1);
-if (!state.atividades.length) addAtividade(); else renderAtividades();
-}
-if (t.dataset.eqAdd !== undefined) {
-state.atividades[Number(t.dataset.eqAdd)].equipos.push({ equipamento: "", horas: "" });
-renderAtividades();
-}
-if (t.dataset.eqDel !== undefined) {
-const [i, j] = t.dataset.eqDel.split("-").map(Number);
-state.atividades[i].equipos.splice(j, 1);
-if (!state.atividades[i].equipos.length) state.atividades[i].equipos.push({ equipamento: "", horas: "" });
-renderAtividades();
-}
-if (t.dataset.eqCreate !== undefined) {
-const nome = prompt("Nombre del nuevo equipo:");
-if (nome && nome.trim()) {
-const cat = catalogo();
-cat.equipamentos.push({ nome: nome.trim(), criadoEm: new Date().toISOString() });
-salvarCatalogo(cat);
-state.atividades[Number(t.dataset.eqCreate)].equipos.push({ equipamento: nome.trim(), horas: "" });
-renderAtividades();
-renderCatalogo();
-window.skipUI.toast("Equipo creado", { type: "success" });
-}
-}
-});
-
-document.querySelectorAll("[data-add]").forEach(b => b.addEventListener("click", () => {
-document.getElementById("form-" + b.dataset.add).classList.toggle("open");
-}));
-document.querySelectorAll("[data-save]").forEach(b => b.addEventListener("click", () => {
-const tipo = b.dataset.save;
-const input = document.getElementById("in-" + tipo);
-const nome = input.value.trim();
-if (!nome) return;
-const cat = catalogo();
-cat[tipo].push({ nome, criadoEm: new Date().toISOString() });
-salvarCatalogo(cat);
-input.value = "";
-document.getElementById("form-" + tipo).classList.remove("open");
-renderCatalogo();
-renderAtividades();
-window.skipUI.toast("Guardado", { type: "success" });
-}));
-document.getElementById("cat-funcoes-lista").addEventListener("click", e => catalogoDel(e));
-document.getElementById("cat-equipamentos-lista").addEventListener("click", e => catalogoDel(e));
-
-function catalogoDel(e) {
-const b = e.target.closest("[data-del]");
-if (!b) return;
-confirmar("Eliminar", "¿Seguro que desea eliminar este elemento?", () => {
-const cat = catalogo();
-cat[b.dataset.del].splice(Number(b.dataset.idx), 1);
-salvarCatalogo(cat);
-renderCatalogo();
-renderAtividades();
-window.skipUI.toast("Eliminado");
-});
-}
-
-document.getElementById("btn-novo-usuario").addEventListener("click", () => {
-document.getElementById("form-novo-usuario").classList.toggle("hidden");
-});
-document.getElementById("btn-criar-usuario").addEventListener("click", criarUsuario);
-
-document.getElementById("usuarios-lista").addEventListener("change", async e => {
-const s = e.target.closest("[data-role-uid]");
-if (!s) return;
-const uid = s.dataset.roleUid;
-if (uid === state.user.uid) return;
-const list = STORE.usuarios.get();
-const u = list.find(x => x.uid === uid);
-if (u) { u.papel = s.value; STORE.usuarios.set(list); }
-renderUsuarios();
-window.skipUI.toast("Papel actualizado", { type: "success" });
-});
-document.getElementById("usuarios-lista").addEventListener("click", e => {
-const b = e.target.closest("[data-del-user]");
-if (!b) return;
-const uid = b.dataset.delUser;
-if (uid === state.user.uid) return;
-confirmar("Eliminar acceso", "¿Eliminar el acceso de este usuario?", async () => {
-await backend.deleteUsuario(uid);
-renderUsuarios();
-window.skipUI.toast("Acceso eliminado");
-});
-});
-
-document.getElementById("dlg-ok").addEventListener("click", () => {
-const fn = state.pendingConfirm;
-state.pendingConfirm = null;
-document.getElementById("dlg-confirm").close();
-if (fn) fn();
-});
-
-document.getElementById("btn-salvar").addEventListener("click", () => {
-const r = lerFormulario();
-if (!r.obra && !r.proyecto) { window.skipUI.toast("Indique proyecto u obra", { type: "error" }); return; }
-const informes = STORE.informes.get();
-informes.unshift({
-id: "inf-" + Date.now(),
-data: r.data,
-proyecto: r.proyecto,
-obra: r.obra,
-autorEmail: state.user.email,
-autorNome: state.meuNome,
-texto: gerarTexto(r, "es"),
-criadoEm: new Date().toISOString()
-});
-STORE.informes.set(informes);
-renderHistorico();
-renderObras();
-window.skipUI.toast("Informe guardado", { type: "success" });
-});
-document.getElementById("btn-copiar").addEventListener("click", async () => {
-const txt = gerarTexto(lerFormulario(), state.lang);
-try { await navigator.clipboard.writeText(txt); window.skipUI.toast("Texto copiado", { type: "success" }); }
-catch (e) { window.skipUI.toast("No se pudo copiar", { type: "error" }); }
-});
-document.getElementById("btn-limpar").addEventListener("click", () => {
-["f-proyecto", "f-obra", "f-mo-total", "f-mo-detalhe", "f-eq-total", "f-eq-detalhe", "f-clima-m", "f-clima-t", "f-ocorrencias", "f-seguridad", "f-proximos"].forEach(id => document.getElementById(id).value = "");
-state.atividades = [];
-addAtividade();
-window.skipUI.toast("Formulario limpio");
-});
-
-document.getElementById("btn-lang-es").addEventListener("click", () => { state.lang = "es"; renderPreview(); });
-document.getElementById("btn-lang-pt").addEventListener("click", () => { state.lang = "pt"; renderPreview(); });
-}
-
-function limparCamposLogin() {
-var inEmail = document.getElementById("loginEmail");
-var inSenha = document.getElementById("loginSenha");
-if (inEmail) { inEmail.value = ""; }
-if (inSenha) { inSenha.value = ""; }
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-limparCamposLogin();
-setTimeout(limparCamposLogin, 0);
-setTimeout(limparCamposLogin, 400);
-setTimeout(limparCamposLogin, 1200);
-console.log("[login] tela exibida | firebase:", typeof firebase, "| auth:", typeof (window.firebase && firebase.auth));
-bind();
-const session = STORE.session.get();
-if (session && session.uid) {
-const uid = session.uid;
-const demo = UID_DEMO[uid];
-const email = demo ? demo.email : "";
-onAuthState({ uid, email });
-} else {
-mostrarTela("screen-login");
-}
-});
+  // ---------- Init ----------
+  document.addEventListener('DOMContentLoaded', function () {
+    document.documentElement.lang = lang === 'pt' ? 'pt-BR' : 'es';
+    document.getElementById('flagPE').classList.toggle('on', lang === 'es');
+    document.getElementById('flagBR').classList.toggle('on', lang === 'pt');
+    applyLang();
+    document.getElementById('loginSenha').value = '';
+    document.getElementById('loginEmail').value = '';
+    if (sessao && sessao.expira > Date.now()) aplicarAcesso();
+    else { sessao = null; localStorage.removeItem('iad_sessao_v90'); }
+  });
+  // expõe lista de equipos para edição inline
+  window.editAtiv = editAtiv;
+  window.equipoGeral = equipoGeral;
+  window.mo = mo;
+})();
 </script>
 </body>
 </html>
