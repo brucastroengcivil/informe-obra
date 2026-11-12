@@ -1,3 +1,4 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <!DOCTYPE html>
 <html lang="es" data-theme="light">
 <head>
@@ -6,7 +7,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>Informe de Avance de Obra · v9.8 · Alupar</title>
+<title>Informe de Avance de Obra · v10.0 · Alupar</title>
 <style>
 /* Skip artifact shell — fixed styles served beside every artifact.
    Tokens, utilities and components (basecoat 1.0 markup, no CDN); artifacts
@@ -1055,6 +1056,14 @@ body { background: var(--bg); }
 .badge-leitor { background: #f1f5f9; color: #334155; }
 .rodape-versao { text-align: center; font-size: 10px; color: #9AA5B1; padding: 14px 0 18px; letter-spacing: .3px; }
 .seal-erro { display: none; text-align: center; font-size: 11px; color: #991b1b; padding: 8px 0; }
+.lang-seg { display: inline-flex; border: 1px solid rgba(255,255,255,.5); border-radius: 999px; overflow: hidden; }
+.lang-seg button { background: transparent; color: #fff; border: 0; font: inherit; font-size: 12px; font-weight: 700; padding: 5px 12px; cursor: pointer; letter-spacing: .3px; }
+.lang-seg button.on { background: #fff; color: #004a99; }
+.login-card .lang-seg { border-color: #cbd5e1; }
+.login-card .lang-seg button { color: #334155; }
+.login-card .lang-seg button.on { background: #004a99; color: #fff; }
+.login-lang { position: absolute; top: 14px; right: 14px; }
+.sync-login { text-align: center; font-size: 11px; padding: 2px 0 0; color: #475569; }
 .lang-pill { display: inline-flex; align-items: center; gap: 4px; background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.4); color: #fff; font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 999px; cursor: pointer; font-family: inherit; }
 .lang-pill-menu { position: relative; }
 .lang-pill-pop { position: absolute; right: 0; top: 34px; background: #fff; color: #0f172a; border: 1px solid #cbd5e1; border-radius: 8px; padding: 4px; display: flex; flex-direction: column; gap: 2px; z-index: 50; min-width: 150px; }
@@ -1121,12 +1130,9 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
 <!-- LOGIN -->
 <section id="viewLogin" class="login-wrap">
   <div class="login-card">
-    <div class="flags lang-pill-menu">
-      <button type="button" class="lang-pill" id="pillLoginLang" aria-haspopup="true" aria-expanded="false" onclick="toggleLangMenu()"></button>
-      <div class="lang-pill-pop hide" id="loginLangPop">
-        <button type="button" onclick="setLang('es')" data-lang="es">🇵🇪 Español <span class="lang-check">✓</span></button>
-        <button type="button" onclick="setLang('pt')" data-lang="pt">🇧🇷 Português <span class="lang-check">✓</span></button>
-      </div>
+    <div class="login-lang lang-seg" role="group" aria-label="Idioma / Idioma">
+      <button type="button" onclick="setLang('es')" data-lang="es" aria-pressed="true">🇵🇪 ES</button>
+      <button type="button" onclick="setLang('pt')" data-lang="pt" aria-pressed="false">🇧🇷 PT</button>
     </div>
     <img src="alupar.png" alt="Alupar" class="logo-login" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="logo-login-fallback">ALUPAR</span>
     <h1 id="loginTitle">Informe de Avance de Obra</h1>
@@ -1144,7 +1150,8 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
       <button type="button" class="btn w-full" id="btnIngresar" onclick="return iadLogin()">Ingresar</button>
     </form>
     <p class="text-sm mt-3 text-center"><a href="#" onclick="event.preventDefault(); window.skipUI.toast(t('forgot'));" id="lnkForgot">Olvidé mi contraseña</a></p>
-    <div class="rodape-versao">v9.8</div>
+    <div class="sync-login" id="loginSync">☁️ …</div>
+    <div class="rodape-versao">v10.0</div>
     <div class="rodape-versao"><a href="#" onclick="event.preventDefault(); forcarAtualizacao();">Forzar actualización</a></div>
   </div>
 </section>
@@ -1156,16 +1163,13 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
       <div class="row items-center gap-2">
         <img class="brand-logo" src="alupar_branco.png" alt="Alupar">
         <div>
-        <div class="font-bold" id="appTitle">Informe de Avance de Obra · v9.8</div>
+        <div class="font-bold" id="appTitle">Informe de Avance de Obra · v10.0</div>
         </div>
       </div>
       <div class="row items-center gap-3">
-        <div class="lang-pill-menu">
-          <button type="button" class="lang-pill" id="pillAppLang" aria-haspopup="true" aria-expanded="false" onclick="toggleLangMenu()"></button>
-          <div class="lang-pill-pop hide" id="hLangPop">
-            <button type="button" onclick="setLang('es')" data-lang="es">🇵🇪 Español <span class="lang-check">✓</span></button>
-            <button type="button" onclick="setLang('pt')" data-lang="pt">🇧🇷 Português <span class="lang-check">✓</span></button>
-          </div>
+        <div class="lang-seg" role="group" aria-label="Idioma / Idioma">
+          <button type="button" onclick="setLang('es')" data-lang="es" aria-pressed="true">🇵🇪 ES</button>
+          <button type="button" onclick="setLang('pt')" data-lang="pt" aria-pressed="false">🇧🇷 PT</button>
         </div>
         <span id="syncBadge" class="text-xs" style="cursor:pointer;padding:4px 8px;border-radius:999px;background:rgba(255,255,255,.15);color:#fff" onclick="sincronizarTudo(true)">☁️ Sincronizando…</span>
         <span class="text-sm" id="userName"></span>
@@ -1422,7 +1426,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
 </div>
 
 <div class="seal-erro" id="sealErro" role="alert">Error de script</div>
-<div class="rodape-versao hide" id="diagAdmin">v9.8</div>
+<div class="rodape-versao hide" id="diagAdmin">v10.0</div>
 
 <script>
 (function () {
@@ -1455,7 +1459,14 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
       nenhumProjeto: 'Cree un proyecto y una obra en Admin.', semAtiv: 'Agrega la primera actividad del día.',
       sair: 'Cerrar sesión', subInicio: 'Avance diario por obra y proyecto.',
       subCatalogo: 'Cargos y equipos reutilizables en todos tus informes.',
-      subAdmin: 'Obras, proyectos y usuarios del equipo.'
+      subAdmin: 'Obras, proyectos y usuarios del equipo.',
+      sincOk: 'Sincronizado', sincConectando: 'Conectando…', sincLocal: 'Solo en este dispositivo (no sincroniza)',
+      sincErro: 'Sin conexión con la base',
+      semConexao: 'No se pudo conectar con la base de datos. Verifique su conexión e intente de nuevo.',
+      salvarErro: 'No se pudo guardar: ', usuarioRemovido: 'Su usuario fue eliminado.',
+      semNome: '(sin nombre)', conectandoAguarde: 'Conectando con la base de datos… intente en unos segundos.',
+      migrado: 'Datos de este dispositivo incorporados a la base compartida: ', agregado: 'Agregado',
+      lidas: 'Actividades', nomeadas: 'con nombre'
     },
     pt: {
       forgot: 'Contate o administrador para redefinir sua senha.',
@@ -1482,28 +1493,40 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
       nenhumProjeto: 'Crie um projeto e uma obra em Admin.', semAtiv: 'Adicione a primeira atividade do dia.',
       sair: 'Sair da conta', subInicio: 'Avanço diário por obra e projeto.',
       subCatalogo: 'Cargos e equipamentos reutilizáveis em todos os relatórios.',
-      subAdmin: 'Obras, projetos e usuários da equipe.'
+      subAdmin: 'Obras, projetos e usuários da equipe.',
+      sincOk: 'Sincronizado', sincConectando: 'Conectando…', sincLocal: 'Somente neste aparelho (não sincroniza)',
+      sincErro: 'Sem conexão com o banco',
+      semConexao: 'Não foi possível conectar ao banco de dados. Verifique a conexão e tente novamente.',
+      salvarErro: 'Não foi possível salvar: ', usuarioRemovido: 'Seu usuário foi excluído.',
+      semNome: '(sem nome)', conectandoAguarde: 'Conectando ao banco de dados… tente em alguns segundos.',
+      migrado: 'Dados deste aparelho incorporados ao banco compartilhado: ', agregado: 'Adicionado',
+      lidas: 'Atividades', nomeadas: 'com nome'
     }
   };
-  var APP_VERSION = "9.7";
+  var APP_VERSION = "10.0";
   var IDIOMA_PADRAO = "es";
+
+  function lsGet(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+  function lsSet(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+  function lsDel(k) { try { localStorage.removeItem(k); } catch (e) {} }
+
   (function () {
     if ("serviceWorker" in navigator) {
       navigator.serviceWorker.getRegistrations().then(function (regs) {
         regs.forEach(function (r) { r.unregister(); });
-      });
+      }).catch(function () {});
       if (window.caches && caches.keys) {
         caches.keys().then(function (ks) { ks.forEach(function (k) { caches.delete(k); }); });
       }
     }
-    var prevVer = localStorage.getItem('iad_ver');
-    if (prevVer !== APP_VERSION) {
+    if (lsGet('iad_ver') !== APP_VERSION) {
       if (window.caches && caches.keys) caches.keys().then(function (ks) { ks.forEach(function (k) { caches.delete(k); }); });
-      localStorage.setItem('iad_ver', APP_VERSION);
+      lsSet('iad_ver', APP_VERSION);
     }
-    if (!localStorage.getItem('iad_lang_reset_v97')) {
-      localStorage.setItem('iad_lang', 'es');
-      localStorage.setItem('iad_lang_reset_v97', '1');
+    // v10: idioma padrão = ES (uma única vez por aparelho)
+    if (!lsGet('iad_lang_reset_v100')) {
+      lsSet('iad_lang', 'es');
+      lsSet('iad_lang_reset_v100', '1');
     }
     if (window.location.search.indexOf('u=') !== -1 && window.history && history.replaceState) {
       history.replaceState(null, '', window.location.pathname);
@@ -1519,26 +1542,224 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
       }).then(go, go);
     } else { go(); }
   };
-  var lang = (function () { var l = localStorage.getItem('iad_lang'); return (l === 'pt' || l === 'es') ? l : IDIOMA_PADRAO; })();
+  var lang = (function () { var l = lsGet('iad_lang'); return (l === 'pt' || l === 'es') ? l : IDIOMA_PADRAO; })();
   function t(k) { return (DICT[lang] && DICT[lang][k]) || DICT.es[k] || k; }
-  window.addEventListener('error', function () { document.getElementById('sealErro').style.display = 'block'; });
+  window.addEventListener('error', function () { var s = document.getElementById('sealErro'); if (s) s.style.display = 'block'; });
 
   var UNIDADES = ['m³', 'm²', 'ml', 'un', 'kg', 't'];
   var PAPEIS = ['admin', 'editor', 'leitor'];
   var ADMIN_EMAILS = ['balvernaz@alupar.com.pe', 'admin@alupar.com.pe'];
+  var LS_DB = 'iad_db_v90';          // banco local antigo (só usado como fallback e para migração)
+  var LS_SESSAO = 'iad_sessao_v90';  // sessão (login) é por aparelho, de propósito
 
-  // ---------- Estado (localStorage) ----------
   function load(key, def) {
     try { var v = JSON.parse(localStorage.getItem(key)); return v === null ? def : v; } catch (e) { return def; }
   }
-  function save(key, v) { localStorage.setItem(key, JSON.stringify(v)); }
+  function save(key, v) { try { localStorage.setItem(key, JSON.stringify(v)); } catch (e) {} }
+  function uid() { return 'id' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
+  function clone(o) { return JSON.parse(JSON.stringify(o)); }
+  function norm(s) { return String(s || '').trim().toLowerCase(); }
+  function idPorNome(pref, nome) {
+    var s = norm(nome), h = 5381;
+    for (var i = 0; i < s.length; i++) h = ((h * 33) ^ s.charCodeAt(i)) >>> 0;
+    return pref + h.toString(36);
+  }
+  function ehAdminMail(e) { return ADMIN_EMAILS.indexOf(e) !== -1; }
 
-  var sessao = load('iad_sessao_v90', null);
-  var db = load('iad_db_v90', { usuarios: [], informes: [], projetos: [], obras: [], catalogos: { funcoes: [], equipamentos: [] } });
-  var seq = 0;
-  if (!Array.isArray(db.projetos)) db.projetos = [];
-  if (!Array.isArray(db.obras)) db.obras = [];
-  db.projetos = db.projetos.map(function (p) { return typeof p === 'string' ? { id: uid(), nome: p } : p; });
+  // =====================================================================
+  //  BANCO ÚNICO (capability db do artefato) — tempo real entre aparelhos
+  // =====================================================================
+  function vazio() { return { usuarios: [], informes: [], projetos: [], obras: [], catalogos: { funcoes: [], equipamentos: [] } }; }
+  var COLS = { usuarios: 'usuarios', informes: 'informes', projetos: 'projetos', obras: 'obras', funcoes: 'cat_funcoes', equipamentos: 'cat_equipamentos' };
+  var sessao = load(LS_SESSAO, null);
+  var db = vazio();
+  function getArr(k) { return (k === 'funcoes' || k === 'equipamentos') ? db.catalogos[k] : db[k]; }
+  function setArr(k, v) { if (k === 'funcoes' || k === 'equipamentos') db.catalogos[k] = v; else db[k] = v; }
+
+  var modo = 'conectando';   // 'conectando' | 'nuvem' | 'local'
+  var remoto = null, carregado = {}, erroDb = null, semResposta = false, ultimaSync = 0;
+  var esperas = [], filas = {}, migrado = false;
+
+  function todosCarregados() { return Object.keys(COLS).every(function (k) { return carregado[k]; }); }
+  function pronto() { return modo === 'local' || (modo === 'nuvem' && !!carregado.usuarios); }
+  function liberarEsperas() { esperas.forEach(function (f) { if (pronto()) f(); }); esperas = esperas.filter(function () { return !pronto(); }); }
+  function esperarPronto(ms) {
+    return new Promise(function (res) {
+      if (pronto()) return res();
+      var feito = false;
+      function fim() { if (!feito) { feito = true; res(); } }
+      esperas.push(fim); setTimeout(fim, ms);
+    });
+  }
+
+  function carregarLegado() {
+    var d = load(LS_DB, null), out = vazio();
+    if (!d || typeof d !== 'object') return out;
+    ['usuarios', 'informes', 'obras'].forEach(function (k) { if (Array.isArray(d[k])) out[k] = d[k].filter(function (x) { return x && x.id; }); });
+    out.projetos = (Array.isArray(d.projetos) ? d.projetos : []).map(function (p) {
+      return typeof p === 'string' ? { id: idPorNome('p', p), nome: p } : p;
+    }).filter(function (p) { return p && p.id && p.nome; });
+    ['funcoes', 'equipamentos'].forEach(function (k) {
+      var a = d.catalogos && Array.isArray(d.catalogos[k]) ? d.catalogos[k] : [];
+      out.catalogos[k] = a.map(function (x) { return typeof x === 'string' ? { nome: x } : x; })
+        .filter(function (x) { return x && x.nome; })
+        .map(function (x) { if (!x.id) x.id = idPorNome('c' + k.charAt(0), x.nome); return x; });
+    });
+    return out;
+  }
+
+  function iniciarBanco() {
+    if (!(window.claude && typeof window.claude.use === 'function')) { entrarLocal(); return; }
+    window.claude.use('db').then(function (d) {
+      if (!d) { entrarLocal(); return; }
+      remoto = d; modo = 'nuvem'; assinar(); atualizarBadge();
+    }, function () { entrarLocal(); });
+  }
+  function entrarLocal() {
+    modo = 'local'; db = carregarLegado(); liberarEsperas(); atualizarBadge(); agendarRender();
+  }
+  function assinar() {
+    setTimeout(function () { if (!todosCarregados()) { semResposta = true; atualizarBadge(); } }, 10000);
+    Object.keys(COLS).forEach(function (k) {
+      var primeiro = true;
+      try {
+        remoto.collection(COLS[k]).onSnapshot(function (snap) {
+          var arr = snap.docs.map(function (d) { var o = clone(d.data() || {}); o.id = d.id; return o; });
+          arr.sort(function (a, b) {
+            return String(a.criadoEm || '').localeCompare(String(b.criadoEm || '')) || String(a.id).localeCompare(String(b.id));
+          });
+          setArr(k, arr);
+          function marcar() { if (!carregado[k]) { carregado[k] = true; ultimaSync = Date.now(); liberarEsperas(); verificarMigracao(); agendarRender(); } }
+          if (!snap.metadata.fromCache) { carregado[k] = true; semResposta = false; }
+          else if (primeiro) setTimeout(marcar, 4000);   // base ainda vazia/sem resposta definitiva
+          primeiro = false;
+          if (!snap.metadata.fromCache) ultimaSync = Date.now();
+          liberarEsperas(); agendarRender(); verificarMigracao();
+        }, function (e) { erroDb = e; atualizarBadge(); });
+      } catch (e) { erroDb = e; }
+    });
+  }
+
+  function limpar(o) { return JSON.parse(JSON.stringify(o)); }
+  function enfileirar(path, fn) {
+    var p = (filas[path] || Promise.resolve()).then(fn);
+    filas[path] = p.catch(function () {});
+    return p;
+  }
+  function falhaEscrita(e) {
+    window.skipUI.toast(t('salvarErro') + (e && e.message ? e.message : e), { type: 'error' });
+  }
+  function podeEscrever() {
+    if (modo === 'conectando') { window.skipUI.toast(t('conectandoAguarde'), { type: 'error' }); return false; }
+    return true;
+  }
+  function gravar(k, obj) {
+    if (!podeEscrever()) return false;
+    var arr = getArr(k), idx = -1;
+    for (var i = 0; i < arr.length; i++) if (arr[i].id === obj.id) { idx = i; break; }
+    if (idx >= 0) arr[idx] = obj; else arr.push(obj);
+    if (modo === 'nuvem') {
+      var path = COLS[k] + '/' + obj.id;
+      enfileirar(path, function () { return remoto.doc(path).set(limpar(obj)); }).catch(falhaEscrita);
+    } else save(LS_DB, db);
+    return true;
+  }
+  function remover(k, id) {
+    if (!podeEscrever()) return false;
+    setArr(k, getArr(k).filter(function (x) { return x.id !== id; }));
+    if (modo === 'nuvem') {
+      var path = COLS[k] + '/' + id;
+      enfileirar(path, function () { return remoto.doc(path).delete(); }).catch(falhaEscrita);
+    } else save(LS_DB, db);
+    return true;
+  }
+
+  // Traz para o banco compartilhado o que já existia só neste aparelho (uma vez por aparelho)
+  function verificarMigracao() {
+    if (migrado || modo !== 'nuvem' || !todosCarregados()) return;
+    migrado = true;
+    if (lsGet('iad_mig_v100')) return;
+    var leg = carregarLegado(), ops = [], mapP = {}, mapO = {};
+    leg.projetos.forEach(function (p) {
+      var ex = db.projetos.filter(function (x) { return norm(x.nome) === norm(p.nome); })[0];
+      if (ex) { mapP[p.id] = ex.id; return; }
+      mapP[p.id] = p.id;
+      if (!db.projetos.some(function (x) { return x.id === p.id; })) ops.push(['projetos', p]);
+    });
+    leg.obras.forEach(function (o) {
+      var pid = mapP[o.projetoId] || o.projetoId;
+      var ex = db.obras.filter(function (x) { return x.projetoId === pid && norm(x.nome) === norm(o.nome); })[0];
+      if (ex) { mapO[o.id] = ex.id; return; }
+      mapO[o.id] = o.id;
+      if (db.obras.some(function (x) { return x.id === o.id; })) return;
+      var n = clone(o); n.projetoId = pid; ops.push(['obras', n]);
+    });
+    ['funcoes', 'equipamentos'].forEach(function (k) {
+      leg.catalogos[k].forEach(function (c) {
+        if (db.catalogos[k].some(function (x) { return x.id === c.id || norm(x.nome) === norm(c.nome); })) return;
+        ops.push([k, c]);
+      });
+    });
+    leg.usuarios.forEach(function (u) {
+      if (db.usuarios.some(function (x) { return x.id === u.id || x.email === u.email; })) return;
+      var n = clone(u);
+      n.projetos = (n.projetos || []).map(function (id) { return mapP[id] || id; });
+      n.obras = (n.obras || []).map(function (id) { return mapO[id] || id; });
+      ops.push(['usuarios', n]);
+    });
+    leg.informes.forEach(function (i) {
+      if (db.informes.some(function (x) { return x.id === i.id; })) return;
+      var n = clone(i);
+      if (n.projetoId) n.projetoId = mapP[n.projetoId] || n.projetoId;
+      if (n.obraId) n.obraId = mapO[n.obraId] || n.obraId;
+      ops.push(['informes', n]);
+    });
+    Promise.all(ops.map(function (op) {
+      var path = COLS[op[0]] + '/' + op[1].id;
+      return enfileirar(path, function () { return remoto.doc(path).set(limpar(op[1])); });
+    })).then(function () {
+      lsSet('iad_mig_v100', '1');
+      if (ops.length) window.skipUI.toast(t('migrado') + ops.length, { type: 'success' });
+    }, function () { /* tenta de novo na próxima abertura */ });
+  }
+
+  // ---------- Atualização automática da tela quando chegam dados ----------
+  var tRender = null;
+  function agendarRender() {
+    if (tRender) return;
+    tRender = setTimeout(function () { tRender = null; renderDados(); }, 60);
+  }
+  function visivel(id) { var e = document.getElementById(id); return !!e && !e.classList.contains('hide'); }
+  function renderDados() {
+    atualizarBadge();
+    var diag = document.getElementById('diagAdmin');
+    if (diag) diag.textContent = 'v10.0 · ' + modo + ' · proyectos: ' + db.projetos.length + ' · obras: ' + db.obras.length + ' · usuarios: ' + db.usuarios.length + ' · informes: ' + db.informes.length;
+    if (!sessao) return;
+    refreshSessao();
+    if (!sessao) return;
+    if (visivel('vInicio')) renderInformes();
+    if (visivel('vCatalogo')) renderCatalogo();
+    if (visivel('vAdmin')) renderAdmin();
+    if (visivel('vNovo')) atualizarOpcoesEditor();
+  }
+  function atualizarBadge() {
+    var b = document.getElementById('syncBadge'), l = document.getElementById('loginSync');
+    var txt, ruim = false;
+    if (modo === 'local') { txt = '⚠️ ' + t('sincLocal'); ruim = true; }
+    else if (modo === 'conectando') txt = '☁️ ' + t('sincConectando');
+    else if (erroDb || (semResposta && !todosCarregados())) { txt = '⚠️ ' + t('sincErro'); ruim = true; }
+    else if (todosCarregados()) txt = '☁️ ' + t('sincOk') + ' ' + new Date(ultimaSync || Date.now()).toLocaleTimeString();
+    else txt = '☁️ ' + t('sincConectando');
+    if (b) { b.textContent = txt; b.style.background = ruim ? '#b91c1c' : 'rgba(255,255,255,.15)'; }
+    if (l) { l.textContent = txt; l.style.color = ruim ? '#991b1b' : '#475569'; }
+  }
+  window.sincronizarTudo = function (force) {
+    renderDados();
+    if (force) window.skipUI.toast(t('sincOk') + ' · ' + (modo === 'nuvem' ? '☁️' : '⚠️ local'), { type: modo === 'nuvem' ? 'success' : 'error' });
+    return Promise.resolve();
+  };
+
+  // ---------- Estado de edição ----------
   var filtro = 'todos';
   var editAtiv = [];   // atividades em edição
   var equipoGeral = [];
@@ -1546,11 +1767,10 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
   var editId = null;
   var ultimoTexto = '';
 
-  function persist() { save('iad_db_v90', db); }
-  function fsFetchNotice(e) { window.skipUI.toast('No se pudo guardar: ' + (e && e.message ? e.message : e), { type: 'error' }); }
-  function uid() { return 'id' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
+  function achaUsuario(email) { return db.usuarios.filter(function (u) { return u.email === email; })[0]; }
 
-  // ---------- Login (mock) ----------
+  // ---------- Login ----------
+  var logando = false;
   window.iadLogin = function () {
     var email = document.getElementById('loginEmail').value.trim().toLowerCase();
     var senha = document.getElementById('loginSenha').value;
@@ -1558,28 +1778,30 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
     var btn = document.getElementById('btnIngresar');
     erro.classList.add('hide');
     if (!email || !senha) { erro.textContent = t('erroLogin'); erro.classList.remove('hide'); return false; }
-    btn.disabled = true; btn.textContent = '...';
-    setTimeout(function () {
-      var usr = db.usuarios.filter(function (u) { return u.email === email; })[0];
-      var ok = ADMIN_EMAILS.indexOf(email) !== -1 || usr;
-      btn.disabled = false; btn.textContent = t('login');
-      if (!ok || senha.length < 4) {
-        erro.textContent = t('credenciais'); erro.classList.remove('hide'); return;
+    if (logando) return false;
+    logando = true; btn.disabled = true; btn.textContent = '...';
+    var espera = ehAdminMail(email) ? Promise.resolve() : esperarPronto(9000);
+    espera.then(function () {
+      logando = false; btn.disabled = false; btn.textContent = t('login');
+      var usr = achaUsuario(email);
+      var isAdminMail = ehAdminMail(email);
+      if (!isAdminMail && !usr) {
+        erro.textContent = (modo !== 'local' && !carregado.usuarios) ? t('semConexao') : t('credenciais');
+        erro.classList.remove('hide'); return;
       }
-      var papel = ADMIN_EMAILS.indexOf(email) !== -1 ? 'admin' : (usr.papel || 'leitor');
-      var isAdminMail = ADMIN_EMAILS.indexOf(email) !== -1;
+      if (senha.length < 4) { erro.textContent = t('credenciais'); erro.classList.remove('hide'); return; }
+      var papel = isAdminMail ? 'admin' : (usr.papel || 'leitor');
       var nome = isAdminMail ? 'Bruno Alvernaz' : usr.nome;
       sessao = { uid: usr ? usr.id : 'adm-' + email, email: email, nome: nome, papel: papel, permissoes: permsDe(usr, papel, isAdminMail), expira: Date.now() + 3600000 };
-      save('iad_sessao_v90', sessao);
+      save(LS_SESSAO, sessao);
       aplicarAcesso();
-    }, 400);
+    });
     return false;
   };
 
   window.logout = function () {
-    localStorage.removeItem('iad_sessao_v90');
+    lsDel(LS_SESSAO);
     sessao = null;
-    clearInterval(syncTimer);
     document.getElementById('viewApp').classList.add('hide');
     document.getElementById('viewLogin').classList.remove('hide');
     document.getElementById('loginSenha').value = '';
@@ -1592,6 +1814,26 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
     document.getElementById('userName').textContent = sessao.nome + ' · ' + sessao.papel;
     aplicarPermissoes();
     go('inicio');
+  }
+
+  // Mantém papel/permissões da sessão em dia com o que o admin alterou em outro aparelho
+  function refreshSessao() {
+    if (!sessao || ehAdminMail(sessao.email)) return;
+    if (!pronto()) return;
+    var u = achaUsuario(sessao.email);
+    if (!u) {
+      window.skipUI.toast(t('usuarioRemovido'), { type: 'error' });
+      window.logout(); return;
+    }
+    var perms = permsDe(u, u.papel, false);
+    var papel = u.papel || 'leitor';
+    if (papel !== sessao.papel || u.nome !== sessao.nome || JSON.stringify(perms) !== JSON.stringify(sessao.permissoes)) {
+      sessao.papel = papel; sessao.nome = u.nome; sessao.permissoes = perms;
+      save(LS_SESSAO, sessao);
+      document.getElementById('userName').textContent = sessao.nome + ' · ' + sessao.papel;
+      aplicarPermissoes();
+      if ((visivel('vAdmin') && papel !== 'admin') || (visivel('vCatalogo') && !temPerm('gerir_catalogo'))) go('inicio');
+    }
   }
 
   var PERM_KEYS = ['ver_informes', 'criar_informes', 'editar_informes', 'gerir_catalogo', 'gerir_obras', 'gerir_usuarios'];
@@ -1612,7 +1854,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
   }
   function temPerm(p) {
     if (!sessao) return false;
-    if (sessao.papel === 'admin' && sessao.email && ADMIN_EMAILS.indexOf(sessao.email) !== -1) return true;
+    if (sessao.papel === 'admin' && sessao.email && ehAdminMail(sessao.email)) return true;
     return (sessao.permissoes || []).indexOf(p) !== -1;
   }
 
@@ -1657,28 +1899,15 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
     msg.classList.toggle('hide', podeVer);
   }
 
-  // ---------- Idioma ----------
-  window.sincronizarTudo = function (force) {
-    var badge = document.getElementById('syncBadge');
-    if (badge) badge.textContent = '☁️ Sincronizando…';
-    var stamp = Date.now();
-    if (badge) badge.textContent = '☁️ Sincronizado ' + new Date(stamp).toLocaleTimeString();
-    var diag = document.getElementById('diagAdmin');
-    if (diag) diag.textContent = 'v9.8 · proyectos: ' + db.projetos.length + ' · obras: ' + db.obras.length + ' · usuarios: ' + db.usuarios.length + ' · informes: ' + db.informes.length + ' · última lectura: ' + new Date(stamp).toLocaleTimeString();
-    return Promise.resolve();
-  };
-  window.addEventListener('focus', function () { window.sincronizarTudo(); });
-  document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'visible') window.sincronizarTudo(); });
-  var syncTimer = setInterval(function () { if (document.visibilityState === 'visible') window.sincronizarTudo(); }, 5000);
-
+  // ---------- Idioma (ES | PT) ----------
   window.setLang = function (l) {
-    lang = l; localStorage.setItem('iad_lang', l);
+    lang = l; lsSet('iad_lang', l);
     document.documentElement.lang = l === 'pt' ? 'pt-BR' : 'es';
-    document.getElementById('hLangPop').classList.add('hide');
-    document.getElementById('loginLangPop').classList.add('hide');
     syncHeaderFlags();
     applyLang();
+    atualizarBadge();
     renderAll();
+    if (visivel('vDetalhe') && editId) window.verInforme(editId);
   };
 
   function applyLang() {
@@ -1725,9 +1954,9 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
     var items = db.informes.filter(function (i) {
       if (scope && scope.obras.indexOf(i.obraId) === -1 && scope.projetos.indexOf(i.projetoId) === -1) return false;
       if (filtro === 'mios' && i.autorEmail !== (sessao && sessao.email)) return false;
-      var txt = (i.obra + ' ' + i.projeto).toLowerCase();
+      var txt = ((i.obra || '') + ' ' + (i.projeto || '')).toLowerCase();
       return !q || txt.indexOf(q) !== -1;
-    }).slice().sort(function (a, b) { return b.data.localeCompare(a.data); });
+    }).slice().sort(function (a, b) { return String(b.data || '').localeCompare(String(a.data || '')); });
     document.getElementById('pillInf').textContent = db.informes.length + ' ' + (lang === 'pt' ? 'relatórios' : 'informes');
     document.getElementById('vazioInformes').classList.toggle('hide', items.length > 0);
     lista.innerHTML = items.map(function (i) {
@@ -1754,7 +1983,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
     document.getElementById('detTitulo').textContent = inf.obra;
     document.getElementById('detSub').textContent = inf.projeto + ' · ' + inf.data;
     document.getElementById('detAvance').textContent = avanceMedio(inf) + '%';
-    var txt = gerarTexto(inf);
+    var txt = compor(inf);
     ultimoTexto = txt;
     document.getElementById('detTexto').textContent = txt;
     go('detalhe');
@@ -1768,7 +1997,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
       btns.forEach(function (b) {
         var orig = b.getAttribute('data-orig') || b.textContent;
         b.setAttribute('data-orig', orig);
-        b.textContent = '✓ ' + (lang === 'pt' ? 'Copiado' : 'Copiado');
+        b.textContent = '✓ Copiado';
         setTimeout(function () { b.textContent = orig; }, 2000);
       });
     }
@@ -1796,26 +2025,19 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
     if (!navigator.share) return;
     navigator.share({ text: txt }).catch(function (e) { if (e && e.name !== 'AbortError') window.skipUI.toast(lang === 'pt' ? 'Erro ao compartilhar' : 'Error al compartir', { type: 'error' }); });
   };
-  window.toggleLangMenu = function () {
-    var open = document.getElementById('hLangPop').classList.contains('hide');
-    document.getElementById('hLangPop').classList.toggle('hide', !open);
-    document.getElementById('loginLangPop').classList.toggle('hide', !open);
-    document.querySelectorAll('.lang-pill').forEach(function (b) { b.setAttribute('aria-expanded', String(open)); });
-  };
   function syncHeaderFlags() {
-    var label = lang === 'pt' ? '🇧🇷 PT' : '🇵🇪 ES';
-    document.getElementById('pillAppLang').textContent = label;
-    document.getElementById('pillLoginLang').textContent = label;
-    document.getElementById('pillAppLang').setAttribute('aria-label', lang === 'pt' ? 'Idioma: Português' : 'Idioma: Español');
-    document.getElementById('pillLoginLang').setAttribute('aria-label', lang === 'pt' ? 'Idioma: Português' : 'Idioma: Español');
-    document.querySelectorAll('.lang-pill-pop [data-lang]').forEach(function (b) {
-      b.querySelector('.lang-check').style.visibility = b.getAttribute('data-lang') === lang ? 'visible' : 'hidden';
+    document.querySelectorAll('.lang-seg [data-lang]').forEach(function (b) {
+      var on = b.getAttribute('data-lang') === lang;
+      b.classList.toggle('on', on);
+      b.setAttribute('aria-pressed', String(on));
     });
     var sh = document.getElementById('btnCompartirA');
     if (sh) sh.style.display = navigator.share ? '' : 'none';
     var shb = document.getElementById('btnCompartirB');
     if (shb) shb.style.display = navigator.share ? '' : 'none';
   }
+
+  // ---------- Alcance (obras/proyectos permitidos) ----------
   window.setScopeMode = function (name, mode) {
     document.getElementById('uScopeBox').classList.toggle('hide', mode !== 'sel');
   };
@@ -1825,6 +2047,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
   function renderScopeLists(projId, obraId, projetosSel, obrasSel) {
     var pl = document.getElementById(projId);
     var ol = document.getElementById(obraId);
+    if (!pl || !ol) return;
     if (!db.projetos.length) pl.innerHTML = '<p class="muted text-xs">No hay proyectos registrados. Cree uno en Admin.</p>';
     else pl.innerHTML = db.projetos.map(function (p) {
       return '<label><input type="checkbox" value="' + p.id + '"' + (projetosSel.indexOf(p.id) !== -1 ? ' checked' : '') + '> ' + esc(p.nome) + '</label>';
@@ -1848,9 +2071,8 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
     return { projetos: Array.isArray(u.projetos) ? u.projetos : [], obras: Array.isArray(u.obras) ? u.obras : [] };
   }
   function scopeAtual() {
-    if (!sessao || sessao.email && ADMIN_EMAILS.indexOf(sessao.email) !== -1) return null;
-    var u = db.usuarios.filter(function (x) { return x.email === sessao.email; })[0];
-    return userScope(u);
+    if (!sessao || (sessao.email && ehAdminMail(sessao.email))) return null;
+    return userScope(achaUsuario(sessao.email));
   }
 
   // ---------- Catálogo ----------
@@ -1861,32 +2083,43 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
   function renderCatList(elId, arr, key, vazio) {
     var el = document.getElementById(elId);
     if (!arr.length) { el.innerHTML = '<p class="muted text-sm">' + vazio + '</p>'; return; }
-    el.innerHTML = arr.map(function (x, idx) {
+    el.innerHTML = arr.map(function (x) {
       return '<div class="list-item"><span>' + esc(x.nome) + '</span>' +
-        '<button class="btn" data-variant="ghost" data-size="sm" aria-label="' + t('excluir') + '" onclick="removeCat(\'' + key + '\',' + idx + ')">✕</button></div>';
+        '<button class="btn" data-variant="ghost" data-size="sm" aria-label="' + t('excluir') + '" onclick="removeCat(\'' + key + '\',\'' + x.id + '\')">✕</button></div>';
     }).join('');
+  }
+  // devolve o item (novo ou já existente com o mesmo nome)
+  function addCatalogo(key, nome) {
+    nome = String(nome || '').trim();
+    if (!nome) return null;
+    var ex = getArr(key).filter(function (x) { return norm(x.nome) === norm(nome); })[0];
+    if (ex) return ex;
+    var item = { id: idPorNome('c' + key.charAt(0), nome), nome: nome, criadoEm: new Date().toISOString() };
+    return gravar(key, item) ? item : null;
   }
   window.addCatItem = function (key, inputId) {
     var inp = document.getElementById(inputId);
-    var nome = inp.value.trim();
-    if (!nome) return;
-    db.catalogos[key].push({ nome: nome, criadoEm: new Date().toISOString() });
-    persist(); inp.value = '';
+    if (!inp.value.trim()) return;
+    if (!addCatalogo(key, inp.value)) return;
+    inp.value = '';
     renderAll();
-    window.skipUI.toast(lang === 'pt' ? 'Adicionado' : 'Agregado', { type: 'success' });
+    window.skipUI.toast(t('agregado'), { type: 'success' });
   };
-  window.removeCat = function (key, idx) {
+  window.removeCat = function (key, id) {
     if (!confirm(t('removerConf'))) return;
-    db.catalogos[key].splice(idx, 1); persist(); renderAll();
+    remover(key, id); renderAll();
   };
 
   // ---------- Admin ----------
+  var adminPendente = false;
   function renderAdmin() {
     renderProjetosObras();
-
     var u = document.getElementById('listaUsuarios');
-    if (!db.usuarios.length) { u.innerHTML = '<p class="muted text-sm">—</p>'; return; }
+    // não redesenha a lista de usuários enquanto um painel de permisos está aberto (evita perder o que está sendo marcado)
+    if (u.querySelector('.perm-panel:not(.hide)')) { adminPendente = true; return; }
+    adminPendente = false;
     var isAdmin = sessao && sessao.papel === 'admin';
+    if (!db.usuarios.length) { u.innerHTML = '<p class="muted text-sm">—</p>'; return; }
     u.innerHTML = db.usuarios.map(function (x) {
       var selectHtml = '<select class="input" style="width:auto" onchange="mudarPapel(\'' + x.id + '\',this.value)">' +
         PAPEIS.map(function (p) { return '<option value="' + p + '"' + (x.papel === p ? ' selected' : '') + '>' + p + '</option>'; }).join('') +
@@ -1896,14 +2129,14 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
       var scopeTxt = x.acessoTotal === false ? ('· ' + (x.projetos || []).length + ' proy. / ' + (x.obras || []).length + ' obras') : '· Todos';
       var permTxt = perms.length ? perms.map(function (k) { return PERM_LABELS[k]; }).join(' · ') : t('semPermNada');
       return '<div class="list-item"><div><strong>' + esc(x.nome) + '</strong><div class="text-xs muted">' + esc(x.email) + '</div>' +
-        '<span class="badge badge-' + x.papel + '">' + x.papel + '</span><div class="perm-list">' + esc(permTxt) + '</div>' +
+        '<span class="badge badge-' + esc(x.papel) + '">' + esc(x.papel) + '</span><div class="perm-list">' + esc(permTxt) + '</div>' +
         '<div class="perm-panel hide" id="pp-' + x.id + '"><div class="perm-grid">' +
         PERM_KEYS.map(function (k) {
           return '<label><input type="checkbox" class="pp-' + x.id + '" value="' + k + '"' + (perms.indexOf(k) !== -1 ? ' checked' : '') + '> ' + PERM_LABELS[k] + '</label>';
         }).join('') +
         '</div>' +
         '<div class="perm-scope"><div class="text-sm font-semibold">Obras y proyectos permitidos</div><div class="text-xs muted">' + esc(scopeTxt) + '</div>' +
-        '<div class="row gap-3 mt-2"><label class="text-sm"><input type="radio" name="sc-' + x.id + '" value="todos"' + (x.acessoTotal !== false ? ' checked' : '') + ' onchange="setScopeMode(\'sc-' + x.id + '\',\'todos\');document.getElementById(\'sb-' + x.id + '\').classList.add(\'hide\')"> Todos</label>' +
+        '<div class="row gap-3 mt-2"><label class="text-sm"><input type="radio" name="sc-' + x.id + '" value="todos"' + (x.acessoTotal !== false ? ' checked' : '') + ' onchange="document.getElementById(\'sb-' + x.id + '\').classList.add(\'hide\')"> Todos</label>' +
         '<label class="text-sm"><input type="radio" name="sc-' + x.id + '" value="sel"' + (x.acessoTotal === false ? ' checked' : '') + ' onchange="document.getElementById(\'sb-' + x.id + '\').classList.remove(\'hide\')"> Seleccionar</label></div>' +
         '<div id="sb-' + x.id + '" class="' + (x.acessoTotal === false ? '' : 'hide') + '"><div class="perm-scope-tools"><button type="button" class="btn" data-variant="ghost" data-size="sm" onclick="scopeAll(\'sp-' + x.id + '\',true)">Selecionar todos</button><button type="button" class="btn" data-variant="ghost" data-size="sm" onclick="scopeAll(\'sp-' + x.id + '\',false)">Limpiar</button></div><div class="perm-scope-list" id="sp-' + x.id + '"></div>' +
         '<div class="perm-scope-tools"><button type="button" class="btn" data-variant="ghost" data-size="sm" onclick="scopeAll(\'so-' + x.id + '\',true)">Selecionar todos</button><button type="button" class="btn" data-variant="ghost" data-size="sm" onclick="scopeAll(\'so-' + x.id + '\',false)">Limpiar</button></div><div class="perm-scope-list" id="so-' + x.id + '"></div></div></div>' +
@@ -1914,18 +2147,29 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
     if (!isAdmin) u.innerHTML = '';
   }
   window.togglePerms = function (id) {
-    document.getElementById('pp-' + id).classList.toggle('hide');
+    var p = document.getElementById('pp-' + id);
+    if (!p) return;
+    var abrir = p.classList.contains('hide');
+    p.classList.toggle('hide');
+    if (abrir) {
+      var usr = db.usuarios.filter(function (x) { return x.id === id; })[0] || {};
+      renderScopeLists('sp-' + id, 'so-' + id, usr.projetos || [], usr.obras || []);
+    } else if (adminPendente) renderAdmin();
   };
   window.guardarPermisos = function (id) {
     var u = db.usuarios.filter(function (x) { return x.id === id; })[0];
     if (!u) return;
     var marcadas = [];
     document.querySelectorAll('.pp-' + id).forEach(function (c) { if (c.checked) marcadas.push(c.value); });
-    u.permissoes = marcadas;
-    u.acessoTotal = document.querySelector('input[name="sc-' + id + '"]:checked').value === 'todos';
-    u.projetos = u.acessoTotal ? [] : checkedIds('sp-' + id);
-    u.obras = u.acessoTotal ? [] : checkedIds('so-' + id);
-    persist(); renderAdmin();
+    var nu = clone(u);
+    nu.permissoes = marcadas;
+    nu.acessoTotal = document.querySelector('input[name="sc-' + id + '"]:checked').value === 'todos';
+    nu.projetos = nu.acessoTotal ? [] : checkedIds('sp-' + id);
+    nu.obras = nu.acessoTotal ? [] : checkedIds('so-' + id);
+    if (!gravar('usuarios', nu)) return;
+    adminPendente = false;
+    document.getElementById('pp-' + id).classList.add('hide');
+    renderAdmin();
     window.skipUI.toast(t('salvar'), { type: 'success' });
   };
 
@@ -1933,13 +2177,14 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
     var inp = document.getElementById('novoProjeto');
     var nome = inp.value.trim();
     if (!nome) return;
-    fsAdd('projetos', { nome: nome, criadoEm: new Date().toISOString() });
+    if (!gravar('projetos', { id: uid(), nome: nome, criadoEm: new Date().toISOString() })) return;
     inp.value = '';
     renderAdmin();
   };
   window.removeProjeto = function (id) {
     if (!confirm(t('removerConf'))) return;
-    fsDel('projetos', id); renderAdmin();
+    db.obras.filter(function (o) { return o.projetoId === id; }).forEach(function (o) { remover('obras', o.id); });
+    remover('projetos', id); renderAdmin();
   };
   window.addObra = function () {
     var projSel = document.getElementById('obraProj');
@@ -1947,24 +2192,14 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
     var projId = projSel.value;
     if (!projId || !nome) return;
     var proj = db.projetos.filter(function (p) { return p.id === projId; })[0];
-    fsAdd('obras', { nome: nome, projetoId: projId, projetoNome: proj ? proj.nome : '', criadoEm: new Date().toISOString() });
+    if (!gravar('obras', { id: uid(), nome: nome, projetoId: projId, projetoNome: proj ? proj.nome : '', criadoEm: new Date().toISOString() })) return;
     document.getElementById('novaObra').value = '';
     renderAdmin();
   };
   window.removeObra = function (id) {
     if (!confirm(t('removerConf'))) return;
-    fsDel('obras', id); renderAdmin();
+    remover('obras', id); renderAdmin();
   };
-  function fsAdd(col, data) {
-    var id = uid();
-    db[col].push(Object.assign({ id: id }, data));
-    persist();
-    return id;
-  }
-  function fsDel(col, id) {
-    db[col] = db[col].filter(function (x) { return x.id !== id; });
-    persist();
-  }
   function renderProjetosObras() {
     var lp = document.getElementById('listaProjetos');
     lp.innerHTML = db.projetos.length ? db.projetos.map(function (p) {
@@ -2008,15 +2243,14 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
     var senha = document.getElementById('uSenha').value;
     var papel = document.getElementById('uPapel').value;
     if (!nome || !email || senha.length < 6) { window.skipUI.toast(lang === 'pt' ? 'Dados inválidos' : 'Datos inválidos', { type: 'error' }); return; }
-    if (db.usuarios.some(function (u) { return u.email === email; }) || ADMIN_EMAILS.indexOf(email) !== -1) {
+    if (achaUsuario(email) || ehAdminMail(email)) {
       window.skipUI.toast(t('emailExiste'), { type: 'error' }); return;
     }
     var permissoes = permsMarcadas(document.getElementById('uPerms'));
     var acessoTotal = document.querySelector('input[name=uScope]:checked').value === 'todos';
     var projetos = acessoTotal ? [] : checkedIds('uScopeProj');
     var obras = acessoTotal ? [] : checkedIds('uScopeObra');
-    db.usuarios.push({ id: uid(), nome: nome, email: email, papel: papel, permissoes: permissoes, projetos: projetos, obras: obras, acessoTotal: acessoTotal, criadoEm: new Date().toISOString() });
-    persist();
+    if (!gravar('usuarios', { id: uid(), nome: nome, email: email, papel: papel, permissoes: permissoes, projetos: projetos, obras: obras, acessoTotal: acessoTotal, criadoEm: new Date().toISOString() })) return;
     ['uNome', 'uEmail', 'uSenha'].forEach(function (id) { document.getElementById(id).value = ''; });
     aplicarPadraoPapel();
     document.querySelector('input[name=uScope][value=todos]').checked = true;
@@ -2026,35 +2260,43 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
   };
   window.mudarPapel = function (id, papel) {
     var u = db.usuarios.filter(function (x) { return x.id === id; })[0];
-    if (u) { u.papel = papel; persist(); renderAdmin(); }
+    if (!u) return;
+    var nu = clone(u); nu.papel = papel;
+    if (gravar('usuarios', nu)) renderAdmin();
   };
   window.excluirUsuario = function (id) {
     if (!confirm(t('removerConf'))) return;
-    db.usuarios = db.usuarios.filter(function (x) { return x.id !== id; }); persist(); renderAdmin();
+    remover('usuarios', id); renderAdmin();
   };
 
-  // ---------- Novo informe ----------
+  // =====================================================================
+  //  EDITOR DO INFORME
+  //  O modelo (editAtiv / equipoGeral / mo) é a única fonte de verdade.
+  //  Cada campo tem data-k/data-i/data-f e um único listener delegado o
+  //  grava no modelo; as telas são sempre redesenhadas a partir do modelo,
+  //  então adicionar/excluir linhas NUNCA apaga o que já foi preenchido.
+  // =====================================================================
   window.novoInforme = function () {
     editId = null; editAtiv = []; equipoGeral = []; mo = [];
     document.getElementById('fData').value = new Date().toISOString().slice(0, 10);
     ['fOcor', 'fSeg', 'fProx'].forEach(function (id) { document.getElementById(id).value = ''; });
-    document.getElementById('climaM').value = 'Despejado';
-    document.getElementById('climaT').value = 'Despejado';
+    document.getElementById('climaM').selectedIndex = 0;
+    document.getElementById('climaT').selectedIndex = 0;
     popularProjetos();
-    popularObras();
+    window.popularObras();
     renderEditor();
     go('novo');
   };
   window.limparForm = function () { novoInforme(); };
 
-  function popularProjetos() {
+  function popularProjetos(manter) {
     var sel = document.getElementById('fProjeto');
     var scope = scopeAtual();
     var projs = db.projetos.filter(function (p) { return !scope || scope.projetos.indexOf(p.id) !== -1; });
     sel.innerHTML = projs.length ? projs.map(function (p) {
       return '<option value="' + p.id + '">' + esc(p.nome) + '</option>';
     }).join('') : '<option value="">—</option>';
-    document.getElementById('btnSalvarInf') && (document.getElementById('btnSalvarInf').disabled = !projs.length);
+    if (manter && projs.some(function (p) { return p.id === manter; })) sel.value = manter;
     var msgP = document.getElementById('msgSemProjAsg');
     if (!projs.length) {
       if (!msgP) {
@@ -2065,7 +2307,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
       msgP.textContent = 'No tiene proyectos asignados. Solicite acceso al administrador.';
     } else if (msgP) msgP.remove();
   }
-  window.popularObras = function () {
+  window.popularObras = function (manter) {
     var p = document.getElementById('fProjeto').value;
     var sel = document.getElementById('fObra');
     var scope = scopeAtual();
@@ -2074,7 +2316,9 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
     });
     sel.innerHTML = obras.length ? obras.map(function (o) { return '<option value="' + o.id + '">' + esc(o.nome) + '</option>'; }).join('')
       : '<option value="">—</option>';
+    if (typeof manter === 'string' && obras.some(function (o) { return o.id === manter; })) sel.value = manter;
     document.getElementById('msgSemObras').classList.toggle('hide', obras.length > 0);
+    if (visivel('vNovo')) window.atualizarPreview();
   };
 
   function renderEditor() {
@@ -2082,81 +2326,49 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
     renderAtividades();
     renderMO();
     document.getElementById('fData').readOnly = false;
+    window.atualizarPreview();
+  }
+  // chegou dado novo do banco enquanto o formulário está aberto: atualiza listas sem mexer no que se está digitando
+  function atualizarOpcoesEditor() {
+    var ae = document.activeElement, vn = document.getElementById('vNovo');
+    if (ae && vn.contains(ae) && /^(INPUT|TEXTAREA)$/.test(ae.tagName)) return;
+    var pj = document.getElementById('fProjeto').value, ob = document.getElementById('fObra').value;
+    popularProjetos(pj);
+    window.popularObras(ob);
+    renderEquipoGeral(); renderAtividades(); renderMO();
+  }
+
+  function optEquip(sel) {
+    var list = db.catalogos.equipamentos.map(function (x) { return x.nome; });
+    if (sel && list.indexOf(sel) === -1) list.push(sel);
+    return '<option value="">—</option>' + list.map(function (n) {
+      return '<option' + (n === sel ? ' selected' : '') + '>' + esc(n) + '</option>';
+    }).join('');
+  }
+  function optCargo(sel) {
+    var list = db.catalogos.funcoes.map(function (x) { return x.nome; });
+    if (sel && list.indexOf(sel) === -1) list.push(sel);
+    return '<option value="">—</option>' + list.map(function (n) {
+      return '<option' + (n === sel ? ' selected' : '') + '>' + esc(n) + '</option>';
+    }).join('');
   }
 
   function renderEquipoGeral() {
     var el = document.getElementById('listaEquiposGeral');
     el.innerHTML = equipoGeral.map(function (e, i) {
       return '<div class="inline-form">' +
-        '<select class="input" onchange="equipoGeral[' + i + '].nome=this.value">' + optEquip(e.nome) + '</select>' +
-        '<input class="input" type="number" min="0" style="max-width:120px" value="' + (e.qtd || '') + '" oninput="equipoGeral[' + i + '].qtd=Number(this.value)||0" placeholder="' + t('quantidade') + '">' +
-        '<button class="btn" data-variant="ghost" data-size="sm" onclick="rmEqGeral(' + i + ')">✕</button></div>';
+        '<select class="input" data-k="eq" data-i="' + i + '" data-f="nome">' + optEquip(e.nome) + '</select>' +
+        '<input class="input" type="number" min="0" step="any" style="max-width:120px" data-k="eq" data-i="' + i + '" data-f="qtd" value="' + (e.qtd || '') + '" placeholder="' + t('quantidade') + '">' +
+        '<button type="button" class="btn" data-variant="ghost" data-size="sm" onclick="rmEqGeral(' + i + ')">✕</button></div>';
     }).join('') || '<p class="muted text-sm">—</p>';
   }
-  function optEquip(sel) {
-    var list = db.catalogos.equipamentos;
-    return '<option value="">—</option>' + list.map(function (x) {
-      return '<option' + (x.nome === sel ? ' selected' : '') + '>' + esc(x.nome) + '</option>';
-    }).join('');
-  }
   window.addEquipoGeral = function () {
-    var __snap = window.snapForm();
     equipoGeral.push({ nome: '', qtd: 0 });
-    renderEquipoGeral();
-    window.restoreForm(__snap);
-    window.atualizarPreview();
+    renderEquipoGeral(); window.atualizarPreview();
   };
   window.rmEqGeral = function (i) {
-    var __snap = window.snapForm();
     equipoGeral.splice(i, 1);
-    renderEquipoGeral();
-    window.restoreForm(__snap);
-    window.atualizarPreview();
-  };
-
-  window.snapForm = function () {
-    var box = document.getElementById("formInforme");
-    if (!box) { box = document.querySelector(".view-form") || document.body; }
-    var arr = [];
-    box.querySelectorAll("input, select, textarea").forEach(function (el) {
-      arr.push({ el: el, v: el.value, c: el.checked });
-    });
-    return arr;
-  };
-  window.restoreForm = function (arr) {
-    (arr || []).forEach(function (o) {
-      try {
-        if (o.el && o.el.isConnected) {
-          if (o.el.type === "checkbox") { o.el.checked = o.c; }
-          else { o.el.value = o.v; }
-        }
-      } catch (e) {}
-    });
-  };
-  window.atualizarPreview = function () {
-    var el = document.getElementById("previewTexto");
-    var txt = window.gerarTexto();
-    ultimoTexto = txt;
-    if (el) { el.textContent = txt; }
-    var d = document.getElementById("diagAtiv");
-    if (d) {
-      var ativs = window.lerAtividades();
-      d.textContent = "Atividades lidas: " + ativs.length + " · nomeadas: " + ativs.filter(function (a) { return a.nome; }).length + " · equipos: " + window.lerEquipos().length + " · mano: " + window.lerMao().length;
-    }
-  };
-  window.addAtividade = function () {
-    var __snap = window.snapForm();
-    editAtiv.push({ nome: '', unidade: 'm³', qtdDia: 0, pctDia: 0, qtdAcum: 0, pctAcum: 0, equipos: [] });
-    renderAtividades();
-    window.restoreForm(__snap);
-    window.atualizarPreview();
-  };
-  window.rmAtiv = function (i) {
-    var __snap = window.snapForm();
-    editAtiv.splice(i, 1);
-    renderAtividades();
-    window.restoreForm(__snap);
-    window.atualizarPreview();
+    renderEquipoGeral(); window.atualizarPreview();
   };
 
   function renderAtividades() {
@@ -2165,91 +2377,146 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
     el.innerHTML = editAtiv.map(function (a, i) {
       var eqs = a.equipos.map(function (e, j) {
         return '<div class="eq-row">' +
-          '<select class="input" onchange="editAtiv[' + i + '].equipos[' + j + '].nome=this.value">' + optEquip(e.nome) + '</select>' +
-          '<div class="hour-wrap"><input class="input" type="number" step="0.5" min="0" value="' + (e.horas || '') + '" oninput="editAtiv[' + i + '].equipos[' + j + '].horas=Number(this.value)||0;renderAtividades()" aria-label="' + t('horas') + '"><span>h</span></div>' +
-          '<button class="btn" data-variant="ghost" data-size="sm" onclick="rmEqAtiv(' + i + ',' + j + ')">✕</button></div>';
+          '<select class="input" data-k="ativ" data-i="' + i + '" data-j="' + j + '" data-f="nome">' + optEquip(e.nome) + '</select>' +
+          '<div class="hour-wrap"><input class="input" type="number" step="any" min="0" value="' + (e.horas || '') + '" data-k="ativ" data-i="' + i + '" data-j="' + j + '" data-f="horas" aria-label="' + t('horas') + '"><span>h</span></div>' +
+          '<button type="button" class="btn" data-variant="ghost" data-size="sm" onclick="rmEqAtiv(' + i + ',' + j + ')">✕</button></div>';
       }).join('');
       var totalH = a.equipos.reduce(function (s, e) { return s + (Number(e.horas) || 0); }, 0);
+      function campo(f, rotulo, max) {
+        return '<div class="field"><label>' + rotulo + '</label><input class="input" type="number" min="0"' + (max ? ' max="' + max + '"' : '') + ' step="any" data-k="ativ" data-i="' + i + '" data-f="' + f + '" value="' + (a[f] || '') + '"></div>';
+      }
       return '<div class="act-block">' +
         '<div class="row between items-center mb-2"><strong>' + t('atividade') + ' ' + (i + 1) + '</strong>' +
-        '<button class="btn" data-variant="ghost" data-size="sm" onclick="rmAtiv(' + i + ')">✕</button></div>' +
+        '<button type="button" class="btn" data-variant="ghost" data-size="sm" onclick="rmAtiv(' + i + ')">✕</button></div>' +
         '<div class="shell-grid cols-3 gap-2">' +
-        '<div class="field"><label>' + t('nome') + '</label><input class="input" value="' + esc(a.nome) + '" oninput="editAtiv[' + i + '].nome=this.value"></div>' +
-        '<div class="field"><label>' + t('unidade') + '</label><select class="input" onchange="editAtiv[' + i + '].unidade=this.value">' +
+        '<div class="field"><label>' + t('nome') + '</label><input class="input" data-k="ativ" data-i="' + i + '" data-f="nome" value="' + esc(a.nome) + '"></div>' +
+        '<div class="field"><label>' + t('unidade') + '</label><select class="input" data-k="ativ" data-i="' + i + '" data-f="unidade">' +
         UNIDADES.map(function (u) { return '<option' + (u === a.unidade ? ' selected' : '') + '>' + u + '</option>'; }).join('') + '</select></div>' +
-        '<div class="field"><label>' + t('qtdDia') + '</label><input class="input" type="number" min="0" value="' + (a.qtdDia || '') + '" oninput="editAtiv[' + i + '].qtdDia=Number(this.value)||0"></div>' +
-        '<div class="field"><label>' + t('pctDia') + '</label><input class="input" type="number" min="0" max="100" value="' + (a.pctDia || '') + '" oninput="editAtiv[' + i + '].pctDia=Number(this.value)||0"></div>' +
-        '<div class="field"><label>' + t('qtdAcum') + '</label><input class="input" type="number" min="0" value="' + (a.qtdAcum || '') + '" oninput="editAtiv[' + i + '].qtdAcum=Number(this.value)||0"></div>' +
-        '<div class="field"><label>' + t('pctAcum') + '</label><input class="input" type="number" min="0" max="100" value="' + (a.pctAcum || '') + '" oninput="editAtiv[' + i + '].pctAcum=Number(this.value)||0"></div>' +
+        campo('qtdDia', t('qtdDia')) + campo('pctDia', t('pctDia'), 100) + campo('qtdAcum', t('qtdAcum')) + campo('pctAcum', t('pctAcum'), 100) +
         '</div>' +
-        '<div class="mt-3"><div class="row between items-center mb-1"><span class="text-sm font-semibold">' + t('equipos') + '</span><span class="badge" data-variant="secondary">' + totalH + ' h</span></div>' +
+        '<div class="mt-3"><div class="row between items-center mb-1"><span class="text-sm font-semibold">' + t('equipos') + '</span><span class="badge" data-variant="secondary" id="totH-' + i + '">' + totalH + ' h</span></div>' +
         '<div class="stack gap-2">' + eqs + '</div>' +
-        '<div class="row gap-2 mt-2"><button class="btn" data-variant="outline" data-size="sm" onclick="addEqAtiv(' + i + ')">' + t('addEq') + '</button>' +
-        '<button class="btn" data-variant="ghost" data-size="sm" onclick="criarEquipoRapido(' + i + ')">' + t('criarEq') + '</button></div></div>' +
+        '<div class="row gap-2 mt-2"><button type="button" class="btn" data-variant="outline" data-size="sm" onclick="addEqAtiv(' + i + ')">' + t('addEq') + '</button>' +
+        '<button type="button" class="btn" data-variant="ghost" data-size="sm" onclick="criarEquipoRapido(' + i + ')">' + t('criarEq') + '</button></div></div>' +
         '</div>';
     }).join('');
   }
+  window.addAtividade = function () {
+    editAtiv.push({ nome: '', unidade: 'm³', qtdDia: 0, pctDia: 0, qtdAcum: 0, pctAcum: 0, equipos: [] });
+    renderAtividades(); window.atualizarPreview();
+  };
+  window.rmAtiv = function (i) {
+    editAtiv.splice(i, 1);
+    renderAtividades(); window.atualizarPreview();
+  };
   window.addEqAtiv = function (i) {
-    var __snap = window.snapForm();
     editAtiv[i].equipos.push({ nome: '', horas: 0 });
-    renderAtividades();
-    window.restoreForm(__snap);
-    window.atualizarPreview();
+    renderAtividades(); window.atualizarPreview();
   };
   window.rmEqAtiv = function (i, j) {
-    var __snap = window.snapForm();
     editAtiv[i].equipos.splice(j, 1);
-    renderAtividades();
-    window.restoreForm(__snap);
-    window.atualizarPreview();
+    renderAtividades(); window.atualizarPreview();
   };
-
   window.criarEquipoRapido = function (ativIdx) {
     var nome = prompt(lang === 'pt' ? 'Nome do equipamento' : 'Nombre del equipo');
     if (!nome || !nome.trim()) return;
-    db.catalogos.equipamentos.push({ nome: nome.trim(), criadoEm: new Date().toISOString() });
-    persist();
-    if (ativIdx !== undefined) editAtiv[ativIdx].equipos.push({ nome: nome.trim(), horas: 0 });
-    renderAtividades();
-    window.skipUI.toast(t('criarEq'), { type: 'success' });
+    var item = addCatalogo('equipamentos', nome);
+    if (!item) return;
+    if (ativIdx !== undefined && editAtiv[ativIdx]) editAtiv[ativIdx].equipos.push({ nome: item.nome, horas: 0 });
+    renderEquipoGeral(); renderAtividades(); window.atualizarPreview();
+    window.skipUI.toast(t('agregado'), { type: 'success' });
   };
   window.criarCargoRapido = function () {
     var nome = prompt(lang === 'pt' ? 'Nome do cargo' : 'Nombre del cargo');
     if (!nome || !nome.trim()) return;
-    db.catalogos.funcoes.push({ nome: nome.trim(), criadoEm: new Date().toISOString() });
-    persist();
-    mo.push({ nome: nome.trim(), qtd: 0 }); renderMO();
-    window.skipUI.toast(t('criarCargo'), { type: 'success' });
+    var item = addCatalogo('funcoes', nome);
+    if (!item) return;
+    mo.push({ nome: item.nome, qtd: 0 });
+    renderMO(); window.atualizarPreview();
+    window.skipUI.toast(t('agregado'), { type: 'success' });
   };
 
   function renderMO() {
     var el = document.getElementById('listaMO');
     el.innerHTML = mo.map(function (m, i) {
-      return '<div class="inline-form"><select class="input" onchange="mo[' + i + '].nome=this.value">' +
-        '<option value="">—</option>' + db.catalogos.funcoes.map(function (x) {
-          return '<option' + (x.nome === m.nome ? ' selected' : '') + '>' + esc(x.nome) + '</option>';
-        }).join('') + '</select>' +
-        '<input class="input" type="number" min="0" style="max-width:110px" value="' + (m.qtd || '') + '" oninput="mo[' + i + '].qtd=Number(this.value)||0" placeholder="' + t('quantidade') + '">' +
-        '<button class="btn" data-variant="ghost" data-size="sm" onclick="rmMO(' + i + ')">✕</button></div>';
+      return '<div class="inline-form"><select class="input" data-k="mo" data-i="' + i + '" data-f="nome">' + optCargo(m.nome) + '</select>' +
+        '<input class="input" type="number" min="0" step="any" style="max-width:110px" data-k="mo" data-i="' + i + '" data-f="qtd" value="' + (m.qtd || '') + '" placeholder="' + t('quantidade') + '">' +
+        '<button type="button" class="btn" data-variant="ghost" data-size="sm" onclick="rmMO(' + i + ')">✕</button></div>';
     }).join('') || '<p class="muted text-sm">—</p>';
   }
   window.addMO = function () {
-    var __snap = window.snapForm();
     mo.push({ nome: '', qtd: 0 });
-    renderMO();
-    window.restoreForm(__snap);
-    window.atualizarPreview();
+    renderMO(); window.atualizarPreview();
   };
   window.rmMO = function (i) {
-    var __snap = window.snapForm();
     mo.splice(i, 1);
-    renderMO();
-    window.restoreForm(__snap);
-    window.atualizarPreview();
+    renderMO(); window.atualizarPreview();
   };
 
+  // um único listener grava qualquer campo dinâmico no modelo
+  function aoEditar(ev) {
+    var el = ev.target;
+    if (!el || !el.getAttribute) return;
+    var k = el.getAttribute('data-k');
+    if (!k) return;
+    var i = Number(el.getAttribute('data-i')), f = el.getAttribute('data-f');
+    var jAttr = el.getAttribute('data-j');
+    var val = el.type === 'number' ? (el.value === '' ? 0 : (Number(el.value) || 0)) : el.value;
+    if (k === 'ativ') {
+      var a = editAtiv[i]; if (!a) return;
+      if (jAttr !== null) {
+        var e = a.equipos[Number(jAttr)]; if (!e) return;
+        e[f] = val;
+        if (f === 'horas') {
+          var tot = document.getElementById('totH-' + i);
+          if (tot) tot.textContent = a.equipos.reduce(function (s, x) { return s + (Number(x.horas) || 0); }, 0) + ' h';
+        }
+      } else a[f] = val;
+    } else if (k === 'eq') { if (equipoGeral[i]) equipoGeral[i][f] = val; }
+    else if (k === 'mo') { if (mo[i]) mo[i][f] = val; }
+  }
   // ---------- Texto gerado ----------
-  function gerarTextoInforme(inf) {
+  function fmtN(n) { n = Number(n) || 0; return String(+n.toFixed(2)); }
+  function fmtData(iso) {
+    if (!iso) return '';
+    var p = String(iso).split('-');
+    return p.length === 3 ? p[2] + '/' + p[1] + '/' + p[0] : iso;
+  }
+
+  // Lê o formulário (modelo + campos fixos) numa estrutura única — usada pela prévia e para salvar
+  function coletar() {
+    var ps = document.getElementById('fProjeto'), os = document.getElementById('fObra');
+    var projeto = ps.value && ps.options[ps.selectedIndex] ? ps.options[ps.selectedIndex].text : '';
+    var obra = os.value && os.options[os.selectedIndex] ? os.options[os.selectedIndex].text : '';
+    var ativs = [];
+    editAtiv.forEach(function (a) {
+      var eqs = (a.equipos || []).filter(function (e) { return e.nome; }).map(function (e) { return { nome: e.nome, horas: Number(e.horas) || 0 }; });
+      var nome = String(a.nome || '').trim();
+      var vazia = !nome && !Number(a.qtdDia) && !Number(a.pctDia) && !Number(a.qtdAcum) && !Number(a.pctAcum) && !eqs.length;
+      if (vazia) return;
+      ativs.push({
+        nome: nome, unidade: a.unidade || 'm³',
+        qtdDia: Number(a.qtdDia) || 0, pctDia: Number(a.pctDia) || 0,
+        qtdAcum: Number(a.qtdAcum) || 0, pctAcum: Number(a.pctAcum) || 0,
+        equipamentos: eqs
+      });
+    });
+    return {
+      data: document.getElementById('fData').value,
+      projetoId: ps.value, projeto: projeto, obraId: os.value, obra: obra,
+      autorNome: sessao ? sessao.nome : '', autorEmail: sessao ? sessao.email : '', autorId: sessao ? sessao.uid : '',
+      atividades: ativs,
+      equipos: equipoGeral.filter(function (e) { return e.nome; }).map(function (e) { return { nome: e.nome, qtd: Number(e.qtd) || 0 }; }),
+      manoObra: mo.filter(function (m) { return m.nome; }).map(function (m) { return { nome: m.nome, qtd: Number(m.qtd) || 0 }; }),
+      clima: { manha: document.getElementById('climaM').value, tarde: document.getElementById('climaT').value },
+      ocorrencias: document.getElementById('fOcor').value.trim(),
+      seguranca: document.getElementById('fSeg').value.trim(),
+      proximos: document.getElementById('fProx').value.trim()
+    };
+  }
+
+  // Monta o texto (WhatsApp) a partir de um informe — serve para a prévia e para informes já salvos
+  function compor(inf) {
     var PT = lang === 'pt';
     var L = PT ? {
       head: 'AVANÇO DA OBRA', proj: 'Projeto', obra: 'Obra', resp: 'Responsável', ativ: 'ATIVIDADES',
@@ -2263,39 +2530,44 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
       ocor: 'OCURRENCIAS', seg: 'SEGURIDAD', prox: 'PRÓXIMOS PASOS'
     };
     var out = [];
-    out.push('*' + L.head + ' (' + fmtData(inf.data) + ')*');
-    out.push('*' + L.proj + ':* ' + inf.projeto);
-    out.push('*' + L.obra + ':* ' + inf.obra);
-    out.push('*' + L.resp + ':* ' + inf.autorNome);
+    out.push('*' + L.head + (inf.data ? ' (' + fmtData(inf.data) + ')' : '') + '*');
+    out.push('*' + L.proj + ':* ' + (inf.projeto || ''));
+    out.push('*' + L.obra + ':* ' + (inf.obra || ''));
+    out.push('*' + L.resp + ':* ' + (inf.autorNome || inf.responsavel || ''));
     out.push('');
-    if (inf.atividades && inf.atividades.length) {
+    var ativs = inf.atividades || [];
+    if (ativs.length) {
       out.push('⏳ *' + L.ativ + '*');
-      inf.atividades.forEach(function (a, i) {
-        out.push((i + 1) + '. ' + a.nome);
-        var eqs = (a.equipos || []).filter(function (e) { return e.nome; })
-          .map(function (e) { return e.nome + ' ' + e.horas + ' h'; });
-        if (eqs.length) out.push('   🔧 ' + L.eq + ': ' + eqs.join(' | '));
-        if (a.qtdDia) out.push('   🗓️ ' + L.hoje + ': ' + a.qtdDia + ' ' + a.unidade);
-        if (a.qtdAcum || a.pctAcum) {
-          var linha = '   📊 ' + L.acum + ': ' + (a.qtdAcum ? a.qtdAcum + ' ' + a.unidade : '');
-          if (a.pctAcum) linha += (a.qtdAcum ? ' | ' : '') + a.pctAcum + '%';
-          out.push(linha);
-        }
+      ativs.forEach(function (a, i) {
+        var b = (i + 1) + '. ' + (a.nome || t('semNome'));
+        var eqs = (a.equipamentos || a.equipos || []).filter(function (e) { return e && e.nome; })
+          .map(function (e) { return e.nome + (Number(e.horas) ? ' ' + fmtN(e.horas) + ' h' : ''); });
+        if (eqs.length) b += '\n   🔧 ' + L.eq + ': ' + eqs.join(' | ');
+        var un = a.unidade || '';
+        var hoje = [];
+        if (Number(a.qtdDia)) hoje.push(fmtN(a.qtdDia) + ' ' + un);
+        if (Number(a.pctDia)) hoje.push(fmtN(a.pctDia) + '%');
+        if (hoje.length) b += '\n   🗓️ ' + L.hoje + ': ' + hoje.join(' | ');
+        var ac = [];
+        if (Number(a.qtdAcum)) ac.push(fmtN(a.qtdAcum) + ' ' + un);
+        if (Number(a.pctAcum)) ac.push(fmtN(a.pctAcum) + '%');
+        if (ac.length) b += '\n   📊 ' + L.acum + ': ' + ac.join(' | ');
+        out.push(b);
       });
       out.push('');
     }
-    var moValidos = (inf.manoObra || []).filter(function (m) { return m.nome && m.qtd > 0; });
-    if (moValidos.length) {
-      var totalMO = moValidos.reduce(function (s, m) { return s + m.qtd; }, 0);
-      out.push('👷 *' + L.mo + '* — ' + L.total + ': ' + totalMO + ' ' + L.pessoas);
-      moValidos.forEach(function (m) { out.push('• ' + m.qtd + ' ' + m.nome); });
+    var moV = (inf.manoObra || []).filter(function (m) { return m.nome && Number(m.qtd) > 0; });
+    if (moV.length) {
+      var totalMO = moV.reduce(function (s, m) { return s + Number(m.qtd); }, 0);
+      out.push('👷 *' + L.mo + '* — ' + L.total + ': ' + fmtN(totalMO) + ' ' + L.pessoas);
+      moV.forEach(function (m) { out.push('• ' + fmtN(m.qtd) + ' ' + m.nome); });
       out.push('');
     }
-    var eqGeral = (inf.equipos || []).filter(function (e) { return e.nome && e.qtd > 0; });
-    if (eqGeral.length) {
-      var totalEq = eqGeral.reduce(function (s, e) { return s + e.qtd; }, 0);
-      out.push('🚜 *' + L.equips + '* — ' + L.total + ': ' + totalEq + ' ' + L.equipos);
-      eqGeral.forEach(function (e) { out.push('• ' + e.qtd + ' ' + e.nome); });
+    var eqG = (inf.equipos || []).filter(function (e) { return e.nome && Number(e.qtd) > 0; });
+    if (eqG.length) {
+      var totalEq = eqG.reduce(function (s, e) { return s + Number(e.qtd); }, 0);
+      out.push('🚜 *' + L.equips + '* — ' + L.total + ': ' + fmtN(totalEq) + ' ' + L.equipos);
+      eqG.forEach(function (e) { out.push('• ' + fmtN(e.qtd) + ' ' + e.nome); });
       out.push('');
     }
     var cm = inf.clima || {};
@@ -2310,132 +2582,17 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
     return out.join('\n').replace(/\n{3,}/g, '\n\n').trim();
   }
 
-  function fmtData(iso) {
-    if (!iso) return '';
-    var p = iso.split('-');
-    return p[2] + '/' + p[1] + '/' + p[0];
-  }
-
-  function coletarInforme() {
-    var projId = document.getElementById('fProjeto').value;
-    var obraId = document.getElementById('fObra').value;
-    var proj = db.projetos.filter(function (p) { return p.id === projId; })[0];
-    var obra = db.obras.filter(function (o) { return o.id === obraId; })[0];
-    var projeto = proj ? proj.nome : '';
-    var obraNome = obra ? obra.nome : '';
-    return {
-      id: editId || uid(),
-      data: document.getElementById('fData').value,
-      projeto: projeto, obra: obraNome,
-      responsavel: sessao.nome, autorNome: sessao.nome, autorEmail: sessao.email, autorId: sessao.uid,
-      atividades: editAtiv.map(function (a) { return JSON.parse(JSON.stringify(a)); }),
-      equipos: equipoGeral.filter(function (e) { return e.nome; }),
-      manoObra: mo.filter(function (m) { return m.nome; }),
-      clima: { manha: document.getElementById('climaM').value, tarde: document.getElementById('climaT').value },
-      ocorrencias: document.getElementById('fOcor').value.trim(),
-      seguranca: document.getElementById('fSeg').value.trim(),
-      proximos: document.getElementById('fProx').value.trim(),
-      criadoEm: new Date().toISOString()
-    };
-  }
-
-  window.lerAtividades = function () {
-    var out = [];
-    editAtiv.forEach(function (a) {
-      out.push({
-        nome: String(a.nome || "").trim(),
-        unidade: a.unidade || "m³",
-        qtdDia: a.qtdDia ? String(a.qtdDia) : "",
-        pctDia: a.pctDia ? String(a.pctDia) : "",
-        qtdAcum: a.qtdAcum ? String(a.qtdAcum) : "",
-        pctAcum: a.pctAcum ? String(a.pctAcum) : "",
-        equipamentos: (a.equipos || []).filter(function (e) { return e.nome; }).map(function (e) { return { nome: e.nome, horas: e.horas ? String(e.horas) : "" }; })
-      });
-    });
-    return out;
+  window.gerarTexto = function () { return compor(coletar()); };
+  window.atualizarPreview = function () {
+    var inf = coletar();
+    var txt = compor(inf);
+    ultimoTexto = txt;
+    var el = document.getElementById('previewTexto');
+    if (el) el.textContent = txt;
+    var d = document.getElementById('diagAtiv');
+    if (d) d.textContent = t('lidas') + ': ' + inf.atividades.length + ' · ' + t('nomeadas') + ': ' + inf.atividades.filter(function (a) { return a.nome; }).length +
+      ' · ' + t('equipos') + ': ' + inf.equipos.length + ' · ' + t('mano') + ': ' + inf.manoObra.length;
   };
-  window.lerEquipos = function () {
-    return equipoGeral.filter(function (e) { return e.nome; }).map(function (e) { return { nome: e.nome, qtd: e.qtd ? String(e.qtd) : "" }; });
-  };
-  window.lerMao = function () {
-    return mo.filter(function (m) { return m.nome; }).map(function (m) { return { nome: m.nome, qtd: m.qtd ? String(m.qtd) : "" }; });
-  };
-
-  window.gerarTexto = function () {
-    var ativs = window.lerAtividades();
-    var PT = lang === 'pt';
-    var linhas = [];
-    var n = 0;
-    ativs.forEach(function (a) {
-      if (!a.nome) { return; }
-      n++;
-      var b = n + ". " + a.nome;
-      if (a.equipamentos.length) {
-        b += "\n   🔧 " + (PT ? "Equipamento" : "Equipo") + ": " + a.equipamentos.map(function (e) { return e.nome + (e.horas ? " " + e.horas + " h" : ""); }).join(" | ");
-      }
-      if (a.qtdDia) { b += "\n   🗓️ " + (PT ? "Hoje" : "Hoy") + ": " + a.qtdDia + " " + a.unidade; }
-      if (a.qtdAcum || a.pctAcum) {
-        b += "\n   📊 " + (PT ? "Acumulado" : "Acumulado") + ": " + (a.qtdAcum ? a.qtdAcum + " " + a.unidade : "") + (a.qtdAcum && a.pctAcum ? " | " : "") + (a.pctAcum ? a.pctAcum + "%" : "");
-      }
-      linhas.push(b);
-    });
-    var out = [];
-    var proj = document.getElementById('fProjeto');
-    var obra = document.getElementById('fObra');
-    var projTxt = proj && proj.options[proj.selectedIndex] ? proj.options[proj.selectedIndex].text : "";
-    var obraTxt = obra && obra.options[obra.selectedIndex] ? obra.options[obra.selectedIndex].text : "";
-    var data = document.getElementById('fData').value;
-    out.push('*' + (PT ? 'AVANÇO DA OBRA' : 'AVANCE DE OBRA') + (data ? ' (' + fmtData(data) + ')' : '') + '*');
-    out.push('*' + (PT ? 'Projeto' : 'Proyecto') + ':* ' + projTxt);
-    out.push('*' + (PT ? 'Obra' : 'Obra') + ':* ' + obraTxt);
-    out.push('*' + (PT ? 'Responsável' : 'Responsable') + ':* ' + (sessao ? sessao.nome : ''));
-    out.push('');
-    if (linhas.length) {
-      out.push('⏳ *' + (PT ? 'ATIVIDADES' : 'ACTIVIDADES') + '*');
-      out.push(linhas.join('\n'));
-      out.push('');
-    }
-    var mo = window.lerMao().filter(function (m) { return Number(m.qtd) > 0; });
-    if (mo.length) {
-      var totalMO = mo.reduce(function (s, m) { return s + Number(m.qtd); }, 0);
-      out.push('👷 *' + (PT ? 'MÃO DE OBRA' : 'MANO DE OBRA') + '* — Total: ' + totalMO);
-      mo.forEach(function (m) { out.push('• ' + m.qtd + ' ' + m.nome); });
-      out.push('');
-    }
-    var eqG = window.lerEquipos().filter(function (e) { return Number(e.qtd) > 0; });
-    if (eqG.length) {
-      var totalEq = eqG.reduce(function (s, e) { return s + Number(e.qtd); }, 0);
-      out.push('🚜 *' + (PT ? 'EQUIPAMENTOS' : 'EQUIPOS') + '* — Total: ' + totalEq);
-      eqG.forEach(function (e) { out.push('• ' + e.qtd + ' ' + e.nome); });
-      out.push('');
-    }
-    var cm = document.getElementById('climaM');
-    var ct = document.getElementById('climaT');
-    var cmTxt = cm ? cm.value : '';
-    var ctTxt = ct ? ct.value : '';
-    if (cmTxt || ctTxt) {
-      out.push('🌤️ *' + (PT ? 'CLIMA' : 'CLIMA') + '*');
-      out.push((PT ? 'Manhã' : 'Mañana') + ': ' + cmTxt + ' | ' + (PT ? 'Tarde' : 'Tarde') + ': ' + ctTxt);
-      out.push('');
-    }
-    var oc = document.getElementById('fOcor').value.trim();
-    var sg = document.getElementById('fSeg').value.trim();
-    var px = document.getElementById('fProx').value.trim();
-    if (oc) out.push('⚠️ *' + (PT ? 'OCORRÊNCIAS' : 'OCURRENCIAS') + '*\n' + oc + '\n');
-    if (sg) out.push('🦺 *' + (PT ? 'SEGURANÇA' : 'SEGURIDAD') + '*\n' + sg + '\n');
-    if (px) out.push('📌 *' + (PT ? 'PRÓXIMOS PASSOS' : 'PRÓXIMOS PASOS') + '*\n' + px);
-    return out.join('\n').replace(/\n{3,}/g, '\n\n').trim();
-  };
-
-
-  document.addEventListener('input', function () {
-    var vn = document.getElementById('vNovo');
-    if (vn && !vn.classList.contains('hide')) window.atualizarPreview();
-  });
-  document.addEventListener('change', function () {
-    var vn = document.getElementById('vNovo');
-    if (vn && !vn.classList.contains('hide')) window.atualizarPreview();
-  });
 
   window.copiarTexto = function () { window.atualizarPreview(); copiarPara(ultimoTexto); };
 
@@ -2443,32 +2600,15 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
     var projId = document.getElementById('fProjeto').value;
     if (!projId) { window.skipUI.toast(t('nenhumProjeto'), { type: 'error' }); return; }
     try {
-      var projSel = document.getElementById('fProjeto');
-      var obraSel = document.getElementById('fObra');
-      var inf = {
-        id: editId || uid(),
-        data: document.getElementById('fData').value,
-        projetoId: projId,
-        projeto: projSel.options[projSel.selectedIndex] ? projSel.options[projSel.selectedIndex].text : "",
-        obraId: obraSel.value,
-        obra: obraSel.options[obraSel.selectedIndex] ? obraSel.options[obraSel.selectedIndex].text : "",
-        responsavel: sessao.nome, autorNome: sessao.nome, autorEmail: sessao.email, autorId: sessao.uid,
-        atividades: window.lerAtividades(),
-        equipos: window.lerEquipos(),
-        manoObra: window.lerMao(),
-        clima: { manha: document.getElementById('climaM').value, tarde: document.getElementById('climaT').value },
-        ocorrencias: document.getElementById('fOcor').value.trim(),
-        seguranca: document.getElementById('fSeg').value.trim(),
-        proximos: document.getElementById('fProx').value.trim(),
-        criadoEm: new Date().toISOString()
-      };
-      var idx = db.informes.findIndex(function (i) { return i.id === inf.id; });
-      if (idx >= 0) db.informes[idx] = inf; else db.informes.push(inf);
-      persist();
+      var inf = coletar();
+      inf.id = editId || uid();
+      inf.responsavel = inf.autorNome;
+      inf.criadoEm = new Date().toISOString();
+      if (!gravar('informes', inf)) return;
       window.skipUI.toast(t('guardado'), { type: 'success' });
       go('inicio');
     } catch (e) {
-      window.skipUI.toast('Erro: ' + (e && e.message ? e.message : e), { type: 'error' });
+      window.skipUI.toast('Error: ' + (e && e.message ? e.message : e), { type: 'error' });
     }
   };
 
@@ -2479,7 +2619,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
     renderPermCheckboxesInit();
     renderCatalogo();
     renderAdmin();
-    if (!document.getElementById('vNovo').classList.contains('hide')) renderEditor();
+    if (visivel('vNovo')) { renderEditor(); }
   }
 
   function renderPermCheckboxesInit() {
@@ -2498,13 +2638,23 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
     document.documentElement.lang = lang === 'pt' ? 'pt-BR' : 'es';
     applyLang();
     syncHeaderFlags();
+    var vn = document.getElementById('vNovo');
+    vn.addEventListener('input', aoEditar);
+    vn.addEventListener('change', aoEditar);
+    document.addEventListener('input', function () { if (visivel('vNovo')) window.atualizarPreview(); });
+    document.addEventListener('change', function () { if (visivel('vNovo')) window.atualizarPreview(); });
     document.getElementById('loginSenha').value = '';
     document.getElementById('loginEmail').value = '';
-    if (sessao && sessao.expira > Date.now()) { if (!sessao.permissoes) sessao.permissoes = permsDe(null, sessao.papel, ADMIN_EMAILS.indexOf(sessao.email) !== -1); aplicarAcesso(); }
-    else { sessao = null; localStorage.removeItem('iad_sessao_v90'); }
-window.sincronizarTudo();
+    if (sessao && sessao.expira > Date.now()) {
+      if (!sessao.permissoes) sessao.permissoes = permsDe(null, sessao.papel, ehAdminMail(sessao.email));
+      aplicarAcesso();
+    } else { sessao = null; lsDel(LS_SESSAO); }
+    atualizarBadge();
+    iniciarBanco();
   });
 })();
 </script>
 </body>
 </html>
+
+</body></html>
