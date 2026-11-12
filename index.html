@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Reporte de Obra — v8.4</title>
+<title>Reporte de Obra — v8.5</title>
 <style>
 /* Skip artifact shell — fixed styles served beside every artifact.
    Tokens, utilities and components (basecoat 1.0 markup, no CDN); artifacts
@@ -1071,8 +1071,8 @@ table.shell-table td.skip-table-empty { color: var(--text-muted); text-align: ce
 </style>
 </head>
 <body>
-<div id="jsAlive" style="position:fixed;bottom:6px;right:6px;z-index:99999;background:#0B5FFF;color:#fff;font:600 10px/1 monospace;padding:4px 7px;border-radius:5px;pointer-events:none;">JS OK · v8.4</div>
-<div id="jsDead" style="display:none;position:fixed;bottom:6px;right:6px;z-index:99999;background:#B71C1C;color:#fff;font:600 10px/1 monospace;padding:4px 7px;border-radius:5px;">JS FALHOU · v8.4</div>
+<div id="jsAlive" style="position:fixed;bottom:6px;right:6px;z-index:99999;background:#0B5FFF;color:#fff;font:600 10px/1 monospace;padding:4px 7px;border-radius:5px;pointer-events:none;">JS OK · v8.5</div>
+<div id="jsDead" style="display:none;position:fixed;bottom:6px;right:6px;z-index:99999;background:#B71C1C;color:#fff;font:600 10px/1 monospace;padding:4px 7px;border-radius:5px;">JS FALHOU · v8.5</div>
 
 <div id="screen-login" class="login-wrap">
 <div class="login-card">
@@ -1085,6 +1085,7 @@ table.shell-table td.skip-table-empty { color: var(--text-muted); text-align: ce
 </div>
 <h1>Reporte de Obra</h1>
 <p class="sub">Ingrese con su cuenta del equipo</p>
+<div id="fbDiag" style="display:none;background:#0B1B33;color:#9FD3FF;border:1px solid #1E4E8C;border-radius:8px;padding:10px 12px;font:12px/1.5 monospace;margin-bottom:12px;white-space:normal;word-break:break-all;max-height:220px;overflow:auto;"></div>
 <div id="loginErro" class="login-erro" style="display:none"></div>
 <form id="loginForm" class="stack gap-3" onsubmit="return window.iadLogin()">
 <div class="field">
@@ -1098,7 +1099,7 @@ table.shell-table td.skip-table-empty { color: var(--text-muted); text-align: ce
 <button id="btnEntrar" class="btn w-full" type="button" onclick="return window.iadLogin()">Ingresar</button>
 <button type="button" class="btn" data-variant="link" id="btn-esqueci">Olvidé mi contraseña</button>
 </form>
-<p class="text-xs muted mt-3">Reporte de Obra — v8.4</p>
+<p class="text-xs muted mt-3">Reporte de Obra — v8.5</p>
 </div>
 </div>
 
@@ -1123,7 +1124,7 @@ table.shell-table td.skip-table-empty { color: var(--text-muted); text-align: ce
 </div>
 <div class="row items-center gap-2">
 <span class="text-xs" id="header-user"></span>
-<span class="eyebrow">v8.4</span>
+<span class="eyebrow">v8.5</span>
 <button class="btn" data-variant="outline" data-size="sm" id="btn-logout">Cerrar sesión</button>
 </div>
 </header>
@@ -1245,7 +1246,7 @@ window.addEventListener("error", function (ev) {
 var d = document.getElementById("jsDead");
 var a = document.getElementById("jsAlive");
 if (a) { a.style.display = "none"; }
-if (d) { d.style.display = "block"; d.textContent = "JS FALHOU · v8.4 · " + (ev.message || "erro"); }
+if (d) { d.style.display = "block"; d.textContent = "JS FALHOU · v8.5 · " + (ev.message || "erro"); }
 console.error("[IAD] erro de script:", ev.message, ev.filename, ev.lineno);
 });
 
@@ -1264,7 +1265,7 @@ else { alert(m); }
 if (box) { box.style.display = "none"; box.textContent = ""; }
 
 if (!window.firebase || typeof firebase.auth !== "function") {
-err("Firebase no cargó. Recargue la página.");
+err("Firebase no cargó. Ver el diagnóstico abajo y recargar.");
 return false;
 }
 
@@ -1298,7 +1299,7 @@ return false;
 } catch (ex) {
 console.error("[IAD] exceção no login:", ex);
 var d = document.getElementById("jsDead");
-if (d) { d.style.display = "block"; d.textContent = "JS FALHOU · v8.4 · " + (ex && ex.message); }
+if (d) { d.style.display = "block"; d.textContent = "JS FALHOU · v8.5 · " + (ex && ex.message); }
 return false;
 }
 };
