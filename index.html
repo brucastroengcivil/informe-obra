@@ -1102,6 +1102,8 @@ table.shell-table td.skip-table-empty { color: var(--text-muted); text-align: ce
 <div class="bloqueio-card">
 <h2>Acceso no autorizado</h2>
 <p id="bloqueio-texto" class="muted text-sm"></p>
+<p class="text-xs muted"><span id="bloqueioEmail"></span></p>
+<p class="text-xs muted"><span id="bloqueioUid"></span></p>
 <button class="btn mt-3" id="btn-logout-bloqueio">Cerrar sesión</button>
 </div>
 </div>
@@ -1235,8 +1237,33 @@ table.shell-table td.skip-table-empty { color: var(--text-muted); text-align: ce
 </dialog>
 
 <script>
-const ADMIN_UID = "gc143acuOyeFIXpe2efFI1uZ1NB3";
-const UNIDADES = ["m³", "m²", "ml", "un", "kg", "t"];
+var ADMIN_UID = "gc143acuOyeFIXpe2efFI1uZ1NB3";
+var ADMIN_EMAILS = ["balvernaz@alupar.com.pe", "admin@alupar.com.pe"];
+
+function normalizar(v) { return String(v == null ? "" : v).trim().toLowerCase(); }
+
+function ehAdmin(user) {
+var uid = String(user && user.uid ? user.uid : "").trim();
+var email = normalizar(user && user.email ? user.email : "");
+if (uid !== "" && uid === ADMIN_UID) { return true; }
+if (email !== "" && ADMIN_EMAILS.indexOf(email) !== -1) { return true; }
+return false;
+}
+
+function liberarApp(papel, nome, email) {
+meuPapel = papel;
+meuNome = nome || email || "Administrador";
+mostrarTela("appShell");
+if (typeof aplicarPermissoes === "function") { aplicarPermissoes(); }
+}
+
+function mostrarBloqueio(user) {
+var alvo = document.getElementById("bloqueioEmail");
+if (alvo) { alvo.textContent = (user && user.email) ? user.email : ""; }
+var alvoUid = document.getElementById("bloqueioUid");
+if (alvoUid) { alvoUid.textContent = "UID: " + ((user && user.uid) ? user.uid : "desconhecido"); }
+mostrarTela("semPermissaoScreen");
+}
 const ROLES = ["admin", "editor", "leitor"];
 
 const STORE = {
@@ -1297,37 +1324,48 @@ document.getElementById("screen-login").style.display = id === "screen-login" ? 
 document.getElementById("screen-bloqueio").style.display = id === "screen-bloqueio" ? "flex" : "none";
 }
 
-async function onAuthState(user) {
-if (!user) { mostrarTela("screen-login"); return; }
+function onAuthState(user) {
+if (!user) { mostrarTela("screen-login"); return Promise.resolve(); }
 const uidAtual = String(user.uid || "").trim();
-const ehAdminRaiz = uidAtual === ADMIN_UID;
-console.log("[auth] uid:", uidAtual, "| admin raiz:", ehAdminRaiz);
-
-if (ehAdminRaiz) {
 state.user = { uid: uidAtual, email: user.email };
+
+if (ehAdmin(user)) {
 state.papel = "admin";
 state.meuNome = "Administrador";
+STORE.session.set({ uid: uidAtual });
 liberarApp();
-backend.setUsuario({ uid: uidAtual, email: user.email, nome: "Administrador", papel: "admin" }).catch(() => {});
-return;
+backend.setUsuario({ uid: uidAtual, email: user.email || "", nome: "Administrador", papel: "admin" }).catch(e => console.warn("[admin sync]", e && e.code));
+return Promise.resolve();
 }
 
-let doc = null;
-try { doc = await backend.getUsuario(uidAtual); } catch (e) { doc = null; }
-if (!doc) {
+return backend.getUsuario(uidAtual)
+.then(doc => {
+if (doc) {
+state.papel = doc.papel || "leitor";
+state.meuNome = doc.nome || user.email;
+STORE.session.set({ uid: uidAtual });
+liberarApp();
+} else {
+mostrarBloqueio(user);
+}
+})
+.catch(e => {
+console.warn("[permissao]", e && e.code, e && e.message);
+mostrarBloqueio(user);
+});
+}
+
+function mostrarBloqueio(user) {
+const alvo = document.getElementById("bloqueioEmail");
+if (alvo) { alvo.textContent = (user && user.email) ? user.email : ""; }
+const alvoUid = document.getElementById("bloqueioUid");
+if (alvoUid) { alvoUid.textContent = "UID: " + ((user && user.uid) ? user.uid : "desconhecido"); }
 document.getElementById("bloqueio-texto").textContent =
 `Su correo ${user.email} no tiene permisos en esta aplicación. Solicite acceso al administrador.`;
 mostrarTela("screen-bloqueio");
-return;
-}
-state.user = { uid: uidAtual, email: user.email };
-state.papel = doc.papel;
-state.meuNome = doc.nome || user.email;
-liberarApp();
 }
 
 function liberarApp() {
-STORE.session.set({ uid: state.user.uid });
 mostrarTela("screen-app");
 document.getElementById("header-user").textContent = `${state.meuNome} · ${state.papel}`;
 document.querySelectorAll(".admin-only").forEach(el => el.classList.toggle("hidden", state.papel !== "admin"));
@@ -1577,13 +1615,8 @@ document.getElementById("form-login").addEventListener("submit", async e => {
 e.preventDefault();
 const email = document.getElementById("login-email").value.trim();
 const senha = document.getElementById("login-senha").value;
-try {
-const u = await backend.signIn(email, senha);
-state.user = u;
-await onAuthState(u);
-} catch (err) {
-window.skipUI.toast("Credenciales inválidas", { type: "error" });
-}
+backend.signIn(email, senha)
+.catch(() => { window.skipUI.toast("Credenciales inválidas", { type: "error" }); });
 });
 document.getElementById("btn-esqueci").addEventListener("click", () => window.skipUI.toast("Revise su correo para restablecer la contraseña"));
 document.getElementById("btn-logout").addEventListener("click", signOut);
