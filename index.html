@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Informe de Avance de Obra · Alupar</title>
+<title>Informe de Avance de Obra · v9.4 · Alupar</title>
 <style>
 /* Skip artifact shell — fixed styles served beside every artifact.
    Tokens, utilities and components (basecoat 1.0 markup, no CDN); artifacts
@@ -1141,7 +1141,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
       <button type="button" class="btn w-full" id="btnIngresar" onclick="return iadLogin()">Ingresar</button>
     </form>
     <p class="text-sm mt-3 text-center"><a href="#" onclick="event.preventDefault(); window.skipUI.toast(t('forgot'));" id="lnkForgot">Olvidé mi contraseña</a></p>
-    <div class="rodape-versao">v9.3</div>
+    <div class="rodape-versao">v9.4</div>
   </div>
 </section>
 
@@ -1152,7 +1152,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
       <div class="row items-center gap-2">
         <img class="brand-logo" src="alupar_branco.png" alt="Alupar">
         <div>
-          <div class="font-bold" id="appTitle">Informe de Avance de Obra</div>
+          <div class="font-bold" id="appTitle">Informe de Avance de Obra · v9.4</div>
         </div>
       </div>
       <div class="row items-center gap-3">
@@ -1493,6 +1493,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
 
   var sessao = load('iad_sessao_v90', null);
   var db = load('iad_db_v90', { usuarios: [], informes: [], projetos: [], obras: [], catalogos: { funcoes: [], equipamentos: [] } });
+  var seq = 0;
   if (!Array.isArray(db.projetos)) db.projetos = [];
   if (!Array.isArray(db.obras)) db.obras = [];
   db.projetos = db.projetos.map(function (p) { return typeof p === 'string' ? { id: uid(), nome: p } : p; });
@@ -1504,6 +1505,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
   var ultimoTexto = '';
 
   function persist() { save('iad_db_v90', db); }
+  function fsFetchNotice(e) { window.skipUI.toast('No se pudo guardar: ' + (e && e.message ? e.message : e), { type: 'error' }); }
   function uid() { return 'id' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
 
   // ---------- Login (mock) ----------
@@ -2218,7 +2220,18 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
     if (document.getElementById('vNovo') && !document.getElementById('vNovo').classList.contains('hide')) atualizarPreview();
   });
 
-  window.copiarTexto = function () { atualizarPreview(); copiarPara(ultimoTexto); };
+  window.copiarTexto = function () { sincronizarDoDOM(); atualizarPreview(); copiarPara(ultimoTexto); };
+  function sincronizarDoDOM() {
+    formState.data = document.getElementById('fData').value;
+    formState.climaManha = document.getElementById('climaM').value;
+    formState.climaTarde = document.getElementById('climaT').value;
+    formState.ocorrencias = document.getElementById('fOcor').value;
+    formState.seguranca = document.getElementById('fSeg').value;
+    formState.proximos = document.getElementById('fProx').value;
+    formState.atividades = editAtiv;
+    formState.equipos = equipoGeral;
+    formState.manoObra = mo;
+  }
 
   window.salvarInforme = function () {
     if (!document.getElementById('fProjeto').value) { window.skipUI.toast(t('nenhumProjeto'), { type: 'error' }); return; }
