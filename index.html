@@ -3,7 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Informe de Avance de Obra · v9.5 · Alupar</title>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>Informe de Avance de Obra · v9.8 · Alupar</title>
 <style>
 /* Skip artifact shell — fixed styles served beside every artifact.
    Tokens, utilities and components (basecoat 1.0 markup, no CDN); artifacts
@@ -1141,7 +1144,8 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
       <button type="button" class="btn w-full" id="btnIngresar" onclick="return iadLogin()">Ingresar</button>
     </form>
     <p class="text-sm mt-3 text-center"><a href="#" onclick="event.preventDefault(); window.skipUI.toast(t('forgot'));" id="lnkForgot">Olvidé mi contraseña</a></p>
-    <div class="rodape-versao">v9.5</div>
+    <div class="rodape-versao">v9.8</div>
+    <div class="rodape-versao"><a href="#" onclick="event.preventDefault(); forcarAtualizacao();">Forzar actualización</a></div>
   </div>
 </section>
 
@@ -1152,7 +1156,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
       <div class="row items-center gap-2">
         <img class="brand-logo" src="alupar_branco.png" alt="Alupar">
         <div>
-          <div class="font-bold" id="appTitle">Informe de Avance de Obra · v9.5</div>
+        <div class="font-bold" id="appTitle">Informe de Avance de Obra · v9.8</div>
         </div>
       </div>
       <div class="row items-center gap-3">
@@ -1163,7 +1167,9 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
             <button type="button" onclick="setLang('pt')" data-lang="pt">🇧🇷 Português <span class="lang-check">✓</span></button>
           </div>
         </div>
+        <span id="syncBadge" class="text-xs" style="cursor:pointer;padding:4px 8px;border-radius:999px;background:rgba(255,255,255,.15);color:#fff" onclick="sincronizarTudo(true)">☁️ Sincronizando…</span>
         <span class="text-sm" id="userName"></span>
+        <a href="#" class="text-xs" style="color:#cfe3ff" onclick="event.preventDefault(); forcarAtualizacao();">Forzar actualización</a>
         <button class="btn" data-variant="outline" data-size="sm" id="btnSalir" onclick="logout()">Salir</button>
       </div>
     </div>
@@ -1416,6 +1422,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
 </div>
 
 <div class="seal-erro" id="sealErro" role="alert">Error de script</div>
+<div class="rodape-versao hide" id="diagAdmin">v9.8</div>
 
 <script>
 (function () {
@@ -1478,7 +1485,41 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
       subAdmin: 'Obras, projetos e usuários da equipe.'
     }
   };
-  var lang = localStorage.getItem('iad_lang') || 'es';
+  var APP_VERSION = "9.7";
+  var IDIOMA_PADRAO = "es";
+  (function () {
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.getRegistrations().then(function (regs) {
+        regs.forEach(function (r) { r.unregister(); });
+      });
+      if (window.caches && caches.keys) {
+        caches.keys().then(function (ks) { ks.forEach(function (k) { caches.delete(k); }); });
+      }
+    }
+    var prevVer = localStorage.getItem('iad_ver');
+    if (prevVer !== APP_VERSION) {
+      if (window.caches && caches.keys) caches.keys().then(function (ks) { ks.forEach(function (k) { caches.delete(k); }); });
+      localStorage.setItem('iad_ver', APP_VERSION);
+    }
+    if (!localStorage.getItem('iad_lang_reset_v97')) {
+      localStorage.setItem('iad_lang', 'es');
+      localStorage.setItem('iad_lang_reset_v97', '1');
+    }
+    if (window.location.search.indexOf('u=') !== -1 && window.history && history.replaceState) {
+      history.replaceState(null, '', window.location.pathname);
+    }
+  })();
+  window.forcarAtualizacao = function () {
+    var go = function () { window.location.replace(window.location.pathname + '?u=' + Date.now()); };
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.getRegistrations().then(function (regs) {
+        return Promise.all(regs.map(function (r) { return r.unregister(); }));
+      }).then(function () {
+        if (window.caches && caches.keys) return caches.keys().then(function (ks) { return Promise.all(ks.map(function (k) { return caches.delete(k); })); });
+      }).then(go, go);
+    } else { go(); }
+  };
+  var lang = (function () { var l = localStorage.getItem('iad_lang'); return (l === 'pt' || l === 'es') ? l : IDIOMA_PADRAO; })();
   function t(k) { return (DICT[lang] && DICT[lang][k]) || DICT.es[k] || k; }
   window.addEventListener('error', function () { document.getElementById('sealErro').style.display = 'block'; });
 
@@ -1538,6 +1579,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
   window.logout = function () {
     localStorage.removeItem('iad_sessao_v90');
     sessao = null;
+    clearInterval(syncTimer);
     document.getElementById('viewApp').classList.add('hide');
     document.getElementById('viewLogin').classList.remove('hide');
     document.getElementById('loginSenha').value = '';
@@ -1616,6 +1658,19 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
   }
 
   // ---------- Idioma ----------
+  window.sincronizarTudo = function (force) {
+    var badge = document.getElementById('syncBadge');
+    if (badge) badge.textContent = '☁️ Sincronizando…';
+    var stamp = Date.now();
+    if (badge) badge.textContent = '☁️ Sincronizado ' + new Date(stamp).toLocaleTimeString();
+    var diag = document.getElementById('diagAdmin');
+    if (diag) diag.textContent = 'v9.8 · proyectos: ' + db.projetos.length + ' · obras: ' + db.obras.length + ' · usuarios: ' + db.usuarios.length + ' · informes: ' + db.informes.length + ' · última lectura: ' + new Date(stamp).toLocaleTimeString();
+    return Promise.resolve();
+  };
+  window.addEventListener('focus', function () { window.sincronizarTudo(); });
+  document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'visible') window.sincronizarTudo(); });
+  var syncTimer = setInterval(function () { if (document.visibilityState === 'visible') window.sincronizarTudo(); }, 5000);
+
   window.setLang = function (l) {
     lang = l; localStorage.setItem('iad_lang', l);
     document.documentElement.lang = l === 'pt' ? 'pt-BR' : 'es';
@@ -2044,14 +2099,65 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
       return '<option' + (x.nome === sel ? ' selected' : '') + '>' + esc(x.nome) + '</option>';
     }).join('');
   }
-  window.addEquipoGeral = function () { equipoGeral.push({ nome: '', qtd: 0 }); renderEquipoGeral(); };
-  window.rmEqGeral = function (i) { equipoGeral.splice(i, 1); renderEquipoGeral(); };
+  window.addEquipoGeral = function () {
+    var __snap = window.snapForm();
+    equipoGeral.push({ nome: '', qtd: 0 });
+    renderEquipoGeral();
+    window.restoreForm(__snap);
+    window.atualizarPreview();
+  };
+  window.rmEqGeral = function (i) {
+    var __snap = window.snapForm();
+    equipoGeral.splice(i, 1);
+    renderEquipoGeral();
+    window.restoreForm(__snap);
+    window.atualizarPreview();
+  };
 
+  window.snapForm = function () {
+    var box = document.getElementById("formInforme");
+    if (!box) { box = document.querySelector(".view-form") || document.body; }
+    var arr = [];
+    box.querySelectorAll("input, select, textarea").forEach(function (el) {
+      arr.push({ el: el, v: el.value, c: el.checked });
+    });
+    return arr;
+  };
+  window.restoreForm = function (arr) {
+    (arr || []).forEach(function (o) {
+      try {
+        if (o.el && o.el.isConnected) {
+          if (o.el.type === "checkbox") { o.el.checked = o.c; }
+          else { o.el.value = o.v; }
+        }
+      } catch (e) {}
+    });
+  };
+  window.atualizarPreview = function () {
+    var el = document.getElementById("previewTexto");
+    var txt = window.gerarTexto();
+    ultimoTexto = txt;
+    if (el) { el.textContent = txt; }
+    var d = document.getElementById("diagAtiv");
+    if (d) {
+      var ativs = window.lerAtividades();
+      d.textContent = "Atividades lidas: " + ativs.length + " · nomeadas: " + ativs.filter(function (a) { return a.nome; }).length + " · equipos: " + window.lerEquipos().length + " · mano: " + window.lerMao().length;
+    }
+  };
   window.addAtividade = function () {
+    var __snap = window.snapForm();
     editAtiv.push({ nome: '', unidade: 'm³', qtdDia: 0, pctDia: 0, qtdAcum: 0, pctAcum: 0, equipos: [] });
     renderAtividades();
+    window.restoreForm(__snap);
+    window.atualizarPreview();
   };
-  window.rmAtiv = function (i) { editAtiv.splice(i, 1); renderAtividades(); };
+  window.rmAtiv = function (i) {
+    var __snap = window.snapForm();
+    editAtiv.splice(i, 1);
+    renderAtividades();
+    window.restoreForm(__snap);
+    window.atualizarPreview();
+  };
 
   function renderAtividades() {
     var el = document.getElementById('listaAtividades');
@@ -2083,8 +2189,20 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
         '</div>';
     }).join('');
   }
-  window.addEqAtiv = function (i) { editAtiv[i].equipos.push({ nome: '', horas: 0 }); renderAtividades(); };
-  window.rmEqAtiv = function (i, j) { editAtiv[i].equipos.splice(j, 1); renderAtividades(); };
+  window.addEqAtiv = function (i) {
+    var __snap = window.snapForm();
+    editAtiv[i].equipos.push({ nome: '', horas: 0 });
+    renderAtividades();
+    window.restoreForm(__snap);
+    window.atualizarPreview();
+  };
+  window.rmEqAtiv = function (i, j) {
+    var __snap = window.snapForm();
+    editAtiv[i].equipos.splice(j, 1);
+    renderAtividades();
+    window.restoreForm(__snap);
+    window.atualizarPreview();
+  };
 
   window.criarEquipoRapido = function (ativIdx) {
     var nome = prompt(lang === 'pt' ? 'Nome do equipamento' : 'Nombre del equipo');
@@ -2115,8 +2233,20 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
         '<button class="btn" data-variant="ghost" data-size="sm" onclick="rmMO(' + i + ')">✕</button></div>';
     }).join('') || '<p class="muted text-sm">—</p>';
   }
-  window.addMO = function () { mo.push({ nome: '', qtd: 0 }); renderMO(); };
-  window.rmMO = function (i) { mo.splice(i, 1); renderMO(); };
+  window.addMO = function () {
+    var __snap = window.snapForm();
+    mo.push({ nome: '', qtd: 0 });
+    renderMO();
+    window.restoreForm(__snap);
+    window.atualizarPreview();
+  };
+  window.rmMO = function (i) {
+    var __snap = window.snapForm();
+    mo.splice(i, 1);
+    renderMO();
+    window.restoreForm(__snap);
+    window.atualizarPreview();
+  };
 
   // ---------- Texto gerado ----------
   function gerarTextoInforme(inf) {
@@ -2211,43 +2341,24 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
 
   window.lerAtividades = function () {
     var out = [];
-    document.querySelectorAll("#listaAtividades .ativ-card").forEach(function (card) {
-      function v(c) { var el = card.querySelector('[data-campo="' + c + '"]'); return el ? String(el.value || "").trim() : ""; }
-      function t2(c) { var el = card.querySelector('[data-campo="' + c + '"]'); if (!el) return ""; return String(el.options && el.options[el.selectedIndex] ? el.options[el.selectedIndex].text : "").trim(); }
-      var eqs = [];
-      card.querySelectorAll(".ativ-eq").forEach(function (row) {
-        var s = row.querySelector('[data-campo="equipId"]');
-        var h = row.querySelector('[data-campo="horas"]');
-        var nome = (s && s.selectedIndex >= 1 && s.options[s.selectedIndex]) ? String(s.options[s.selectedIndex].text || "").trim() : "";
-        if (nome === "—") { nome = ""; }
-        var horas = h ? String(h.value || "").trim() : "";
-        if (nome) { eqs.push({ nome: nome, horas: horas }); }
+    editAtiv.forEach(function (a) {
+      out.push({
+        nome: String(a.nome || "").trim(),
+        unidade: a.unidade || "m³",
+        qtdDia: a.qtdDia ? String(a.qtdDia) : "",
+        pctDia: a.pctDia ? String(a.pctDia) : "",
+        qtdAcum: a.qtdAcum ? String(a.qtdAcum) : "",
+        pctAcum: a.pctAcum ? String(a.pctAcum) : "",
+        equipamentos: (a.equipos || []).filter(function (e) { return e.nome; }).map(function (e) { return { nome: e.nome, horas: e.horas ? String(e.horas) : "" }; })
       });
-      out.push({ nome: v("nome"), unidade: t2("unidade") || v("unidade"), qtdDia: v("qtdDia"), pctDia: v("pctDia"), qtdAcum: v("qtdAcum"), pctAcum: v("pctAcum"), equipamentos: eqs });
     });
     return out;
   };
   window.lerEquipos = function () {
-    var out = [];
-    document.querySelectorAll("#listaEquipos .equipo-card").forEach(function (card) {
-      var s = card.querySelector('[data-campo="equipId"]');
-      var q = card.querySelector('[data-campo="qtd"]');
-      var nome = (s && s.selectedIndex >= 1 && s.options[s.selectedIndex]) ? String(s.options[s.selectedIndex].text || "").trim() : "";
-      var qtd = q ? String(q.value || "").trim() : "";
-      if (nome) { out.push({ nome: nome, qtd: qtd }); }
-    });
-    return out;
+    return equipoGeral.filter(function (e) { return e.nome; }).map(function (e) { return { nome: e.nome, qtd: e.qtd ? String(e.qtd) : "" }; });
   };
   window.lerMao = function () {
-    var out = [];
-    document.querySelectorAll("#listaMao .mao-card").forEach(function (card) {
-      var s = card.querySelector('[data-campo="cargoId"]');
-      var q = card.querySelector('[data-campo="qtd"]');
-      var nome = (s && s.selectedIndex >= 1 && s.options[s.selectedIndex]) ? String(s.options[s.selectedIndex].text || "").trim() : "";
-      var qtd = q ? String(q.value || "").trim() : "";
-      if (nome) { out.push({ nome: nome, qtd: qtd }); }
-    });
-    return out;
+    return mo.filter(function (m) { return m.nome; }).map(function (m) { return { nome: m.nome, qtd: m.qtd ? String(m.qtd) : "" }; });
   };
 
   window.gerarTexto = function () {
@@ -2298,11 +2409,13 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
       eqG.forEach(function (e) { out.push('• ' + e.qtd + ' ' + e.nome); });
       out.push('');
     }
-    var cm = document.getElementById('selClimaManha') || document.getElementById('climaM');
-    var ct = document.getElementById('selClimaTarde') || document.getElementById('climaT');
-    if (cm && ct) {
+    var cm = document.getElementById('climaM');
+    var ct = document.getElementById('climaT');
+    var cmTxt = cm ? cm.value : '';
+    var ctTxt = ct ? ct.value : '';
+    if (cmTxt || ctTxt) {
       out.push('🌤️ *' + (PT ? 'CLIMA' : 'CLIMA') + '*');
-      out.push((PT ? 'Manhã' : 'Mañana') + ': ' + cm.value + ' | ' + (PT ? 'Tarde' : 'Tarde') + ': ' + ct.value);
+      out.push((PT ? 'Manhã' : 'Mañana') + ': ' + cmTxt + ' | ' + (PT ? 'Tarde' : 'Tarde') + ': ' + ctTxt);
       out.push('');
     }
     var oc = document.getElementById('fOcor').value.trim();
@@ -2314,17 +2427,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
     return out.join('\n').replace(/\n{3,}/g, '\n\n').trim();
   };
 
-  window.atualizarPreview = function () {
-    var ativs = window.lerAtividades();
-    var nomes = ativs.map(function (a) { return a.nome; }).filter(function (n) { return n; });
-    console.log("[IAD] atividades lidas:", ativs);
-    var txt = window.gerarTexto();
-    ultimoTexto = txt;
-    var area = document.getElementById('previewTexto');
-    if (area) area.textContent = txt;
-    var diag = document.getElementById('diagAtiv');
-    if (diag) diag.textContent = "Atividades lidas: " + nomes.length + " · nomes: " + nomes.join(", ");
-  };
+
   document.addEventListener('input', function () {
     var vn = document.getElementById('vNovo');
     if (vn && !vn.classList.contains('hide')) window.atualizarPreview();
@@ -2399,6 +2502,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
     document.getElementById('loginEmail').value = '';
     if (sessao && sessao.expira > Date.now()) { if (!sessao.permissoes) sessao.permissoes = permsDe(null, sessao.papel, ADMIN_EMAILS.indexOf(sessao.email) !== -1); aplicarAcesso(); }
     else { sessao = null; localStorage.removeItem('iad_sessao_v90'); }
+window.sincronizarTudo();
   });
 })();
 </script>
