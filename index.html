@@ -6,7 +6,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>Informe de Avance de Obra · v11.2 · Alupar</title>
+<title>Informe de Avance de Obra · v11.3 · Alupar</title>
 <style>
 /* Skip artifact shell — fixed styles served beside every artifact.
    Tokens, utilities and components (basecoat 1.0 markup, no CDN); artifacts
@@ -1151,7 +1151,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
     </form>
     <p class="text-sm mt-3 text-center"><a href="#" onclick="event.preventDefault(); iadEsqueci();" id="lnkForgot">Olvidé mi contraseña</a></p>
     <div class="sync-login" id="loginSync">☁️ …</div>
-    <div class="rodape-versao">v11.2</div>
+    <div class="rodape-versao">v11.3</div>
   </div>
 </section>
 
@@ -1162,7 +1162,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
       <div class="row items-center gap-2">
         <img class="brand-logo" src="alupar_branco.png" alt="Alupar">
         <div>
-        <div class="font-bold" id="appTitle">Informe de Avance de Obra <span class="app-ver">· v11.2</span></div>
+        <div class="font-bold" id="appTitle">Informe de Avance de Obra <span class="app-ver">· v11.3</span></div>
         </div>
       </div>
       <div class="row items-center gap-3">
@@ -1426,7 +1426,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
 </div>
 
 <div class="seal-erro" id="sealErro" role="alert">Error de script</div>
-<div class="rodape-versao hide" id="diagAdmin">v11.2</div>
+<div class="rodape-versao hide" id="diagAdmin">v11.3</div>
 
 <script>
 /* ===================== CONFIGURAÇÃO DO FIREBASE (edite aqui) =====================
@@ -1434,12 +1434,12 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
    Cole os valores no lugar de COLE_AQUI. Estes dados NÃO são secretos; a segurança vem das
    regras do Firestore (arquivo firestore.rules) e do login (Firebase Authentication). */
 window.FIREBASE_CONFIG = {
-  apiKey: "COLE_AQUI",
-  authDomain: "COLE_AQUI.firebaseapp.com",
-  projectId: "COLE_AQUI",
-  storageBucket: "COLE_AQUI.appspot.com",
-  messagingSenderId: "COLE_AQUI",
-  appId: "COLE_AQUI"
+  apiKey: "AIzaSyAhaLq3IJ67CpkHEG1-8rtCYSNtFARs5uk",
+  authDomain: "informe-diario-de-obra.firebaseapp.com",
+  projectId: "informe-diario-de-obra",
+  storageBucket: "informe-diario-de-obra.firebasestorage.app",
+  messagingSenderId: "647398384847",
+  appId: "1:647398384847:web:8f585e9daf71e311f603ba"
 };
 </script>
 <script>
@@ -1531,7 +1531,7 @@ window.FIREBASE_CONFIG = {
       lidas: 'Atividades', nomeadas: 'com nome'
     }
   };
-  var APP_VERSION = "11.2";
+  var APP_VERSION = "11.3";
   var IDIOMA_PADRAO = "es";
 
   function lsGet(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
@@ -1825,7 +1825,7 @@ window.FIREBASE_CONFIG = {
   function renderDados() {
     atualizarBadge();
     var diag = document.getElementById('diagAdmin');
-    if (diag) diag.textContent = 'v11.2 · ' + estado + ' · proyectos: ' + db.projetos.length + ' · obras: ' + db.obras.length + ' · usuarios: ' + db.usuarios.length + ' · informes: ' + db.informes.length;
+    if (diag) diag.textContent = 'v11.3 · ' + estado + ' · proyectos: ' + db.projetos.length + ' · obras: ' + db.obras.length + ' · usuarios: ' + db.usuarios.length + ' · informes: ' + db.informes.length;
     if (!sessao) return;
     refreshSessao();
     if (!sessao) return;
