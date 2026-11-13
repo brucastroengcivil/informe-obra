@@ -3,10 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#003DAD">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png?v=2">
+<link rel="icon" type="image/png" sizes="48x48" href="icons/favicon-48.png?v=2">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png?v=2">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=2">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="IAO">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>Informe de Avance de Obra · v11.3 · Alupar</title>
+<title>Informe de Avance de Obra · v11.7 · Alupar</title>
 <style>
 /* Skip artifact shell — fixed styles served beside every artifact.
    Tokens, utilities and components (basecoat 1.0 markup, no CDN); artifacts
@@ -1151,7 +1161,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
     </form>
     <p class="text-sm mt-3 text-center"><a href="#" onclick="event.preventDefault(); iadEsqueci();" id="lnkForgot">Olvidé mi contraseña</a></p>
     <div class="sync-login" id="loginSync">☁️ …</div>
-    <div class="rodape-versao">v11.3</div>
+    <div class="rodape-versao">v11.7</div>
   </div>
 </section>
 
@@ -1162,7 +1172,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
       <div class="row items-center gap-2">
         <img class="brand-logo" src="alupar_branco.png" alt="Alupar">
         <div>
-        <div class="font-bold" id="appTitle">Informe de Avance de Obra <span class="app-ver">· v11.3</span></div>
+        <div class="font-bold" id="appTitle">Informe de Avance de Obra <span class="app-ver">· v11.7</span></div>
         </div>
       </div>
       <div class="row items-center gap-3">
@@ -1204,6 +1214,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
         <div class="row gap-2 mb-3">
           <button class="btn" data-variant="outline" data-size="sm" id="fTodos" onclick="setFiltro('todos')">Todos</button>
           <button class="btn" data-variant="outline" data-size="sm" id="fMios" onclick="setFiltro('mios')">Míos</button>
+          <select class="input" id="fProjFiltro" style="width:auto;max-width:240px" onchange="setFiltroProj(this.value)" aria-label="Proyecto"><option value="">Todos los proyectos</option></select>
           <input class="input grow" id="busca" placeholder="Buscar por obra o proyecto" oninput="renderInformes()">
         </div>
         <div id="listaInformes" class="shell-grid cols-2 gap-3"></div>
@@ -1315,7 +1326,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
       <section id="vNovo" class="hide">
         <div class="row between items-center mb-3">
           <div>
-            <h2 class="text-2xl font-bold mb-0">Nuevo informe</h2>
+            <h2 class="text-2xl font-bold mb-0" id="tNovo">Nuevo informe</h2>
             <p class="muted text-sm">Completa el avance del día y genera el texto para enviar.</p>
           </div>
           <div class="row gap-2">
@@ -1327,7 +1338,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
         <div class="card mb-4">
           <header><h3>Datos generales</h3><p class="muted text-xs">Fecha, proyecto y obra del informe.</p></header>
           <section class="shell-grid cols-3 gap-3">
-            <div class="field"><label for="fData">Fecha</label><input class="input" type="date" id="fData"></div>
+            <div class="field"><label for="fData">Fecha</label><div class="row gap-2 items-center"><input class="input grow" type="text" id="fData" inputmode="numeric" maxlength="10" placeholder="dd/mm/aaaa" autocomplete="off"><button type="button" class="btn" data-variant="outline" data-size="sm" onclick="abrirCalendario()" aria-label="Calendario">📅</button><input type="date" id="fDataPick" tabindex="-1" aria-hidden="true" style="position:absolute;opacity:0;width:0;height:0;pointer-events:none" onchange="aoEscolherData(this.value)"></div></div>
             <div class="field"><label for="fProjeto">Proyecto</label><select class="input" id="fProjeto" onchange="popularObras()"></select></div>
             <div class="field"><label for="fObra">Obra</label><select class="input" id="fObra"></select><p class="text-xs muted hide" id="msgSemObras">Este proyecto no tiene obras.</p></div>
           </section>
@@ -1359,7 +1370,10 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
           <header><h3>Equipos generales</h3><p class="muted text-xs">Cantidad de cada tipo de equipo presente hoy.</p></header>
           <section>
             <div id="listaEquiposGeral" class="stack gap-2 mb-2"></div>
-            <button class="btn" data-variant="outline" data-size="sm" onclick="addEquipoGeral()">＋ Agregar equipo</button>
+            <div class="row gap-2">
+              <button class="btn" data-variant="outline" data-size="sm" onclick="addEquipoGeral()">＋ Agregar equipo</button>
+              <button class="btn" data-variant="ghost" data-size="sm" onclick="criarEquipoGeral()">＋ Crear equipo</button>
+            </div>
           </section>
         </div>
 
@@ -1402,16 +1416,12 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
             <p class="muted text-sm" id="detSub"></p>
           </div>
           <div class="row gap-2 no-print">
+            <button class="btn" data-size="sm" id="btnEditarInf" onclick="editarInforme()">✏️ Editar</button>
             <button class="btn" data-variant="outline" data-size="sm" onclick="copiarDetalhe()">📋 Copiar texto</button>
             <button class="btn" data-variant="outline" data-size="sm" id="btnCompartirB" onclick="compartirTexto(ultimoTexto)">Compartir</button>
             <button class="btn" data-variant="secondary" data-size="sm" onclick="window.print()">Imprimir / PDF</button>
             <button class="btn" data-variant="ghost" data-size="sm" onclick="go('inicio')">Volver</button>
           </div>
-        </div>
-        <div class="hero-card mb-4">
-          <div class="text-xs muted uppercase">Avance medio del día</div>
-          <div class="value" id="detAvance">0%</div>
-          <div class="text-xs muted">Promedio de % del día de todas las actividades.</div>
         </div>
         <pre class="preview" id="detTexto"></pre>
       </section>
@@ -1426,7 +1436,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
 </div>
 
 <div class="seal-erro" id="sealErro" role="alert">Error de script</div>
-<div class="rodape-versao hide" id="diagAdmin">v11.3</div>
+<div class="rodape-versao hide" id="diagAdmin">v11.7</div>
 
 <script>
 /* ===================== CONFIGURAÇÃO DO FIREBASE (edite aqui) =====================
@@ -1487,7 +1497,7 @@ window.FIREBASE_CONFIG = {
       salvarErro: 'No se pudo guardar: ', usuarioRemovido: 'Su usuario fue eliminado.',
       semNome: '(sin nombre)', conectandoAguarde: 'Conectando con la base de datos… intente en unos segundos.',
       migrado: 'Datos de este dispositivo incorporados a la base compartida: ', agregado: 'Agregado',
-      lidas: 'Actividades', nomeadas: 'con nombre'
+      lidas: 'Actividades', nomeadas: 'con nombre', dataInvalida: 'Fecha inválida (use dd/mm/aaaa).'
     },
     pt: {
       forgot: '',
@@ -1528,10 +1538,10 @@ window.FIREBASE_CONFIG = {
       salvarErro: 'Não foi possível salvar: ', usuarioRemovido: 'Seu usuário foi excluído.',
       semNome: '(sem nome)', conectandoAguarde: 'Conectando ao banco de dados… tente em alguns segundos.',
       migrado: 'Dados deste aparelho incorporados ao banco compartilhado: ', agregado: 'Adicionado',
-      lidas: 'Atividades', nomeadas: 'com nome'
+      lidas: 'Atividades', nomeadas: 'com nome', dataInvalida: 'Data inválida (use dd/mm/aaaa).'
     }
   };
-  var APP_VERSION = "11.3";
+  var APP_VERSION = "11.8";
   var IDIOMA_PADRAO = "es";
 
   function lsGet(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
@@ -1825,7 +1835,7 @@ window.FIREBASE_CONFIG = {
   function renderDados() {
     atualizarBadge();
     var diag = document.getElementById('diagAdmin');
-    if (diag) diag.textContent = 'v11.3 · ' + estado + ' · proyectos: ' + db.projetos.length + ' · obras: ' + db.obras.length + ' · usuarios: ' + db.usuarios.length + ' · informes: ' + db.informes.length;
+    if (diag) diag.textContent = 'v11.7 · ' + estado + ' · proyectos: ' + db.projetos.length + ' · obras: ' + db.obras.length + ' · usuarios: ' + db.usuarios.length + ' · informes: ' + db.informes.length;
     if (!sessao) return;
     refreshSessao();
     if (!sessao) return;
@@ -2048,27 +2058,73 @@ window.FIREBASE_CONFIG = {
   // ---------- Início ----------
   window.setFiltro = function (f) { filtro = f; renderInformes(); };
 
+  // ---- datas: o app guarda AAAA-MM-DD e mostra/digita dd/mm/aaaa ----
+  function pad2(n) { return (n < 10 ? '0' : '') + n; }
+  function hojeISO() { var d = new Date(); return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate()); }   // data LOCAL (não UTC)
+  function isoParaBR(iso) { var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || ''); return m ? m[3] + '/' + m[2] + '/' + m[1] : ''; }
+  function brParaISO(br) {
+    var m = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(String(br || '').trim());
+    if (!m) return '';
+    var d = +m[1], mo = +m[2], y = +m[3], dt = new Date(y, mo - 1, d);
+    if (dt.getFullYear() !== y || dt.getMonth() !== mo - 1 || dt.getDate() !== d) return '';
+    return m[3] + '-' + m[2] + '-' + m[1];
+  }
+  window.abrirCalendario = function () {
+    var p = document.getElementById('fDataPick');
+    p.value = brParaISO(document.getElementById('fData').value) || hojeISO();
+    if (p.showPicker) { try { p.showPicker(); return; } catch (e) {} }
+    p.focus(); p.click();
+  };
+  window.aoEscolherData = function (v) {
+    var f = document.getElementById('fData');
+    f.value = isoParaBR(v);
+    f.dispatchEvent(new Event('input', { bubbles: true }));
+  };
+
+  // ---- filtro por projeto (só mostra os projetos que o usuário pode ver) ----
+  var filtroProj = '';
+  window.setFiltroProj = function (v) { filtroProj = v; renderInformes(); };
+  function projetosPermitidos() {
+    var scope = scopeAtual();
+    return db.projetos.filter(function (p) {
+      if (!scope) return true;
+      if (scope.projetos.indexOf(p.id) !== -1) return true;
+      return db.obras.some(function (o) { return o.projetoId === p.id && scope.obras.indexOf(o.id) !== -1; });
+    });
+  }
+  function popularFiltroProj() {
+    var sel = document.getElementById('fProjFiltro');
+    if (!sel) return;
+    var lista = projetosPermitidos();
+    if (filtroProj && !lista.some(function (p) { return p.id === filtroProj; })) filtroProj = '';
+    sel.innerHTML = '<option value="">' + (lang === 'pt' ? 'Todos os projetos' : 'Todos los proyectos') + '</option>' +
+      lista.map(function (p) { return '<option value="' + esc(p.id) + '"' + (p.id === filtroProj ? ' selected' : '') + '>' + esc(p.nome) + '</option>'; }).join('');
+  }
+
   function renderInformes() {
+    popularFiltroProj();
     var lista = document.getElementById('listaInformes');
     var q = (document.getElementById('busca').value || '').toLowerCase();
     var scope = scopeAtual();
     var items = db.informes.filter(function (i) {
       if (scope && scope.obras.indexOf(i.obraId) === -1 && scope.projetos.indexOf(i.projetoId) === -1) return false;
       if (filtro === 'mios' && i.autorEmail !== (sessao && sessao.email)) return false;
+      if (filtroProj && i.projetoId !== filtroProj) return false;
       var txt = ((i.obra || '') + ' ' + (i.projeto || '')).toLowerCase();
       return !q || txt.indexOf(q) !== -1;
     }).slice().sort(function (a, b) { return String(b.data || '').localeCompare(String(a.data || '')); });
-    document.getElementById('pillInf').textContent = db.informes.length + ' ' + (lang === 'pt' ? 'relatórios' : 'informes');
+    document.getElementById('pillInf').textContent = items.length + ' ' + (lang === 'pt' ? 'relatórios' : 'informes');
     document.getElementById('vazioInformes').classList.toggle('hide', items.length > 0 || !carregado.informes);
     lista.innerHTML = items.map(function (i) {
       return '<div class="card" style="cursor:pointer" onclick="verInforme(\'' + i.id + '\')">' +
-        '<div class="p-4"><div class="row between items-center mb-2"><span class="badge" data-variant="outline">' + esc(i.data) + '</span>' +
+        '<div class="p-4"><div class="row between items-center mb-2"><span class="badge" data-variant="outline">' + esc(fmtData(i.data)) + '</span>' +
         '<span class="text-xs muted">' + esc(i.autorNome) + ' · ' + esc(i.autorEmail) + '</span></div>' +
         '<h3 class="font-bold m-0">' + esc(i.obra) + '</h3>' +
-        '<p class="muted text-sm mb-2">' + esc(i.projeto) + '</p>' +
-        '<div class="text-xs muted">' + t('avance') + ': <strong>' + avanceMedio(i) + '%</strong></div></div></div>';
+        '<p class="muted text-sm m-0">' + esc(i.projeto) + '</p></div></div>';
     }).join('');
   }
+
+  window.renderInformes = renderInformes;   // usado pelo campo de busca (oninput)
 
   function avanceMedio(i) {
     var acts = i.atividades || [];
@@ -2082,8 +2138,9 @@ window.FIREBASE_CONFIG = {
     if (!inf) return;
     editId = id;
     document.getElementById('detTitulo').textContent = inf.obra;
-    document.getElementById('detSub').textContent = inf.projeto + ' · ' + inf.data;
-    document.getElementById('detAvance').textContent = avanceMedio(inf) + '%';
+    document.getElementById('detSub').textContent = inf.projeto + ' · ' + fmtData(inf.data);
+    var be = document.getElementById('btnEditarInf');
+    if (be) be.classList.toggle('hide', !(temPerm('editar_informes') || (sessao && inf.autorId === sessao.uid)));
     var txt = compor(inf);
     ultimoTexto = txt;
     document.getElementById('detTexto').textContent = txt;
@@ -2470,7 +2527,8 @@ window.FIREBASE_CONFIG = {
   // =====================================================================
   window.novoInforme = function () {
     editId = null; rascunho = null; editAtiv = []; equipoGeral = []; mo = [];
-    document.getElementById('fData').value = new Date().toISOString().slice(0, 10);
+    document.getElementById('tNovo').textContent = lang === 'pt' ? 'Novo relatório' : 'Nuevo informe';
+    document.getElementById('fData').value = isoParaBR(hojeISO());
     ['fOcor', 'fSeg', 'fProx'].forEach(function (id) { document.getElementById(id).value = ''; });
     document.getElementById('climaM').selectedIndex = 0;
     document.getElementById('climaT').selectedIndex = 0;
@@ -2480,6 +2538,45 @@ window.FIREBASE_CONFIG = {
     go('novo');
   };
   window.limparForm = function () { novoInforme(); };
+
+  // Reabre um informe já guardado no formulário para corrigi-lo (grava sobre o MESMO informe, conferindo a revisão)
+  window.editarInforme = function () {
+    var inf = db.informes.filter(function (i) { return i.id === editId; })[0];
+    if (!inf) return;
+    var id = inf.id;
+    window.novoInforme();                         // zera e abre o formulário
+    document.getElementById('fData').value = isoParaBR(inf.data);
+    popularProjetos(inf.projetoId);
+    var ps = document.getElementById('fProjeto');
+    if (inf.projetoId && ps.value !== inf.projetoId) { ps.insertAdjacentHTML('beforeend', '<option value="' + esc(inf.projetoId) + '">' + esc(inf.projeto) + '</option>'); ps.value = inf.projetoId; }
+    window.popularObras(inf.obraId || '');
+    var os = document.getElementById('fObra');
+    if (inf.obraId && os.value !== inf.obraId) { os.insertAdjacentHTML('beforeend', '<option value="' + esc(inf.obraId) + '">' + esc(inf.obra) + '</option>'); os.value = inf.obraId; }
+    ['climaM:manha', 'climaT:tarde'].forEach(function (x) {
+      var el = document.getElementById(x.split(':')[0]), v = (inf.clima || {})[x.split(':')[1]];
+      if (!v) return;
+      var achou = Array.prototype.some.call(el.options, function (o) { return o.value === v; });
+      if (!achou) el.insertAdjacentHTML('beforeend', '<option>' + esc(v) + '</option>');
+      el.value = v;
+    });
+    document.getElementById('fOcor').value = inf.ocorrencias || '';
+    document.getElementById('fSeg').value = inf.seguranca || '';
+    document.getElementById('fProx').value = inf.proximos || '';
+    editAtiv = (inf.atividades || []).map(function (a) {
+      return {
+        nome: a.nome || '', unidade: a.unidade || 'm³', qtdDia: Number(a.qtdDia) || 0, pctDia: Number(a.pctDia) || 0,
+        qtdAcum: Number(a.qtdAcum) || 0, pctAcum: Number(a.pctAcum) || 0,
+        equipos: (a.equipamentos || a.equipos || []).map(function (e) { return { nome: e.nome, horas: Number(e.horas) || 0 }; })
+      };
+    });
+    equipoGeral = (inf.equipos || []).map(function (e) { return { nome: e.nome, qtd: Number(e.qtd) || 0 }; });
+    mo = (inf.manoObra || []).map(function (m) { return { nome: m.nome, qtd: Number(m.qtd) || 0 }; });
+    editId = id;
+    rascunho = { obj: inf, sig: null };
+    document.getElementById('tNovo').textContent = lang === 'pt' ? 'Editar relatório' : 'Editar informe';
+    renderEditor();
+    rascunho.sig = JSON.stringify(coletar());     // estado "como foi guardado": só grava se você mudar algo
+  };
 
   function popularProjetos(manter) {
     var sel = document.getElementById('fProjeto');
@@ -2618,6 +2715,15 @@ window.FIREBASE_CONFIG = {
     renderEquipoGeral(); renderAtividades(); window.atualizarPreview();
     window.skipUI.toast(t('agregado'), { type: 'success' });
   };
+  window.criarEquipoGeral = async function () {
+    var nome = prompt(lang === 'pt' ? 'Nome do equipamento' : 'Nombre del equipo');
+    if (!nome || !nome.trim()) return;
+    var item = await addCatalogo('equipamentos', nome);
+    if (!item) return;
+    equipoGeral.push({ nome: item.nome, qtd: 0 });
+    renderEquipoGeral(); renderAtividades(); window.atualizarPreview();
+    window.skipUI.toast(t('agregado'), { type: 'success' });
+  };
   window.criarCargoRapido = async function () {
     var nome = prompt(lang === 'pt' ? 'Nome do cargo' : 'Nombre del cargo');
     if (!nome || !nome.trim()) return;
@@ -2694,9 +2800,9 @@ window.FIREBASE_CONFIG = {
       });
     });
     return {
-      data: document.getElementById('fData').value,
+      data: brParaISO(document.getElementById('fData').value),
       projetoId: ps.value, projeto: projeto, obraId: os.value, obra: obra,
-      autorNome: sessao ? sessao.nome : '', autorEmail: sessao ? sessao.email : '', autorId: sessao ? sessao.uid : '',
+      autorNome: rascunho ? rascunho.obj.autorNome : (sessao ? sessao.nome : ''), autorEmail: rascunho ? rascunho.obj.autorEmail : (sessao ? sessao.email : ''), autorId: rascunho ? rascunho.obj.autorId : (sessao ? sessao.uid : ''),
       atividades: ativs,
       equipos: equipoGeral.filter(function (e) { return e.nome; }).map(function (e) { return { nome: e.nome, qtd: Number(e.qtd) || 0 }; }),
       manoObra: mo.filter(function (m) { return m.nome; }).map(function (m) { return { nome: m.nome, qtd: Number(m.qtd) || 0 }; }),
@@ -2796,9 +2902,9 @@ window.FIREBASE_CONFIG = {
     salvando = true;
     try {
       var inf = coletar();
+      if (!inf.data) { window.skipUI.toast(t('dataInvalida'), { type: 'error' }); return null; }
       var sig = JSON.stringify(inf);
       if (rascunho && rascunho.sig === sig) return rascunho.obj;      // nada mudou desde o último salvamento
-      inf.autorId = sessao.uid;
       inf.responsavel = inf.autorNome;
       var r;
       if (rascunho) { inf.id = rascunho.obj.id; inf.criadoEm = rascunho.obj.criadoEm; r = await gravar('informes', inf, rascunho.obj.rev); }
@@ -2854,6 +2960,12 @@ window.FIREBASE_CONFIG = {
     vn.addEventListener('change', aoEditar);
     document.addEventListener('input', function () { if (visivel('vNovo')) window.atualizarPreview(); });
     document.addEventListener('change', function () { if (visivel('vNovo')) window.atualizarPreview(); });
+    document.getElementById('fData').addEventListener('input', function () {
+      var v = this.value.replace(/\D/g, '').slice(0, 8);
+      if (v.length > 4) v = v.slice(0, 2) + '/' + v.slice(2, 4) + '/' + v.slice(4);
+      else if (v.length > 2) v = v.slice(0, 2) + '/' + v.slice(2);
+      this.value = v;
+    });
     document.getElementById('loginSenha').value = '';
     document.getElementById('loginEmail').value = '';
     atualizarBadge();
