@@ -6,7 +6,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>Informe de Avance de Obra · v11.0 · Alupar</title>
+<title>Informe de Avance de Obra · v11.2 · Alupar</title>
 <style>
 /* Skip artifact shell — fixed styles served beside every artifact.
    Tokens, utilities and components (basecoat 1.0 markup, no CDN); artifacts
@@ -1035,7 +1035,7 @@ table.shell-table td.skip-table-empty { color: var(--text-muted); text-align: ce
 body { background: var(--bg); }
 .app-header { background: #004a99; color: #fff; position: sticky; top: 0; z-index: 30; }
 .app-header .muted { color: #cfe3ff; }
-.brand-logo { height: 28px; width: auto; display: block; mix-blend-mode: screen; }
+.brand-logo { height: 40px; width: auto; display: block; mix-blend-mode: screen; }
 .perm-list { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
 .perm-panel { border: 1px solid var(--border); border-radius: var(--radius); padding: 12px; margin-top: 8px; }
 .perm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
@@ -1071,7 +1071,7 @@ body { background: var(--bg); }
 .lang-pill-pop button:hover { background: #e6f0fb; }
 main { padding-bottom: 70px; }
 @media (min-width: 900px) { main { padding-bottom: 0; } }
-.nav-bar { display: flex; gap: 6px; background: #fff; border-bottom: 1px solid var(--border); padding: 8px 12px; position: sticky; top: 56px; z-index: 20; }
+.nav-bar { display: flex; gap: 6px; background: #fff; border-bottom: 1px solid var(--border); padding: 8px 12px; position: sticky; top: 66px; z-index: 20; }
 .nav-bar button { border: 0; background: transparent; padding: 8px 12px; border-radius: 8px; cursor: pointer; color: var(--text); font: inherit; }
 .nav-bar button.active { background: #004a99; color: #fff; }
 .nav-bar button:focus-visible { outline: 2px solid #004a99; outline-offset: 2px; }
@@ -1086,7 +1086,8 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
 .hero-card { background: linear-gradient(135deg, #e6f0fb, #ffffff); border: 1px solid #bfdbfe; border-radius: var(--radius); padding: 20px; }
 .hero-card .value { color: var(--accent-text, #003a7a); font-size: 32px; font-weight: 700; }
 .hide { display: none !important; }
-.logo-login { height: 34px; width: auto; display: block; margin: 0 auto 14px auto; }
+.app-ver { font-size: 10px; font-weight: 400; opacity: .85; margin-left: 4px; }
+.logo-login { height: 52px; width: auto; display: block; margin: 0 auto 14px auto; }
 .logo-login-fallback { display: none; text-align: center; font-weight: 800; font-size: 22px; color: #004a99; letter-spacing: .5px; margin-bottom: 14px; }
 .perm-scope { border: 1px solid var(--border); border-radius: var(--radius); padding: 12px; margin-top: 8px; }
 .perm-scope-list { max-height: 160px; overflow-y: auto; border: 1px solid var(--border); border-radius: 8px; padding: 8px; margin-top: 6px; }
@@ -1150,8 +1151,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
     </form>
     <p class="text-sm mt-3 text-center"><a href="#" onclick="event.preventDefault(); iadEsqueci();" id="lnkForgot">Olvidé mi contraseña</a></p>
     <div class="sync-login" id="loginSync">☁️ …</div>
-    <div class="rodape-versao">v11.0</div>
-    <div class="rodape-versao"><a href="#" onclick="event.preventDefault(); forcarAtualizacao();">Forzar actualización</a></div>
+    <div class="rodape-versao">v11.2</div>
   </div>
 </section>
 
@@ -1162,7 +1162,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
       <div class="row items-center gap-2">
         <img class="brand-logo" src="alupar_branco.png" alt="Alupar">
         <div>
-        <div class="font-bold" id="appTitle">Informe de Avance de Obra · v11.0</div>
+        <div class="font-bold" id="appTitle">Informe de Avance de Obra <span class="app-ver">· v11.2</span></div>
         </div>
       </div>
       <div class="row items-center gap-3">
@@ -1172,7 +1172,6 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
         </div>
         <span id="syncBadge" class="text-xs" style="cursor:pointer;padding:4px 8px;border-radius:999px;background:rgba(255,255,255,.15);color:#fff" onclick="sincronizarTudo(true)">☁️ Sincronizando…</span>
         <span class="text-sm" id="userName"></span>
-        <a href="#" class="text-xs" style="color:#cfe3ff" onclick="event.preventDefault(); forcarAtualizacao();">Forzar actualización</a>
         <button class="btn" data-variant="outline" data-size="sm" id="btnSalir" onclick="logout()">Salir</button>
       </div>
     </div>
@@ -1321,7 +1320,6 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
           </div>
           <div class="row gap-2">
             <button class="btn" data-variant="outline" data-size="sm" onclick="limparForm()">Limpiar</button>
-            <button class="btn" data-variant="secondary" data-size="sm" onclick="copiarTexto()">Copiar texto</button>
             <button class="btn" data-size="sm" onclick="salvarInforme()">Guardar informe</button>
           </div>
         </div>
@@ -1336,14 +1334,6 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
         </div>
 
         <div class="card mb-4">
-          <header><h3>Equipos generales</h3><p class="muted text-xs">Cantidad de cada tipo de equipo presente hoy.</p></header>
-          <section>
-            <div id="listaEquiposGeral" class="stack gap-2 mb-2"></div>
-            <button class="btn" data-variant="outline" data-size="sm" onclick="addEquipoGeral()">＋ Agregar equipo</button>
-          </section>
-        </div>
-
-        <div class="card mb-4">
           <header>
             <div class="row between items-center"><h3>Actividades</h3><button class="btn" data-size="sm" onclick="addAtividade()">＋ Agregar actividad</button></div>
             <p class="muted text-xs">Cada actividad registra cantidades, porcentajes y los equipos que trabajaron.</p>
@@ -1354,24 +1344,31 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
           </section>
         </div>
 
-        <div class="shell-grid cols-2 gap-4 mb-4">
-          <div class="card">
-            <header><h3>Mano de obra</h3><p class="muted text-xs">Personal por cargo.</p></header>
-            <section>
-              <div id="listaMO" class="stack gap-2 mb-2"></div>
-              <div class="row gap-2">
-                <button class="btn" data-variant="outline" data-size="sm" onclick="addMO()">＋ Agregar cargo</button>
-                <button class="btn" data-variant="ghost" data-size="sm" onclick="criarCargoRapido()">＋ Crear cargo</button>
-              </div>
-            </section>
-          </div>
-          <div class="card">
-            <header><h3>Clima</h3><p class="muted text-xs">Condición del tiempo en la obra.</p></header>
-            <section class="stack gap-2">
-              <div class="field"><label for="climaM">Mañana</label><select class="input" id="climaM"><option>Despejado ☀️</option><option>Nublado ☁️</option><option>Lluvia leve 🌦️</option><option>Lluvia fuerte 🌧️</option></select></div>
-              <div class="field"><label for="climaT">Tarde</label><select class="input" id="climaT"><option>Despejado ☀️</option><option>Nublado ☁️</option><option>Lluvia leve 🌦️</option><option>Lluvia fuerte 🌧️</option></select></div>
-            </section>
-          </div>
+        <div class="card mb-4">
+          <header><h3>Mano de obra</h3><p class="muted text-xs">Personal por cargo.</p></header>
+          <section>
+            <div id="listaMO" class="stack gap-2 mb-2"></div>
+            <div class="row gap-2">
+              <button class="btn" data-variant="outline" data-size="sm" onclick="addMO()">＋ Agregar cargo</button>
+              <button class="btn" data-variant="ghost" data-size="sm" onclick="criarCargoRapido()">＋ Crear cargo</button>
+            </div>
+          </section>
+        </div>
+
+        <div class="card mb-4">
+          <header><h3>Equipos generales</h3><p class="muted text-xs">Cantidad de cada tipo de equipo presente hoy.</p></header>
+          <section>
+            <div id="listaEquiposGeral" class="stack gap-2 mb-2"></div>
+            <button class="btn" data-variant="outline" data-size="sm" onclick="addEquipoGeral()">＋ Agregar equipo</button>
+          </section>
+        </div>
+
+        <div class="card mb-4">
+          <header><h3>Clima</h3><p class="muted text-xs">Condición del tiempo en la obra.</p></header>
+          <section class="stack gap-2">
+            <div class="field"><label for="climaM">Mañana</label><select class="input" id="climaM"><option>Despejado ☀️</option><option>Nublado ☁️</option><option>Lluvia leve 🌦️</option><option>Lluvia fuerte 🌧️</option></select></div>
+            <div class="field"><label for="climaT">Tarde</label><select class="input" id="climaT"><option>Despejado ☀️</option><option>Nublado ☁️</option><option>Lluvia leve 🌦️</option><option>Lluvia fuerte 🌧️</option></select></div>
+          </section>
         </div>
 
         <div class="card mb-4">
@@ -1429,7 +1426,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
 </div>
 
 <div class="seal-erro" id="sealErro" role="alert">Error de script</div>
-<div class="rodape-versao hide" id="diagAdmin">v11.0</div>
+<div class="rodape-versao hide" id="diagAdmin">v11.2</div>
 
 <script>
 /* ===================== CONFIGURAÇÃO DO FIREBASE (edite aqui) =====================
@@ -1437,12 +1434,12 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
    Cole os valores no lugar de COLE_AQUI. Estes dados NÃO são secretos; a segurança vem das
    regras do Firestore (arquivo firestore.rules) e do login (Firebase Authentication). */
 window.FIREBASE_CONFIG = {
-  apiKey: "AIzaSyAhaLq3IJ67CpkHEG1-8rtCYSNtFARs5uk",
-  authDomain: "informe-diario-de-obra.firebaseapp.com",
-  projectId: "informe-diario-de-obra",
-  storageBucket: "informe-diario-de-obra.firebasestorage.app",
-  messagingSenderId: "647398384847",
-  appId: "1:647398384847:web:8f585e9daf71e311f603ba"
+  apiKey: "COLE_AQUI",
+  authDomain: "COLE_AQUI.firebaseapp.com",
+  projectId: "COLE_AQUI",
+  storageBucket: "COLE_AQUI.appspot.com",
+  messagingSenderId: "COLE_AQUI",
+  appId: "COLE_AQUI"
 };
 </script>
 <script>
@@ -1534,7 +1531,7 @@ window.FIREBASE_CONFIG = {
       lidas: 'Atividades', nomeadas: 'com nome'
     }
   };
-  var APP_VERSION = "11.0";
+  var APP_VERSION = "11.2";
   var IDIOMA_PADRAO = "es";
 
   function lsGet(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
@@ -1573,6 +1570,37 @@ window.FIREBASE_CONFIG = {
       }).then(go, go);
     } else { go(); }
   };
+  // Atualização automática do próprio app: compara a versão publicada com a que está aberta.
+  // Os DADOS já atualizam em tempo real; isto cobre o código (HTML) novo. Nunca recarrega com o formulário aberto.
+  var ultimaChecagem = 0, versaoPendente = false;
+  function recarregarSeguro() {
+    var f = document.getElementById('vNovo');
+    if (f && !f.classList.contains('hide')) return;
+    window.forcarAtualizacao();
+  }
+  async function verificarVersao(forcar) {
+    var agora = Date.now();
+    if (!forcar && agora - ultimaChecagem < 60000) { if (versaoPendente) recarregarSeguro(); return; }
+    ultimaChecagem = agora;
+    try {
+      var url = window.location.href.split('#')[0].split('?')[0];
+      var r = await fetch(url + '?v=' + agora, { cache: 'no-store' });
+      if (!r.ok) return;
+      var m = /var APP_VERSION = "([^"]+)"/.exec(await r.text());
+      if (!m || m[1] === APP_VERSION) { versaoPendente = false; return; }
+      var tentada = null; try { tentada = sessionStorage.getItem('iad_reload_para'); } catch (e) {}
+      if (tentada === m[1]) return;                                   // já tentou recarregar para esta versão: evita laço
+      versaoPendente = true;
+      try { sessionStorage.setItem('iad_reload_para', m[1]); } catch (e) {}
+      recarregarSeguro();
+    } catch (e) { /* offline ou abrindo como arquivo: ignora */ }
+  }
+  window.verificarVersao = verificarVersao;
+  window.addEventListener('focus', function () { verificarVersao(false); });
+  window.addEventListener('online', function () { verificarVersao(true); });
+  document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'visible') verificarVersao(false); });
+  document.addEventListener('change', function () { verificarVersao(false); });
+  setInterval(function () { verificarVersao(false); }, 300000);
   var lang = (function () { var l = lsGet('iad_lang'); return (l === 'pt' || l === 'es') ? l : IDIOMA_PADRAO; })();
   function t(k) { return (DICT[lang] && DICT[lang][k]) || DICT.es[k] || k; }
   window.addEventListener('error', function () { var s = document.getElementById('sealErro'); if (s) s.style.display = 'block'; });
@@ -1797,7 +1825,7 @@ window.FIREBASE_CONFIG = {
   function renderDados() {
     atualizarBadge();
     var diag = document.getElementById('diagAdmin');
-    if (diag) diag.textContent = 'v11.0 · ' + estado + ' · proyectos: ' + db.projetos.length + ' · obras: ' + db.obras.length + ' · usuarios: ' + db.usuarios.length + ' · informes: ' + db.informes.length;
+    if (diag) diag.textContent = 'v11.2 · ' + estado + ' · proyectos: ' + db.projetos.length + ' · obras: ' + db.obras.length + ' · usuarios: ' + db.usuarios.length + ' · informes: ' + db.informes.length;
     if (!sessao) return;
     refreshSessao();
     if (!sessao) return;
@@ -2014,6 +2042,7 @@ window.FIREBASE_CONFIG = {
     if (v === 'inicio') renderInformes();
     if (v === 'catalogo') renderCatalogo();
     if (v === 'admin') renderAdmin();
+    verificarVersao(false);
   };
 
   // ---------- Início ----------
@@ -2440,7 +2469,7 @@ window.FIREBASE_CONFIG = {
   //  então adicionar/excluir linhas NUNCA apaga o que já foi preenchido.
   // =====================================================================
   window.novoInforme = function () {
-    editId = null; editAtiv = []; equipoGeral = []; mo = [];
+    editId = null; rascunho = null; editAtiv = []; equipoGeral = []; mo = [];
     document.getElementById('fData').value = new Date().toISOString().slice(0, 10);
     ['fOcor', 'fSeg', 'fProx'].forEach(function (id) { document.getElementById(id).value = ''; });
     document.getElementById('climaM').selectedIndex = 0;
@@ -2705,7 +2734,7 @@ window.FIREBASE_CONFIG = {
         var b = (i + 1) + '. ' + (a.nome || t('semNome'));
         var eqs = (a.equipamentos || a.equipos || []).filter(function (e) { return e && e.nome; })
           .map(function (e) { return e.nome + (Number(e.horas) ? ' ' + fmtN(e.horas) + ' h' : ''); });
-        if (eqs.length) b += '\n   🔧 ' + L.eq + ': ' + eqs.join(' | ');
+        if (eqs.length) b += '\n   🚜 ' + L.eq + ': ' + eqs.join(' | ');
         var un = a.unidade || '';
         var hoje = [];
         if (Number(a.qtdDia)) hoje.push(fmtN(a.qtdDia) + ' ' + un);
@@ -2757,27 +2786,41 @@ window.FIREBASE_CONFIG = {
       ' · ' + t('equipos') + ': ' + inf.equipos.length + ' · ' + t('mano') + ': ' + inf.manoObra.length;
   };
 
-  window.copiarTexto = function () { window.atualizarPreview(); copiarPara(ultimoTexto); };
-
+  // Informe já salvo a partir do formulário aberto (evita criar duplicados ao copiar/guardar várias vezes)
+  var rascunho = null;
   var salvando = false;
-  window.salvarInforme = async function () {
+  async function salvarAtual() {
     var projId = document.getElementById('fProjeto').value;
-    if (!projId) { window.skipUI.toast(t('nenhumProjeto'), { type: 'error' }); return; }
-    if (salvando) return;
+    if (!projId) { window.skipUI.toast(t('nenhumProjeto'), { type: 'error' }); return null; }
+    if (salvando) return null;
     salvando = true;
     try {
       var inf = coletar();
-      inf.id = uid();                       // todo informe novo é um documento novo: nunca sobrescreve outro
+      var sig = JSON.stringify(inf);
+      if (rascunho && rascunho.sig === sig) return rascunho.obj;      // nada mudou desde o último salvamento
       inf.autorId = sessao.uid;
       inf.responsavel = inf.autorNome;
-      inf.criadoEm = new Date().toISOString();
-      var r = await gravar('informes', inf);
-      if (!r) return;
-      window.skipUI.toast(t('guardado'), { type: 'success' });
-      go('inicio');
+      var r;
+      if (rascunho) { inf.id = rascunho.obj.id; inf.criadoEm = rascunho.obj.criadoEm; r = await gravar('informes', inf, rascunho.obj.rev); }
+      else { inf.id = uid(); inf.criadoEm = new Date().toISOString(); r = await gravar('informes', inf); }
+      if (r) rascunho = { obj: r, sig: sig };
+      return r;
     } catch (e) {
       window.skipUI.toast('Error: ' + (e && e.message ? e.message : e), { type: 'error' });
+      return null;
     } finally { salvando = false; }
+  }
+  // Copiar texto: copia na hora (o navegador só permite no toque) e já guarda o informe
+  window.copiarTexto = function () {
+    window.atualizarPreview();
+    copiarPara(ultimoTexto);
+    salvarAtual().then(function (r) { if (r) window.skipUI.toast(t('guardado'), { type: 'success' }); });
+  };
+  window.salvarInforme = async function () {
+    var r = await salvarAtual();
+    if (!r) return;
+    window.skipUI.toast(t('guardado'), { type: 'success' });
+    go('inicio');
   };
 
   // ---------- Render geral ----------
@@ -2814,7 +2857,8 @@ window.FIREBASE_CONFIG = {
     document.getElementById('loginSenha').value = '';
     document.getElementById('loginEmail').value = '';
     atualizarBadge();
-    iniciarBanco();      // se já havia login, o Firebase o restaura e o perfil é conferido no servidor
+    iniciarBanco();
+    verificarVersao(true);      // se já havia login, o Firebase o restaura e o perfil é conferido no servidor
   });
 })();
 </script>
