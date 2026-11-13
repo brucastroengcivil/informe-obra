@@ -1,4 +1,3 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <!DOCTYPE html>
 <html lang="es" data-theme="light">
 <head>
@@ -7,7 +6,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>Informe de Avance de Obra · v10.0 · Alupar</title>
+<title>Informe de Avance de Obra · v11.0 · Alupar</title>
 <style>
 /* Skip artifact shell — fixed styles served beside every artifact.
    Tokens, utilities and components (basecoat 1.0 markup, no CDN); artifacts
@@ -1145,13 +1144,13 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
       </div>
       <div class="field mb-3">
         <label for="loginSenha" id="lblSenha">Contraseña</label>
-        <input class="input" id="loginSenha" type="password" name="iad_pass_field" autocomplete="new-password" placeholder="••••••••">
+        <input class="input" id="loginSenha" type="password" name="iad_pass_field" autocomplete="current-password" placeholder="••••••••">
       </div>
       <button type="button" class="btn w-full" id="btnIngresar" onclick="return iadLogin()">Ingresar</button>
     </form>
-    <p class="text-sm mt-3 text-center"><a href="#" onclick="event.preventDefault(); window.skipUI.toast(t('forgot'));" id="lnkForgot">Olvidé mi contraseña</a></p>
+    <p class="text-sm mt-3 text-center"><a href="#" onclick="event.preventDefault(); iadEsqueci();" id="lnkForgot">Olvidé mi contraseña</a></p>
     <div class="sync-login" id="loginSync">☁️ …</div>
-    <div class="rodape-versao">v10.0</div>
+    <div class="rodape-versao">v11.0</div>
     <div class="rodape-versao"><a href="#" onclick="event.preventDefault(); forcarAtualizacao();">Forzar actualización</a></div>
   </div>
 </section>
@@ -1163,7 +1162,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
       <div class="row items-center gap-2">
         <img class="brand-logo" src="alupar_branco.png" alt="Alupar">
         <div>
-        <div class="font-bold" id="appTitle">Informe de Avance de Obra · v10.0</div>
+        <div class="font-bold" id="appTitle">Informe de Avance de Obra · v11.0</div>
         </div>
       </div>
       <div class="row items-center gap-3">
@@ -1267,6 +1266,10 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
               <div id="listaObras"></div>
             </section>
           </div>
+          <div class="card hide" id="secImportar">
+            <header><h3>Importar datos de este dispositivo</h3><p class="muted text-xs">Hay proyectos, obras, cargos, equipos o informes guardados solo en este dispositivo (versión anterior). Impórtelos una vez a la base compartida.</p></header>
+            <section><button class="btn" data-size="sm" onclick="importarLocais()">Importar a la base compartida</button></section>
+          </div>
           <div class="card" id="secUsuarios">
             <header>
               <div class="row between items-center">
@@ -1279,7 +1282,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
               <form id="formUsuario" class="hide stack gap-2 mb-3" onsubmit="return false;">
                 <input class="input" id="uNome" placeholder="Nombre">
                 <input class="input" id="uEmail" type="email" placeholder="correo@alupar.com.pe">
-                <input class="input" id="uSenha" type="password" placeholder="Contraseña provisional (mín. 6)">
+                <input class="input" id="uSenha" type="password" autocomplete="new-password" placeholder="Contraseña inicial (mín. 6)">
                 <select class="input" id="uPapel" onchange="aplicarPadraoPapel()"><option value="leitor">leitor</option><option value="editor">editor</option><option value="admin">admin</option></select>
                 <fieldset class="perm-panel">
                   <legend class="text-sm font-semibold">Permisos de acceso</legend>
@@ -1426,8 +1429,22 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
 </div>
 
 <div class="seal-erro" id="sealErro" role="alert">Error de script</div>
-<div class="rodape-versao hide" id="diagAdmin">v10.0</div>
+<div class="rodape-versao hide" id="diagAdmin">v11.0</div>
 
+<script>
+/* ===================== CONFIGURAÇÃO DO FIREBASE (edite aqui) =====================
+   Console do Firebase > Configurações do projeto > Seus apps > App da Web > "Configuração do SDK".
+   Cole os valores no lugar de COLE_AQUI. Estes dados NÃO são secretos; a segurança vem das
+   regras do Firestore (arquivo firestore.rules) e do login (Firebase Authentication). */
+window.FIREBASE_CONFIG = {
+  apiKey: "AIzaSyAhaLq3IJ67CpkHEG1-8rtCYSNtFARs5uk",
+  authDomain: "informe-diario-de-obra.firebaseapp.com",
+  projectId: "informe-diario-de-obra",
+  storageBucket: "informe-diario-de-obra.firebasestorage.app",
+  messagingSenderId: "647398384847",
+  appId: "1:647398384847:web:8f585e9daf71e311f603ba"
+};
+</script>
 <script>
 (function () {
   'use strict';
@@ -1435,7 +1452,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
   // ---------- i18n ----------
   var DICT = {
     es: {
-      forgot: 'Contacte al administrador para restablecer su contraseña.',
+      forgot: '',
       login: 'Ingresar', salir: 'Salir', inicio: 'Inicio', catalogo: 'Catálogo', admin: 'Admin',
       semPerm: 'No tiene permiso para ver informes.', semPermNada: 'Sin permisos',
       crear: '＋ Crear informe', vazio: 'Aún no hay informes', mios: 'Míos', todos: 'Todos',
@@ -1460,8 +1477,15 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
       sair: 'Cerrar sesión', subInicio: 'Avance diario por obra y proyecto.',
       subCatalogo: 'Cargos y equipos reutilizables en todos tus informes.',
       subAdmin: 'Obras, proyectos y usuarios del equipo.',
-      sincOk: 'Sincronizado', sincConectando: 'Conectando…', sincLocal: 'Solo en este dispositivo (no sincroniza)',
-      sincErro: 'Sin conexión con la base',
+      sincOk: 'Sincronizado', sincConectando: 'Sincronizando…', sincListo: 'Listo', sincOffline: 'Sin conexión · solo lectura',
+      sincErro: 'Error de conexión con la base',
+      semAcesso: 'Su usuario no tiene acceso. Contacte al administrador.',
+      conflito: 'Otra persona modificó esto antes que usted. Se cargó la versión más reciente: revise y repita el cambio.',
+      semPermissao: 'No tiene permiso para esta acción.',
+      somenteLeitura: 'Sin conexión o aún sincronizando: no se guarda nada para no pisar los datos de otros dispositivos.',
+      configFalta: 'Falta configurar Firebase (ver README).', muitas: 'Demasiados intentos. Espere unos minutos.',
+      resetEnviado: 'Si el correo existe, recibirá un enlace para restablecer la contraseña.',
+      ingreseCorreo: 'Escriba su correo arriba y vuelva a tocar el enlace.',
       semConexao: 'No se pudo conectar con la base de datos. Verifique su conexión e intente de nuevo.',
       salvarErro: 'No se pudo guardar: ', usuarioRemovido: 'Su usuario fue eliminado.',
       semNome: '(sin nombre)', conectandoAguarde: 'Conectando con la base de datos… intente en unos segundos.',
@@ -1469,7 +1493,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
       lidas: 'Actividades', nomeadas: 'con nombre'
     },
     pt: {
-      forgot: 'Contate o administrador para redefinir sua senha.',
+      forgot: '',
       login: 'Entrar', salir: 'Sair', inicio: 'Início', catalogo: 'Catálogo', admin: 'Admin',
       semPerm: 'Sem permissão para ver relatórios.', semPermNada: 'Sem permissões',
       crear: '＋ Criar relatório', vazio: 'Ainda não há relatórios', mios: 'Meus', todos: 'Todos',
@@ -1494,8 +1518,15 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
       sair: 'Sair da conta', subInicio: 'Avanço diário por obra e projeto.',
       subCatalogo: 'Cargos e equipamentos reutilizáveis em todos os relatórios.',
       subAdmin: 'Obras, projetos e usuários da equipe.',
-      sincOk: 'Sincronizado', sincConectando: 'Conectando…', sincLocal: 'Somente neste aparelho (não sincroniza)',
-      sincErro: 'Sem conexão com o banco',
+      sincOk: 'Sincronizado', sincConectando: 'Sincronizando…', sincListo: 'Pronto', sincOffline: 'Sem conexão · somente leitura',
+      sincErro: 'Erro de conexão com o banco',
+      semAcesso: 'Seu usuário não tem acesso. Contate o administrador.',
+      conflito: 'Outra pessoa alterou isto antes de você. A versão mais recente foi carregada: confira e repita a alteração.',
+      semPermissao: 'Você não tem permissão para esta ação.',
+      somenteLeitura: 'Sem conexão ou ainda sincronizando: nada é salvo para não sobrescrever os dados de outros aparelhos.',
+      configFalta: 'Falta configurar o Firebase (veja o README).', muitas: 'Muitas tentativas. Aguarde alguns minutos.',
+      resetEnviado: 'Se o e-mail existir, você receberá um link para redefinir a senha.',
+      ingreseCorreo: 'Digite seu e-mail acima e toque no link novamente.',
       semConexao: 'Não foi possível conectar ao banco de dados. Verifique a conexão e tente novamente.',
       salvarErro: 'Não foi possível salvar: ', usuarioRemovido: 'Seu usuário foi excluído.',
       semNome: '(sem nome)', conectandoAguarde: 'Conectando ao banco de dados… tente em alguns segundos.',
@@ -1503,7 +1534,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
       lidas: 'Atividades', nomeadas: 'com nome'
     }
   };
-  var APP_VERSION = "10.0";
+  var APP_VERSION = "11.0";
   var IDIOMA_PADRAO = "es";
 
   function lsGet(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
@@ -1549,13 +1580,12 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
   var UNIDADES = ['m³', 'm²', 'ml', 'un', 'kg', 't'];
   var PAPEIS = ['admin', 'editor', 'leitor'];
   var ADMIN_EMAILS = ['balvernaz@alupar.com.pe', 'admin@alupar.com.pe'];
-  var LS_DB = 'iad_db_v90';          // banco local antigo (só usado como fallback e para migração)
-  var LS_SESSAO = 'iad_sessao_v90';  // sessão (login) é por aparelho, de propósito
+  var LS_DB = 'iad_db_v90';          // dados locais da versão antiga (só usados para importar manualmente)
+  var FB_BASE = 'https://www.gstatic.com/firebasejs/10.14.1/';
 
   function load(key, def) {
     try { var v = JSON.parse(localStorage.getItem(key)); return v === null ? def : v; } catch (e) { return def; }
   }
-  function save(key, v) { try { localStorage.setItem(key, JSON.stringify(v)); } catch (e) {} }
   function uid() { return 'id' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
   function clone(o) { return JSON.parse(JSON.stringify(o)); }
   function norm(s) { return String(s || '').trim().toLowerCase(); }
@@ -1567,35 +1597,40 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
   function ehAdminMail(e) { return ADMIN_EMAILS.indexOf(e) !== -1; }
 
   // =====================================================================
-  //  BANCO ÚNICO (capability db do artefato) — tempo real entre aparelhos
+  //  FIRESTORE — banco único. Regras de ouro:
+  //   1) toda gravação é uma TRANSAÇÃO que confere o número de revisão (rev) do documento:
+  //      se outra pessoa alterou antes, a gravação é recusada (nunca sobrescreve);
+  //   2) sem internet (ou antes de receber os dados do servidor) o app NÃO grava nada;
+  //   3) tudo é lido em tempo real do servidor (onSnapshot) e, ao abrir, só se usa o que o servidor confirmou.
   // =====================================================================
   function vazio() { return { usuarios: [], informes: [], projetos: [], obras: [], catalogos: { funcoes: [], equipamentos: [] } }; }
   var COLS = { usuarios: 'usuarios', informes: 'informes', projetos: 'projetos', obras: 'obras', funcoes: 'cat_funcoes', equipamentos: 'cat_equipamentos' };
-  var sessao = load(LS_SESSAO, null);
   var db = vazio();
   function getArr(k) { return (k === 'funcoes' || k === 'equipamentos') ? db.catalogos[k] : db[k]; }
   function setArr(k, v) { if (k === 'funcoes' || k === 'equipamentos') db.catalogos[k] = v; else db[k] = v; }
 
-  var modo = 'conectando';   // 'conectando' | 'nuvem' | 'local'
-  var remoto = null, carregado = {}, erroDb = null, semResposta = false, ultimaSync = 0;
-  var esperas = [], filas = {}, migrado = false;
+  var FA = null, FAu = null, FS = null;          // módulos do Firebase (carregados sob demanda)
+  var auth = null, fs = null, appSec = null;
+  var sessao = null;
+  var estado = 'conectando';                     // 'config' | 'conectando' | 'ok' | 'erro'
+  var carregado = {}, doCache = {}, assinaturas = {}, erroDb = null, ultimaSync = 0, unsubs = [];
+  var autenticando = 0;
 
-  function todosCarregados() { return Object.keys(COLS).every(function (k) { return carregado[k]; }); }
-  function pronto() { return modo === 'local' || (modo === 'nuvem' && !!carregado.usuarios); }
-  function liberarEsperas() { esperas.forEach(function (f) { if (pronto()) f(); }); esperas = esperas.filter(function () { return !pronto(); }); }
-  function esperarPronto(ms) {
-    return new Promise(function (res) {
-      if (pronto()) return res();
-      var feito = false;
-      function fim() { if (!feito) { feito = true; res(); } }
-      esperas.push(fim); setTimeout(fim, ms);
-    });
+  function configurado() {
+    var c = window.FIREBASE_CONFIG || {};
+    return !!(c.apiKey && c.projectId && String(c.apiKey).indexOf('COLE') === -1 && String(c.projectId).indexOf('COLE') === -1);
   }
+  function todosCarregados() { return Object.keys(COLS).every(function (k) { return carregado[k]; }); }
+  function offline() {
+    if (typeof navigator !== 'undefined' && navigator.onLine === false) return true;
+    return Object.keys(COLS).some(function (k) { return carregado[k] && doCache[k]; });
+  }
+  function podeEscrever() { return !!(sessao && fs && todosCarregados() && !offline()); }
 
   function carregarLegado() {
     var d = load(LS_DB, null), out = vazio();
     if (!d || typeof d !== 'object') return out;
-    ['usuarios', 'informes', 'obras'].forEach(function (k) { if (Array.isArray(d[k])) out[k] = d[k].filter(function (x) { return x && x.id; }); });
+    ['informes', 'obras'].forEach(function (k) { if (Array.isArray(d[k])) out[k] = d[k].filter(function (x) { return x && x.id; }); });
     out.projetos = (Array.isArray(d.projetos) ? d.projetos : []).map(function (p) {
       return typeof p === 'string' ? { id: idPorNome('p', p), nome: p } : p;
     }).filter(function (p) { return p && p.id && p.nome; });
@@ -1608,119 +1643,148 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
     return out;
   }
 
-  function iniciarBanco() {
-    if (!(window.claude && typeof window.claude.use === 'function')) { entrarLocal(); return; }
-    window.claude.use('db').then(function (d) {
-      if (!d) { entrarLocal(); return; }
-      remoto = d; modo = 'nuvem'; assinar(); atualizarBadge();
-    }, function () { entrarLocal(); });
+  async function iniciarBanco() {
+    if (!configurado()) { estado = 'config'; atualizarBadge(); return; }
+    try {
+      var m = await Promise.all([import(FB_BASE + 'firebase-app.js'), import(FB_BASE + 'firebase-auth.js'), import(FB_BASE + 'firebase-firestore.js')]);
+      FA = m[0]; FAu = m[1]; FS = m[2];
+      var app = FA.initializeApp(window.FIREBASE_CONFIG);
+      auth = FAu.getAuth(app); fs = FS.getFirestore(app);
+      estado = 'conectando';
+      FAu.onAuthStateChanged(auth, aoAutenticar);
+      atualizarBadge();
+    } catch (e) { estado = 'erro'; erroDb = e; atualizarBadge(); }
   }
-  function entrarLocal() {
-    modo = 'local'; db = carregarLegado(); liberarEsperas(); atualizarBadge(); agendarRender();
+
+  function mostrarErroLogin(msg) {
+    var erro = document.getElementById('loginErro');
+    if (!erro) return;
+    erro.textContent = msg; erro.classList.remove('hide');
   }
-  function assinar() {
-    setTimeout(function () { if (!todosCarregados()) { semResposta = true; atualizarBadge(); } }, 10000);
+
+  // quem é o usuário: confirmado NO SERVIDOR (perfil em usuarios/{uid})
+  async function aoAutenticar(user) {
+    var meu = ++autenticando;
+    if (!user) { limparSessao(); return; }
+    try {
+      var email = String(user.email || '').toLowerCase(), adm = ehAdminMail(email), perfil = null;
+      var snap = await FS.getDoc(FS.doc(fs, 'usuarios', user.uid));
+      if (meu !== autenticando) return;
+      if (snap.exists()) perfil = snap.data();
+      if (!adm && (!perfil || perfil.ativo === false)) {
+        await FAu.signOut(auth);
+        mostrarErroLogin(t('semAcesso')); return;
+      }
+      var papel = adm ? 'admin' : (perfil.papel || 'leitor');
+      sessao = {
+        uid: user.uid, email: email, papel: papel,
+        nome: perfil && perfil.nome ? perfil.nome : (adm ? 'Bruno Alvernaz' : email),
+        permissoes: adm ? PERM_KEYS.slice() : permsDe(perfil, papel, false)
+      };
+      iniciarListeners();
+      aplicarAcesso();
+    } catch (e) {
+      mostrarErroLogin(t('semConexao'));   // sem confirmar o perfil no servidor não entra
+    }
+  }
+  function limparSessao() {
+    pararListeners();
+    sessao = null; db = vazio(); carregado = {}; doCache = {}; assinaturas = {};
+    document.getElementById('viewApp').classList.add('hide');
+    document.getElementById('viewLogin').classList.remove('hide');
+    document.getElementById('loginSenha').value = '';
+    atualizarBadge();
+  }
+  function pararListeners() { unsubs.forEach(function (u) { try { u(); } catch (e) {} }); unsubs = []; }
+
+  function iniciarListeners() {
+    pararListeners(); carregado = {}; doCache = {}; assinaturas = {}; erroDb = null;
     Object.keys(COLS).forEach(function (k) {
-      var primeiro = true;
-      try {
-        remoto.collection(COLS[k]).onSnapshot(function (snap) {
-          var arr = snap.docs.map(function (d) { var o = clone(d.data() || {}); o.id = d.id; return o; });
+      var un = FS.onSnapshot(FS.collection(fs, COLS[k]), { includeMetadataChanges: true }, function (snap) {
+        doCache[k] = !!snap.metadata.fromCache;
+        if (!snap.metadata.fromCache) { carregado[k] = true; ultimaSync = Date.now(); erroDb = null; }
+        if (carregado[k]) {
+          var arr = snap.docs.map(function (d) {
+            var o = d.data() || {};
+            if (o.atualizadoEm && typeof o.atualizadoEm.toMillis === 'function') o.atualizadoEm = o.atualizadoEm.toMillis();
+            o = clone(o); o.id = d.id; return o;
+          });
           arr.sort(function (a, b) {
             return String(a.criadoEm || '').localeCompare(String(b.criadoEm || '')) || String(a.id).localeCompare(String(b.id));
           });
-          setArr(k, arr);
-          function marcar() { if (!carregado[k]) { carregado[k] = true; ultimaSync = Date.now(); liberarEsperas(); verificarMigracao(); agendarRender(); } }
-          if (!snap.metadata.fromCache) { carregado[k] = true; semResposta = false; }
-          else if (primeiro) setTimeout(marcar, 4000);   // base ainda vazia/sem resposta definitiva
-          primeiro = false;
-          if (!snap.metadata.fromCache) ultimaSync = Date.now();
-          liberarEsperas(); agendarRender(); verificarMigracao();
-        }, function (e) { erroDb = e; atualizarBadge(); });
-      } catch (e) { erroDb = e; }
+          var sig = JSON.stringify(arr);
+          if (assinaturas[k] !== sig) { assinaturas[k] = sig; setArr(k, arr); }
+        }
+        agendarRender();
+      }, function (e) {
+        erroDb = e; atualizarBadge();
+        if (e && e.code === 'permission-denied') verificarPerfil();
+      });
+      unsubs.push(un);
     });
   }
+  async function verificarPerfil() {
+    try {
+      if (!sessao || ehAdminMail(sessao.email)) return;
+      var snap = await FS.getDoc(FS.doc(fs, 'usuarios', sessao.uid));
+      if (!snap.exists() || snap.data().ativo === false) { mostrarErroLogin(t('semAcesso')); await FAu.signOut(auth); }
+    } catch (e) {}
+  }
 
-  function limpar(o) { return JSON.parse(JSON.stringify(o)); }
-  function enfileirar(path, fn) {
-    var p = (filas[path] || Promise.resolve()).then(fn);
-    filas[path] = p.catch(function () {});
-    return p;
-  }
-  function falhaEscrita(e) {
-    window.skipUI.toast(t('salvarErro') + (e && e.message ? e.message : e), { type: 'error' });
-  }
-  function podeEscrever() {
-    if (modo === 'conectando') { window.skipUI.toast(t('conectandoAguarde'), { type: 'error' }); return false; }
-    return true;
-  }
-  function gravar(k, obj) {
-    if (!podeEscrever()) return false;
+  // ---------- Gravação segura (transação + conferência de revisão) ----------
+  function erroCodigo(c) { var e = new Error(c); e.code = c; return e; }
+  function aplicarLocal(k, obj) {
     var arr = getArr(k), idx = -1;
     for (var i = 0; i < arr.length; i++) if (arr[i].id === obj.id) { idx = i; break; }
     if (idx >= 0) arr[idx] = obj; else arr.push(obj);
-    if (modo === 'nuvem') {
-      var path = COLS[k] + '/' + obj.id;
-      enfileirar(path, function () { return remoto.doc(path).set(limpar(obj)); }).catch(falhaEscrita);
-    } else save(LS_DB, db);
-    return true;
+    assinaturas[k] = null;
   }
-  function remover(k, id) {
-    if (!podeEscrever()) return false;
-    setArr(k, getArr(k).filter(function (x) { return x.id !== id; }));
-    if (modo === 'nuvem') {
-      var path = COLS[k] + '/' + id;
-      enfileirar(path, function () { return remoto.doc(path).delete(); }).catch(falhaEscrita);
-    } else save(LS_DB, db);
-    return true;
+  function tratarErro(e) {
+    var c = (e && e.code) || '', m = (e && e.message) || '';
+    var msg;
+    if (c === 'conflito') msg = t('conflito');
+    else if (c === 'permission-denied') msg = t('semPermissao');
+    else if (c === 'unavailable' || /offline|network/i.test(m)) msg = t('semConexao');
+    else msg = t('salvarErro') + (m || e);
+    window.skipUI.toast(msg, { type: 'error', duration: 6000 });
   }
-
-  // Traz para o banco compartilhado o que já existia só neste aparelho (uma vez por aparelho)
-  function verificarMigracao() {
-    if (migrado || modo !== 'nuvem' || !todosCarregados()) return;
-    migrado = true;
-    if (lsGet('iad_mig_v100')) return;
-    var leg = carregarLegado(), ops = [], mapP = {}, mapO = {};
-    leg.projetos.forEach(function (p) {
-      var ex = db.projetos.filter(function (x) { return norm(x.nome) === norm(p.nome); })[0];
-      if (ex) { mapP[p.id] = ex.id; return; }
-      mapP[p.id] = p.id;
-      if (!db.projetos.some(function (x) { return x.id === p.id; })) ops.push(['projetos', p]);
-    });
-    leg.obras.forEach(function (o) {
-      var pid = mapP[o.projetoId] || o.projetoId;
-      var ex = db.obras.filter(function (x) { return x.projetoId === pid && norm(x.nome) === norm(o.nome); })[0];
-      if (ex) { mapO[o.id] = ex.id; return; }
-      mapO[o.id] = o.id;
-      if (db.obras.some(function (x) { return x.id === o.id; })) return;
-      var n = clone(o); n.projetoId = pid; ops.push(['obras', n]);
-    });
-    ['funcoes', 'equipamentos'].forEach(function (k) {
-      leg.catalogos[k].forEach(function (c) {
-        if (db.catalogos[k].some(function (x) { return x.id === c.id || norm(x.nome) === norm(c.nome); })) return;
-        ops.push([k, c]);
+  // rev === undefined  → CRIAR (falha se já existir)
+  // rev === número     → ATUALIZAR só se o documento ainda estiver nessa revisão
+  async function gravar(k, obj, rev) {
+    if (!podeEscrever()) { window.skipUI.toast(t('somenteLeitura'), { type: 'error', duration: 6000 }); return null; }
+    var ref = FS.doc(fs, COLS[k], obj.id);
+    try {
+      var novoRev = await FS.runTransaction(fs, async function (tx) {
+        var s = await tx.get(ref);
+        var atual = s.exists() ? (Number(s.data().rev) || 0) : null;
+        if (rev === undefined) { if (atual !== null) throw erroCodigo('conflito'); }
+        else if (atual === null || atual !== rev) throw erroCodigo('conflito');
+        var corpo = clone(obj);
+        delete corpo.id; delete corpo.atualizadoEm; delete corpo.atualizadoPor;
+        corpo.rev = (atual || 0) + 1;
+        corpo.atualizadoEm = FS.serverTimestamp();
+        corpo.atualizadoPor = sessao.email;
+        tx.set(ref, corpo);
+        return corpo.rev;
       });
-    });
-    leg.usuarios.forEach(function (u) {
-      if (db.usuarios.some(function (x) { return x.id === u.id || x.email === u.email; })) return;
-      var n = clone(u);
-      n.projetos = (n.projetos || []).map(function (id) { return mapP[id] || id; });
-      n.obras = (n.obras || []).map(function (id) { return mapO[id] || id; });
-      ops.push(['usuarios', n]);
-    });
-    leg.informes.forEach(function (i) {
-      if (db.informes.some(function (x) { return x.id === i.id; })) return;
-      var n = clone(i);
-      if (n.projetoId) n.projetoId = mapP[n.projetoId] || n.projetoId;
-      if (n.obraId) n.obraId = mapO[n.obraId] || n.obraId;
-      ops.push(['informes', n]);
-    });
-    Promise.all(ops.map(function (op) {
-      var path = COLS[op[0]] + '/' + op[1].id;
-      return enfileirar(path, function () { return remoto.doc(path).set(limpar(op[1])); });
-    })).then(function () {
-      lsSet('iad_mig_v100', '1');
-      if (ops.length) window.skipUI.toast(t('migrado') + ops.length, { type: 'success' });
-    }, function () { /* tenta de novo na próxima abertura */ });
+      var salvo = clone(obj); salvo.rev = novoRev;
+      aplicarLocal(k, salvo); agendarRender();
+      return salvo;
+    } catch (e) { tratarErro(e); agendarRender(); return null; }
+  }
+  async function remover(k, id, rev) {
+    if (!podeEscrever()) { window.skipUI.toast(t('somenteLeitura'), { type: 'error', duration: 6000 }); return false; }
+    var ref = FS.doc(fs, COLS[k], id);
+    try {
+      await FS.runTransaction(fs, async function (tx) {
+        var s = await tx.get(ref);
+        if (s.exists() && rev !== undefined && (Number(s.data().rev) || 0) !== rev) throw erroCodigo('conflito');
+        tx.delete(ref);
+      });
+      setArr(k, getArr(k).filter(function (x) { return x.id !== id; })); assinaturas[k] = null;
+      agendarRender();
+      return true;
+    } catch (e) { tratarErro(e); agendarRender(); return false; }
   }
 
   // ---------- Atualização automática da tela quando chegam dados ----------
@@ -1733,7 +1797,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
   function renderDados() {
     atualizarBadge();
     var diag = document.getElementById('diagAdmin');
-    if (diag) diag.textContent = 'v10.0 · ' + modo + ' · proyectos: ' + db.projetos.length + ' · obras: ' + db.obras.length + ' · usuarios: ' + db.usuarios.length + ' · informes: ' + db.informes.length;
+    if (diag) diag.textContent = 'v11.0 · ' + estado + ' · proyectos: ' + db.projetos.length + ' · obras: ' + db.obras.length + ' · usuarios: ' + db.usuarios.length + ' · informes: ' + db.informes.length;
     if (!sessao) return;
     refreshSessao();
     if (!sessao) return;
@@ -1742,22 +1806,30 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
     if (visivel('vAdmin')) renderAdmin();
     if (visivel('vNovo')) atualizarOpcoesEditor();
   }
+  function badgeInfo() {
+    if (estado === 'config') return { txt: '⚠️ ' + t('configFalta'), ruim: true };
+    if (estado === 'erro' || (erroDb && !offline())) return { txt: '⚠️ ' + t('sincErro'), ruim: true };
+    if (offline()) return { txt: '⚠️ ' + t('sincOffline'), ruim: true };
+    if (!sessao) return { txt: '☁️ ' + (auth ? t('sincListo') : t('sincConectando')), ruim: false };
+    if (!todosCarregados()) return { txt: '☁️ ' + t('sincConectando'), ruim: false };
+    return { txt: '☁️ ' + t('sincOk') + ' ' + new Date(ultimaSync || Date.now()).toLocaleTimeString(), ruim: false };
+  }
   function atualizarBadge() {
-    var b = document.getElementById('syncBadge'), l = document.getElementById('loginSync');
-    var txt, ruim = false;
-    if (modo === 'local') { txt = '⚠️ ' + t('sincLocal'); ruim = true; }
-    else if (modo === 'conectando') txt = '☁️ ' + t('sincConectando');
-    else if (erroDb || (semResposta && !todosCarregados())) { txt = '⚠️ ' + t('sincErro'); ruim = true; }
-    else if (todosCarregados()) txt = '☁️ ' + t('sincOk') + ' ' + new Date(ultimaSync || Date.now()).toLocaleTimeString();
-    else txt = '☁️ ' + t('sincConectando');
-    if (b) { b.textContent = txt; b.style.background = ruim ? '#b91c1c' : 'rgba(255,255,255,.15)'; }
-    if (l) { l.textContent = txt; l.style.color = ruim ? '#991b1b' : '#475569'; }
+    var b = document.getElementById('syncBadge'), l = document.getElementById('loginSync'), i = badgeInfo();
+    if (b) { b.textContent = i.txt; b.style.background = i.ruim ? '#b91c1c' : 'rgba(255,255,255,.15)'; }
+    if (l) { l.textContent = i.txt; l.style.color = i.ruim ? '#991b1b' : '#475569'; }
   }
   window.sincronizarTudo = function (force) {
     renderDados();
-    if (force) window.skipUI.toast(t('sincOk') + ' · ' + (modo === 'nuvem' ? '☁️' : '⚠️ local'), { type: modo === 'nuvem' ? 'success' : 'error' });
+    if (force) { var i = badgeInfo(); window.skipUI.toast(i.txt, { type: i.ruim ? 'error' : 'success' }); }
     return Promise.resolve();
   };
+  window.addEventListener('online', function () {
+    atualizarBadge();
+    if (auth && auth.currentUser && !sessao) aoAutenticar(auth.currentUser);
+  });
+  window.addEventListener('offline', atualizarBadge);
+  document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'visible') atualizarBadge(); });
 
   // ---------- Estado de edição ----------
   var filtro = 'todos';
@@ -1766,49 +1838,50 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
   var mo = [];
   var editId = null;
   var ultimoTexto = '';
+  var revAberta = {};  // revisão do perfil de usuário no momento em que o painel de permissões foi aberto
 
   function achaUsuario(email) { return db.usuarios.filter(function (u) { return u.email === email; })[0]; }
 
-  // ---------- Login ----------
+  // ---------- Login (Firebase Authentication verifica a senha) ----------
   var logando = false;
-  window.iadLogin = function () {
+  window.iadLogin = async function () {
     var email = document.getElementById('loginEmail').value.trim().toLowerCase();
     var senha = document.getElementById('loginSenha').value;
     var erro = document.getElementById('loginErro');
     var btn = document.getElementById('btnIngresar');
     erro.classList.add('hide');
-    if (!email || !senha) { erro.textContent = t('erroLogin'); erro.classList.remove('hide'); return false; }
+    if (!email || !senha) { mostrarErroLogin(t('erroLogin')); return false; }
+    if (!configurado()) { mostrarErroLogin(t('configFalta')); return false; }
+    if (!auth) { mostrarErroLogin(t('semConexao')); return false; }
     if (logando) return false;
     logando = true; btn.disabled = true; btn.textContent = '...';
-    var espera = ehAdminMail(email) ? Promise.resolve() : esperarPronto(9000);
-    espera.then(function () {
+    try {
+      await FAu.signInWithEmailAndPassword(auth, email, senha);
+    } catch (e) {
+      var c = (e && e.code) || '';
+      if (c === 'auth/network-request-failed') mostrarErroLogin(t('semConexao'));
+      else if (c === 'auth/too-many-requests') mostrarErroLogin(t('muitas'));
+      else mostrarErroLogin(t('credenciais'));
+    } finally {
       logando = false; btn.disabled = false; btn.textContent = t('login');
-      var usr = achaUsuario(email);
-      var isAdminMail = ehAdminMail(email);
-      if (!isAdminMail && !usr) {
-        erro.textContent = (modo !== 'local' && !carregado.usuarios) ? t('semConexao') : t('credenciais');
-        erro.classList.remove('hide'); return;
-      }
-      if (senha.length < 4) { erro.textContent = t('credenciais'); erro.classList.remove('hide'); return; }
-      var papel = isAdminMail ? 'admin' : (usr.papel || 'leitor');
-      var nome = isAdminMail ? 'Bruno Alvernaz' : usr.nome;
-      sessao = { uid: usr ? usr.id : 'adm-' + email, email: email, nome: nome, papel: papel, permissoes: permsDe(usr, papel, isAdminMail), expira: Date.now() + 3600000 };
-      save(LS_SESSAO, sessao);
-      aplicarAcesso();
-    });
+    }
     return false;
+  };
+  window.iadEsqueci = async function () {
+    var email = document.getElementById('loginEmail').value.trim().toLowerCase();
+    if (!email) { window.skipUI.toast(t('ingreseCorreo')); return; }
+    if (!auth) { mostrarErroLogin(configurado() ? t('semConexao') : t('configFalta')); return; }
+    try { await FAu.sendPasswordResetEmail(auth, email); } catch (e) { /* não revela se o e-mail existe */ }
+    window.skipUI.toast(t('resetEnviado'), { duration: 6000 });
   };
 
   window.logout = function () {
-    lsDel(LS_SESSAO);
-    sessao = null;
-    document.getElementById('viewApp').classList.add('hide');
-    document.getElementById('viewLogin').classList.remove('hide');
-    document.getElementById('loginSenha').value = '';
+    if (auth) FAu.signOut(auth); else limparSessao();
   };
 
   function aplicarAcesso() {
     if (!sessao) return;
+    document.getElementById('loginErro').classList.add('hide');
     document.getElementById('viewLogin').classList.add('hide');
     document.getElementById('viewApp').classList.remove('hide');
     document.getElementById('userName').textContent = sessao.nome + ' · ' + sessao.papel;
@@ -1816,12 +1889,12 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
     go('inicio');
   }
 
-  // Mantém papel/permissões da sessão em dia com o que o admin alterou em outro aparelho
+  // Mantém papel/permissões em dia com o que o admin alterou em outro aparelho
   function refreshSessao() {
     if (!sessao || ehAdminMail(sessao.email)) return;
-    if (!pronto()) return;
-    var u = achaUsuario(sessao.email);
-    if (!u) {
+    if (!carregado.usuarios) return;
+    var u = db.usuarios.filter(function (x) { return x.id === sessao.uid; })[0];
+    if (!u || u.ativo === false) {
       window.skipUI.toast(t('usuarioRemovido'), { type: 'error' });
       window.logout(); return;
     }
@@ -1829,7 +1902,6 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
     var papel = u.papel || 'leitor';
     if (papel !== sessao.papel || u.nome !== sessao.nome || JSON.stringify(perms) !== JSON.stringify(sessao.permissoes)) {
       sessao.papel = papel; sessao.nome = u.nome; sessao.permissoes = perms;
-      save(LS_SESSAO, sessao);
       document.getElementById('userName').textContent = sessao.nome + ' · ' + sessao.papel;
       aplicarPermissoes();
       if ((visivel('vAdmin') && papel !== 'admin') || (visivel('vCatalogo') && !temPerm('gerir_catalogo'))) go('inicio');
@@ -1958,7 +2030,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
       return !q || txt.indexOf(q) !== -1;
     }).slice().sort(function (a, b) { return String(b.data || '').localeCompare(String(a.data || '')); });
     document.getElementById('pillInf').textContent = db.informes.length + ' ' + (lang === 'pt' ? 'relatórios' : 'informes');
-    document.getElementById('vazioInformes').classList.toggle('hide', items.length > 0);
+    document.getElementById('vazioInformes').classList.toggle('hide', items.length > 0 || !carregado.informes);
     lista.innerHTML = items.map(function (i) {
       return '<div class="card" style="cursor:pointer" onclick="verInforme(\'' + i.id + '\')">' +
         '<div class="p-4"><div class="row between items-center mb-2"><span class="badge" data-variant="outline">' + esc(i.data) + '</span>' +
@@ -2088,32 +2160,34 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
         '<button class="btn" data-variant="ghost" data-size="sm" aria-label="' + t('excluir') + '" onclick="removeCat(\'' + key + '\',\'' + x.id + '\')">✕</button></div>';
     }).join('');
   }
-  // devolve o item (novo ou já existente com o mesmo nome)
-  function addCatalogo(key, nome) {
+  // devolve o item (novo ou já existente com o mesmo nome); null se não conseguiu gravar
+  async function addCatalogo(key, nome) {
     nome = String(nome || '').trim();
     if (!nome) return null;
     var ex = getArr(key).filter(function (x) { return norm(x.nome) === norm(nome); })[0];
     if (ex) return ex;
-    var item = { id: idPorNome('c' + key.charAt(0), nome), nome: nome, criadoEm: new Date().toISOString() };
-    return gravar(key, item) ? item : null;
+    return await gravar(key, { id: idPorNome('c' + key.charAt(0), nome), nome: nome, criadoEm: new Date().toISOString() });
   }
-  window.addCatItem = function (key, inputId) {
+  window.addCatItem = async function (key, inputId) {
     var inp = document.getElementById(inputId);
     if (!inp.value.trim()) return;
-    if (!addCatalogo(key, inp.value)) return;
+    var item = await addCatalogo(key, inp.value);
+    if (!item) return;
     inp.value = '';
     renderAll();
     window.skipUI.toast(t('agregado'), { type: 'success' });
   };
-  window.removeCat = function (key, id) {
+  window.removeCat = async function (key, id) {
     if (!confirm(t('removerConf'))) return;
-    remover(key, id); renderAll();
+    var it = getArr(key).filter(function (x) { return x.id === id; })[0];
+    if (await remover(key, id, it ? (Number(it.rev) || 0) : undefined)) renderAll();
   };
 
   // ---------- Admin ----------
   var adminPendente = false;
   function renderAdmin() {
     renderProjetosObras();
+    atualizarCardImportar();
     var u = document.getElementById('listaUsuarios');
     // não redesenha a lista de usuários enquanto um painel de permisos está aberto (evita perder o que está sendo marcado)
     if (u.querySelector('.perm-panel:not(.hide)')) { adminPendente = true; return; }
@@ -2153,10 +2227,11 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
     p.classList.toggle('hide');
     if (abrir) {
       var usr = db.usuarios.filter(function (x) { return x.id === id; })[0] || {};
+      revAberta[id] = Number(usr.rev) || 0;     // revisão que o admin viu ao abrir o painel
       renderScopeLists('sp-' + id, 'so-' + id, usr.projetos || [], usr.obras || []);
     } else if (adminPendente) renderAdmin();
   };
-  window.guardarPermisos = function (id) {
+  window.guardarPermisos = async function (id) {
     var u = db.usuarios.filter(function (x) { return x.id === id; })[0];
     if (!u) return;
     var marcadas = [];
@@ -2166,39 +2241,46 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
     nu.acessoTotal = document.querySelector('input[name="sc-' + id + '"]:checked').value === 'todos';
     nu.projetos = nu.acessoTotal ? [] : checkedIds('sp-' + id);
     nu.obras = nu.acessoTotal ? [] : checkedIds('so-' + id);
-    if (!gravar('usuarios', nu)) return;
+    var r = await gravar('usuarios', nu, revAberta[id] !== undefined ? revAberta[id] : (Number(u.rev) || 0));
     adminPendente = false;
-    document.getElementById('pp-' + id).classList.add('hide');
+    var pn = document.getElementById('pp-' + id); if (pn) pn.classList.add('hide');
     renderAdmin();
-    window.skipUI.toast(t('salvar'), { type: 'success' });
+    if (r) window.skipUI.toast(t('salvar'), { type: 'success' });
   };
 
-  window.addProjeto = function () {
+  window.addProjeto = async function () {
     var inp = document.getElementById('novoProjeto');
     var nome = inp.value.trim();
     if (!nome) return;
-    if (!gravar('projetos', { id: uid(), nome: nome, criadoEm: new Date().toISOString() })) return;
+    var r = await gravar('projetos', { id: uid(), nome: nome, criadoEm: new Date().toISOString() });
+    if (!r) return;
     inp.value = '';
     renderAdmin();
   };
-  window.removeProjeto = function (id) {
+  window.removeProjeto = async function (id) {
     if (!confirm(t('removerConf'))) return;
-    db.obras.filter(function (o) { return o.projetoId === id; }).forEach(function (o) { remover('obras', o.id); });
-    remover('projetos', id); renderAdmin();
+    var obras = db.obras.filter(function (o) { return o.projetoId === id; });
+    for (var i = 0; i < obras.length; i++) { if (!(await remover('obras', obras[i].id, Number(obras[i].rev) || 0))) return; }
+    var p = db.projetos.filter(function (x) { return x.id === id; })[0];
+    await remover('projetos', id, p ? (Number(p.rev) || 0) : undefined);
+    renderAdmin();
   };
-  window.addObra = function () {
+  window.addObra = async function () {
     var projSel = document.getElementById('obraProj');
     var nome = document.getElementById('novaObra').value.trim();
     var projId = projSel.value;
     if (!projId || !nome) return;
     var proj = db.projetos.filter(function (p) { return p.id === projId; })[0];
-    if (!gravar('obras', { id: uid(), nome: nome, projetoId: projId, projetoNome: proj ? proj.nome : '', criadoEm: new Date().toISOString() })) return;
+    var r = await gravar('obras', { id: uid(), nome: nome, projetoId: projId, projetoNome: proj ? proj.nome : '', criadoEm: new Date().toISOString() });
+    if (!r) return;
     document.getElementById('novaObra').value = '';
     renderAdmin();
   };
-  window.removeObra = function (id) {
+  window.removeObra = async function (id) {
     if (!confirm(t('removerConf'))) return;
-    remover('obras', id); renderAdmin();
+    var o = db.obras.filter(function (x) { return x.id === id; })[0];
+    await remover('obras', id, o ? (Number(o.rev) || 0) : undefined);
+    renderAdmin();
   };
   function renderProjetosObras() {
     var lp = document.getElementById('listaProjetos');
@@ -2237,36 +2319,117 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
       renderScopeLists('uScopeProj', 'uScopeObra', [], []);
     }
   };
-  window.criarUsuario = function () {
+  function authSecundario() {
+    if (!appSec) appSec = FA.initializeApp(window.FIREBASE_CONFIG, 'sec');
+    return FAu.getAuth(appSec);
+  }
+  var criandoUsuario = false;
+  window.criarUsuario = async function () {
     var nome = document.getElementById('uNome').value.trim();
     var email = document.getElementById('uEmail').value.trim().toLowerCase();
     var senha = document.getElementById('uSenha').value;
     var papel = document.getElementById('uPapel').value;
-    if (!nome || !email || senha.length < 6) { window.skipUI.toast(lang === 'pt' ? 'Dados inválidos' : 'Datos inválidos', { type: 'error' }); return; }
-    if (achaUsuario(email) || ehAdminMail(email)) {
-      window.skipUI.toast(t('emailExiste'), { type: 'error' }); return;
-    }
-    var permissoes = permsMarcadas(document.getElementById('uPerms'));
-    var acessoTotal = document.querySelector('input[name=uScope]:checked').value === 'todos';
-    var projetos = acessoTotal ? [] : checkedIds('uScopeProj');
-    var obras = acessoTotal ? [] : checkedIds('uScopeObra');
-    if (!gravar('usuarios', { id: uid(), nome: nome, email: email, papel: papel, permissoes: permissoes, projetos: projetos, obras: obras, acessoTotal: acessoTotal, criadoEm: new Date().toISOString() })) return;
-    ['uNome', 'uEmail', 'uSenha'].forEach(function (id) { document.getElementById(id).value = ''; });
-    aplicarPadraoPapel();
-    document.querySelector('input[name=uScope][value=todos]').checked = true;
-    setScopeMode('uScope', 'todos');
-    document.getElementById('formUsuario').classList.add('hide');
-    renderAdmin(); window.skipUI.toast(t('usuarioCriado'), { type: 'success' });
+    if (!nome || !email || senha.length < 6) { window.skipUI.toast(lang === 'pt' ? 'Dados inválidos (senha mínima de 6 caracteres)' : 'Datos inválidos (contraseña mínima de 6 caracteres)', { type: 'error' }); return; }
+    if (achaUsuario(email) || ehAdminMail(email)) { window.skipUI.toast(t('emailExiste'), { type: 'error' }); return; }
+    if (!podeEscrever()) { window.skipUI.toast(t('somenteLeitura'), { type: 'error', duration: 6000 }); return; }
+    if (criandoUsuario) return;
+    criandoUsuario = true;
+    try {
+      var permissoes = permsMarcadas(document.getElementById('uPerms'));
+      var acessoTotal = document.querySelector('input[name=uScope]:checked').value === 'todos';
+      var projetos = acessoTotal ? [] : checkedIds('uScopeProj');
+      var obras = acessoTotal ? [] : checkedIds('uScopeObra');
+      // a conta (senha) é criada num app secundário para não derrubar a sessão do admin
+      var sec = authSecundario(), novoUid = null;
+      try {
+        var cred = await FAu.createUserWithEmailAndPassword(sec, email, senha);
+        novoUid = cred.user.uid;
+      } catch (e) {
+        if (e && e.code === 'auth/email-already-in-use') {
+          try { var c2 = await FAu.signInWithEmailAndPassword(sec, email, senha); novoUid = c2.user.uid; }
+          catch (e2) { window.skipUI.toast(t('emailExiste'), { type: 'error', duration: 6000 }); return; }
+        } else { tratarErro(e); return; }
+      }
+      try { await FAu.signOut(sec); } catch (e) {}
+      var r = await gravar('usuarios', { id: novoUid, nome: nome, email: email, papel: papel, permissoes: permissoes, projetos: projetos, obras: obras, acessoTotal: acessoTotal, ativo: true, criadoEm: new Date().toISOString() });
+      if (!r) return;
+      ['uNome', 'uEmail', 'uSenha'].forEach(function (id) { document.getElementById(id).value = ''; });
+      aplicarPadraoPapel();
+      document.querySelector('input[name=uScope][value=todos]').checked = true;
+      setScopeMode('uScope', 'todos');
+      document.getElementById('formUsuario').classList.add('hide');
+      renderAdmin(); window.skipUI.toast(t('usuarioCriado'), { type: 'success' });
+    } finally { criandoUsuario = false; }
   };
-  window.mudarPapel = function (id, papel) {
+  window.mudarPapel = async function (id, papel) {
     var u = db.usuarios.filter(function (x) { return x.id === id; })[0];
     if (!u) return;
     var nu = clone(u); nu.papel = papel;
-    if (gravar('usuarios', nu)) renderAdmin();
+    nu.permissoes = (PERM_PADRAO[papel] || []).slice();   // ao trocar o papel, valem as permissões padrão dele
+    await gravar('usuarios', nu, Number(u.rev) || 0);
+    renderAdmin();
   };
-  window.excluirUsuario = function (id) {
+  window.excluirUsuario = async function (id) {
     if (!confirm(t('removerConf'))) return;
-    remover('usuarios', id); renderAdmin();
+    var u = db.usuarios.filter(function (x) { return x.id === id; })[0];
+    await remover('usuarios', id, u ? (Number(u.rev) || 0) : undefined);
+    renderAdmin();
+  };
+
+  // ---------- Importar dados que existiam só neste aparelho (versão antiga) ----------
+  function temLegado() {
+    try { if (localStorage.getItem('iad_imp_fb_v1')) return false; } catch (e) {}
+    var d = carregarLegado();
+    return !!(d.projetos.length || d.obras.length || d.informes.length || d.catalogos.funcoes.length || d.catalogos.equipamentos.length);
+  }
+  function atualizarCardImportar() {
+    var c = document.getElementById('secImportar');
+    if (c) c.classList.toggle('hide', !(sessao && sessao.papel === 'admin' && temLegado()));
+  }
+  window.importarLocais = async function () {
+    if (!podeEscrever()) { window.skipUI.toast(t('somenteLeitura'), { type: 'error', duration: 6000 }); return; }
+    if (!confirm(lang === 'pt' ? 'Importar para o banco compartilhado os dados que estavam só neste aparelho? (itens com o mesmo nome não são duplicados)' : '¿Importar a la base compartida los datos que estaban solo en este dispositivo? (los elementos con el mismo nombre no se duplican)')) return;
+    var leg = carregarLegado(), n = 0, mapP = {}, mapO = {}, agora = new Date().toISOString();
+    var i, x, ex;
+    for (i = 0; i < leg.projetos.length; i++) {
+      x = leg.projetos[i];
+      ex = db.projetos.filter(function (p) { return norm(p.nome) === norm(x.nome); })[0];
+      if (ex) { mapP[x.id] = ex.id; continue; }
+      mapP[x.id] = x.id;
+      if (!(await gravar('projetos', { id: x.id, nome: x.nome, criadoEm: x.criadoEm || agora }))) return;
+      n++;
+    }
+    for (i = 0; i < leg.obras.length; i++) {
+      x = leg.obras[i];
+      var pid = mapP[x.projetoId] || x.projetoId;
+      ex = db.obras.filter(function (o) { return o.projetoId === pid && norm(o.nome) === norm(x.nome); })[0];
+      if (ex) { mapO[x.id] = ex.id; continue; }
+      mapO[x.id] = x.id;
+      if (!(await gravar('obras', { id: x.id, nome: x.nome, projetoId: pid, projetoNome: x.projetoNome || '', criadoEm: x.criadoEm || agora }))) return;
+      n++;
+    }
+    var chaves = ['funcoes', 'equipamentos'];
+    for (var c = 0; c < chaves.length; c++) {
+      for (i = 0; i < leg.catalogos[chaves[c]].length; i++) {
+        x = leg.catalogos[chaves[c]][i];
+        var antes = getArr(chaves[c]).length;
+        var it = await addCatalogo(chaves[c], x.nome);
+        if (!it) return;
+        if (getArr(chaves[c]).length > antes) n++;
+      }
+    }
+    for (i = 0; i < leg.informes.length; i++) {
+      x = clone(leg.informes[i]);
+      if (db.informes.some(function (f) { return f.id === x.id; })) continue;
+      if (x.projetoId) x.projetoId = mapP[x.projetoId] || x.projetoId;
+      if (x.obraId) x.obraId = mapO[x.obraId] || x.obraId;
+      x.autorId = sessao.uid;
+      if (!(await gravar('informes', x))) return;
+      n++;
+    }
+    try { localStorage.setItem('iad_imp_fb_v1', '1'); } catch (e) {}
+    atualizarCardImportar(); renderAll();
+    window.skipUI.toast((lang === 'pt' ? 'Itens importados: ' : 'Elementos importados: ') + n, { type: 'success' });
   };
 
   // =====================================================================
@@ -2417,19 +2580,19 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
     editAtiv[i].equipos.splice(j, 1);
     renderAtividades(); window.atualizarPreview();
   };
-  window.criarEquipoRapido = function (ativIdx) {
+  window.criarEquipoRapido = async function (ativIdx) {
     var nome = prompt(lang === 'pt' ? 'Nome do equipamento' : 'Nombre del equipo');
     if (!nome || !nome.trim()) return;
-    var item = addCatalogo('equipamentos', nome);
+    var item = await addCatalogo('equipamentos', nome);
     if (!item) return;
     if (ativIdx !== undefined && editAtiv[ativIdx]) editAtiv[ativIdx].equipos.push({ nome: item.nome, horas: 0 });
     renderEquipoGeral(); renderAtividades(); window.atualizarPreview();
     window.skipUI.toast(t('agregado'), { type: 'success' });
   };
-  window.criarCargoRapido = function () {
+  window.criarCargoRapido = async function () {
     var nome = prompt(lang === 'pt' ? 'Nome do cargo' : 'Nombre del cargo');
     if (!nome || !nome.trim()) return;
-    var item = addCatalogo('funcoes', nome);
+    var item = await addCatalogo('funcoes', nome);
     if (!item) return;
     mo.push({ nome: item.nome, qtd: 0 });
     renderMO(); window.atualizarPreview();
@@ -2596,20 +2759,25 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
 
   window.copiarTexto = function () { window.atualizarPreview(); copiarPara(ultimoTexto); };
 
-  window.salvarInforme = function () {
+  var salvando = false;
+  window.salvarInforme = async function () {
     var projId = document.getElementById('fProjeto').value;
     if (!projId) { window.skipUI.toast(t('nenhumProjeto'), { type: 'error' }); return; }
+    if (salvando) return;
+    salvando = true;
     try {
       var inf = coletar();
-      inf.id = editId || uid();
+      inf.id = uid();                       // todo informe novo é um documento novo: nunca sobrescreve outro
+      inf.autorId = sessao.uid;
       inf.responsavel = inf.autorNome;
       inf.criadoEm = new Date().toISOString();
-      if (!gravar('informes', inf)) return;
+      var r = await gravar('informes', inf);
+      if (!r) return;
       window.skipUI.toast(t('guardado'), { type: 'success' });
       go('inicio');
     } catch (e) {
       window.skipUI.toast('Error: ' + (e && e.message ? e.message : e), { type: 'error' });
-    }
+    } finally { salvando = false; }
   };
 
   // ---------- Render geral ----------
@@ -2645,16 +2813,10 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
     document.addEventListener('change', function () { if (visivel('vNovo')) window.atualizarPreview(); });
     document.getElementById('loginSenha').value = '';
     document.getElementById('loginEmail').value = '';
-    if (sessao && sessao.expira > Date.now()) {
-      if (!sessao.permissoes) sessao.permissoes = permsDe(null, sessao.papel, ehAdminMail(sessao.email));
-      aplicarAcesso();
-    } else { sessao = null; lsDel(LS_SESSAO); }
     atualizarBadge();
-    iniciarBanco();
+    iniciarBanco();      // se já havia login, o Firebase o restaura e o perfil é conferido no servidor
   });
 })();
 </script>
 </body>
 </html>
-
-</body></html>
