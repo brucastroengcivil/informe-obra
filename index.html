@@ -16,7 +16,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>Informe de Avance de Obra · v12.2 · Alupar</title>
+<title>Informe de Avance de Obra · v12.4 · Alupar</title>
 <style>
 /* Skip artifact shell — fixed styles served beside every artifact.
    Tokens, utilities and components (basecoat 1.0 markup, no CDN); artifacts
@@ -1161,6 +1161,20 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
 .guia-nav .g-next { background: #003DAD; color: #fff; flex: 2; }
 body.em-guia .sticky-bottom-nav { display: none !important; }
 body.em-guia .fab-wrap, body.em-guia .fab-overlay { display: none !important; }
+/* ---- informes agrupados ---- */
+#listaInformes { display: block !important; }
+.grp { margin-bottom: 10px; }
+.grp > summary { cursor: pointer; list-style: none; display: flex; align-items: center; gap: 8px; padding: 8px 4px; font-weight: 700; }
+.grp > summary::-webkit-details-marker { display: none; }
+.grp > summary::before { content: '▸'; display: inline-block; transition: transform .15s; color: #6b7280; }
+.grp[open] > summary::before { transform: rotate(90deg); }
+.grp-n { background: #e6f0fb; color: #003DAD; border-radius: 999px; font-size: 12px; padding: 1px 8px; font-weight: 700; }
+.grp-p > summary { font-size: 19px; color: #003DAD; border-bottom: 2px solid #003DAD; }
+.grp-o { margin-left: 10px; }
+.grp-o > summary { font-size: 16px; }
+.grp-c { margin-left: 12px; }
+.grp-c > summary { font-size: 14px; color: #374151; }
+.grp-c > .stack { margin-left: 4px; }
 @media print {
   .app-header, .nav-bar, .side-nav, .sticky-bottom-nav, .seal, button, .no-print { display: none !important; }
   body { background: #fff; }
@@ -1193,7 +1207,7 @@ body.em-guia .fab-wrap, body.em-guia .fab-overlay { display: none !important; }
     </form>
     <p class="text-sm mt-3 text-center"><a href="#" onclick="event.preventDefault(); iadEsqueci();" id="lnkForgot">Olvidé mi contraseña</a></p>
     <div class="sync-login" id="loginSync">☁️ …</div>
-    <div class="rodape-versao">v12.2</div>
+    <div class="rodape-versao">v12.4</div>
   </div>
 </section>
 
@@ -1204,7 +1218,7 @@ body.em-guia .fab-wrap, body.em-guia .fab-overlay { display: none !important; }
       <div class="row items-center gap-2">
         <img class="brand-logo" src="alupar_branco.png" alt="Alupar">
         <div>
-        <div class="font-bold" id="appTitle">Informe de Avance de Obra <span class="app-ver">· v12.2</span></div>
+        <div class="font-bold" id="appTitle">Informe de Avance de Obra <span class="app-ver">· v12.4</span></div>
         </div>
       </div>
       <div class="row items-center gap-3">
@@ -1506,7 +1520,7 @@ body.em-guia .fab-wrap, body.em-guia .fab-overlay { display: none !important; }
 </div>
 
 <div class="seal-erro" id="sealErro" role="alert">Error de script</div>
-<div class="rodape-versao hide" id="diagAdmin">v12.2</div>
+<div class="rodape-versao hide" id="diagAdmin">v12.4</div>
 
 <script>
 /* ===================== CONFIGURAÇÃO DO FIREBASE (edite aqui) =====================
@@ -1611,7 +1625,7 @@ window.FIREBASE_CONFIG = {
       lidas: 'Atividades', nomeadas: 'com nome', dataInvalida: 'Data inválida (use dd/mm/aaaa).'
     }
   };
-  var APP_VERSION = "12.2";
+  var APP_VERSION = "12.4";
   var IDIOMA_PADRAO = "es";
 
   function lsGet(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
@@ -1908,7 +1922,7 @@ window.FIREBASE_CONFIG = {
   function renderDados() {
     atualizarBadge();
     var diag = document.getElementById('diagAdmin');
-    if (diag) diag.textContent = 'v12.2 · ' + estado + ' · proyectos: ' + db.projetos.length + ' · obras: ' + db.obras.length + ' · usuarios: ' + db.usuarios.length + ' · informes: ' + db.informes.length;
+    if (diag) diag.textContent = 'v12.4 · ' + estado + ' · proyectos: ' + db.projetos.length + ' · obras: ' + db.obras.length + ' · usuarios: ' + db.usuarios.length + ' · informes: ' + db.informes.length;
     if (!sessao) return;
     refreshSessao();
     if (!sessao) return;
@@ -2179,6 +2193,8 @@ window.FIREBASE_CONFIG = {
       lista.map(function (p) { return '<option value="' + esc(p.id) + '"' + (p.id === filtroProj ? ' selected' : '') + '>' + esc(p.nome) + '</option>'; }).join('');
   }
 
+  var gruposFechados = {};
+  window.toggleGrupo = function (el) { var k = el.getAttribute('data-key'); if (el.open) delete gruposFechados[k]; else gruposFechados[k] = 1; };
   function renderInformes() {
     popularFiltroProj();
     var lista = document.getElementById('listaInformes');
@@ -2188,17 +2204,44 @@ window.FIREBASE_CONFIG = {
       if (scope && !((i.obraId && scope.obras.indexOf(i.obraId) !== -1) || (i.projetoId && scope.projetos.indexOf(i.projetoId) !== -1))) return false;
       if (filtro === 'mios' && i.autorEmail !== (sessao && sessao.email)) return false;
       if (filtroProj && i.projetoId !== filtroProj) return false;
-      var txt = ((i.obra || '') + ' ' + (i.projeto || '')).toLowerCase();
+      var txt = ((i.obra || '') + ' ' + (i.projeto || '') + ' ' + (Array.isArray(i.contratistas) ? i.contratistas.join(' ') : (i.contratista || ''))).toLowerCase();
       return !q || txt.indexOf(q) !== -1;
     }).slice().sort(function (a, b) { return String(b.data || '').localeCompare(String(a.data || '')); });
     document.getElementById('pillInf').textContent = items.length + ' ' + (lang === 'pt' ? 'relatórios' : 'informes');
     document.getElementById('vazioInformes').classList.toggle('hide', items.length > 0 || !carregado.informes);
-    lista.innerHTML = items.map(function (i) {
+    // agrupa: Projeto > Obra > Contratista (informes mais recentes primeiro dentro de cada grupo)
+    function contrTxt(i) {
+      var c = Array.isArray(i.contratistas) ? i.contratistas : (i.contratista ? [i.contratista] : contrDe(db.obras.filter(function (o) { return o.id === i.obraId; })[0]));
+      return c.length ? c.join(', ') : LL('Sin contratista', 'Sem empreiteira');
+    }
+    var arv = {};
+    items.forEach(function (i) {
+      var p = i.projeto || '—', o = i.obra || '—', c = contrTxt(i);
+      ((arv[p] = arv[p] || {})[o] = arv[p][o] || {});
+      (arv[p][o][c] = arv[p][o][c] || []).push(i);
+    });
+    function cardInf(i) {
       return '<div class="card" style="cursor:pointer" onclick="verInforme(\'' + i.id + '\')">' +
-        '<div class="p-4"><div class="row between items-center mb-2"><span class="badge" data-variant="outline">' + esc(fmtData(i.data)) + '</span>' +
-        '<span class="text-xs muted">' + esc(i.autorNome) + ' · ' + esc(i.autorEmail) + '</span></div>' +
-        '<h3 class="font-bold m-0">' + esc(i.obra) + '</h3>' +
-        '<p class="muted text-sm m-0">' + esc(i.projeto) + '</p></div></div>';
+        '<div style="padding:10px 14px"><div class="row between items-center"><span class="badge" data-variant="outline">' + esc(fmtData(i.data)) + '</span>' +
+        '<span class="text-xs muted">' + esc(i.autorNome) + '</span></div></div></div>';
+    }
+    function det(key, cls, tit, n, inner) {
+      return '<details class="grp ' + cls + '" data-key="' + esc(key) + '"' + (gruposFechados[key] ? '' : ' open') + ' ontoggle="toggleGrupo(this)">' +
+        '<summary>' + tit + ' <span class="grp-n">' + n + '</span></summary>' + inner + '</details>';
+    }
+    var cmp = function (a, b) { return String(a).localeCompare(String(b), undefined, { sensitivity: 'base' }); };
+    lista.innerHTML = Object.keys(arv).sort(cmp).map(function (p) {
+      var nP = 0;
+      var htmlP = Object.keys(arv[p]).sort(cmp).map(function (o) {
+        var nO = 0;
+        var htmlO = Object.keys(arv[p][o]).sort(cmp).map(function (c) {
+          var its = arv[p][o][c]; nO += its.length;
+          return det(p + '|' + o + '|' + c, 'grp-c', '👷 ' + esc(c), its.length, '<div class="stack gap-2">' + its.map(cardInf).join('') + '</div>');
+        }).join('');
+        nP += nO;
+        return det(p + '|' + o, 'grp-o', '📍 ' + esc(o), nO, htmlO);
+      }).join('');
+      return det(p, 'grp-p', '🏗️ ' + esc(p), nP, htmlP);
     }).join('');
   }
 
@@ -2733,16 +2776,24 @@ window.FIREBASE_CONFIG = {
       contrPend = null;
     } else if (contrObra !== oid) { contrSel = lista.slice(); contrObra = oid; }   // obra nova: todos marcados
     box.classList.toggle('hide', !lista.length);
-    document.getElementById('lblContr').textContent = LL('Contratistas que trabajaron hoy', 'Empreiteiras que trabalharam hoje');
-    document.getElementById('listaContr').innerHTML = lista.map(function (n, k) {
-      return '<label class="text-sm" style="display:flex;gap:8px;align-items:center;padding:6px 0"><input type="checkbox" style="width:22px;height:22px" data-contr="' + k + '"' + (contrSel.map(norm).indexOf(norm(n)) !== -1 ? ' checked' : '') + ' onchange="toggleContr(this)"> ' + esc(n) + '</label>';
-    }).join('');
+    document.getElementById('lblContr').textContent = LL('Contratista', 'Empreiteira');
+    var nl = lista.map(norm), selN = contrSel.map(norm);
+    var todos = lista.length > 1 && selN.length === nl.length && nl.every(function (x) { return selN.indexOf(x) !== -1; });
+    var val = todos ? 'all' : (selN.length === 1 && nl.indexOf(selN[0]) !== -1 ? String(nl.indexOf(selN[0])) : (selN.length ? 'custom' : 'none'));
+    var opts = '';
+    if (lista.length > 1) opts += '<option value="all">' + esc(LL('Todos', 'Todas') + ' (' + lista.join(', ') + ')') + '</option>';
+    lista.forEach(function (n, k) { opts += '<option value="' + k + '">' + esc(n) + '</option>'; });
+    if (val === 'custom') opts += '<option value="custom">' + esc(contrSel.join(', ')) + '</option>';
+    opts += '<option value="none">' + esc(LL('— Sin contratista —', '— Sem empreiteira —')) + '</option>';
+    document.getElementById('listaContr').innerHTML = '<select class="input" id="fContr" onchange="toggleContr(this)">' + opts + '</select>';
+    document.getElementById('fContr').value = val;
     box._lista = lista;
   }
   window.toggleContr = function (el) {
-    var box = document.getElementById('boxContr'), n = box._lista[Number(el.getAttribute('data-contr'))];
-    contrSel = contrSel.filter(function (x) { return norm(x) !== norm(n); });
-    if (el.checked) contrSel.push(n);
+    var box = document.getElementById('boxContr'), v = el.value;
+    if (v === 'all') contrSel = box._lista.slice();
+    else if (v === 'none') contrSel = [];
+    else if (v !== 'custom') contrSel = [box._lista[Number(v)]];
     window.atualizarPreview();
   };
   window.popularObras = function (manter) {
