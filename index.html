@@ -16,7 +16,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>Informe de Avance de Obra · v11.7 · Alupar</title>
+<title>Informe de Avance de Obra · v11.9 · Alupar</title>
 <style>
 /* Skip artifact shell — fixed styles served beside every artifact.
    Tokens, utilities and components (basecoat 1.0 markup, no CDN); artifacts
@@ -1129,6 +1129,38 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
 .side-nav button { text-align: left; border: 0; background: transparent; padding: 10px 12px; border-radius: 8px; cursor: pointer; font: inherit; color: var(--text); }
 .side-nav button.active { background: #004a99; color: #fff; }
 .side-nav button:focus-visible, .sticky-bottom-nav button:focus-visible { outline: 2px solid #004a99; outline-offset: 2px; }
+
+/* ---- botão flutuante + ---- */
+.fab-wrap { position: fixed; right: 18px; bottom: 24px; z-index: 60; display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
+@media (max-width: 899px) { .fab-wrap { bottom: 78px; } }
+.fab { width: 58px; height: 58px; border-radius: 50%; border: 0; background: #003DAD; color: #fff; font-size: 34px; line-height: 1; cursor: pointer; box-shadow: 0 6px 18px rgba(0,30,90,.38); transition: transform .2s, background .2s; padding: 0; }
+.fab[aria-expanded="true"] { transform: rotate(45deg); background: #08a010; }
+.fab-menu { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+.fab-item { display: flex; align-items: center; gap: 10px; border: 0; background: #fff; color: #0b1b3a; font: inherit; font-weight: 600; font-size: 15px; padding: 11px 18px; border-radius: 999px; box-shadow: 0 4px 14px rgba(0,0,0,.28); cursor: pointer; }
+.fab-overlay { position: fixed; inset: 0; background: rgba(0,20,60,.35); z-index: 55; }
+.q-modal { position: fixed; inset: 0; background: rgba(0,20,60,.45); z-index: 80; display: flex; align-items: center; justify-content: center; padding: 16px; }
+.q-box { background: #fff; border-radius: 16px; padding: 18px; width: 100%; max-width: 380px; }
+/* ---- modo guiado ---- */
+.guia-bar { background: #fff; border: 1px solid var(--border); border-radius: 14px; padding: 14px 16px; margin-bottom: 14px; }
+.guia-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 13px; color: #4b5563; font-weight: 700; }
+.guia-dots { display: flex; gap: 6px; margin: 10px 0; }
+.guia-dots span { flex: 1; height: 8px; border-radius: 99px; background: #dbe4f3; }
+.guia-dots span.on { background: #003DAD; }
+.guia-dots span.ok { background: #08a010; }
+.guia-tit { font-size: 22px; font-weight: 800; margin: 0; color: #003DAD; }
+.guia-txt { font-size: 16px; margin: 4px 0 0; color: #1f2937; }
+.guia-aviso { margin-top: 10px; background: #fff7e0; border: 1px solid #f0c36d; color: #7a4b00; border-radius: 10px; padding: 10px 12px; font-size: 15px; font-weight: 600; }
+#vNovo.guiado { padding-bottom: 96px; }
+#vNovo.guiado .card[data-step]:not(.step-on) { display: none; }
+#vNovo.guiado .input { min-height: 48px; font-size: 16px; }
+#vNovo.guiado .btn { min-height: 44px; font-size: 15px; }
+.guia-nav { position: fixed; left: 0; right: 0; bottom: 0; z-index: 70; background: #fff; border-top: 1px solid var(--border); padding: 10px 14px; display: flex; gap: 10px; }
+@media (min-width: 900px) { .guia-nav { left: 220px; } }
+.guia-nav button { flex: 1; min-height: 54px; font: inherit; font-size: 17px; font-weight: 700; border-radius: 12px; border: 2px solid #003DAD; cursor: pointer; }
+.guia-nav .g-prev { background: #fff; color: #003DAD; }
+.guia-nav .g-next { background: #003DAD; color: #fff; flex: 2; }
+body.em-guia .sticky-bottom-nav { display: none !important; }
+body.em-guia .fab-wrap, body.em-guia .fab-overlay { display: none !important; }
 @media print {
   .app-header, .nav-bar, .side-nav, .sticky-bottom-nav, .seal, button, .no-print { display: none !important; }
   body { background: #fff; }
@@ -1161,7 +1193,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
     </form>
     <p class="text-sm mt-3 text-center"><a href="#" onclick="event.preventDefault(); iadEsqueci();" id="lnkForgot">Olvidé mi contraseña</a></p>
     <div class="sync-login" id="loginSync">☁️ …</div>
-    <div class="rodape-versao">v11.7</div>
+    <div class="rodape-versao">v11.9</div>
   </div>
 </section>
 
@@ -1172,7 +1204,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
       <div class="row items-center gap-2">
         <img class="brand-logo" src="alupar_branco.png" alt="Alupar">
         <div>
-        <div class="font-bold" id="appTitle">Informe de Avance de Obra <span class="app-ver">· v11.7</span></div>
+        <div class="font-bold" id="appTitle">Informe de Avance de Obra <span class="app-ver">· v11.9</span></div>
         </div>
       </div>
       <div class="row items-center gap-3">
@@ -1329,13 +1361,22 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
             <h2 class="text-2xl font-bold mb-0" id="tNovo">Nuevo informe</h2>
             <p class="muted text-sm">Completa el avance del día y genera el texto para enviar.</p>
           </div>
-          <div class="row gap-2">
+          <div class="row gap-2" id="novoAcoes">
+            <button class="btn" data-variant="secondary" data-size="sm" id="btnGuiaOn" onclick="setGuiado(true)">🧭 Modo guiado</button>
             <button class="btn" data-variant="outline" data-size="sm" onclick="limparForm()">Limpiar</button>
             <button class="btn" data-size="sm" onclick="salvarInforme()">Guardar informe</button>
           </div>
         </div>
 
-        <div class="card mb-4">
+        <div class="guia-bar hide" id="guiaBar">
+          <div class="guia-top"><span id="guiaPaso"></span><button type="button" class="btn" data-variant="ghost" data-size="sm" id="guiaSair" onclick="setGuiado(false)"></button></div>
+          <div class="guia-dots" id="guiaDots"></div>
+          <h3 class="guia-tit" id="guiaTit"></h3>
+          <p class="guia-txt" id="guiaTxt"></p>
+          <div class="guia-aviso hide" id="guiaAviso" role="alert"></div>
+        </div>
+
+        <div class="card mb-4" data-step="1">
           <header><h3>Datos generales</h3><p class="muted text-xs">Fecha, proyecto y obra del informe.</p></header>
           <section class="shell-grid cols-3 gap-3">
             <div class="field"><label for="fData">Fecha</label><div class="row gap-2 items-center"><input class="input grow" type="text" id="fData" inputmode="numeric" maxlength="10" placeholder="dd/mm/aaaa" autocomplete="off"><button type="button" class="btn" data-variant="outline" data-size="sm" onclick="abrirCalendario()" aria-label="Calendario">📅</button><input type="date" id="fDataPick" tabindex="-1" aria-hidden="true" style="position:absolute;opacity:0;width:0;height:0;pointer-events:none" onchange="aoEscolherData(this.value)"></div></div>
@@ -1344,7 +1385,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
           </section>
         </div>
 
-        <div class="card mb-4">
+        <div class="card mb-4" data-step="2">
           <header>
             <div class="row between items-center"><h3>Actividades</h3><button class="btn" data-size="sm" onclick="addAtividade()">＋ Agregar actividad</button></div>
             <p class="muted text-xs">Cada actividad registra cantidades, porcentajes y los equipos que trabajaron.</p>
@@ -1355,7 +1396,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
           </section>
         </div>
 
-        <div class="card mb-4">
+        <div class="card mb-4" data-step="3">
           <header><h3>Mano de obra</h3><p class="muted text-xs">Personal por cargo.</p></header>
           <section>
             <div id="listaMO" class="stack gap-2 mb-2"></div>
@@ -1366,7 +1407,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
           </section>
         </div>
 
-        <div class="card mb-4">
+        <div class="card mb-4" data-step="4">
           <header><h3>Equipos generales</h3><p class="muted text-xs">Cantidad de cada tipo de equipo presente hoy.</p></header>
           <section>
             <div id="listaEquiposGeral" class="stack gap-2 mb-2"></div>
@@ -1377,7 +1418,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
           </section>
         </div>
 
-        <div class="card mb-4">
+        <div class="card mb-4" data-step="5">
           <header><h3>Clima</h3><p class="muted text-xs">Condición del tiempo en la obra.</p></header>
           <section class="stack gap-2">
             <div class="field"><label for="climaM">Mañana</label><select class="input" id="climaM"><option>Despejado ☀️</option><option>Nublado ☁️</option><option>Lluvia leve 🌦️</option><option>Lluvia fuerte 🌧️</option></select></div>
@@ -1385,7 +1426,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
           </section>
         </div>
 
-        <div class="card mb-4">
+        <div class="card mb-4" data-step="6">
           <header><h3>Notas del día</h3><p class="muted text-xs">Ocurrencias, seguridad y próximos pasos.</p></header>
           <section class="stack gap-3">
             <div class="field"><label for="fOcor">Ocurrencias</label><textarea class="input" id="fOcor" rows="2" placeholder="Ej.: Demora por cambio de cuadrilla"></textarea></div>
@@ -1394,7 +1435,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
           </section>
         </div>
 
-        <div class="card mb-4">
+        <div class="card mb-4" data-step="7">
           <header><div class="row between items-center"><h3>Texto generado</h3><span class="badge" data-variant="outline" id="pillTexto">Vista previa</span></div><p class="muted text-xs">Pronto para copiar y enviar por WhatsApp.</p></header>
           <section>
             <div class="copy-row">
@@ -1417,6 +1458,7 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
           </div>
           <div class="row gap-2 no-print">
             <button class="btn" data-size="sm" id="btnEditarInf" onclick="editarInforme()">✏️ Editar</button>
+            <button class="btn" data-variant="destructive" data-size="sm" id="btnExcluirInf" onclick="excluirInforme()">🗑️ Excluir</button>
             <button class="btn" data-variant="outline" data-size="sm" onclick="copiarDetalhe()">📋 Copiar texto</button>
             <button class="btn" data-variant="outline" data-size="sm" id="btnCompartirB" onclick="compartirTexto(ultimoTexto)">Compartir</button>
             <button class="btn" data-variant="secondary" data-size="sm" onclick="window.print()">Imprimir / PDF</button>
@@ -1433,10 +1475,33 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
     <button type="button" data-nav="catalogo" onclick="go('catalogo')">Catálogo</button>
     <button type="button" data-nav="admin" onclick="go('admin')" id="navAdminB">Admin</button>
   </nav>
+
+  <div class="guia-nav hide no-print" id="guiaNav">
+    <button type="button" class="g-prev" id="gPrev" onclick="guiaAnt()"></button>
+    <button type="button" class="g-next" id="gNext" onclick="guiaProx()"></button>
+  </div>
+
+  <div class="fab-overlay hide no-print" id="fabOverlay" onclick="fecharFab()"></div>
+  <div class="fab-wrap hide no-print" id="fabWrap">
+    <div class="fab-menu hide" id="fabMenu"></div>
+    <button type="button" class="fab" id="fabBtn" aria-label="Acciones" aria-expanded="false" onclick="toggleFab()">＋</button>
+  </div>
+
+  <div class="q-modal hide no-print" id="qModal" role="dialog" aria-modal="true">
+    <div class="q-box">
+      <h3 id="qTit" class="font-bold" style="font-size:19px;margin:0 0 10px"></h3>
+      <div class="field hide" id="qProjBox"><label for="qProj" id="qProjLbl"></label><select class="input" id="qProj"></select></div>
+      <div class="field"><label for="qNome" id="qLbl"></label><input class="input" id="qNome" type="text" autocomplete="off" maxlength="80"></div>
+      <div class="row gap-2 mt-2" style="justify-content:flex-end">
+        <button type="button" class="btn" data-variant="outline" id="qCancel" onclick="fecharQuick()"></button>
+        <button type="button" class="btn" id="qOk" onclick="salvarQuick()"></button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div class="seal-erro" id="sealErro" role="alert">Error de script</div>
-<div class="rodape-versao hide" id="diagAdmin">v11.7</div>
+<div class="rodape-versao hide" id="diagAdmin">v11.9</div>
 
 <script>
 /* ===================== CONFIGURAÇÃO DO FIREBASE (edite aqui) =====================
@@ -1541,7 +1606,7 @@ window.FIREBASE_CONFIG = {
       lidas: 'Atividades', nomeadas: 'com nome', dataInvalida: 'Data inválida (use dd/mm/aaaa).'
     }
   };
-  var APP_VERSION = "11.8";
+  var APP_VERSION = "11.9";
   var IDIOMA_PADRAO = "es";
 
   function lsGet(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
@@ -1717,7 +1782,10 @@ window.FIREBASE_CONFIG = {
       sessao = {
         uid: user.uid, email: email, papel: papel,
         nome: perfil && perfil.nome ? perfil.nome : (adm ? 'Bruno Alvernaz' : email),
-        permissoes: adm ? PERM_KEYS.slice() : permsDe(perfil, papel, false)
+        permissoes: adm ? PERM_KEYS.slice() : permsDe(perfil, papel, false),
+        acessoTotal: adm ? true : (perfil ? perfil.acessoTotal !== false : false),
+        projetos: (!adm && perfil && Array.isArray(perfil.projetos)) ? perfil.projetos.slice() : [],
+        obras: (!adm && perfil && Array.isArray(perfil.obras)) ? perfil.obras.slice() : []
       };
       iniciarListeners();
       aplicarAcesso();
@@ -1835,7 +1903,7 @@ window.FIREBASE_CONFIG = {
   function renderDados() {
     atualizarBadge();
     var diag = document.getElementById('diagAdmin');
-    if (diag) diag.textContent = 'v11.7 · ' + estado + ' · proyectos: ' + db.projetos.length + ' · obras: ' + db.obras.length + ' · usuarios: ' + db.usuarios.length + ' · informes: ' + db.informes.length;
+    if (diag) diag.textContent = 'v11.9 · ' + estado + ' · proyectos: ' + db.projetos.length + ' · obras: ' + db.obras.length + ' · usuarios: ' + db.usuarios.length + ' · informes: ' + db.informes.length;
     if (!sessao) return;
     refreshSessao();
     if (!sessao) return;
@@ -1938,6 +2006,9 @@ window.FIREBASE_CONFIG = {
     }
     var perms = permsDe(u, u.papel, false);
     var papel = u.papel || 'leitor';
+    var acTot = u.acessoTotal !== false, projs = Array.isArray(u.projetos) ? u.projetos.slice() : [], obs = Array.isArray(u.obras) ? u.obras.slice() : [];
+    var escopoMudou = acTot !== sessao.acessoTotal || JSON.stringify(projs) !== JSON.stringify(sessao.projetos) || JSON.stringify(obs) !== JSON.stringify(sessao.obras);
+    if (escopoMudou) { sessao.acessoTotal = acTot; sessao.projetos = projs; sessao.obras = obs; agendarRender(); }
     if (papel !== sessao.papel || u.nome !== sessao.nome || JSON.stringify(perms) !== JSON.stringify(sessao.permissoes)) {
       sessao.papel = papel; sessao.nome = u.nome; sessao.permissoes = perms;
       document.getElementById('userName').textContent = sessao.nome + ' · ' + sessao.papel;
@@ -2007,6 +2078,7 @@ window.FIREBASE_CONFIG = {
     }
     msg.textContent = t('semPerm');
     msg.classList.toggle('hide', podeVer);
+    atualizarFab();
   }
 
   // ---------- Idioma (ES | PT) ----------
@@ -2049,6 +2121,7 @@ window.FIREBASE_CONFIG = {
     document.querySelectorAll('[data-nav]').forEach(function (b) {
       b.classList.toggle('active', b.getAttribute('data-nav') === v);
     });
+    aplicarGuia(); atualizarFab(); window.fecharFab();
     if (v === 'inicio') renderInformes();
     if (v === 'catalogo') renderCatalogo();
     if (v === 'admin') renderAdmin();
@@ -2107,7 +2180,7 @@ window.FIREBASE_CONFIG = {
     var q = (document.getElementById('busca').value || '').toLowerCase();
     var scope = scopeAtual();
     var items = db.informes.filter(function (i) {
-      if (scope && scope.obras.indexOf(i.obraId) === -1 && scope.projetos.indexOf(i.projetoId) === -1) return false;
+      if (scope && !((i.obraId && scope.obras.indexOf(i.obraId) !== -1) || (i.projetoId && scope.projetos.indexOf(i.projetoId) !== -1))) return false;
       if (filtro === 'mios' && i.autorEmail !== (sessao && sessao.email)) return false;
       if (filtroProj && i.projetoId !== filtroProj) return false;
       var txt = ((i.obra || '') + ' ' + (i.projeto || '')).toLowerCase();
@@ -2140,7 +2213,10 @@ window.FIREBASE_CONFIG = {
     document.getElementById('detTitulo').textContent = inf.obra;
     document.getElementById('detSub').textContent = inf.projeto + ' · ' + fmtData(inf.data);
     var be = document.getElementById('btnEditarInf');
-    if (be) be.classList.toggle('hide', !(temPerm('editar_informes') || (sessao && inf.autorId === sessao.uid)));
+    var podeMexer = !!sessao && (sessao.papel === 'admin' || temPerm('editar_informes') || inf.autorId === sessao.uid);
+    if (be) be.classList.toggle('hide', !podeMexer);
+    var bx = document.getElementById('btnExcluirInf');
+    if (bx) bx.classList.toggle('hide', !podeMexer);
     var txt = compor(inf);
     ultimoTexto = txt;
     document.getElementById('detTexto').textContent = txt;
@@ -2228,9 +2304,12 @@ window.FIREBASE_CONFIG = {
     if (!u || u.acessoTotal !== false) return null;
     return { projetos: Array.isArray(u.projetos) ? u.projetos : [], obras: Array.isArray(u.obras) ? u.obras : [] };
   }
+  // null = vê tudo (admin ou acesso total). Sem sessão/perfil => NADA (nunca "tudo" por falha de leitura)
   function scopeAtual() {
-    if (!sessao || (sessao.email && ehAdminMail(sessao.email))) return null;
-    return userScope(achaUsuario(sessao.email));
+    if (!sessao) return { projetos: [], obras: [] };
+    if (sessao.papel === 'admin' || (sessao.email && ehAdminMail(sessao.email))) return null;
+    if (sessao.acessoTotal !== false) return null;
+    return { projetos: sessao.projetos || [], obras: sessao.obras || [] };
   }
 
   // ---------- Catálogo ----------
@@ -2302,7 +2381,8 @@ window.FIREBASE_CONFIG = {
         '<div class="perm-scope-tools"><button type="button" class="btn" data-variant="ghost" data-size="sm" onclick="scopeAll(\'so-' + x.id + '\',true)">Selecionar todos</button><button type="button" class="btn" data-variant="ghost" data-size="sm" onclick="scopeAll(\'so-' + x.id + '\',false)">Limpiar</button></div><div class="perm-scope-list" id="so-' + x.id + '"></div></div></div>' +
         '<button class="btn mt-2" data-size="sm" onclick="guardarPermisos(\'' + x.id + '\')">Guardar permisos</button></div></div>' +
         '<div class="row gap-2">' + selectHtml +
-        '<button class="btn" data-variant="outline" data-size="sm" onclick="togglePerms(\'' + x.id + '\')">Permisos</button>' + del + '</div></div>';
+        '<button class="btn" data-variant="outline" data-size="sm" onclick="togglePerms(\'' + x.id + '\')">Permisos</button>' +
+        '<button class="btn" data-variant="outline" data-size="sm" onclick="redefinirSenha(\'' + x.id + '\')">🔑 ' + LL('Contraseña', 'Senha') + '</button>' + del + '</div></div>';
     }).join('');
     if (!isAdmin) u.innerHTML = '';
   }
@@ -2527,6 +2607,7 @@ window.FIREBASE_CONFIG = {
   // =====================================================================
   window.novoInforme = function () {
     editId = null; rascunho = null; editAtiv = []; equipoGeral = []; mo = [];
+    passo = 1; avisado = 0; mostrarAviso('');
     document.getElementById('tNovo').textContent = lang === 'pt' ? 'Novo relatório' : 'Nuevo informe';
     document.getElementById('fData').value = isoParaBR(hojeISO());
     ['fOcor', 'fSeg', 'fProx'].forEach(function (id) { document.getElementById(id).value = ''; });
@@ -2929,6 +3010,200 @@ window.FIREBASE_CONFIG = {
     go('inicio');
   };
 
+
+  // ---------- idioma curto ----------
+  function LL(es, pt) { return lang === 'pt' ? pt : es; }
+
+  // ---------- excluir informe / redefinir senha ----------
+  window.excluirInforme = async function () {
+    var inf = db.informes.filter(function (i) { return i.id === editId; })[0];
+    if (!inf) return;
+    if (!(sessao && (sessao.papel === 'admin' || temPerm('editar_informes') || inf.autorId === sessao.uid))) return;
+    if (!confirm(LL('¿Eliminar este informe? Esta acción no se puede deshacer.', 'Excluir este relatório? Esta ação não pode ser desfeita.'))) return;
+    if (await remover('informes', inf.id, Number(inf.rev) || 0)) {
+      editId = null;
+      window.skipUI.toast(LL('Informe eliminado', 'Relatório excluído'), { type: 'success' });
+      go('inicio');
+    }
+  };
+  window.redefinirSenha = async function (id) {
+    var u = db.usuarios.filter(function (x) { return x.id === id; })[0];
+    if (!u || !u.email) return;
+    if (!confirm(LL('Se enviará un correo a ' + u.email + ' con un enlace para crear una nueva contraseña. ¿Continuar?',
+                    'Será enviado um e-mail para ' + u.email + ' com um link para criar uma nova senha. Continuar?'))) return;
+    if (!auth) { window.skipUI.toast(t('semConexao'), { type: 'error' }); return; }
+    try {
+      await FAu.sendPasswordResetEmail(auth, u.email);
+      window.skipUI.toast(LL('Correo enviado a ', 'E-mail enviado para ') + u.email, { type: 'success', duration: 6000 });
+    } catch (e) { tratarErro(e); }
+  };
+
+  // ---------- botão flutuante (+) ----------
+  var fabAcoes = [];
+  function listarAcoesFab() {
+    var a = [];
+    if (temPerm('criar_informes')) a.push({ ic: '📝', es: 'Nuevo informe', pt: 'Novo relatório', fn: function () { window.novoInforme(); } });
+    if (temPerm('gerir_catalogo')) {
+      a.push({ ic: '🚜', es: 'Crear equipo', pt: 'Criar equipamento', fn: function () { abrirQuick('equipo'); } });
+      a.push({ ic: '👷', es: 'Crear cargo', pt: 'Criar cargo', fn: function () { abrirQuick('cargo'); } });
+    }
+    if (temPerm('gerir_obras')) {
+      a.push({ ic: '🏗️', es: 'Crear proyecto', pt: 'Criar projeto', fn: function () { abrirQuick('projeto'); } });
+      a.push({ ic: '📍', es: 'Crear obra', pt: 'Criar obra', fn: function () { abrirQuick('obra'); } });
+    }
+    return a;
+  }
+  function atualizarFab() {
+    var w = document.getElementById('fabWrap');
+    if (!w) return;
+    var ok = !!sessao && listarAcoesFab().length > 0 && !visivel('vNovo');
+    w.classList.toggle('hide', !ok);
+    if (!ok) fecharFab();
+  }
+  window.fecharFab = function () {
+    document.getElementById('fabMenu').classList.add('hide');
+    document.getElementById('fabOverlay').classList.add('hide');
+    document.getElementById('fabBtn').setAttribute('aria-expanded', 'false');
+  };
+  window.toggleFab = function () {
+    var m = document.getElementById('fabMenu');
+    if (!m.classList.contains('hide')) { window.fecharFab(); return; }
+    fabAcoes = listarAcoesFab();
+    if (!fabAcoes.length) return;
+    m.innerHTML = fabAcoes.map(function (a, i) {
+      return '<button type="button" class="fab-item" onclick="fabAcao(' + i + ')"><span aria-hidden="true">' + a.ic + '</span>' + esc(LL(a.es, a.pt)) + '</button>';
+    }).join('');
+    m.classList.remove('hide');
+    document.getElementById('fabOverlay').classList.remove('hide');
+    document.getElementById('fabBtn').setAttribute('aria-expanded', 'true');
+  };
+  window.fabAcao = function (i) {
+    var a = fabAcoes[i];
+    window.fecharFab();
+    if (a) a.fn();
+  };
+
+  // criação rápida (equipo, cargo, proyecto, obra)
+  var quickTipo = null, quickBusy = false;
+  function abrirQuick(tipo) {
+    quickTipo = tipo;
+    var tit = { equipo: LL('Nuevo equipo', 'Novo equipamento'), cargo: LL('Nuevo cargo', 'Novo cargo'), projeto: LL('Nuevo proyecto', 'Novo projeto'), obra: LL('Nueva obra', 'Nova obra') }[tipo];
+    var lbl = { equipo: LL('Nombre del equipo', 'Nome do equipamento'), cargo: LL('Nombre del cargo', 'Nome do cargo'), projeto: LL('Nombre del proyecto', 'Nome do projeto'), obra: LL('Nombre de la obra', 'Nome da obra') }[tipo];
+    if (tipo === 'obra') {
+      if (!db.projetos.length) { window.skipUI.toast(LL('Primero crea un proyecto.', 'Crie um projeto primeiro.'), { type: 'error' }); return; }
+      document.getElementById('qProj').innerHTML = db.projetos.map(function (p) { return '<option value="' + esc(p.id) + '">' + esc(p.nome) + '</option>'; }).join('');
+      document.getElementById('qProjLbl').textContent = LL('Proyecto', 'Projeto');
+    }
+    document.getElementById('qProjBox').classList.toggle('hide', tipo !== 'obra');
+    document.getElementById('qTit').textContent = tit;
+    document.getElementById('qLbl').textContent = lbl;
+    document.getElementById('qCancel').textContent = LL('Cancelar', 'Cancelar');
+    document.getElementById('qOk').textContent = LL('Guardar', 'Salvar');
+    var inp = document.getElementById('qNome'); inp.value = '';
+    document.getElementById('qModal').classList.remove('hide');
+    setTimeout(function () { inp.focus(); }, 50);
+  }
+  window.fecharQuick = function () { document.getElementById('qModal').classList.add('hide'); quickTipo = null; };
+  window.salvarQuick = async function () {
+    if (quickBusy || !quickTipo) return;
+    var inp = document.getElementById('qNome');
+    var nome = inp.value.trim();
+    if (!nome) { inp.focus(); return; }
+    quickBusy = true;
+    try {
+      var ok = false, tipo = quickTipo;
+      if (tipo === 'equipo') ok = !!(await addCatalogo('equipamentos', nome));
+      else if (tipo === 'cargo') ok = !!(await addCatalogo('funcoes', nome));
+      else if (tipo === 'projeto') {
+        var ex = db.projetos.filter(function (p) { return norm(p.nome) === norm(nome); })[0];
+        ok = ex ? true : !!(await gravar('projetos', { id: uid(), nome: nome, criadoEm: new Date().toISOString() }));
+      } else if (tipo === 'obra') {
+        var projId = document.getElementById('qProj').value;
+        var proj = db.projetos.filter(function (p) { return p.id === projId; })[0];
+        if (!proj) { window.skipUI.toast(LL('Elige un proyecto.', 'Escolha um projeto.'), { type: 'error' }); return; }
+        var ex2 = db.obras.filter(function (o) { return o.projetoId === projId && norm(o.nome) === norm(nome); })[0];
+        ok = ex2 ? true : !!(await gravar('obras', { id: uid(), nome: nome, projetoId: projId, projetoNome: proj.nome, criadoEm: new Date().toISOString() }));
+      }
+      if (ok) { window.fecharQuick(); renderAll(); window.skipUI.toast(t('agregado'), { type: 'success' }); }
+    } finally { quickBusy = false; }
+  };
+
+  // ---------- modo guiado (passo a passo) ----------
+  var guiado = true, passo = 1, avisado = 0;
+  try { if (localStorage.getItem('iad_guiado') === '0') guiado = false; } catch (e) {}
+  var PASSOS = [
+    { es: 'Datos generales', pt: 'Dados gerais', tes: 'Confirma la fecha y elige el proyecto y la obra.', tpt: 'Confirme a data e escolha o projeto e a obra.' },
+    { es: 'Actividades', pt: 'Atividades', tes: 'Cuenta qué trabajos se hicieron hoy. Toca “＋ Agregar actividad” y completa lo que se hizo.', tpt: 'Conte quais trabalhos foram feitos hoje. Toque em “＋ Adicionar atividade” e preencha o que foi feito.' },
+    { es: 'Mano de obra', pt: 'Mão de obra', tes: 'Indica cuántas personas trabajaron en cada cargo.', tpt: 'Informe quantas pessoas trabalharam em cada cargo.' },
+    { es: 'Equipos', pt: 'Equipamentos', tes: 'Indica qué equipos y máquinas estuvieron en la obra y cuántos.', tpt: 'Informe quais equipamentos e máquinas estiveram na obra e quantos.' },
+    { es: 'Clima', pt: 'Clima', tes: 'Elige cómo estuvo el tiempo en la mañana y en la tarde.', tpt: 'Escolha como estava o tempo de manhã e à tarde.' },
+    { es: 'Notas del día', pt: 'Notas do dia', tes: 'Escribe lo que pasó, la seguridad y los próximos pasos. Puedes dejarlo en blanco.', tpt: 'Escreva o que aconteceu, a segurança e os próximos passos. Pode deixar em branco.' },
+    { es: 'Revisar y enviar', pt: 'Revisar e enviar', tes: 'Revisa el texto. Toca “📋 Copiar texto” para pegarlo en WhatsApp (se guarda solo) o toca “Guardar informe”.', tpt: 'Revise o texto. Toque em “📋 Copiar texto” para colar no WhatsApp (salva sozinho) ou toque em “Salvar relatório”.' }
+  ];
+  function aplicarGuia() {
+    var vn = document.getElementById('vNovo');
+    if (!vn) return;
+    var noForm = visivel('vNovo');
+    vn.classList.toggle('guiado', guiado);
+    document.body.classList.toggle('em-guia', guiado && noForm);
+    document.getElementById('guiaBar').classList.toggle('hide', !guiado);
+    document.getElementById('guiaNav').classList.toggle('hide', !(guiado && noForm));
+    document.getElementById('novoAcoes').querySelectorAll('button:not(#btnGuiaOn)').forEach(function (b) { b.classList.toggle('hide', guiado); });
+    document.getElementById('btnGuiaOn').classList.toggle('hide', guiado);
+    vn.querySelectorAll('.card[data-step]').forEach(function (c) {
+      c.classList.toggle('step-on', Number(c.getAttribute('data-step')) === passo);
+    });
+    if (!guiado) return;
+    var p = PASSOS[passo - 1], n = PASSOS.length;
+    document.getElementById('guiaPaso').textContent = LL('Paso ', 'Passo ') + passo + LL(' de ', ' de ') + n;
+    document.getElementById('guiaSair').textContent = LL('Ver todo el formulario', 'Ver formulário completo');
+    document.getElementById('guiaDots').innerHTML = PASSOS.map(function (x, i) { return '<span class="' + (i + 1 < passo ? 'ok' : (i + 1 === passo ? 'on' : '')) + '"></span>'; }).join('');
+    document.getElementById('guiaTit').textContent = LL(p.es, p.pt);
+    document.getElementById('guiaTxt').textContent = LL(p.tes, p.tpt);
+    var prev = document.getElementById('gPrev'), next = document.getElementById('gNext');
+    prev.textContent = LL('← Atrás', '← Voltar');
+    prev.style.visibility = passo === 1 ? 'hidden' : 'visible';
+    next.textContent = passo === n ? '💾 ' + LL('Guardar informe', 'Salvar relatório')
+      : (avisado === passo ? LL('Continuar de todos modos →', 'Continuar mesmo assim →') : LL('Siguiente →', 'Próximo →'));
+  }
+  function mostrarAviso(msg) {
+    var a = document.getElementById('guiaAviso');
+    a.textContent = msg; a.classList.toggle('hide', !msg);
+  }
+  window.setGuiado = function (on) {
+    guiado = !!on; lsSet('iad_guiado', on ? '1' : '0');
+    if (on) { passo = 1; avisado = 0; mostrarAviso(''); }
+    aplicarGuia(); window.scrollTo(0, 0);
+  };
+  function validarPasso(n) {
+    if (n === 1) {
+      if (!document.getElementById('fProjeto').value) return { bloquear: true, msg: LL('Elige un proyecto. Si no aparece ninguno, pide acceso al administrador.', 'Escolha um projeto. Se nenhum aparecer, peça acesso ao administrador.') };
+      if (!document.getElementById('fObra').value) return { bloquear: true, msg: LL('Elige la obra.', 'Escolha a obra.') };
+      if (!brParaISO(document.getElementById('fData').value)) return { bloquear: true, msg: LL('Escribe la fecha como dd/mm/aaaa (por ejemplo 14/11/2026).', 'Escreva a data como dd/mm/aaaa (por exemplo 14/11/2026).') };
+    }
+    if (n === 2) {
+      if (!editAtiv.length) return { bloquear: false, msg: LL('Aún no agregaste ninguna actividad. Toca “＋ Agregar actividad”. Si hoy no hubo trabajos, toca de nuevo para continuar.', 'Você ainda não adicionou nenhuma atividade. Toque em “＋ Adicionar atividade”. Se hoje não houve trabalhos, toque de novo para continuar.') };
+      if (editAtiv.some(function (a) { return !String(a.nome || '').trim(); })) return { bloquear: false, msg: LL('Hay una actividad sin nombre. Elige qué trabajo fue. Para continuar igual, toca de nuevo.', 'Há uma atividade sem nome. Escolha qual foi o trabalho. Para continuar mesmo assim, toque de novo.') };
+    }
+    if (n === 3 && !mo.length) return { bloquear: false, msg: LL('No agregaste personal. Toca “＋ Agregar cargo”. Para continuar sin personal, toca de nuevo.', 'Você não adicionou pessoal. Toque em “＋ Adicionar cargo”. Para continuar sem pessoal, toque de novo.') };
+    if (n === 4 && !equipoGeral.length) return { bloquear: false, msg: LL('No agregaste equipos. Toca “＋ Agregar equipo”. Para continuar sin equipos, toca de nuevo.', 'Você não adicionou equipamentos. Toque em “＋ Adicionar equipamento”. Para continuar sem equipamentos, toque de novo.') };
+    return null;
+  }
+  window.guiaProx = function () {
+    if (passo === PASSOS.length) { window.salvarInforme(); return; }
+    var v = validarPasso(passo);
+    if (v && (v.bloquear || avisado !== passo)) {
+      if (!v.bloquear) avisado = passo;
+      mostrarAviso(v.msg); aplicarGuia();
+      var a = document.getElementById('guiaAviso'); if (a && a.scrollIntoView) a.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      return;
+    }
+    passo++; avisado = 0; mostrarAviso(''); aplicarGuia(); window.scrollTo(0, 0);
+  };
+  window.guiaAnt = function () {
+    if (passo > 1) { passo--; avisado = 0; mostrarAviso(''); aplicarGuia(); window.scrollTo(0, 0); }
+  };
+
   // ---------- Render geral ----------
   function renderAll() {
     syncHeaderFlags();
@@ -2937,6 +3212,7 @@ window.FIREBASE_CONFIG = {
     renderCatalogo();
     renderAdmin();
     if (visivel('vNovo')) { renderEditor(); }
+    aplicarGuia(); atualizarFab();
   }
 
   function renderPermCheckboxesInit() {
@@ -2968,6 +3244,8 @@ window.FIREBASE_CONFIG = {
     });
     document.getElementById('loginSenha').value = '';
     document.getElementById('loginEmail').value = '';
+    document.getElementById('qNome').addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); window.salvarQuick(); } });
+    aplicarGuia();
     atualizarBadge();
     iniciarBanco();
     verificarVersao(true);      // se já havia login, o Firebase o restaura e o perfil é conferido no servidor
