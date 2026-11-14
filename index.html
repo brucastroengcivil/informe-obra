@@ -16,7 +16,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>Informe de Avance de Obra · v11.9 · Alupar</title>
+<title>Informe de Avance de Obra · v12.0 · Alupar</title>
 <style>
 /* Skip artifact shell — fixed styles served beside every artifact.
    Tokens, utilities and components (basecoat 1.0 markup, no CDN); artifacts
@@ -1193,7 +1193,7 @@ body.em-guia .fab-wrap, body.em-guia .fab-overlay { display: none !important; }
     </form>
     <p class="text-sm mt-3 text-center"><a href="#" onclick="event.preventDefault(); iadEsqueci();" id="lnkForgot">Olvidé mi contraseña</a></p>
     <div class="sync-login" id="loginSync">☁️ …</div>
-    <div class="rodape-versao">v11.9</div>
+    <div class="rodape-versao">v12.0</div>
   </div>
 </section>
 
@@ -1204,7 +1204,7 @@ body.em-guia .fab-wrap, body.em-guia .fab-overlay { display: none !important; }
       <div class="row items-center gap-2">
         <img class="brand-logo" src="alupar_branco.png" alt="Alupar">
         <div>
-        <div class="font-bold" id="appTitle">Informe de Avance de Obra <span class="app-ver">· v11.9</span></div>
+        <div class="font-bold" id="appTitle">Informe de Avance de Obra <span class="app-ver">· v12.0</span></div>
         </div>
       </div>
       <div class="row items-center gap-3">
@@ -1303,6 +1303,7 @@ body.em-guia .fab-wrap, body.em-guia .fab-overlay { display: none !important; }
               <div class="stack gap-2 mb-2">
                 <div class="field"><label for="obraProj">Proyecto</label><select class="input" id="obraProj"></select></div>
                 <input class="input" id="novaObra" placeholder="Nombre de la obra">
+                <input class="input" id="novoContratista" placeholder="Contratista (opcional)">
                 <button class="btn" data-size="sm" onclick="addObra()" id="btnAddObra">+ Agregar obra</button>
               </div>
               <div id="listaObras"></div>
@@ -1440,6 +1441,7 @@ body.em-guia .fab-wrap, body.em-guia .fab-overlay { display: none !important; }
           <section>
             <div class="copy-row">
               <button type="button" class="copy-primary" id="btnCopiarA" onclick="copiarTexto()">📋 Copiar texto</button>
+              <button type="button" class="copy-primary" id="btnWhatsA" onclick="enviarWhats()">💬 WhatsApp</button>
               <button type="button" class="copy-secondary" id="btnCompartirA" onclick="compartirTexto(ultimoTexto)">Compartir</button>
               <span class="copy-msg hide" id="copyMsgA"></span>
             </div>
@@ -1460,6 +1462,7 @@ body.em-guia .fab-wrap, body.em-guia .fab-overlay { display: none !important; }
             <button class="btn" data-size="sm" id="btnEditarInf" onclick="editarInforme()">✏️ Editar</button>
             <button class="btn" data-variant="destructive" data-size="sm" id="btnExcluirInf" onclick="excluirInforme()">🗑️ Excluir</button>
             <button class="btn" data-variant="outline" data-size="sm" onclick="copiarDetalhe()">📋 Copiar texto</button>
+            <button class="btn" data-size="sm" id="btnWhatsB" onclick="abrirWhats(ultimoTexto)">💬 WhatsApp</button>
             <button class="btn" data-variant="outline" data-size="sm" id="btnCompartirB" onclick="compartirTexto(ultimoTexto)">Compartir</button>
             <button class="btn" data-variant="secondary" data-size="sm" onclick="window.print()">Imprimir / PDF</button>
             <button class="btn" data-variant="ghost" data-size="sm" onclick="go('inicio')">Volver</button>
@@ -1492,6 +1495,7 @@ body.em-guia .fab-wrap, body.em-guia .fab-overlay { display: none !important; }
       <h3 id="qTit" class="font-bold" style="font-size:19px;margin:0 0 10px"></h3>
       <div class="field hide" id="qProjBox"><label for="qProj" id="qProjLbl"></label><select class="input" id="qProj"></select></div>
       <div class="field"><label for="qNome" id="qLbl"></label><input class="input" id="qNome" type="text" autocomplete="off" maxlength="80"></div>
+      <div class="field hide" id="qContrBox"><label for="qContr" id="qContrLbl"></label><input class="input" id="qContr" type="text" autocomplete="off" maxlength="80"></div>
       <div class="row gap-2 mt-2" style="justify-content:flex-end">
         <button type="button" class="btn" data-variant="outline" id="qCancel" onclick="fecharQuick()"></button>
         <button type="button" class="btn" id="qOk" onclick="salvarQuick()"></button>
@@ -1501,7 +1505,7 @@ body.em-guia .fab-wrap, body.em-guia .fab-overlay { display: none !important; }
 </div>
 
 <div class="seal-erro" id="sealErro" role="alert">Error de script</div>
-<div class="rodape-versao hide" id="diagAdmin">v11.9</div>
+<div class="rodape-versao hide" id="diagAdmin">v12.0</div>
 
 <script>
 /* ===================== CONFIGURAÇÃO DO FIREBASE (edite aqui) =====================
@@ -1606,7 +1610,7 @@ window.FIREBASE_CONFIG = {
       lidas: 'Atividades', nomeadas: 'com nome', dataInvalida: 'Data inválida (use dd/mm/aaaa).'
     }
   };
-  var APP_VERSION = "11.9";
+  var APP_VERSION = "12.0";
   var IDIOMA_PADRAO = "es";
 
   function lsGet(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
@@ -1903,7 +1907,7 @@ window.FIREBASE_CONFIG = {
   function renderDados() {
     atualizarBadge();
     var diag = document.getElementById('diagAdmin');
-    if (diag) diag.textContent = 'v11.9 · ' + estado + ' · proyectos: ' + db.projetos.length + ' · obras: ' + db.obras.length + ' · usuarios: ' + db.usuarios.length + ' · informes: ' + db.informes.length;
+    if (diag) diag.textContent = 'v12.0 · ' + estado + ' · proyectos: ' + db.projetos.length + ' · obras: ' + db.obras.length + ' · usuarios: ' + db.usuarios.length + ' · informes: ' + db.informes.length;
     if (!sessao) return;
     refreshSessao();
     if (!sessao) return;
@@ -2223,6 +2227,13 @@ window.FIREBASE_CONFIG = {
     go('detalhe');
   };
 
+  function abrirWhats(txt) { window.open('https://wa.me/?text=' + encodeURIComponent(txt), '_blank', 'noopener'); }
+  window.abrirWhats = abrirWhats;
+  window.enviarWhats = function () {
+    window.atualizarPreview();
+    abrirWhats(ultimoTexto);                       // abre o WhatsApp no toque; o informe é guardado em seguida
+    salvarAtual().then(function (r) { if (r) window.skipUI.toast(t('guardado'), { type: 'success' }); });
+  };
   window.copiarDetalhe = function () { copiarPara(ultimoTexto); };
   function copiarPara(txt) {
     function ok() {
@@ -2437,10 +2448,18 @@ window.FIREBASE_CONFIG = {
     var projId = projSel.value;
     if (!projId || !nome) return;
     var proj = db.projetos.filter(function (p) { return p.id === projId; })[0];
-    var r = await gravar('obras', { id: uid(), nome: nome, projetoId: projId, projetoNome: proj ? proj.nome : '', criadoEm: new Date().toISOString() });
+    var r = await gravar('obras', { id: uid(), nome: nome, contratista: document.getElementById('novoContratista').value.trim(), projetoId: projId, projetoNome: proj ? proj.nome : '', criadoEm: new Date().toISOString() });
     if (!r) return;
-    document.getElementById('novaObra').value = '';
+    document.getElementById('novaObra').value = ''; document.getElementById('novoContratista').value = '';
     renderAdmin();
+  };
+  window.editarContratista = async function (id) {
+    var o = db.obras.filter(function (x) { return x.id === id; })[0];
+    if (!o) return;
+    var v = prompt(LL('Contratista de la obra "' + o.nome + '" (vacío = ninguno)', 'Empreiteira da obra "' + o.nome + '" (vazio = nenhuma)'), o.contratista || '');
+    if (v === null) return;
+    var nu = clone(o); nu.contratista = v.trim();
+    if (await gravar('obras', nu, Number(o.rev) || 0)) { renderAdmin(); window.skipUI.toast(t('guardado'), { type: 'success' }); }
   };
   window.removeObra = async function (id) {
     if (!confirm(t('removerConf'))) return;
@@ -2463,6 +2482,7 @@ window.FIREBASE_CONFIG = {
     var semProj = !db.projetos.length;
     sel.disabled = semProj;
     document.getElementById('novaObra').disabled = semProj;
+    document.getElementById('novoContratista').disabled = semProj;
     document.getElementById('msgSemProj').classList.toggle('hide', !semProj);
     document.getElementById('btnAddObra').disabled = semProj;
 
@@ -2473,7 +2493,8 @@ window.FIREBASE_CONFIG = {
       if (!obras.length) return '';
       return '<div class="mb-3"><div class="font-semibold text-sm">' + esc(p.nome) + '</div>' +
         obras.map(function (o) {
-          return '<div class="list-item"><span>' + esc(o.nome) + '</span>' +
+          return '<div class="list-item"><span>' + esc(o.nome) + '<div class="text-xs muted">' + LL('Contratista', 'Empreiteira') + ': ' + (o.contratista ? esc(o.contratista) : '—') + '</div></span>' +
+            '<button class="btn" data-variant="outline" data-size="sm" onclick="editarContratista(\'' + o.id + '\')">✏️ ' + LL('Contratista', 'Empreiteira') + '</button>' +
             '<button class="btn" data-variant="ghost" data-size="sm" aria-label="' + t('excluir') + '" onclick="removeObra(\'' + o.id + '\')">✕</button></div>';
         }).join('') + '</div>';
     }).join('') || '<p class="muted text-sm">Aún no hay obras registradas.</p>';
@@ -2883,6 +2904,7 @@ window.FIREBASE_CONFIG = {
     return {
       data: brParaISO(document.getElementById('fData').value),
       projetoId: ps.value, projeto: projeto, obraId: os.value, obra: obra,
+      contratista: ((db.obras.filter(function (o) { return o.id === os.value; })[0] || {}).contratista || ''),
       autorNome: rascunho ? rascunho.obj.autorNome : (sessao ? sessao.nome : ''), autorEmail: rascunho ? rascunho.obj.autorEmail : (sessao ? sessao.email : ''), autorId: rascunho ? rascunho.obj.autorId : (sessao ? sessao.uid : ''),
       atividades: ativs,
       equipos: equipoGeral.filter(function (e) { return e.nome; }).map(function (e) { return { nome: e.nome, qtd: Number(e.qtd) || 0 }; }),
@@ -2912,6 +2934,8 @@ window.FIREBASE_CONFIG = {
     out.push('*' + L.head + (inf.data ? ' (' + fmtData(inf.data) + ')' : '') + '*');
     out.push('*' + L.proj + ':* ' + (inf.projeto || ''));
     out.push('*' + L.obra + ':* ' + (inf.obra || ''));
+    var contr = inf.contratista || ((db.obras.filter(function (o) { return o.id === inf.obraId; })[0] || {}).contratista) || '';
+    if (contr) out.push('*' + (PT ? 'Empreiteira' : 'Contratista') + ':* ' + contr);
     out.push('*' + L.resp + ':* ' + (inf.autorNome || inf.responsavel || ''));
     out.push('');
     var ativs = inf.atividades || [];
@@ -3095,6 +3119,9 @@ window.FIREBASE_CONFIG = {
       document.getElementById('qProjLbl').textContent = LL('Proyecto', 'Projeto');
     }
     document.getElementById('qProjBox').classList.toggle('hide', tipo !== 'obra');
+    document.getElementById('qContrBox').classList.toggle('hide', tipo !== 'obra');
+    document.getElementById('qContrLbl').textContent = LL('Contratista (opcional)', 'Empreiteira (opcional)');
+    document.getElementById('qContr').value = '';
     document.getElementById('qTit').textContent = tit;
     document.getElementById('qLbl').textContent = lbl;
     document.getElementById('qCancel').textContent = LL('Cancelar', 'Cancelar');
@@ -3122,7 +3149,7 @@ window.FIREBASE_CONFIG = {
         var proj = db.projetos.filter(function (p) { return p.id === projId; })[0];
         if (!proj) { window.skipUI.toast(LL('Elige un proyecto.', 'Escolha um projeto.'), { type: 'error' }); return; }
         var ex2 = db.obras.filter(function (o) { return o.projetoId === projId && norm(o.nome) === norm(nome); })[0];
-        ok = ex2 ? true : !!(await gravar('obras', { id: uid(), nome: nome, projetoId: projId, projetoNome: proj.nome, criadoEm: new Date().toISOString() }));
+        ok = ex2 ? true : !!(await gravar('obras', { id: uid(), nome: nome, contratista: document.getElementById('qContr').value.trim(), projetoId: projId, projetoNome: proj.nome, criadoEm: new Date().toISOString() }));
       }
       if (ok) { window.fecharQuick(); renderAll(); window.skipUI.toast(t('agregado'), { type: 'success' }); }
     } finally { quickBusy = false; }
