@@ -16,7 +16,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>Informe de Avance de Obra · v12.0 · Alupar</title>
+<title>Informe de Avance de Obra · v12.2 · Alupar</title>
 <style>
 /* Skip artifact shell — fixed styles served beside every artifact.
    Tokens, utilities and components (basecoat 1.0 markup, no CDN); artifacts
@@ -1193,7 +1193,7 @@ body.em-guia .fab-wrap, body.em-guia .fab-overlay { display: none !important; }
     </form>
     <p class="text-sm mt-3 text-center"><a href="#" onclick="event.preventDefault(); iadEsqueci();" id="lnkForgot">Olvidé mi contraseña</a></p>
     <div class="sync-login" id="loginSync">☁️ …</div>
-    <div class="rodape-versao">v12.0</div>
+    <div class="rodape-versao">v12.2</div>
   </div>
 </section>
 
@@ -1204,7 +1204,7 @@ body.em-guia .fab-wrap, body.em-guia .fab-overlay { display: none !important; }
       <div class="row items-center gap-2">
         <img class="brand-logo" src="alupar_branco.png" alt="Alupar">
         <div>
-        <div class="font-bold" id="appTitle">Informe de Avance de Obra <span class="app-ver">· v12.0</span></div>
+        <div class="font-bold" id="appTitle">Informe de Avance de Obra <span class="app-ver">· v12.2</span></div>
         </div>
       </div>
       <div class="row items-center gap-3">
@@ -1303,7 +1303,7 @@ body.em-guia .fab-wrap, body.em-guia .fab-overlay { display: none !important; }
               <div class="stack gap-2 mb-2">
                 <div class="field"><label for="obraProj">Proyecto</label><select class="input" id="obraProj"></select></div>
                 <input class="input" id="novaObra" placeholder="Nombre de la obra">
-                <input class="input" id="novoContratista" placeholder="Contratista (opcional)">
+                <input class="input" id="novoContratista" placeholder="Contratistas (opcional, separe con coma)">
                 <button class="btn" data-size="sm" onclick="addObra()" id="btnAddObra">+ Agregar obra</button>
               </div>
               <div id="listaObras"></div>
@@ -1383,6 +1383,7 @@ body.em-guia .fab-wrap, body.em-guia .fab-overlay { display: none !important; }
             <div class="field"><label for="fData">Fecha</label><div class="row gap-2 items-center"><input class="input grow" type="text" id="fData" inputmode="numeric" maxlength="10" placeholder="dd/mm/aaaa" autocomplete="off"><button type="button" class="btn" data-variant="outline" data-size="sm" onclick="abrirCalendario()" aria-label="Calendario">📅</button><input type="date" id="fDataPick" tabindex="-1" aria-hidden="true" style="position:absolute;opacity:0;width:0;height:0;pointer-events:none" onchange="aoEscolherData(this.value)"></div></div>
             <div class="field"><label for="fProjeto">Proyecto</label><select class="input" id="fProjeto" onchange="popularObras()"></select></div>
             <div class="field"><label for="fObra">Obra</label><select class="input" id="fObra"></select><p class="text-xs muted hide" id="msgSemObras">Este proyecto no tiene obras.</p></div>
+            <div class="field hide" id="boxContr" style="grid-column:1/-1"><label id="lblContr"></label><div id="listaContr" class="stack gap-1"></div></div>
           </section>
         </div>
 
@@ -1505,7 +1506,7 @@ body.em-guia .fab-wrap, body.em-guia .fab-overlay { display: none !important; }
 </div>
 
 <div class="seal-erro" id="sealErro" role="alert">Error de script</div>
-<div class="rodape-versao hide" id="diagAdmin">v12.0</div>
+<div class="rodape-versao hide" id="diagAdmin">v12.2</div>
 
 <script>
 /* ===================== CONFIGURAÇÃO DO FIREBASE (edite aqui) =====================
@@ -1610,7 +1611,7 @@ window.FIREBASE_CONFIG = {
       lidas: 'Atividades', nomeadas: 'com nome', dataInvalida: 'Data inválida (use dd/mm/aaaa).'
     }
   };
-  var APP_VERSION = "12.0";
+  var APP_VERSION = "12.2";
   var IDIOMA_PADRAO = "es";
 
   function lsGet(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
@@ -1907,7 +1908,7 @@ window.FIREBASE_CONFIG = {
   function renderDados() {
     atualizarBadge();
     var diag = document.getElementById('diagAdmin');
-    if (diag) diag.textContent = 'v12.0 · ' + estado + ' · proyectos: ' + db.projetos.length + ' · obras: ' + db.obras.length + ' · usuarios: ' + db.usuarios.length + ' · informes: ' + db.informes.length;
+    if (diag) diag.textContent = 'v12.2 · ' + estado + ' · proyectos: ' + db.projetos.length + ' · obras: ' + db.obras.length + ' · usuarios: ' + db.usuarios.length + ' · informes: ' + db.informes.length;
     if (!sessao) return;
     refreshSessao();
     if (!sessao) return;
@@ -2448,18 +2449,33 @@ window.FIREBASE_CONFIG = {
     var projId = projSel.value;
     if (!projId || !nome) return;
     var proj = db.projetos.filter(function (p) { return p.id === projId; })[0];
-    var r = await gravar('obras', { id: uid(), nome: nome, contratista: document.getElementById('novoContratista').value.trim(), projetoId: projId, projetoNome: proj ? proj.nome : '', criadoEm: new Date().toISOString() });
+    var r = await gravar('obras', { id: uid(), nome: nome, contratistas: parseContr(document.getElementById('novoContratista').value), projetoId: projId, projetoNome: proj ? proj.nome : '', criadoEm: new Date().toISOString() });
     if (!r) return;
     document.getElementById('novaObra').value = ''; document.getElementById('novoContratista').value = '';
     renderAdmin();
   };
-  window.editarContratista = async function (id) {
+  async function salvarContr(o, lista) {
+    var nu = clone(o); nu.contratistas = lista; delete nu.contratista;
+    var r = await gravar('obras', nu, Number(o.rev) || 0);
+    if (r) renderAdmin();
+    return r;
+  }
+  window.addContratista = async function (id) {
     var o = db.obras.filter(function (x) { return x.id === id; })[0];
     if (!o) return;
-    var v = prompt(LL('Contratista de la obra "' + o.nome + '" (vacío = ninguno)', 'Empreiteira da obra "' + o.nome + '" (vazio = nenhuma)'), o.contratista || '');
+    var v = prompt(LL('Nuevo contratista para la obra "' + o.nome + '" (puedes poner varios separados por coma)', 'Nova empreiteira para a obra "' + o.nome + '" (pode colocar várias separadas por vírgula)'), '');
     if (v === null) return;
-    var nu = clone(o); nu.contratista = v.trim();
-    if (await gravar('obras', nu, Number(o.rev) || 0)) { renderAdmin(); window.skipUI.toast(t('guardado'), { type: 'success' }); }
+    var lista = contrDe(o);
+    parseContr(v).forEach(function (n) { if (lista.map(norm).indexOf(norm(n)) === -1) lista.push(n); });
+    await salvarContr(o, lista);
+  };
+  window.rmContratista = async function (id, idx) {
+    var o = db.obras.filter(function (x) { return x.id === id; })[0];
+    if (!o) return;
+    var lista = contrDe(o);
+    if (!lista[idx] || !confirm(LL('¿Quitar "' + lista[idx] + '" de esta obra?', 'Remover "' + lista[idx] + '" desta obra?'))) return;
+    lista.splice(idx, 1);
+    await salvarContr(o, lista);
   };
   window.removeObra = async function (id) {
     if (!confirm(t('removerConf'))) return;
@@ -2493,8 +2509,11 @@ window.FIREBASE_CONFIG = {
       if (!obras.length) return '';
       return '<div class="mb-3"><div class="font-semibold text-sm">' + esc(p.nome) + '</div>' +
         obras.map(function (o) {
-          return '<div class="list-item"><span>' + esc(o.nome) + '<div class="text-xs muted">' + LL('Contratista', 'Empreiteira') + ': ' + (o.contratista ? esc(o.contratista) : '—') + '</div></span>' +
-            '<button class="btn" data-variant="outline" data-size="sm" onclick="editarContratista(\'' + o.id + '\')">✏️ ' + LL('Contratista', 'Empreiteira') + '</button>' +
+          var chips = contrDe(o).map(function (c, k) {
+            return '<span class="badge" data-variant="outline" style="margin:2px 4px 2px 0">' + esc(c) + ' <a href="#" onclick="rmContratista(\'' + o.id + '\',' + k + ');return false" aria-label="Quitar" style="text-decoration:none;margin-left:4px">✕</a></span>';
+          }).join('');
+          return '<div class="list-item"><span>' + esc(o.nome) + '<div class="text-xs muted" style="margin-top:3px">' + LL('Contratistas', 'Empreiteiras') + ': ' + (chips || '—') + '</div></span>' +
+            '<button class="btn" data-variant="outline" data-size="sm" onclick="addContratista(\'' + o.id + '\')">＋ ' + LL('Contratista', 'Empreiteira') + '</button>' +
             '<button class="btn" data-variant="ghost" data-size="sm" aria-label="' + t('excluir') + '" onclick="removeObra(\'' + o.id + '\')">✕</button></div>';
         }).join('') + '</div>';
     }).join('') || '<p class="muted text-sm">Aún no hay obras registradas.</p>';
@@ -2628,7 +2647,7 @@ window.FIREBASE_CONFIG = {
   // =====================================================================
   window.novoInforme = function () {
     editId = null; rascunho = null; editAtiv = []; equipoGeral = []; mo = [];
-    passo = 1; avisado = 0; mostrarAviso('');
+    passo = 1; avisado = 0; mostrarAviso(''); contrSel = []; contrObra = null; contrPend = null;
     document.getElementById('tNovo').textContent = lang === 'pt' ? 'Novo relatório' : 'Nuevo informe';
     document.getElementById('fData').value = isoParaBR(hojeISO());
     ['fOcor', 'fSeg', 'fProx'].forEach(function (id) { document.getElementById(id).value = ''; });
@@ -2651,9 +2670,12 @@ window.FIREBASE_CONFIG = {
     popularProjetos(inf.projetoId);
     var ps = document.getElementById('fProjeto');
     if (inf.projetoId && ps.value !== inf.projetoId) { ps.insertAdjacentHTML('beforeend', '<option value="' + esc(inf.projetoId) + '">' + esc(inf.projeto) + '</option>'); ps.value = inf.projetoId; }
+    contrPend = Array.isArray(inf.contratistas) ? inf.contratistas.slice() : (inf.contratista ? [inf.contratista] : null);
+    if (contrPend === null) { var ob0 = db.obras.filter(function (o) { return o.id === inf.obraId; })[0]; contrPend = contrDe(ob0); }
     window.popularObras(inf.obraId || '');
     var os = document.getElementById('fObra');
     if (inf.obraId && os.value !== inf.obraId) { os.insertAdjacentHTML('beforeend', '<option value="' + esc(inf.obraId) + '">' + esc(inf.obra) + '</option>'); os.value = inf.obraId; }
+    contrPend = null; renderContr();
     ['climaM:manha', 'climaT:tarde'].forEach(function (x) {
       var el = document.getElementById(x.split(':')[0]), v = (inf.clima || {})[x.split(':')[1]];
       if (!v) return;
@@ -2698,6 +2720,31 @@ window.FIREBASE_CONFIG = {
       msgP.textContent = 'No tiene proyectos asignados. Solicite acceso al administrador.';
     } else if (msgP) msgP.remove();
   }
+  var contrSel = [], contrObra = null, contrPend = null;
+  function renderContr() {
+    var box = document.getElementById('boxContr');
+    if (!box) return;
+    var oid = document.getElementById('fObra').value;
+    var obra = db.obras.filter(function (o) { return o.id === oid; })[0];
+    var lista = contrDe(obra);
+    if (contrPend !== null) {                       // informe guardado: respeita o que foi marcado
+      contrSel = contrPend.slice(); contrObra = oid;
+      contrPend.forEach(function (n) { if (lista.map(norm).indexOf(norm(n)) === -1) lista.push(n); });
+      contrPend = null;
+    } else if (contrObra !== oid) { contrSel = lista.slice(); contrObra = oid; }   // obra nova: todos marcados
+    box.classList.toggle('hide', !lista.length);
+    document.getElementById('lblContr').textContent = LL('Contratistas que trabajaron hoy', 'Empreiteiras que trabalharam hoje');
+    document.getElementById('listaContr').innerHTML = lista.map(function (n, k) {
+      return '<label class="text-sm" style="display:flex;gap:8px;align-items:center;padding:6px 0"><input type="checkbox" style="width:22px;height:22px" data-contr="' + k + '"' + (contrSel.map(norm).indexOf(norm(n)) !== -1 ? ' checked' : '') + ' onchange="toggleContr(this)"> ' + esc(n) + '</label>';
+    }).join('');
+    box._lista = lista;
+  }
+  window.toggleContr = function (el) {
+    var box = document.getElementById('boxContr'), n = box._lista[Number(el.getAttribute('data-contr'))];
+    contrSel = contrSel.filter(function (x) { return norm(x) !== norm(n); });
+    if (el.checked) contrSel.push(n);
+    window.atualizarPreview();
+  };
   window.popularObras = function (manter) {
     var p = document.getElementById('fProjeto').value;
     var sel = document.getElementById('fObra');
@@ -2709,6 +2756,7 @@ window.FIREBASE_CONFIG = {
       : '<option value="">—</option>';
     if (typeof manter === 'string' && obras.some(function (o) { return o.id === manter; })) sel.value = manter;
     document.getElementById('msgSemObras').classList.toggle('hide', obras.length > 0);
+    renderContr();
     if (visivel('vNovo')) window.atualizarPreview();
   };
 
@@ -2904,7 +2952,7 @@ window.FIREBASE_CONFIG = {
     return {
       data: brParaISO(document.getElementById('fData').value),
       projetoId: ps.value, projeto: projeto, obraId: os.value, obra: obra,
-      contratista: ((db.obras.filter(function (o) { return o.id === os.value; })[0] || {}).contratista || ''),
+      contratistas: contrSel.slice(),
       autorNome: rascunho ? rascunho.obj.autorNome : (sessao ? sessao.nome : ''), autorEmail: rascunho ? rascunho.obj.autorEmail : (sessao ? sessao.email : ''), autorId: rascunho ? rascunho.obj.autorId : (sessao ? sessao.uid : ''),
       atividades: ativs,
       equipos: equipoGeral.filter(function (e) { return e.nome; }).map(function (e) { return { nome: e.nome, qtd: Number(e.qtd) || 0 }; }),
@@ -2934,28 +2982,31 @@ window.FIREBASE_CONFIG = {
     out.push('*' + L.head + (inf.data ? ' (' + fmtData(inf.data) + ')' : '') + '*');
     out.push('*' + L.proj + ':* ' + (inf.projeto || ''));
     out.push('*' + L.obra + ':* ' + (inf.obra || ''));
-    var contr = inf.contratista || ((db.obras.filter(function (o) { return o.id === inf.obraId; })[0] || {}).contratista) || '';
-    if (contr) out.push('*' + (PT ? 'Empreiteira' : 'Contratista') + ':* ' + contr);
+    var contrs = Array.isArray(inf.contratistas) ? inf.contratistas
+      : (inf.contratista ? [inf.contratista] : contrDe(db.obras.filter(function (o) { return o.id === inf.obraId; })[0]));
+    if (contrs.length) out.push('*' + (PT ? (contrs.length > 1 ? 'Empreiteiras' : 'Empreiteira') : (contrs.length > 1 ? 'Contratistas' : 'Contratista')) + ':* ' + contrs.join(', '));
     out.push('*' + L.resp + ':* ' + (inf.autorNome || inf.responsavel || ''));
     out.push('');
     var ativs = inf.atividades || [];
     if (ativs.length) {
       out.push('⏳ *' + L.ativ + '*');
+      out.push('');
       ativs.forEach(function (a, i) {
-        var b = (i + 1) + '. ' + (a.nome || t('semNome'));
+        var b = '*' + (i + 1) + '. ' + (a.nome || t('semNome')) + '*';
         var eqs = (a.equipamentos || a.equipos || []).filter(function (e) { return e && e.nome; })
           .map(function (e) { return e.nome + (Number(e.horas) ? ' ' + fmtN(e.horas) + ' h' : ''); });
-        if (eqs.length) b += '\n   🚜 ' + L.eq + ': ' + eqs.join(' | ');
+        if (eqs.length) b += '\n🚜 ' + L.eq + ': ' + eqs.join(' | ');
         var un = a.unidade || '';
         var hoje = [];
         if (Number(a.qtdDia)) hoje.push(fmtN(a.qtdDia) + ' ' + un);
         if (Number(a.pctDia)) hoje.push(fmtN(a.pctDia) + '%');
-        if (hoje.length) b += '\n   🗓️ ' + L.hoje + ': ' + hoje.join(' | ');
+        if (hoje.length) b += '\n🗓️ ' + L.hoje + ': ' + hoje.join(' | ');
         var ac = [];
         if (Number(a.qtdAcum)) ac.push(fmtN(a.qtdAcum) + ' ' + un);
         if (Number(a.pctAcum)) ac.push(fmtN(a.pctAcum) + '%');
-        if (ac.length) b += '\n   📊 ' + L.acum + ': ' + ac.join(' | ');
+        if (ac.length) b += '\n📊 ' + L.acum + ': ' + ac.join(' | ');
         out.push(b);
+        if (i < ativs.length - 1) out.push('');
       });
       out.push('');
     }
@@ -3037,6 +3088,17 @@ window.FIREBASE_CONFIG = {
 
   // ---------- idioma curto ----------
   function LL(es, pt) { return lang === 'pt' ? pt : es; }
+  // contratistas de uma obra (aceita o formato antigo com um só contratista)
+  function contrDe(o) {
+    if (!o) return [];
+    if (Array.isArray(o.contratistas)) return o.contratistas.slice();
+    return o.contratista ? [String(o.contratista)] : [];
+  }
+  function parseContr(s) {
+    var out = [];
+    String(s || '').split(/[,;\n]/).forEach(function (x) { x = x.trim(); if (x && out.map(norm).indexOf(norm(x)) === -1) out.push(x); });
+    return out;
+  }
 
   // ---------- excluir informe / redefinir senha ----------
   window.excluirInforme = async function () {
@@ -3120,7 +3182,7 @@ window.FIREBASE_CONFIG = {
     }
     document.getElementById('qProjBox').classList.toggle('hide', tipo !== 'obra');
     document.getElementById('qContrBox').classList.toggle('hide', tipo !== 'obra');
-    document.getElementById('qContrLbl').textContent = LL('Contratista (opcional)', 'Empreiteira (opcional)');
+    document.getElementById('qContrLbl').textContent = LL('Contratistas (opcional, separe con coma)', 'Empreiteiras (opcional, separe com vírgula)');
     document.getElementById('qContr').value = '';
     document.getElementById('qTit').textContent = tit;
     document.getElementById('qLbl').textContent = lbl;
@@ -3149,7 +3211,7 @@ window.FIREBASE_CONFIG = {
         var proj = db.projetos.filter(function (p) { return p.id === projId; })[0];
         if (!proj) { window.skipUI.toast(LL('Elige un proyecto.', 'Escolha um projeto.'), { type: 'error' }); return; }
         var ex2 = db.obras.filter(function (o) { return o.projetoId === projId && norm(o.nome) === norm(nome); })[0];
-        ok = ex2 ? true : !!(await gravar('obras', { id: uid(), nome: nome, contratista: document.getElementById('qContr').value.trim(), projetoId: projId, projetoNome: proj.nome, criadoEm: new Date().toISOString() }));
+        ok = ex2 ? true : !!(await gravar('obras', { id: uid(), nome: nome, contratistas: parseContr(document.getElementById('qContr').value), projetoId: projId, projetoNome: proj.nome, criadoEm: new Date().toISOString() }));
       }
       if (ok) { window.fecharQuick(); renderAll(); window.skipUI.toast(t('agregado'), { type: 'success' }); }
     } finally { quickBusy = false; }
