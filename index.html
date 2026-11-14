@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#003DAD">
 <link rel="manifest" href="manifest.webmanifest">
+<script>try { if (localStorage.getItem('iad_sessao') === '1') document.documentElement.classList.add('restaurando'); } catch (e) {}</script>
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png?v=2">
 <link rel="icon" type="image/png" sizes="48x48" href="icons/favicon-48.png?v=2">
@@ -16,7 +17,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>Informe de Avance de Obra · v12.4 · Alupar</title>
+<title>Informe de Avance de Obra · v12.5 · Alupar</title>
 <style>
 /* Skip artifact shell — fixed styles served beside every artifact.
    Tokens, utilities and components (basecoat 1.0 markup, no CDN); artifacts
@@ -1175,6 +1176,12 @@ body.em-guia .fab-wrap, body.em-guia .fab-overlay { display: none !important; }
 .grp-c { margin-left: 12px; }
 .grp-c > summary { font-size: 14px; color: #374151; }
 .grp-c > .stack { margin-left: 4px; }
+/* ---- tela de espera enquanto a sessão é restaurada (evita piscar o login) ---- */
+.splash { display: none; position: fixed; inset: 0; align-items: center; justify-content: center; flex-direction: column; gap: 22px; background: #f8f9fb; z-index: 200; }
+.spin { width: 34px; height: 34px; border: 4px solid #dbe4f3; border-top-color: #003DAD; border-radius: 50%; animation: giro .8s linear infinite; }
+@keyframes giro { to { transform: rotate(360deg); } }
+html.restaurando #viewSplash { display: flex; }
+html.restaurando #viewLogin { display: none !important; }
 @media print {
   .app-header, .nav-bar, .side-nav, .sticky-bottom-nav, .seal, button, .no-print { display: none !important; }
   body { background: #fff; }
@@ -1184,6 +1191,7 @@ body.em-guia .fab-wrap, body.em-guia .fab-overlay { display: none !important; }
 <body>
 
 <!-- LOGIN -->
+<div id="viewSplash" class="splash" aria-label="Cargando"><img src="alupar.png" alt="Alupar" style="height:44px;width:auto" onerror="this.style.display='none'"><div class="spin"></div></div>
 <section id="viewLogin" class="login-wrap">
   <div class="login-card">
     <div class="login-lang lang-seg" role="group" aria-label="Idioma / Idioma">
@@ -1207,7 +1215,7 @@ body.em-guia .fab-wrap, body.em-guia .fab-overlay { display: none !important; }
     </form>
     <p class="text-sm mt-3 text-center"><a href="#" onclick="event.preventDefault(); iadEsqueci();" id="lnkForgot">Olvidé mi contraseña</a></p>
     <div class="sync-login" id="loginSync">☁️ …</div>
-    <div class="rodape-versao">v12.4</div>
+    <div class="rodape-versao">v12.5</div>
   </div>
 </section>
 
@@ -1218,7 +1226,7 @@ body.em-guia .fab-wrap, body.em-guia .fab-overlay { display: none !important; }
       <div class="row items-center gap-2">
         <img class="brand-logo" src="alupar_branco.png" alt="Alupar">
         <div>
-        <div class="font-bold" id="appTitle">Informe de Avance de Obra <span class="app-ver">· v12.4</span></div>
+        <div class="font-bold" id="appTitle">Informe de Avance de Obra <span class="app-ver">· v12.5</span></div>
         </div>
       </div>
       <div class="row items-center gap-3">
@@ -1520,7 +1528,7 @@ body.em-guia .fab-wrap, body.em-guia .fab-overlay { display: none !important; }
 </div>
 
 <div class="seal-erro" id="sealErro" role="alert">Error de script</div>
-<div class="rodape-versao hide" id="diagAdmin">v12.4</div>
+<div class="rodape-versao hide" id="diagAdmin">v12.5</div>
 
 <script>
 /* ===================== CONFIGURAÇÃO DO FIREBASE (edite aqui) =====================
@@ -1625,7 +1633,7 @@ window.FIREBASE_CONFIG = {
       lidas: 'Atividades', nomeadas: 'com nome', dataInvalida: 'Data inválida (use dd/mm/aaaa).'
     }
   };
-  var APP_VERSION = "12.4";
+  var APP_VERSION = "12.5";
   var IDIOMA_PADRAO = "es";
 
   function lsGet(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
@@ -1765,8 +1773,9 @@ window.FIREBASE_CONFIG = {
     return out;
   }
 
+  function fimSplash() { document.documentElement.classList.remove('restaurando'); }
   async function iniciarBanco() {
-    if (!configurado()) { estado = 'config'; atualizarBadge(); return; }
+    if (!configurado()) { estado = 'config'; fimSplash(); atualizarBadge(); return; }
     try {
       var m = await Promise.all([import(FB_BASE + 'firebase-app.js'), import(FB_BASE + 'firebase-auth.js'), import(FB_BASE + 'firebase-firestore.js')]);
       FA = m[0]; FAu = m[1]; FS = m[2];
@@ -1775,13 +1784,14 @@ window.FIREBASE_CONFIG = {
       estado = 'conectando';
       FAu.onAuthStateChanged(auth, aoAutenticar);
       atualizarBadge();
-    } catch (e) { estado = 'erro'; erroDb = e; atualizarBadge(); }
+    } catch (e) { estado = 'erro'; erroDb = e; fimSplash(); atualizarBadge(); }
   }
 
   function mostrarErroLogin(msg) {
     var erro = document.getElementById('loginErro');
     if (!erro) return;
     erro.textContent = msg; erro.classList.remove('hide');
+    fimSplash();
   }
 
   // quem é o usuário: confirmado NO SERVIDOR (perfil em usuarios/{uid})
@@ -1813,6 +1823,7 @@ window.FIREBASE_CONFIG = {
     }
   }
   function limparSessao() {
+    lsSet('iad_sessao', '0'); fimSplash();
     pararListeners();
     sessao = null; db = vazio(); carregado = {}; doCache = {}; assinaturas = {};
     document.getElementById('viewApp').classList.add('hide');
@@ -1922,7 +1933,7 @@ window.FIREBASE_CONFIG = {
   function renderDados() {
     atualizarBadge();
     var diag = document.getElementById('diagAdmin');
-    if (diag) diag.textContent = 'v12.4 · ' + estado + ' · proyectos: ' + db.projetos.length + ' · obras: ' + db.obras.length + ' · usuarios: ' + db.usuarios.length + ' · informes: ' + db.informes.length;
+    if (diag) diag.textContent = 'v12.5 · ' + estado + ' · proyectos: ' + db.projetos.length + ' · obras: ' + db.obras.length + ' · usuarios: ' + db.usuarios.length + ' · informes: ' + db.informes.length;
     if (!sessao) return;
     refreshSessao();
     if (!sessao) return;
@@ -2009,6 +2020,7 @@ window.FIREBASE_CONFIG = {
     document.getElementById('loginErro').classList.add('hide');
     document.getElementById('viewLogin').classList.add('hide');
     document.getElementById('viewApp').classList.remove('hide');
+    lsSet('iad_sessao', '1'); fimSplash();
     document.getElementById('userName').textContent = sessao.nome + ' · ' + sessao.papel;
     aplicarPermissoes();
     go('inicio');
@@ -3387,6 +3399,7 @@ window.FIREBASE_CONFIG = {
     document.getElementById('qNome').addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); window.salvarQuick(); } });
     aplicarGuia();
     atualizarBadge();
+    setTimeout(fimSplash, 10000);      // segurança: nunca deixa a tela de espera presa
     iniciarBanco();
     verificarVersao(true);      // se já havia login, o Firebase o restaura e o perfil é conferido no servidor
   });
