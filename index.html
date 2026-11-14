@@ -17,7 +17,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>Informe de Avance de Obra · v12.6 · Alupar</title>
+<title>Informe de Avance de Obra · v12.8 · Alupar</title>
 <style>
 /* Skip artifact shell — fixed styles served beside every artifact.
    Tokens, utilities and components (basecoat 1.0 markup, no CDN); artifacts
@@ -1087,10 +1087,12 @@ main { padding-bottom: 70px; }
 .nav-bar button.active { background: #004a99; color: #fff; }
 .nav-bar button:focus-visible { outline: 2px solid #004a99; outline-offset: 2px; }
 .act-block { border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; background: var(--surface); }
-.eq-row { display: grid; grid-template-columns: 2fr 1fr auto; gap: 8px; align-items: end; }
+.eq-row { display: grid; grid-template-columns: 1fr 1fr auto; gap: 8px; align-items: center; }
+.eq-row > select { grid-column: 1 / -1; }
 .hour-wrap { position: relative; }
 .hour-wrap span { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 13px; }
-.hour-wrap input { padding-right: 28px; }
+.hour-wrap input { padding-right: 40px; }
+.btn-add-fim { width: 100%; margin-top: 14px; min-height: 52px; font-size: 16px; font-weight: 700; }
 .inline-form { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
 .inline-form .input { flex: 1; min-width: 160px; }
 pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 13px; line-height: 1.5; max-height: 420px; overflow: auto; }
@@ -1160,6 +1162,8 @@ pre.preview { white-space: pre-wrap; background: var(--bg); border: 1px solid va
 .guia-nav button { flex: 1; min-height: 54px; font: inherit; font-size: 17px; font-weight: 700; border-radius: 12px; border: 2px solid #003DAD; cursor: pointer; }
 .guia-nav .g-prev { background: #fff; color: #003DAD; }
 .guia-nav .g-next { background: #003DAD; color: #fff; flex: 2; }
+.guia-nav .g-save { background: #e8f6ea; color: #08700f; border-color: #08a010; flex: 1.5; font-size: 15px; }
+.guia-nav button { padding: 0 8px; }
 body.em-guia .sticky-bottom-nav { display: none !important; }
 body.em-guia .fab-wrap, body.em-guia .fab-overlay { display: none !important; }
 /* ---- informes agrupados ---- */
@@ -1215,7 +1219,7 @@ html.restaurando #viewLogin { display: none !important; }
     </form>
     <p class="text-sm mt-3 text-center"><a href="#" onclick="event.preventDefault(); iadEsqueci();" id="lnkForgot">Olvidé mi contraseña</a></p>
     <div class="sync-login" id="loginSync">☁️ …</div>
-    <div class="rodape-versao">v12.6</div>
+    <div class="rodape-versao">v12.8</div>
   </div>
 </section>
 
@@ -1226,7 +1230,7 @@ html.restaurando #viewLogin { display: none !important; }
       <div class="row items-center gap-2">
         <img class="brand-logo" src="alupar_branco.png" alt="Alupar">
         <div>
-        <div class="font-bold" id="appTitle">Informe de Avance de Obra <span class="app-ver">· v12.6</span></div>
+        <div class="font-bold" id="appTitle">Informe de Avance de Obra <span class="app-ver">· v12.8</span></div>
         </div>
       </div>
       <div class="row items-center gap-3">
@@ -1417,6 +1421,7 @@ html.restaurando #viewLogin { display: none !important; }
           <section>
             <div id="listaAtividades" class="stack gap-3"></div>
             <p class="muted text-sm" id="vazioAtividades">Agrega la primera actividad del día.</p>
+            <button type="button" class="btn btn-add-fim" id="btnAddAtivB" onclick="addAtividade()">＋ Agregar actividad</button>
           </section>
         </div>
 
@@ -1504,6 +1509,7 @@ html.restaurando #viewLogin { display: none !important; }
 
   <div class="guia-nav hide no-print" id="guiaNav">
     <button type="button" class="g-prev" id="gPrev" onclick="guiaAnt()"></button>
+    <button type="button" class="g-save" id="gSave" onclick="guiaSalvar()"></button>
     <button type="button" class="g-next" id="gNext" onclick="guiaProx()"></button>
   </div>
 
@@ -1528,7 +1534,7 @@ html.restaurando #viewLogin { display: none !important; }
 </div>
 
 <div class="seal-erro" id="sealErro" role="alert">Error de script</div>
-<div class="rodape-versao hide" id="diagAdmin">v12.6</div>
+<div class="rodape-versao hide" id="diagAdmin">v12.8</div>
 
 <script>
 /* ===================== CONFIGURAÇÃO DO FIREBASE (edite aqui) =====================
@@ -1633,7 +1639,7 @@ window.FIREBASE_CONFIG = {
       lidas: 'Atividades', nomeadas: 'com nome', dataInvalida: 'Data inválida (use dd/mm/aaaa).'
     }
   };
-  var APP_VERSION = "12.6";
+  var APP_VERSION = "12.8";
   var IDIOMA_PADRAO = "es";
 
   function lsGet(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
@@ -1933,7 +1939,7 @@ window.FIREBASE_CONFIG = {
   function renderDados() {
     atualizarBadge();
     var diag = document.getElementById('diagAdmin');
-    if (diag) diag.textContent = 'v12.6 · ' + estado + ' · proyectos: ' + db.projetos.length + ' · obras: ' + db.obras.length + ' · usuarios: ' + db.usuarios.length + ' · informes: ' + db.informes.length;
+    if (diag) diag.textContent = 'v12.8 · ' + estado + ' · proyectos: ' + db.projetos.length + ' · obras: ' + db.obras.length + ' · usuarios: ' + db.usuarios.length + ' · informes: ' + db.informes.length;
     if (!sessao) return;
     refreshSessao();
     if (!sessao) return;
@@ -2745,7 +2751,7 @@ window.FIREBASE_CONFIG = {
       return {
         nome: a.nome || '', unidade: a.unidade || 'm³', qtdDia: Number(a.qtdDia) || 0, pctDia: Number(a.pctDia) || 0,
         qtdAcum: Number(a.qtdAcum) || 0, pctAcum: Number(a.pctAcum) || 0,
-        equipos: (a.equipamentos || a.equipos || []).map(function (e) { return { nome: e.nome, horas: Number(e.horas) || 0 }; })
+        equipos: (a.equipamentos || a.equipos || []).map(function (e) { var hm = hmDe(e); return { nome: e.nome, horas: hm.horas, min: hm.min }; })
       };
     });
     equipoGeral = (inf.equipos || []).map(function (e) { return { nome: e.nome, qtd: Number(e.qtd) || 0 }; });
@@ -2877,14 +2883,16 @@ window.FIREBASE_CONFIG = {
   function renderAtividades() {
     var el = document.getElementById('listaAtividades');
     document.getElementById('vazioAtividades').classList.toggle('hide', editAtiv.length > 0);
+    document.getElementById('btnAddAtivB').textContent = '＋ ' + LL('Agregar otra actividad', 'Adicionar outra atividade').replace(/^(.*)$/, function (s) { return editAtiv.length ? s : LL('Agregar actividad', 'Adicionar atividade'); });
     el.innerHTML = editAtiv.map(function (a, i) {
       var eqs = a.equipos.map(function (e, j) {
         return '<div class="eq-row">' +
           '<select class="input" data-k="ativ" data-i="' + i + '" data-j="' + j + '" data-f="nome">' + optEquip(e.nome) + '</select>' +
-          '<div class="hour-wrap"><input class="input" type="number" step="any" min="0" value="' + (e.horas || '') + '" data-k="ativ" data-i="' + i + '" data-j="' + j + '" data-f="horas" aria-label="' + t('horas') + '"><span>h</span></div>' +
+          '<div class="hour-wrap"><input class="input" type="number" inputmode="numeric" step="1" min="0" value="' + (e.horas || '') + '" placeholder="0" data-k="ativ" data-i="' + i + '" data-j="' + j + '" data-f="horas" aria-label="' + t('horas') + '"><span>h</span></div>' +
+          '<div class="hour-wrap"><input class="input" type="number" inputmode="numeric" step="1" min="0" max="59" value="' + (e.min || '') + '" placeholder="0" data-k="ativ" data-i="' + i + '" data-j="' + j + '" data-f="min" aria-label="Min"><span>min</span></div>' +
           '<button type="button" class="btn" data-variant="ghost" data-size="sm" onclick="rmEqAtiv(' + i + ',' + j + ')">✕</button></div>';
       }).join('');
-      var totalH = a.equipos.reduce(function (s, e) { return s + (Number(e.horas) || 0); }, 0);
+      var totalH = fmtHM(a.equipos.reduce(function (s, e) { return s + minTotal(e); }, 0));
       function campo(f, rotulo, max) {
         return '<div class="field"><label>' + rotulo + '</label><input class="input" type="number" min="0"' + (max ? ' max="' + max + '"' : '') + ' step="any" data-k="ativ" data-i="' + i + '" data-f="' + f + '" value="' + (a[f] || '') + '"></div>';
       }
@@ -2897,7 +2905,7 @@ window.FIREBASE_CONFIG = {
         UNIDADES.map(function (u) { return '<option' + (u === a.unidade ? ' selected' : '') + '>' + u + '</option>'; }).join('') + '</select></div>' +
         campo('qtdDia', t('qtdDia')) + campo('pctDia', t('pctDia'), 100) + campo('qtdAcum', t('qtdAcum')) + campo('pctAcum', t('pctAcum'), 100) +
         '</div>' +
-        '<div class="mt-3"><div class="row between items-center mb-1"><span class="text-sm font-semibold">' + t('equipos') + '</span><span class="badge" data-variant="secondary" id="totH-' + i + '">' + totalH + ' h</span></div>' +
+        '<div class="mt-3"><div class="row between items-center mb-1"><span class="text-sm font-semibold">' + t('equipos') + '</span><span class="badge" data-variant="secondary" id="totH-' + i + '">' + totalH + '</span></div>' +
         '<div class="stack gap-2">' + eqs + '</div>' +
         '<div class="row gap-2 mt-2"><button type="button" class="btn" data-variant="outline" data-size="sm" onclick="addEqAtiv(' + i + ')">' + t('addEq') + '</button>' +
         '<button type="button" class="btn" data-variant="ghost" data-size="sm" onclick="criarEquipoRapido(' + i + ')">' + t('criarEq') + '</button></div></div>' +
@@ -2907,13 +2915,18 @@ window.FIREBASE_CONFIG = {
   window.addAtividade = function () {
     editAtiv.push({ nome: '', unidade: 'm³', qtdDia: 0, pctDia: 0, qtdAcum: 0, pctAcum: 0, equipos: [] });
     renderAtividades(); window.atualizarPreview();
+    var blocos = document.querySelectorAll('#listaAtividades .act-block'), ult = blocos[blocos.length - 1];
+    if (ult && editAtiv.length > 1) {              // leva direto à atividade nova (sem precisar subir/descer)
+      if (ult.scrollIntoView) ult.scrollIntoView({ block: 'start', behavior: 'smooth' });
+      var nm = ult.querySelector('[data-f=nome]'); if (nm) setTimeout(function () { try { nm.focus({ preventScroll: true }); } catch (e) {} }, 350);
+    }
   };
   window.rmAtiv = function (i) {
     editAtiv.splice(i, 1);
     renderAtividades(); window.atualizarPreview();
   };
   window.addEqAtiv = function (i) {
-    editAtiv[i].equipos.push({ nome: '', horas: 0 });
+    editAtiv[i].equipos.push({ nome: '', horas: 0, min: 0 });
     renderAtividades(); window.atualizarPreview();
   };
   window.rmEqAtiv = function (i, j) {
@@ -2925,7 +2938,7 @@ window.FIREBASE_CONFIG = {
     if (!nome || !nome.trim()) return;
     var item = await addCatalogo('equipamentos', nome);
     if (!item) return;
-    if (ativIdx !== undefined && editAtiv[ativIdx]) editAtiv[ativIdx].equipos.push({ nome: item.nome, horas: 0 });
+    if (ativIdx !== undefined && editAtiv[ativIdx]) editAtiv[ativIdx].equipos.push({ nome: item.nome, horas: 0, min: 0 });
     renderEquipoGeral(); renderAtividades(); window.atualizarPreview();
     window.skipUI.toast(t('agregado'), { type: 'success' });
   };
@@ -2978,10 +2991,14 @@ window.FIREBASE_CONFIG = {
       var a = editAtiv[i]; if (!a) return;
       if (jAttr !== null) {
         var e = a.equipos[Number(jAttr)]; if (!e) return;
+        if (f === 'horas' || f === 'min') {
+          val = Math.max(0, Math.floor(val));
+          if (f === 'min' && val > 59) { val = 59; el.value = 59; }
+        }
         e[f] = val;
-        if (f === 'horas') {
+        if (f === 'horas' || f === 'min') {
           var tot = document.getElementById('totH-' + i);
-          if (tot) tot.textContent = a.equipos.reduce(function (s, x) { return s + (Number(x.horas) || 0); }, 0) + ' h';
+          if (tot) tot.textContent = fmtHM(a.equipos.reduce(function (s, x) { return s + minTotal(x); }, 0));
         }
       } else a[f] = val;
     } else if (k === 'eq') { if (equipoGeral[i]) equipoGeral[i][f] = val; }
@@ -2989,6 +3006,13 @@ window.FIREBASE_CONFIG = {
   }
   // ---------- Texto gerado ----------
   function fmtN(n) { n = Number(n) || 0; return String(+n.toFixed(2)); }
+  // tempo de equipo: guarda horas inteiras + minutos (aceita o formato antigo em horas decimais)
+  function minTotal(e) { return Math.round((Number(e && e.horas) || 0) * 60) + (Number(e && e.min) || 0); }
+  function hmDe(e) { var m = minTotal(e); return { horas: Math.floor(m / 60), min: m % 60 }; }
+  function fmtHM(m) {
+    m = Math.max(0, Math.round(m)); var h = Math.floor(m / 60), mi = m % 60;
+    return (h ? h + ' h' : '') + (h && mi ? ' ' : '') + (mi ? mi + ' min' : '') || '0 h';
+  }
   function fmtData(iso) {
     if (!iso) return '';
     var p = String(iso).split('-');
@@ -3002,7 +3026,7 @@ window.FIREBASE_CONFIG = {
     var obra = os.value && os.options[os.selectedIndex] ? os.options[os.selectedIndex].text : '';
     var ativs = [];
     editAtiv.forEach(function (a) {
-      var eqs = (a.equipos || []).filter(function (e) { return e.nome; }).map(function (e) { return { nome: e.nome, horas: Number(e.horas) || 0 }; });
+      var eqs = (a.equipos || []).filter(function (e) { return e.nome; }).map(function (e) { var hm = hmDe(e); return { nome: e.nome, horas: hm.horas, min: hm.min }; });
       var nome = String(a.nome || '').trim();
       var vazia = !nome && !Number(a.qtdDia) && !Number(a.pctDia) && !Number(a.qtdAcum) && !Number(a.pctAcum) && !eqs.length;
       if (vazia) return;
@@ -3058,7 +3082,7 @@ window.FIREBASE_CONFIG = {
       ativs.forEach(function (a, i) {
         var b = '*' + (i + 1) + '. ' + (a.nome || t('semNome')) + '*';
         var eqs = (a.equipamentos || a.equipos || []).filter(function (e) { return e && e.nome; })
-          .map(function (e) { return e.nome + (Number(e.horas) ? ' ' + fmtN(e.horas) + ' h' : ''); });
+          .map(function (e) { return e.nome + (minTotal(e) ? ' ' + fmtHM(minTotal(e)) : ''); });
         if (eqs.length) b += '\n🚜 ' + L.eq + ': ' + eqs.join(' | ');
         var un = a.unidade || '';
         var hoje = [];
@@ -3315,6 +3339,7 @@ window.FIREBASE_CONFIG = {
     document.getElementById('guiaTxt').textContent = LL(p.tes, p.tpt);
     var prev = document.getElementById('gPrev'), next = document.getElementById('gNext');
     prev.textContent = LL('← Atrás', '← Voltar');
+    var sv = document.getElementById('gSave'); if (!sv.getAttribute('data-ok')) sv.textContent = '💾 ' + LL('Guardar', 'Salvar');
     prev.style.visibility = passo === 1 ? 'hidden' : 'visible';
     next.textContent = passo === n ? '💾 ' + LL('Guardar informe', 'Salvar relatório')
       : (avisado === passo ? LL('Continuar de todos modos →', 'Continuar mesmo assim →') : LL('Siguiente →', 'Próximo →'));
@@ -3352,6 +3377,14 @@ window.FIREBASE_CONFIG = {
       return;
     }
     passo++; avisado = 0; mostrarAviso(''); aplicarGuia(); window.scrollTo(0, 0);
+  };
+  window.guiaSalvar = async function () {
+    var r = await salvarAtual();
+    if (!r) return;
+    var sv = document.getElementById('gSave');
+    sv.setAttribute('data-ok', '1'); sv.textContent = '✓ ' + LL('Guardado', 'Salvo');
+    window.skipUI.toast(t('guardado'), { type: 'success' });
+    setTimeout(function () { sv.removeAttribute('data-ok'); sv.textContent = '💾 ' + LL('Guardar', 'Salvar'); }, 2000);
   };
   window.guiaAnt = function () {
     if (passo > 1) { passo--; avisado = 0; mostrarAviso(''); aplicarGuia(); window.scrollTo(0, 0); }
