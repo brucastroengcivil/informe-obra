@@ -17,7 +17,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>Informe de Avance de Obra · v12.8 · Alupar</title>
+<title>Informe de Avance de Obra · v12.9 · Alupar</title>
 <style>
 /* Skip artifact shell — fixed styles served beside every artifact.
    Tokens, utilities and components (basecoat 1.0 markup, no CDN); artifacts
@@ -1219,7 +1219,7 @@ html.restaurando #viewLogin { display: none !important; }
     </form>
     <p class="text-sm mt-3 text-center"><a href="#" onclick="event.preventDefault(); iadEsqueci();" id="lnkForgot">Olvidé mi contraseña</a></p>
     <div class="sync-login" id="loginSync">☁️ …</div>
-    <div class="rodape-versao">v12.8</div>
+    <div class="rodape-versao">v12.9</div>
   </div>
 </section>
 
@@ -1230,7 +1230,7 @@ html.restaurando #viewLogin { display: none !important; }
       <div class="row items-center gap-2">
         <img class="brand-logo" src="alupar_branco.png" alt="Alupar">
         <div>
-        <div class="font-bold" id="appTitle">Informe de Avance de Obra <span class="app-ver">· v12.8</span></div>
+        <div class="font-bold" id="appTitle">Informe de Avance de Obra <span class="app-ver">· v12.9</span></div>
         </div>
       </div>
       <div class="row items-center gap-3">
@@ -1410,6 +1410,7 @@ html.restaurando #viewLogin { display: none !important; }
             <div class="field"><label for="fProjeto">Proyecto</label><select class="input" id="fProjeto" onchange="popularObras()"></select></div>
             <div class="field"><label for="fObra">Obra</label><select class="input" id="fObra" onchange="aoMudarObra()"></select><p class="text-xs muted hide" id="msgSemObras">Este proyecto no tiene obras.</p></div>
             <div class="field hide" id="boxContr" style="grid-column:1/-1"><label id="lblContr"></label><div id="listaContr" class="stack gap-1"></div></div>
+            <div class="field" style="grid-column:1/-1"><button type="button" class="btn" data-variant="outline" id="btnCopiarUlt" onclick="copiarUltimo()"></button><p class="text-xs muted" id="ultInfo" style="margin-top:6px"></p></div>
           </section>
         </div>
 
@@ -1534,7 +1535,7 @@ html.restaurando #viewLogin { display: none !important; }
 </div>
 
 <div class="seal-erro" id="sealErro" role="alert">Error de script</div>
-<div class="rodape-versao hide" id="diagAdmin">v12.8</div>
+<div class="rodape-versao hide" id="diagAdmin">v12.9</div>
 
 <script>
 /* ===================== CONFIGURAÇÃO DO FIREBASE (edite aqui) =====================
@@ -1639,7 +1640,7 @@ window.FIREBASE_CONFIG = {
       lidas: 'Atividades', nomeadas: 'com nome', dataInvalida: 'Data inválida (use dd/mm/aaaa).'
     }
   };
-  var APP_VERSION = "12.8";
+  var APP_VERSION = "12.9";
   var IDIOMA_PADRAO = "es";
 
   function lsGet(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
@@ -1939,7 +1940,7 @@ window.FIREBASE_CONFIG = {
   function renderDados() {
     atualizarBadge();
     var diag = document.getElementById('diagAdmin');
-    if (diag) diag.textContent = 'v12.8 · ' + estado + ' · proyectos: ' + db.projetos.length + ' · obras: ' + db.obras.length + ' · usuarios: ' + db.usuarios.length + ' · informes: ' + db.informes.length;
+    if (diag) diag.textContent = 'v12.9 · ' + estado + ' · proyectos: ' + db.projetos.length + ' · obras: ' + db.obras.length + ' · usuarios: ' + db.usuarios.length + ' · informes: ' + db.informes.length;
     if (!sessao) return;
     refreshSessao();
     if (!sessao) return;
@@ -2806,13 +2807,56 @@ window.FIREBASE_CONFIG = {
     document.getElementById('listaContr').innerHTML = '<select class="input" id="fContr" onchange="toggleContr(this)">' + opts + '</select>';
     document.getElementById('fContr').value = val;
     box._lista = lista;
+    atualizarUlt();
   }
+  // ---- copiar dados do último informe (mesma obra/projeto; prefere o mesmo contratista) ----
+  function contrsDeInf(i) {
+    return Array.isArray(i.contratistas) ? i.contratistas : (i.contratista ? [i.contratista] : contrDe(db.obras.filter(function (o) { return o.id === i.obraId; })[0]));
+  }
+  function acharUltimo() {
+    var oid = document.getElementById('fObra').value, pid = document.getElementById('fProjeto').value;
+    if (!oid) return null;
+    var meuId = rascunho && rascunho.obj ? rascunho.obj.id : null;
+    var cand = db.informes.filter(function (i) { return i.obraId === oid && i.projetoId === pid && i.id !== meuId && i.id !== editId; })
+      .sort(function (a, b) { return String(b.data || '').localeCompare(String(a.data || '')) || String(b.criadoEm || '').localeCompare(String(a.criadoEm || '')); });
+    var chave = function (arr) { return arr.map(norm).sort().join('|'); }, sel = chave(contrSel);
+    var exato = cand.filter(function (i) { return chave(contrsDeInf(i)) === sel; })[0];
+    return exato ? { inf: exato, exato: true } : (cand[0] ? { inf: cand[0], exato: false } : null);
+  }
+  function atualizarUlt() {
+    var b = document.getElementById('btnCopiarUlt'), info = document.getElementById('ultInfo');
+    if (!b) return;
+    b.textContent = '📋 ' + LL('Copiar datos del último informe', 'Copiar dados do último relatório');
+    var u = acharUltimo();
+    b.disabled = !u;
+    info.textContent = !u ? LL('No hay informes anteriores para esta obra.', 'Não há relatórios anteriores para esta obra.')
+      : LL('Último: ', 'Último: ') + fmtData(u.inf.data) + ' · ' + contrsDeInf(u.inf).join(', ') + (u.exato ? '' : LL(' (otro contratista)', ' (outra empreiteira)'));
+  }
+  window.copiarUltimo = function () {
+    var u = acharUltimo();
+    if (!u) { window.skipUI.toast(LL('No hay informes anteriores para esta obra.', 'Não há relatórios anteriores para esta obra.'), { type: 'error' }); return; }
+    if ((editAtiv.length || mo.length || equipoGeral.length) &&
+        !confirm(LL('Esto reemplaza las actividades, mano de obra y equipos que ya escribiste. ¿Continuar?', 'Isto substitui as atividades, mão de obra e equipamentos que você já escreveu. Continuar?'))) return;
+    var inf = u.inf;
+    editAtiv = (inf.atividades || []).map(function (a) {
+      return {
+        nome: a.nome || '', unidade: a.unidade || 'm³', qtdDia: Number(a.qtdDia) || 0, pctDia: Number(a.pctDia) || 0,
+        qtdAcum: Number(a.qtdAcum) || 0, pctAcum: Number(a.pctAcum) || 0,
+        equipos: (a.equipamentos || a.equipos || []).map(function (e) { var hm = hmDe(e); return { nome: e.nome, horas: hm.horas, min: hm.min }; })
+      };
+    });
+    equipoGeral = (inf.equipos || []).map(function (e) { return { nome: e.nome, qtd: Number(e.qtd) || 0 }; });
+    mo = (inf.manoObra || []).map(function (m) { return { nome: m.nome, qtd: Number(m.qtd) || 0 }; });
+    renderEditor(); window.atualizarPreview();
+    window.skipUI.toast(LL('Copiado del informe del ', 'Copiado do relatório de ') + fmtData(inf.data) + ' (' + editAtiv.length + ' ' + LL('actividades', 'atividades') + ')', { type: 'success', duration: 5000 });
+  };
   window.aoMudarObra = function () { renderContr(); window.atualizarPreview(); };
   window.toggleContr = function (el) {
     var box = document.getElementById('boxContr'), v = el.value;
     if (v === 'all') contrSel = box._lista.slice();
     else if (v === 'none') contrSel = [];
     else if (v !== 'custom') contrSel = [box._lista[Number(v)]];
+    atualizarUlt();
     window.atualizarPreview();
   };
   window.popularObras = function (manter) {
@@ -3309,7 +3353,7 @@ window.FIREBASE_CONFIG = {
   var guiado = true, passo = 1, avisado = 0;
   try { if (localStorage.getItem('iad_guiado') === '0') guiado = false; } catch (e) {}
   var PASSOS = [
-    { es: 'Datos generales', pt: 'Dados gerais', tes: 'Confirma la fecha y elige el proyecto y la obra.', tpt: 'Confirme a data e escolha o projeto e a obra.' },
+    { es: 'Datos generales', pt: 'Dados gerais', tes: 'Confirma la fecha y elige el proyecto y la obra. Si ya hiciste un informe de esta obra, puedes copiar sus datos.', tpt: 'Confirme a data e escolha o projeto e a obra. Se já fez um relatório desta obra, pode copiar os dados.' },
     { es: 'Actividades', pt: 'Atividades', tes: 'Cuenta qué trabajos se hicieron hoy. Toca “＋ Agregar actividad” y completa lo que se hizo.', tpt: 'Conte quais trabalhos foram feitos hoje. Toque em “＋ Adicionar atividade” e preencha o que foi feito.' },
     { es: 'Mano de obra', pt: 'Mão de obra', tes: 'Indica cuántas personas trabajaron en cada cargo.', tpt: 'Informe quantas pessoas trabalharam em cada cargo.' },
     { es: 'Equipos', pt: 'Equipamentos', tes: 'Indica qué equipos y máquinas estuvieron en la obra y cuántos.', tpt: 'Informe quais equipamentos e máquinas estiveram na obra e quantos.' },
